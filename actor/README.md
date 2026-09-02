@@ -67,8 +67,9 @@ Three fields are derived rather than copied, and it is worth knowing how:
 
 ## Input
 
-Everything is optional. With no input at all you get the 250 largest Greenhouse and Ashby
-boards, capped at 5,000 postings.
+Everything is optional. `maxCompaniesPerProvider` is **per provider, not per run**, so with no
+input at all you get the 250 largest Greenhouse boards *and* the 250 largest Ashby boards —
+500 boards — capped at 5,000 postings.
 
 | Field | Default | Notes |
 |---|---|---|
@@ -81,11 +82,37 @@ boards, capped at 5,000 postings.
 | `postedSince` | — | `YYYY-MM-DD`, the delta mode |
 | `withSalaryOnly` | `false` | Only rows with a parsed range |
 | `companies` | — | `greenhouse:stripe`, `ashby:ramp`, or bare `stripe` — overrides the index |
-| `maxCompaniesPerProvider` | `250` | Boards are ordered largest first, so a cap gets the big ones |
+| `maxCompaniesPerProvider` | `250` | **Per provider.** Two providers selected = up to 500 boards. Ordered largest first, so a cap gets the big ones |
 | `maxItems` | `5000` | Hard cap on rows |
 | `includeDescription` | `false` | Full plain-text description; ~10x the dataset size |
 | `includeEmptyBoards` | `false` | 1,268 boards that existed but were empty at index time |
 | `includeUnverifiedLever` | `false` | 3,961 unprobed Lever tokens |
+
+## Pricing
+
+Pay per event, three events:
+
+| Event | Price | Charged |
+|---|---|---|
+| Run start | $0.005 | Once, after your input validates |
+| Company board scanned | $0.0005 | Per board we successfully read — $0.50 per 1,000 |
+| Job posting delivered | $0.0015 | Per row written to the dataset, after filters — $1.50 per 1,000 |
+
+**Why the scan is charged separately.** A narrow filter over the whole index reads 9,006 boards
+to hand back a few hundred rows. Priced per result, that run costs you almost nothing and costs
+us the entire sweep, which is the kind of arrangement that ends with the Actor being withdrawn.
+Charging the read and the row separately means you pay for the work you actually asked for, and
+a broad cheap query stays broad and cheap.
+
+Worked examples:
+
+- **Default run** — 500 boards, 5,000 postings: **$7.76**, or $1.55 per 1,000 postings.
+- **Full sweep** — 9,006 boards, ~250,000 postings: **$379.51**, or $1.52 per 1,000.
+- **One title across everything** — 9,006 boards, 300 matching postings: **$4.96**.
+- **Daily delta** — `postedSince=yesterday` over 500 boards, ~400 new postings: **$0.86**.
+
+A board we could not read after four attempts is not charged. You paid for a result we did not
+produce is not a line item we want in a review.
 
 ## Honest notes about coverage
 

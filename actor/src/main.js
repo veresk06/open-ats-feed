@@ -12,7 +12,9 @@ await Actor.init()
 
 const input = (await Actor.getInput()) ?? {}
 const {
-  providers = ['greenhouse', 'ashby', 'lever'],
+  // Same default as input_schema.json. Lever is opt-in because it is fetched at
+  // 1 req/s, so silently including it turns a two-minute run into an hour-long one.
+  providers = ['greenhouse', 'ashby'],
   companies = [],
   keywords = [],
   location = '',
@@ -89,6 +91,60 @@ if (plan.some((p) => p.provider === 'lever' && p.tokens.length > 60)) {
   )
 }
 
+// -------------------------------------------------------------------- charging
+
+// Pay-per-event with three events, not one. The reason there are three: the two
+// things that cost money here are different quantities. Compute is driven by
+// boards *scanned*; dataset storage by rows *delivered*. A one-title filter over
+// the full index scans 9,006 boards to deliver a handful of rows — priced per
+// result that run earns cents and pays for none of the work it did. Charging the
+// scan and the result separately makes the revenue driver and the cost driver
+// the same two variables.
+//
+//   actor-start    $0.005      once per run
+//   board-scanned  $0.0005     per board we got an answer from  ($0.50 / 1,000)
+//   job-result     $0.0015     per row delivered                ($1.50 / 1,000)
+//
+// A board we could not read after four attempts is not charged. We spent the
+// compute, but billing for a failed read is the kind of line item that costs
+// more in reviews than it earns in cents.
+const EVENT = { start: 'actor-start', board: 'board-scanned', result: 'job-result' }
+const CHARGE_BOARDS_EVERY = 200
+
+const charging = Actor.getChargingManager()
+const isPpe = charging.getPricingInfo().isPayPerEvent
+
+let pushed = 0
+let stop = false
+let budgetSpent = false
+let boardsPending = 0
+
+// `maxTotalChargeUsd` is the user's hard ceiling. Past it the SDK deliberately
+// overcharges by one event so the platform kills the run; we would rather stop
+// on our own terms and hand back everything already delivered.
+function haltOnBudget(eventName) {
+  if (budgetSpent) return
+  budgetSpent = true
+  stop = true
+  log.warning(
+    `Run budget reached while charging "${eventName}" — stopping here and keeping what is ` +
+      `already in the dataset. Raise the run's maximum total charge to go further.`,
+  )
+}
+
+// Claim the count before the await, never after. A dozen workers share this
+// counter, and making that mistake after the await is exactly what let a
+// 600-item cap deliver 676 rows on the first platform run. There it cost us a
+// wrong statistic. Here it would be a double charge, which is a refund and a
+// one-star review.
+async function chargeBoards(force = false) {
+  if (boardsPending === 0 || (!force && boardsPending < CHARGE_BOARDS_EVERY)) return
+  const claimed = boardsPending
+  boardsPending = 0
+  const res = await Actor.charge({ eventName: EVENT.board, count: claimed })
+  if (isPpe && res.chargedCount < claimed) haltOnBudget(EVENT.board)
+}
+
 // ------------------------------------------------------------------- filtering
 
 const kw = keywords.map((k) => String(k).toLowerCase()).filter(Boolean)
@@ -120,6 +176,11 @@ function keep(r) {
 
 // ------------------------------------------------------------------ fetch loop
 
+// Charged here rather than at the top of the file: every input validation has
+// passed by this point, so a run that fails on a malformed `postedSince` never
+// bills for starting.
+await Actor.charge({ eventName: EVENT.start })
+
 const stats = {
   index_as_of: INDEX_AS_OF,
   boards_planned: planned,
@@ -130,9 +191,6 @@ const stats = {
   postings_pushed: 0,
   per_provider: {},
 }
-
-let pushed = 0
-let stop = false
 
 async function fetchBoard(provider, token) {
   const spec = PROVIDERS[provider]
@@ -203,7 +261,18 @@ for (const { provider, tokens } of plan) {
     if (out.length) {
       pushed += out.length
       ps.pushed += out.length
-      await Actor.pushData(out)
+      const res = await Actor.pushData(out, EVENT.result)
+      // Under pay-per-event the SDK trims the batch to whatever the run's
+      // remaining budget covers, so what we claimed and what actually landed can
+      // differ. Give the difference back rather than reporting rows we did not
+      // deliver. Off pay-per-event `chargedCount` is always 0 and nothing is
+      // trimmed, which is why this is gated on `isPpe`.
+      if (isPpe && res.chargedCount < out.length) {
+        const short = out.length - res.chargedCount
+        pushed -= short
+        ps.pushed -= short
+        haltOnBudget(EVENT.result)
+      }
     }
     if (pushed >= maxItems && !stop) {
       stop = true
@@ -224,6 +293,7 @@ for (const { provider, tokens } of plan) {
         log.warning(`${provider}:${token} could not be read (${failed}) — reported as failed, not empty`)
         return
       }
+      boardsPending++
       if (gone || !rows.length) stats.boards_empty_or_gone++
       stats.postings_seen += rows.length
       ps.postings += rows.length
@@ -235,15 +305,27 @@ for (const { provider, tokens } of plan) {
         if (pushed + batch.length >= maxItems) break
       }
       await flush(pushed + batch.length >= maxItems)
+      await chargeBoards()
     },
     { concurrency: spec.concurrency, delayMs: spec.delayMs },
   )
 
   await flush(true)
+  await chargeBoards(true)
   log.info(`${provider} done`, ps)
 }
 
+await chargeBoards(true)
+
 stats.postings_pushed = pushed
+stats.charged = isPpe
+  ? {
+      [EVENT.start]: charging.getChargedEventCount(EVENT.start),
+      [EVENT.board]: charging.getChargedEventCount(EVENT.board),
+      [EVENT.result]: charging.getChargedEventCount(EVENT.result),
+      budget_reached: budgetSpent,
+    }
+  : { pricing: 'this run was not billed per event' }
 // Standing rule: every total ships with how much of the plan actually ran, so a
 // truncated run is never mistaken for a complete one.
 stats.units_completed = stats.boards_fetched
