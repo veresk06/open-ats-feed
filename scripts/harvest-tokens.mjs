@@ -86,7 +86,17 @@ async function listCrawls() {
 
 async function pageCount(crawl, host) {
   const url = `https://index.commoncrawl.org/${crawl}-index?url=${encodeURIComponent(host + '/*')}&output=json&showNumPages=true`
-  const body = await getJson(url)
+  // getJson throws once its retries are exhausted. The index server does fall
+  // over under sustained load (we have seen 502s and 504s), and one host that
+  // stays down must not take the whole sweep with it — a crash here loses every
+  // index after this point, which is exactly what happened on CC-MAIN-2026-04.
+  let body
+  try {
+    body = await getJson(url)
+  } catch (err) {
+    console.error(`  ! ${crawl} ${host}: page count failed (${err.message}), skipping host`)
+    return 0
+  }
   if (!body) return 0
   try {
     return JSON.parse(body).pages ?? 0
