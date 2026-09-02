@@ -2,7 +2,7 @@
   "actorSpecification": 1,
   "name": "open-ats-jobs-feed",
   "title": "Open ATS Jobs Feed \u2014 Greenhouse, Ashby, Lever",
-  "description": "10,197 verified company job boards across Greenhouse, Ashby and Lever. Two outputs from one scan: normalised job postings with parsed salary, seniority and remote/hybrid/onsite — or one hiring-signal row per company: who is ramping against their own pace, which functions just opened, which technologies they are hiring for.",
+  "description": "10,197 verified company boards on Greenhouse, Ashby and Lever. One scan, two outputs: normalised job postings with parsed salary, seniority and workplace — or one row per company: who is ramping against their own pace, which functions just opened, which tech they hire for.",
   "version": "0.1",
   "buildTag": "latest",
   "dockerfile": "../Dockerfile",

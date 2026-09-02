@@ -128,6 +128,35 @@ host rather than starting over.
 
 `scripts/cross-probe.mjs` runs the cross-provider token test described above.
 
+## Hiring signals from posting dates alone
+
+All three vendors stamp each posting with a publication date — Greenhouse `first_published`,
+Ashby `publishedAt`, Lever `createdAt` — and on 80 live boards carrying 61,203 open postings,
+**100% of them had one**. That is enough to measure how fast a company is hiring right now
+against its own prior pace, without any accumulated history:
+
+```bash
+node scripts/preview-signals.mjs 25 greenhouse,ashby
+```
+
+`actor/src/signals.js` is a pure function of one board's postings and is unit-tested against
+fixed dates (`node --test actor/test`). Two things it deliberately refuses to say, both found by
+running it on live boards rather than fixtures:
+
+- **Departments are not always functions.** BAYADA's board carries ~200 of them
+  ("Baltimore Visits (BV) - 94"), SpaceX ~70 ("Raptor Turbomachinery"). Above 25 distinct
+  departments the field is a site or sub-team code, and "a newly opened function" is suppressed
+  rather than guessed at — the first draft reported 190 of them for a single home-care company.
+- **Acronyms belong to industries.** On that same home-care board, `dbt` is Dialectical Behavior
+  Therapy and `PHP` is a Partial Hospitalization Program, not a data stack and a web language.
+  Ambiguous terms only count inside a technical posting.
+
+What posting dates *cannot* show is a role that closed or a board that went dark. That is what
+`scripts/snapshot-history.mjs` and `scripts/hiring-signals.mjs` are for: a daily open-count
+series per board, started 2026-09-03, which diffs into `ramp_up` / `ramp_down` / `new_board` /
+`went_dark`. It costs nothing but wall clock — it runs locally against the vendor APIs, not on
+any platform.
+
 ## Politeness
 
 These are public APIs and we would like them to stay that way. The scripts use a descriptive

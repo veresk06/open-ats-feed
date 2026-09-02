@@ -56,8 +56,86 @@ Three fields are derived rather than copied, and it is worth knowing how:
 - **`seniority`** — `intern` / `junior` / `mid` / `senior` / `principal` / `executive`, inferred
   from the title.
 
+## Hiring signals — one row per company
+
+Set **`outputMode: "signals"`** and the same scan comes back as one row per *company* instead of
+one per posting: who is accelerating, what they have just started staffing, and what they are
+building with.
+
+A real row, exactly as the Actor returned it on 2026-09-03:
+
+```json
+{
+  "record_type": "company_signal",
+  "source": "ashby",
+  "company": "snowflake",
+  "company_url": "https://jobs.ashbyhq.com/snowflake",
+  "signal": "ramping",
+  "open_postings": 379,
+  "postings_dated": 379,
+  "opened_7d": 39,
+  "opened_30d": 161,
+  "opened_90d": 315,
+  "baseline_30d": 77,
+  "ramp_ratio": 2.09,
+  "new_functions": [
+    { "name": "Data Analytics and AI", "count": 8 },
+    { "name": "Workplace", "count": 4 },
+    { "name": "Revenue Operations", "count": 2 }
+  ],
+  "top_departments": [
+    { "name": "Engineering", "count": 105 },
+    { "name": "Solution Engineering", "count": 62 },
+    { "name": "Sales", "count": 50 }
+  ],
+  "top_titles": [
+    { "name": "Senior Solution Engineer", "count": 11 },
+    { "name": "Sales Development Representative", "count": 8 }
+  ],
+  "tech_signals": [{ "name": "Snowflake", "count": 8 }, { "name": "GCP", "count": 1 }],
+  "executive_openings_90d": 18,
+  "remote_postings": 59,
+  "postings_with_salary": 246,
+  "oldest_posting_at": "2025-08-27T22:58:39.632Z",
+  "newest_posting_at": "2026-09-02T22:56:39.577Z"
+}
+```
+
+`signal` is one of:
+
+| | |
+|---|---|
+| `ramping` | 3+ roles opened in the last 30 days, at **2x or more** the pace of the 60 days before that |
+| `new_board` | Nothing on the board is older than 60 days — a new company, not an infinite ramp |
+| `steady` | Hiring, but not accelerating |
+| `quiet` | Roles are open; none was opened in the last 30 days |
+| `undated` | This board published no dates, so no window can be computed. Never silently counted as quiet |
+
+Filter with `signalTypes` and `minOpenPostings` and you are billed only for the companies you
+kept — `signalTypes: ["ramping"]` over 25 boards delivers the 13 that are actually moving.
+
+**Where this comes from, and where it stops.** Every window is computed from the publication
+date each ATS puts on a posting; nothing is modelled and nothing is extrapolated. Two limits,
+stated because they change how you should read the output:
+
+- Only *currently open* roles are visible. A department whose older roles were filled looks
+  newly opened. `new_functions` is evidence a function is being staffed now — not proof it did
+  not exist before.
+- On boards with more than 25 distinct departments the field is a site or sub-team code, not a
+  function ("Baltimore Visits (BV) - 94"). `new_functions` is suppressed entirely there rather
+  than returning a directory.
+
+`tech_signals` matches whole words from a conservative list. Ambiguous terms are refused or
+require a technical context: "Go" is never matched because "go-to-market" is a job title, and on
+a home-care board `dbt` is Dialectical Behavior Therapy and `PHP` is a Partial Hospitalization
+Program. Turning on `includeDescription` widens matching past the job title — more hits, some of
+them from a stack named only in a benefits paragraph.
+
 ## Typical uses
 
+- **Prospecting on hiring intent.** Companies that just opened a sales function, or that are
+  ramping engineering 3x — with the technologies they are hiring for, so the list is already
+  qualified.
 - **A daily delta.** Set `postedSince` to yesterday and poll. You pay for what changed instead
   of re-downloading a quarter of a million rows.
 - **Sourcing / recruiting intelligence.** Which companies are hiring which roles, where, at what
@@ -73,6 +151,9 @@ input at all you get the 250 largest Greenhouse boards *and* the 250 largest Ash
 
 | Field | Default | Notes |
 |---|---|---|
+| `outputMode` | `postings` | `signals` for one row per company instead of one per posting |
+| `signalTypes` | — | Signals mode. `ramping`, `new_board`, `steady`, `quiet`, `undated` |
+| `minOpenPostings` | `1` | Signals mode. Skip companies with fewer open roles, and skip the charge |
 | `providers` | `greenhouse`, `ashby` | Add `lever` if you want it — see the speed note below |
 | `keywords` | — | Match any, across title / department / team / description |
 | `location` | — | Substring, e.g. `Berlin` |
@@ -97,6 +178,11 @@ Pay per event, three events:
 | Run start | $0.005 | Once, after your input validates |
 | Company board scanned | $0.0005 | Per board we successfully read — $0.50 per 1,000 |
 | Job posting delivered | $0.0015 | Per row written to the dataset, after filters — $1.50 per 1,000 |
+
+A company signal row is billed as one delivered row, at that same $0.0015. Signals mode reads
+exactly the same boards and returns one row per company rather than one per posting, so it is
+much the cheaper of the two outputs: the default 500 boards costs **$1.01** as signals against
+$7.76 for the 5,000 postings behind them.
 
 **Why the scan is charged separately.** A narrow filter over the whole index reads 10,197 boards
 to hand back a few hundred rows. Priced per result, that run costs you almost nothing and costs
