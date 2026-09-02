@@ -110,6 +110,7 @@ if (plan.some((p) => p.provider === 'lever' && p.tokens.length > 60)) {
 // more in reviews than it earns in cents.
 const EVENT = { start: 'actor-start', board: 'board-scanned', result: 'job-result' }
 const CHARGE_BOARDS_EVERY = 200
+const CHARGE_TIMEOUT_MS = 30_000
 
 const charging = Actor.getChargingManager()
 const isPpe = charging.getPricingInfo().isPayPerEvent
@@ -132,6 +133,34 @@ function haltOnBudget(eventName) {
   )
 }
 
+// A charge call must never be able to hold a run open. Build 0.1.3 did all of its
+// work in 3 seconds and then sat in RUNNING for 8 minutes with no further log
+// output — the run was billing the user for compute it was not using, and would
+// have kept doing so until the 1-hour timeout. Undercharging by a few cents when
+// the platform does not answer is the cheaper failure by a wide margin.
+let chargeStalls = 0
+async function chargeSafely(eventName, count) {
+  let timer
+  const bail = new Promise((r) => {
+    timer = setTimeout(() => r('stalled'), CHARGE_TIMEOUT_MS)
+  })
+  try {
+    const res = await Promise.race([Actor.charge({ eventName, count }), bail])
+    if (res === 'stalled') {
+      chargeStalls++
+      log.warning(`Charging "${eventName}" (x${count}) did not return in ${CHARGE_TIMEOUT_MS / 1000}s — not billed, continuing`)
+      return null
+    }
+    return res
+  } catch (err) {
+    chargeStalls++
+    log.warning(`Charging "${eventName}" (x${count}) failed: ${err?.message ?? err} — not billed, continuing`)
+    return null
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
 // Claim the count before the await, never after. A dozen workers share this
 // counter, and making that mistake after the await is exactly what let a
 // 600-item cap deliver 676 rows on the first platform run. There it cost us a
@@ -141,8 +170,8 @@ async function chargeBoards(force = false) {
   if (boardsPending === 0 || (!force && boardsPending < CHARGE_BOARDS_EVERY)) return
   const claimed = boardsPending
   boardsPending = 0
-  const res = await Actor.charge({ eventName: EVENT.board, count: claimed })
-  if (isPpe && res.chargedCount < claimed) haltOnBudget(EVENT.board)
+  const res = await chargeSafely(EVENT.board, claimed)
+  if (isPpe && res && res.chargedCount < claimed) haltOnBudget(EVENT.board)
 }
 
 // ------------------------------------------------------------------- filtering
@@ -179,7 +208,7 @@ function keep(r) {
 // Charged here rather than at the top of the file: every input validation has
 // passed by this point, so a run that fails on a malformed `postedSince` never
 // bills for starting.
-await Actor.charge({ eventName: EVENT.start })
+await chargeSafely(EVENT.start, 1)
 
 const stats = {
   index_as_of: INDEX_AS_OF,
@@ -310,12 +339,15 @@ for (const { provider, tokens } of plan) {
     { concurrency: spec.concurrency, delayMs: spec.delayMs },
   )
 
+  log.info(`${provider}: fetch pool drained, flushing`)
   await flush(true)
+  log.info(`${provider}: flushed, settling board charges`)
   await chargeBoards(true)
   log.info(`${provider} done`, ps)
 }
 
 await chargeBoards(true)
+log.info('all charges settled, writing RUN_STATS')
 
 stats.postings_pushed = pushed
 stats.charged = isPpe
@@ -324,6 +356,7 @@ stats.charged = isPpe
       [EVENT.board]: charging.getChargedEventCount(EVENT.board),
       [EVENT.result]: charging.getChargedEventCount(EVENT.result),
       budget_reached: budgetSpent,
+      charge_calls_stalled: chargeStalls,
     }
   : { pricing: 'this run was not billed per event' }
 // Standing rule: every total ships with how much of the plan actually ran, so a
