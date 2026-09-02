@@ -36,79 +36,118 @@
         "example": "Senior Backend Engineer"
       },
       "url": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Apply URL",
         "description": "The public posting page.",
         "example": "https://job-boards.greenhouse.io/speechify/jobs/5989934004"
       },
       "location": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Location",
         "description": "The location string as published. Not normalised — companies write it too many ways for a mapping to be honest.",
         "example": "Berlin, Germany"
       },
       "workplace": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Workplace",
         "description": "remote, hybrid or onsite. Taken from the vendor's own workplace field where one exists, and inferred from the location text otherwise.",
         "example": "remote"
       },
       "department": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Department",
         "description": "The department as published, e.g. Engineering, Sales. Null where the vendor does not carry one.",
         "example": "Engineering"
       },
       "team": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Team",
         "description": "The team within the department, where the ATS provides it.",
         "example": "Platform"
       },
       "employment_type": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Employment type",
         "description": "Full-time, contract, internship and so on, where the ATS provides it.",
         "example": "FullTime"
       },
       "posted_at": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Posted",
         "description": "When the posting first went live, ISO 8601.",
         "example": "2026-05-06T20:51:29.000Z"
       },
       "updated_at": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Updated",
         "description": "When the posting last changed, ISO 8601. This is what the postedSince filter compares against, so it is the field to poll on for a daily delta.",
         "example": "2026-07-02T16:33:40.000Z"
       },
       "salary_min": {
-        "type": "integer",
+        "type": [
+          "integer",
+          "null"
+        ],
         "title": "Salary min",
         "description": "Parsed from the published compensation range. Null when the company did not publish one — never estimated.",
         "example": 150000
       },
       "salary_max": {
-        "type": "integer",
+        "type": [
+          "integer",
+          "null"
+        ],
         "title": "Salary max",
         "description": "Parsed from the published compensation range. Null when the company did not publish one — never estimated.",
         "example": 200000
       },
       "salary_currency": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Currency",
         "description": "ISO currency code for the parsed range.",
         "example": "USD"
       },
       "seniority": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Seniority",
         "description": "intern, junior, mid, senior, principal or executive. Inferred from the title — it is a convenience, not a fact the company published.",
         "example": "senior"
       },
       "description": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "title": "Description",
         "description": "Full plain-text job description. Only present when includeDescription is on; it is roughly ten times the size of everything else.",
         "example": "We are looking for…"
@@ -147,16 +186,46 @@
       "display": {
         "component": "table",
         "properties": {
-          "company": { "label": "Company", "format": "text" },
-          "title": { "label": "Title", "format": "text" },
-          "location": { "label": "Location", "format": "text" },
-          "workplace": { "label": "Workplace", "format": "text" },
-          "seniority": { "label": "Seniority", "format": "text" },
-          "salary_min": { "label": "Salary min", "format": "number" },
-          "salary_max": { "label": "Salary max", "format": "number" },
-          "salary_currency": { "label": "Currency", "format": "text" },
-          "updated_at": { "label": "Updated", "format": "date" },
-          "url": { "label": "Apply", "format": "link" }
+          "company": {
+            "label": "Company",
+            "format": "text"
+          },
+          "title": {
+            "label": "Title",
+            "format": "text"
+          },
+          "location": {
+            "label": "Location",
+            "format": "text"
+          },
+          "workplace": {
+            "label": "Workplace",
+            "format": "text"
+          },
+          "seniority": {
+            "label": "Seniority",
+            "format": "text"
+          },
+          "salary_min": {
+            "label": "Salary min",
+            "format": "number"
+          },
+          "salary_max": {
+            "label": "Salary max",
+            "format": "number"
+          },
+          "salary_currency": {
+            "label": "Currency",
+            "format": "text"
+          },
+          "updated_at": {
+            "label": "Updated",
+            "format": "date"
+          },
+          "url": {
+            "label": "Apply",
+            "format": "link"
+          }
         }
       }
     },
@@ -177,14 +246,38 @@
       "display": {
         "component": "table",
         "properties": {
-          "company": { "label": "Company", "format": "text" },
-          "title": { "label": "Title", "format": "text" },
-          "seniority": { "label": "Seniority", "format": "text" },
-          "salary_min": { "label": "Min", "format": "number" },
-          "salary_max": { "label": "Max", "format": "number" },
-          "salary_currency": { "label": "Currency", "format": "text" },
-          "location": { "label": "Location", "format": "text" },
-          "url": { "label": "Apply", "format": "link" }
+          "company": {
+            "label": "Company",
+            "format": "text"
+          },
+          "title": {
+            "label": "Title",
+            "format": "text"
+          },
+          "seniority": {
+            "label": "Seniority",
+            "format": "text"
+          },
+          "salary_min": {
+            "label": "Min",
+            "format": "number"
+          },
+          "salary_max": {
+            "label": "Max",
+            "format": "number"
+          },
+          "salary_currency": {
+            "label": "Currency",
+            "format": "text"
+          },
+          "location": {
+            "label": "Location",
+            "format": "text"
+          },
+          "url": {
+            "label": "Apply",
+            "format": "link"
+          }
         }
       }
     }
