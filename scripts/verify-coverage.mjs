@@ -23,6 +23,10 @@ const LIMIT = process.env.LIMIT ? Number(process.env.LIMIT) : Infinity
 // estimating a hit rate we intend to extrapolate from.
 const SAMPLE = process.env.SAMPLE ? Number(process.env.SAMPLE) : 0
 const SEED = Number(process.env.SEED ?? 1)
+// ONLY=lever probes one provider. Lever is rate-limited to 1 req/s by its robots.txt
+// and takes ~80 minutes alone, so it runs as its own pass against a different host
+// rather than blocking the two fast providers behind it.
+const ONLY = (process.env.ONLY ?? '').split(',').map((s) => s.trim()).filter(Boolean)
 
 // Deterministic PRNG so a sampled run is reproducible and reviewable.
 function mulberry32(a) {
@@ -45,6 +49,12 @@ function sample(list, n, rand) {
   return copy.slice(0, n)
 }
 
+// robots.txt on each host we actually fetch, checked 2026-09-03:
+//   boards-api.greenhouse.io  "Disallow: /embed/"      — we fetch /v1/boards/, allowed
+//   api.ashbyhq.com           robots.txt returns 401   — nothing stated, no restriction
+//   api.lever.co              "Allow: /, Crawl-delay: 1" — allowed, and rate-limited below
+// The crawl delay is the reason `rate` exists. Lever states a limit in the file it
+// serves us; honouring it costs an hour of wall clock and is not optional.
 const PROVIDERS = {
   greenhouse: {
     url: (t) => `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(t)}/jobs`,
@@ -53,6 +63,8 @@ const PROVIDERS = {
   lever: {
     url: (t) => `https://api.lever.co/v0/postings/${encodeURIComponent(t)}?mode=json`,
     count: (j) => (Array.isArray(j) ? j.length : null),
+    concurrency: 1,
+    delayMs: 1000,
   },
   ashby: {
     url: (t) => `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(t)}`,
@@ -69,8 +81,15 @@ async function probe(provider, token) {
         headers: { 'user-agent': 'open-ats-feed/coverage-test (+contact via github)' },
       })
       if (res.status === 404 || res.status === 410) return { status: 'dead', http: res.status }
-      if (res.status === 429 || res.status >= 500) {
+      if (res.status === 429 || res.status === 403 || res.status >= 500) {
         // Back off and retry: transient, not a verdict about the company.
+        //
+        // 403 belongs in this list and its absence corrupted a full run. Greenhouse
+        // starts returning 403 once it decides you have asked too often. The old code
+        // fell through to `dead`, so a throttled request was recorded as "this company
+        // has no board" — and the run reported FEWER live companies from a strict
+        // superset of tokens, which is arithmetically impossible and was the tell.
+        // A blocked request is a fact about us, never a verdict about the company.
         await new Promise((r) => setTimeout(r, 1500 * 2 ** attempt))
         continue
       }
@@ -83,10 +102,12 @@ async function probe(provider, token) {
       await new Promise((r) => setTimeout(r, 1000 * 2 ** attempt))
     }
   }
-  return { status: 'error', reason: 'rate-limited' }
+  // Exhausted the retries while still being refused. Distinct from `dead` on purpose:
+  // `blocked` must never be counted as a company that does not exist.
+  return { status: 'blocked', reason: 'refused-after-retries' }
 }
 
-async function runPool(items, worker) {
+async function runPool(items, worker, { concurrency = CONCURRENCY, delayMs = 0 } = {}) {
   const results = new Array(items.length)
   let next = 0
   let done = 0
@@ -94,12 +115,17 @@ async function runPool(items, worker) {
     process.stderr.write(`\r  ${done}/${items.length} probed`)
   }, 2000)
   await Promise.all(
-    Array.from({ length: Math.min(CONCURRENCY, items.length) }, async () => {
+    Array.from({ length: Math.min(concurrency, items.length) }, async () => {
       while (true) {
         const i = next++
         if (i >= items.length) return
+        const startedAt = Date.now()
         results[i] = await worker(items[i])
         done++
+        // Crawl-delay is measured between request starts, so subtract the time the
+        // request itself took rather than sleeping a flat second on top of it.
+        const wait = delayMs - (Date.now() - startedAt)
+        if (wait > 0) await new Promise((r) => setTimeout(r, wait))
       }
     }),
   )
@@ -115,12 +141,22 @@ async function main() {
   const summary = { perProvider: {}, gate: {}, sampled: SAMPLE || null }
 
   for (const provider of Object.keys(PROVIDERS)) {
+    if (ONLY.length && !ONLY.includes(provider)) continue
     const all = tokens[provider] ?? []
     const list = sample(all, SAMPLE, rand).slice(0, LIMIT)
     if (!list.length) continue
     summary.perProvider[provider] = { harvested: all.length }
-    console.log(`\n${provider}: probing ${list.length} tokens (concurrency ${CONCURRENCY})`)
-    const probed = await runPool(list, (t) => probe(provider, t).then((r) => ({ token: t, ...r })))
+    const spec = PROVIDERS[provider]
+    const pool = { concurrency: spec.concurrency ?? CONCURRENCY, delayMs: spec.delayMs ?? 0 }
+    console.log(
+      `\n${provider}: probing ${list.length} tokens (concurrency ${pool.concurrency}` +
+        `${pool.delayMs ? `, ${pool.delayMs}ms crawl-delay` : ''})`,
+    )
+    const probed = await runPool(
+      list,
+      (t) => probe(provider, t).then((r) => ({ token: t, ...r })),
+      pool,
+    )
     results[provider] = probed
 
     const live = probed.filter((r) => r.status === 'live')
@@ -131,17 +167,25 @@ async function main() {
       empty: probed.filter((r) => r.status === 'empty').length,
       dead: probed.filter((r) => r.status === 'dead').length,
       error: probed.filter((r) => r.status === 'error').length,
+      blocked: probed.filter((r) => r.status === 'blocked').length,
       postings: live.reduce((a, r) => a + r.jobs, 0),
     }
-    s.hitRate = +(s.live / s.candidates).toFixed(4)
+    // A blocked token has an unknown answer, so it is excluded from the denominator
+    // rather than silently counted as a miss. If `blocked` is not ~0, the run is not
+    // a measurement and the number below should not be quoted.
+    s.resolved = s.candidates - s.blocked
+    s.hitRate = +(s.live / (s.resolved || 1)).toFixed(4)
     s.medianJobs = live.length
       ? live.map((r) => r.jobs).sort((a, b) => a - b)[Math.floor(live.length / 2)]
       : 0
     summary.perProvider[provider] = s
     console.log(
-      `  live ${s.live} / empty ${s.empty} / dead ${s.dead} / error ${s.error}` +
+      `  live ${s.live} / empty ${s.empty} / dead ${s.dead} / error ${s.error} / blocked ${s.blocked}` +
         ` | postings ${s.postings} | hit rate ${(s.hitRate * 100).toFixed(1)}% | median ${s.medianJobs} jobs`,
     )
+    if (s.blocked) {
+      console.log(`  ! ${s.blocked} tokens blocked — slow down and re-probe these before quoting a number`)
+    }
   }
 
   const totals = Object.values(summary.perProvider).reduce(
