@@ -78,6 +78,25 @@ Measured with `scripts/cross-probe.mjs`, seeded random samples of up to 400 toke
 **Hypothesis rejected.** Worth ~2–3% marginal coverage, and essentially nothing for Lever
 (0.3–0.5%). Published so nobody has to rediscover it.
 
+## The method generalizes to other ATS vendors
+
+Greenhouse and Ashby are not special. Spot-checked, and these also answer public,
+unauthenticated requests:
+
+| Vendor | Endpoint | Result |
+|---|---|---|
+| SmartRecruiters | `api.smartrecruiters.com/v1/companies/{token}/postings` | **Works.** `Sodexo` → 139 postings. Response includes `totalFound`, so board size is one request. Tokens are case-sensitive. |
+| Personio | `{token}.jobs.personio.de/xml` | Responds (XML). Not yet characterized. |
+| Lever | `api.lever.co/v0/postings/{token}?mode=json` | Works, but see the robots.txt problem above — we cannot enumerate tokens. |
+
+SmartRecruiters board hosts (`careers.smartrecruiters.com`, `jobs.smartrecruiters.com`) are
+present in the Common Crawl index, so the same harvest applies unchanged.
+
+This matters for anyone reading the company count as a ceiling. It is not one. **Company
+coverage scales by adding vendors, not by sweeping more crawl indices** — marginal yield per
+additional index decays fast (2,133 → 996 → 800 → ~230 new tokens), while each new vendor opens
+a fresh population.
+
 ## Known limits of this measurement
 
 - **Freshness is not measured.** 1,344 dead Greenhouse tokens (23%) tell you the decay rate of a
