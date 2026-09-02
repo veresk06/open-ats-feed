@@ -1,6 +1,6 @@
 # Open ATS Jobs Feed — Greenhouse, Ashby, Lever
 
-Job postings from **9,006 verified company career boards**, straight from each vendor's own
+Job postings from **10,197 verified company career boards**, straight from each vendor's own
 public API, normalised into a single flat schema.
 
 No HTML scraping, no headless browser, no login. Greenhouse, Ashby and Lever all publish a
@@ -12,9 +12,9 @@ Actor ships with.
 
 | | |
 |---|---|
-| Verified live boards | **9,006** |
-| Postings behind them | **256,339** at index time |
-| Providers | Greenhouse (5,506) · Ashby (3,153) · Lever (347 verified + 3,961 unprobed) |
+| Verified live boards | **10,197** |
+| Postings behind them | **291,507** at index time |
+| Providers | Greenhouse (5,506) · Ashby (3,153) · Lever (1,538) |
 | Index built | 2026-09-03, from 17 Common Crawl indexes |
 
 Every record is the same shape whatever the source:
@@ -86,7 +86,7 @@ input at all you get the 250 largest Greenhouse boards *and* the 250 largest Ash
 | `maxItems` | `5000` | Hard cap on rows |
 | `includeDescription` | `false` | Full plain-text description; ~10x the dataset size |
 | `includeEmptyBoards` | `false` | 1,268 boards that existed but were empty at index time |
-| `includeUnverifiedLever` | `false` | 3,961 unprobed Lever tokens |
+| `includeUnverifiedLever` | `false` | 381 unprobed Lever tokens |
 
 ## Pricing
 
@@ -98,7 +98,7 @@ Pay per event, three events:
 | Company board scanned | $0.0005 | Per board we successfully read — $0.50 per 1,000 |
 | Job posting delivered | $0.0015 | Per row written to the dataset, after filters — $1.50 per 1,000 |
 
-**Why the scan is charged separately.** A narrow filter over the whole index reads 9,006 boards
+**Why the scan is charged separately.** A narrow filter over the whole index reads 10,197 boards
 to hand back a few hundred rows. Priced per result, that run costs you almost nothing and costs
 us the entire sweep, which is the kind of arrangement that ends with the Actor being withdrawn.
 Charging the read and the row separately means you pay for the work you actually asked for, and
@@ -107,8 +107,8 @@ a broad cheap query stays broad and cheap.
 Worked examples:
 
 - **Default run** — 500 boards, 5,000 postings: **$7.76**, or $1.55 per 1,000 postings.
-- **Full sweep** — 9,006 boards, ~250,000 postings: **$379.51**, or $1.52 per 1,000.
-- **One title across everything** — 9,006 boards, 300 matching postings: **$4.96**.
+- **Full sweep** — 10,197 boards, ~290,000 postings: **$440.10**, or $1.52 per 1,000.
+- **One title across everything** — 10,197 boards, 300 matching postings: **$5.55**.
 - **Daily delta** — `postedSince=yesterday` over 500 boards, ~400 new postings: **$0.86**.
 
 A board we could not read after four attempts is not charged. You paid for a result we did not
@@ -124,10 +124,11 @@ a measured number you cannot audit is worth the same as a guess.
   covers 17 indexes. Marginal yield across the tail was roughly flat at 240–493 new candidate
   tokens per additional index, so sweeping further would find more companies. This number is not
   a fixed property of the internet; it is a property of how much sweeping we did.
-- **9,006 is the fully-measured floor.** Greenhouse and Ashby were probed in full. Lever was
-  probed on a seeded random 1,000 of 4,961 harvested tokens, of which 347 were live — a 34.7%
-  hit rate that projects to ~1,721 live Lever boards. The projection is **not** counted in the
-  9,006, and the unprobed tokens ship as an opt-in list rather than being quietly counted.
+- **10,197 is counted, not projected.** All three providers were probed token by token:
+  Greenhouse and Ashby in full, Lever 4,580 of 4,961 at a 33.6% hit rate. Earlier versions of
+  this page quoted a Lever figure extrapolated from a 1,000-token sample; that projection is
+  gone, and nothing above rests on one. The 381 tokens still unprobed ship as an opt-in list
+  and are counted as neither live nor dead.
 - **`index_as_of` is on every record.** Boards open and close. The index is refreshed out of
   band; the postings themselves are always fetched live at run time.
 - **Lever runs at 1 request per second**, because `api.lever.co/robots.txt` asks for

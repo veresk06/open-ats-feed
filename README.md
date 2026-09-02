@@ -29,20 +29,28 @@ what is live right now.
 
 ## Results
 
-**10,380 live companies and 297,066 live job postings**, across Greenhouse, Lever and Ashby,
+**10,197 live companies and 291,507 live job postings**, across Greenhouse, Lever and Ashby,
 from 19,438 candidate tokens harvested out of 17 Common Crawl indices.
 
-| Provider | Candidates | Live companies | Hit rate | Live postings | Basis |
-|---|---:|---:|---:|---:|---|
-| Greenhouse | 10,091 | 5,506 | 54.6% | 189,336 | measured in full |
-| Ashby | 4,386 | 3,153 | 71.9% | 56,721 | measured in full |
-| Lever | 4,961 | 1,721 | 34.7% | 51,009 | **projected** from a 1,000-token seeded sample |
-| **Total** | **19,438** | **10,380** | | **297,066** | |
+| Provider | Candidates | Probed | Live companies | Hit rate | Live postings |
+|---|---:|---:|---:|---:|---:|
+| Greenhouse | 10,091 | 10,091 | 5,506 | 54.6% | 189,336 |
+| Ashby | 4,386 | 4,386 | 3,153 | 71.9% | 56,721 |
+| Lever | 4,961 | 4,580 | 1,538 | 33.6% | 45,450 |
+| **Total** | **19,438** | **19,057** | **10,197** | | **291,507** |
 
-The Lever row is scaled from a seeded random sample of 1,000 tokens, because `api.lever.co` asks
-for one request per second and a full pass takes ~80 minutes. 95% CI on the total: **[10,250,
-10,511]**. **The no-projection floor is 9,006 companies.** We would rather you knew which third
-of the number is an estimate than have a rounder headline.
+**Every figure above is counted. None of it is projected.**
+
+That sentence used to have an asterisk on it. An earlier version of this table reported 10,380
+companies, of which the Lever row was extrapolated from a seeded random sample of 1,000 tokens —
+`api.lever.co` asks for one request per second, a full pass is ~80 minutes, and we had not run
+one. We have now: Lever is probed token by token with a per-token checkpoint, 4,580 of 4,961
+done. The remaining 381 are unprobed, which is not the same as dead; they ship as an opt-in list
+and are counted as neither. Hit rate is computed against tokens probed, not tokens harvested, so
+an unprobed token can never be silently counted as a miss.
+
+The measured Lever hit rate (33.6%) landed within a point of what the sample projected (34.7%),
+which is reassuring about the sampling but is not a reason to have kept quoting the projection.
 
 See [`docs/RESULTS.md`](docs/RESULTS.md) for per-provider detail, the full method, and the
 things this measurement does *not* establish.
