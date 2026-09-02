@@ -1,0 +1,19 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Open ATS Jobs Feed output",
+  "description": "Normalised job postings in the default dataset, plus the run's own coverage statistics in the key-value store. Read RUN_STATS before trusting a total: it carries units_completed / units_planned and a `complete` flag, so a truncated run can never be mistaken for a full one.",
+  "properties": {
+    "postings": {
+      "type": "string",
+      "title": "Job postings",
+      "description": "One row per open posting, after your filters: company, title, location, workplace, seniority, parsed salary range, department, posted/updated timestamps and the apply URL. Every row carries index_as_of and fetched_at.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "runStats": {
+      "type": "string",
+      "title": "Coverage statistics for this run",
+      "description": "Boards planned, fetched, empty and failed; postings seen and delivered; per-provider breakdown; charged event counts. A board that refused the request is counted as failed, never as empty.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/RUN_STATS"
+    }
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "actorSpecification": 1,
+  "title": "Open ATS job posting",
+  "description": "One open job posting, normalised across Greenhouse, Ashby and Lever into a single schema. Fields the vendor does not provide are null rather than guessed.",
+  "fields": {
+    "type": "object",
+    "properties": {
+      "source": {
+        "type": "string",
+        "title": "ATS",
+        "description": "Which applicant tracking system this posting came from: greenhouse, ashby or lever.",
+        "example": "greenhouse"
+      },
+      "company": {
+        "type": "string",
+        "title": "Company",
+        "description": "The company's board token on that ATS. It is the vendor's own identifier, so it is stable and joinable.",
+        "example": "speechify"
+      },
+      "company_url": {
+        "type": "string",
+        "title": "Company board",
+        "description": "The company's public job board.",
+        "example": "https://job-boards.greenhouse.io/speechify"
+      },
+      "job_id": {
+        "type": "string",
+        "title": "Job ID",
+        "description": "The vendor's own posting ID. Unique within a company board, and stable across runs, so it is what you deduplicate on.",
+        "example": "5989934004"
+      },
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "description": "The job title, exactly as the company wrote it.",
+        "example": "Senior Backend Engineer"
+      },
+      "url": {
+        "type": "string",
+        "title": "Apply URL",
+        "description": "The public posting page.",
+        "example": "https://job-boards.greenhouse.io/speechify/jobs/5989934004"
+      },
+      "location": {
+        "type": "string",
+        "title": "Location",
+        "description": "The location string as published. Not normalised — companies write it too many ways for a mapping to be honest.",
+        "example": "Berlin, Germany"
+      },
+      "workplace": {
+        "type": "string",
+        "title": "Workplace",
+        "description": "remote, hybrid or onsite. Taken from the vendor's own workplace field where one exists, and inferred from the location text otherwise.",
+        "example": "remote"
+      },
+      "department": {
+        "type": "string",
+        "title": "Department",
+        "description": "The department as published, e.g. Engineering, Sales. Null where the vendor does not carry one.",
+        "example": "Engineering"
+      },
+      "team": {
+        "type": "string",
+        "title": "Team",
+        "description": "The team within the department, where the ATS provides it.",
+        "example": "Platform"
+      },
+      "employment_type": {
+        "type": "string",
+        "title": "Employment type",
+        "description": "Full-time, contract, internship and so on, where the ATS provides it.",
+        "example": "FullTime"
+      },
+      "posted_at": {
+        "type": "string",
+        "title": "Posted",
+        "description": "When the posting first went live, ISO 8601.",
+        "example": "2026-05-06T20:51:29.000Z"
+      },
+      "updated_at": {
+        "type": "string",
+        "title": "Updated",
+        "description": "When the posting last changed, ISO 8601. This is what the postedSince filter compares against, so it is the field to poll on for a daily delta.",
+        "example": "2026-07-02T16:33:40.000Z"
+      },
+      "salary_min": {
+        "type": "integer",
+        "title": "Salary min",
+        "description": "Parsed from the published compensation range. Null when the company did not publish one — never estimated.",
+        "example": 150000
+      },
+      "salary_max": {
+        "type": "integer",
+        "title": "Salary max",
+        "description": "Parsed from the published compensation range. Null when the company did not publish one — never estimated.",
+        "example": 200000
+      },
+      "salary_currency": {
+        "type": "string",
+        "title": "Currency",
+        "description": "ISO currency code for the parsed range.",
+        "example": "USD"
+      },
+      "seniority": {
+        "type": "string",
+        "title": "Seniority",
+        "description": "intern, junior, mid, senior, principal or executive. Inferred from the title — it is a convenience, not a fact the company published.",
+        "example": "senior"
+      },
+      "description": {
+        "type": "string",
+        "title": "Description",
+        "description": "Full plain-text job description. Only present when includeDescription is on; it is roughly ten times the size of everything else.",
+        "example": "We are looking for…"
+      },
+      "index_as_of": {
+        "type": "string",
+        "title": "Index date",
+        "description": "The date the company index was last swept. Boards open and close; the postings themselves are always fetched live at run time.",
+        "example": "2026-09-03"
+      },
+      "fetched_at": {
+        "type": "string",
+        "title": "Fetched",
+        "description": "When this run read the board.",
+        "example": "2026-09-03T09:12:44.000Z"
+      }
+    }
+  },
+  "views": {
+    "overview": {
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "company",
+          "title",
+          "location",
+          "workplace",
+          "seniority",
+          "salary_min",
+          "salary_max",
+          "salary_currency",
+          "updated_at",
+          "url"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "company": { "label": "Company", "format": "text" },
+          "title": { "label": "Title", "format": "text" },
+          "location": { "label": "Location", "format": "text" },
+          "workplace": { "label": "Workplace", "format": "text" },
+          "seniority": { "label": "Seniority", "format": "text" },
+          "salary_min": { "label": "Salary min", "format": "number" },
+          "salary_max": { "label": "Salary max", "format": "number" },
+          "salary_currency": { "label": "Currency", "format": "text" },
+          "updated_at": { "label": "Updated", "format": "date" },
+          "url": { "label": "Apply", "format": "link" }
+        }
+      }
+    },
+    "compensation": {
+      "title": "With published salary",
+      "transformation": {
+        "fields": [
+          "company",
+          "title",
+          "seniority",
+          "salary_min",
+          "salary_max",
+          "salary_currency",
+          "location",
+          "url"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "company": { "label": "Company", "format": "text" },
+          "title": { "label": "Title", "format": "text" },
+          "seniority": { "label": "Seniority", "format": "text" },
+          "salary_min": { "label": "Min", "format": "number" },
+          "salary_max": { "label": "Max", "format": "number" },
+          "salary_currency": { "label": "Currency", "format": "text" },
+          "location": { "label": "Location", "format": "text" },
+          "url": { "label": "Apply", "format": "link" }
+        }
+      }
+    }
+  }
+}
