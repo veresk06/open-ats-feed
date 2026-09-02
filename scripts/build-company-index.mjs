@@ -10,10 +10,12 @@
 //   greenhouse  coverage-c3-fast.json, with coverage-c3-gh403.json overriding the
 //               2,107 tokens that were throttled to 403 in the first pass
 //   ashby       coverage-c3-fast.json
-//   lever       coverage-c3-lever.json — a seeded random 1,000 of 4,961 tokens.
-//               The other 3,961 are UNVERIFIED, not dead: api.lever.co asks for
-//               1 req/s, so a full pass is ~83 minutes and has not been run yet.
-//               They ship in a separate list the user can opt into.
+//   lever       lever-probe.jsonl — the resumable full pass over all 4,961 tokens,
+//               layered over coverage-c3-lever.json (the earlier seeded 1,000-token
+//               sample) so the sample still counts for anything the full pass has
+//               not reached yet. api.lever.co asks for 1 req/s, so the pass takes
+//               ~83 minutes and runs out of band. Whatever remains unprobed ships
+//               as an opt-in list rather than being counted dead.
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
@@ -25,10 +27,29 @@ const AS_OF = process.env.AS_OF ?? new Date().toISOString().slice(0, 10)
 
 const read = async (p) => JSON.parse(await readFile(resolve(ROOT, p), 'utf8'))
 
-const [fast, gh403, lever, tokens] = await Promise.all([
+// The resumable probe appends one JSON object per token as it goes, so a partial
+// file is a valid partial measurement rather than a corrupt one. A trailing
+// half-written line is possible if the pass is killed mid-write; drop it rather
+// than failing the build.
+const readJsonl = async (p) => {
+  const text = await readFile(resolve(ROOT, p), 'utf8')
+  return text
+    .split('\n')
+    .filter((l) => l.trim())
+    .flatMap((l) => {
+      try {
+        return [JSON.parse(l)]
+      } catch {
+        return []
+      }
+    })
+}
+
+const [fast, gh403, lever, leverFull, tokens] = await Promise.all([
   read('data/coverage-c3-fast.json'),
   read('data/coverage-c3-gh403.json'),
   read('data/coverage-c3-lever.json'),
+  readJsonl('data/lever-probe.jsonl'),
   read('data/tokens.json'),
 ])
 
@@ -54,7 +75,9 @@ function split(rows) {
 
 const greenhouse = split(merge(fast.greenhouse, gh403.greenhouse))
 const ashby = split(merge(fast.ashby))
-const leverRows = merge(lever.lever)
+// The full pass is the later and more complete measurement, so it wins over the
+// sample wherever the two overlap.
+const leverRows = merge(lever.lever, leverFull)
 const leverSplit = split(leverRows)
 const probed = new Set(leverRows.map((r) => r.token))
 const leverUnverified = (tokens.lever ?? []).filter((t) => !probed.has(t)).sort()
@@ -71,7 +94,8 @@ const index = {
       verified: true,
       unverified: leverUnverified,
       note:
-        'Lever was verified on a seeded random 1,000 of 4,961 harvested tokens. ' +
+        `Lever was probed token by token: ${leverRows.length} of ${(tokens.lever ?? []).length} ` +
+        'harvested tokens measured directly, no projection. ' +
         `${leverUnverified.length} tokens are unprobed, not dead — api.lever.co requests 1 req/s. ` +
         'Set includeUnverifiedLever to probe them inside a run.',
     },
