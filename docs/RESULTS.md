@@ -16,7 +16,18 @@ Swept via `harvest-s3.mjs` (see method note below). Candidate tokens: **19,438**
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Greenhouse | 10,091 | 5,506 | 880 | 3,705 | **54.6%** | 9 | 189,336 |
 | Ashby | 4,386 | 3,153 | 299 | 934 | **71.9%** | 8 | 56,721 |
-| **Subtotal** | **14,477** | **8,659** | 1,179 | 4,639 | | | **246,057** |
+| Lever *(projected)* | 4,961 | 1,721 | — | — | **34.7%** | 8 | 51,009 |
+| **Total** | **19,438** | **10,380** | | | | | **297,066** |
+
+**Read the Lever row carefully — it is the one number here that is not measured in full.** Lever
+is rate-limited to one request per second by its own robots.txt, so a full pass takes ~80
+minutes. We probed a **seeded random sample of 1,000 of the 4,961 tokens** (`SEED=7`,
+reproducible) and got a 34.7% hit rate, then scaled. The 95% confidence interval on that
+projection puts the company total at **[10,250, 10,511]**.
+
+**If you distrust the projection entirely, the floor is 9,006 companies** — Greenhouse and Ashby
+measured in full, plus only the 347 Lever companies actually probed. Everything above 9,006 rests
+on the sample.
 
 The Greenhouse row is 4,391 live from the main pass plus 1,115 recovered by re-probing 2,107
 throttled tokens at low concurrency; that re-probe returned **zero** blocked requests, so this is

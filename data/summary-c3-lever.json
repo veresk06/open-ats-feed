@@ -1,0 +1,32 @@
+{
+  "perProvider": {
+    "lever": {
+      "harvested": 4961,
+      "candidates": 1000,
+      "live": 347,
+      "empty": 89,
+      "dead": 564,
+      "error": 0,
+      "postings": 10282,
+      "hitRate": 0.347,
+      "medianJobs": 8
+    }
+  },
+  "gate": {
+    "companiesRequired": 10000,
+    "postingsRequired": 150000,
+    "companiesActual": 1721,
+    "postingsActual": 51009,
+    "basis": "projected from 1000/provider sample",
+    "pass": false
+  },
+  "sampled": 1000,
+  "totals": {
+    "live": 347,
+    "postings": 10282
+  },
+  "projected": {
+    "live": 1721,
+    "postings": 51009
+  }
+}

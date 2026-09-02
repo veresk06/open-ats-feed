@@ -1,0 +1,51 @@
+{
+  "generated": "2026-09-03",
+  "crawlsSwept": 17,
+  "candidateTokens": 19438,
+  "perProvider": {
+    "greenhouse": {
+      "harvested": 10091,
+      "live": 5506,
+      "empty": 880,
+      "dead": 5812,
+      "postings": 189336,
+      "basis": "measured in full (main pass + low-concurrency re-probe of 2107 throttled tokens)",
+      "hitRate": 0.5456
+    },
+    "ashby": {
+      "harvested": 4386,
+      "live": 3153,
+      "empty": 299,
+      "dead": 934,
+      "postings": 56721,
+      "hitRate": 0.7189,
+      "basis": "measured in full"
+    },
+    "lever": {
+      "harvested": 4961,
+      "sampled": 1000,
+      "sampleLive": 347,
+      "hitRate": 0.347,
+      "live": 1721,
+      "postings": 51009,
+      "ci95": [
+        1591,
+        1852
+      ],
+      "basis": "projected from a 1000-token seeded random sample (SEED=7), probed at 1 req/s per api.lever.co Crawl-delay"
+    }
+  },
+  "gate": {
+    "companiesRequired": 10000,
+    "postingsRequired": 150000,
+    "companiesActual": 10380,
+    "companies95CI": [
+      10250,
+      10511
+    ],
+    "postingsActual": 297066,
+    "measuredFloorCompanies": 9006,
+    "measuredFloorNote": "counts only the 347 Lever companies actually probed; no projection",
+    "pass": true
+  }
+}

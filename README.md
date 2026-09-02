@@ -29,14 +29,30 @@ what is live right now.
 
 ## Results
 
-See [`docs/RESULTS.md`](docs/RESULTS.md) for the current numbers, the per-provider hit rates,
-and the full method.
+**10,380 live companies and 297,066 live job postings**, across Greenhouse, Lever and Ashby,
+from 19,438 candidate tokens harvested out of 17 Common Crawl indices.
 
-Two findings are worth pulling out:
+| Provider | Candidates | Live companies | Hit rate | Live postings | Basis |
+|---|---:|---:|---:|---:|---|
+| Greenhouse | 10,091 | 5,506 | 54.6% | 189,336 | measured in full |
+| Ashby | 4,386 | 3,153 | 71.9% | 56,721 | measured in full |
+| Lever | 4,961 | 1,721 | 34.7% | 51,009 | **projected** from a 1,000-token seeded sample |
+| **Total** | **19,438** | **10,380** | | **297,066** | |
 
-**1. Harvested tokens are overwhelmingly real.** ~71% of Greenhouse candidates and ~80% of
-Ashby candidates resolve to a live board with at least one open posting. The URL index is a
-high-quality company list, not noise.
+The Lever row is scaled from a seeded random sample of 1,000 tokens, because `api.lever.co` asks
+for one request per second and a full pass takes ~80 minutes. 95% CI on the total: **[10,250,
+10,511]**. **The no-projection floor is 9,006 companies.** We would rather you knew which third
+of the number is an estimate than have a rounder headline.
+
+See [`docs/RESULTS.md`](docs/RESULTS.md) for per-provider detail, the full method, and the
+things this measurement does *not* establish.
+
+Four findings are worth pulling out:
+
+**1. Harvested tokens are largely real.** 55–72% of Greenhouse and Ashby candidates resolve to a
+live board with at least one open posting. The URL index is a high-quality company list, not
+noise. (Earlier, shallower runs showed 71% and 80%; sweeping further back adds companies that
+have since closed their board, so coverage and hit rate trade against each other.)
 
 **2. Lever's robots.txt exclusion has a date, and sweeping past it does fix the problem.**
 `jobs.lever.co/robots.txt` contains `User-agent: CCBot / Disallow: /`, and Common Crawl obeys
