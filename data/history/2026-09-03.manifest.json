@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-03",
+  "rows": 9006,
+  "providers": [
+    "greenhouse",
+    "ashby",
+    "lever"
+  ],
+  "source": "seed:companies.json"
+}

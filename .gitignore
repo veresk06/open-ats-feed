@@ -16,3 +16,6 @@ data-harvest*.log
 
 # Actor local run state
 actor/storage
+
+# transient probe logs
+lever-resume.log
