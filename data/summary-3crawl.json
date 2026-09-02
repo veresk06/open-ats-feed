@@ -1,0 +1,54 @@
+{
+  "perProvider": {
+    "greenhouse": {
+      "harvested": 5932,
+      "candidates": 5932,
+      "live": 4188,
+      "empty": 400,
+      "dead": 1344,
+      "error": 0,
+      "postings": 161292,
+      "hitRate": 0.706,
+      "medianJobs": 12
+    },
+    "lever": {
+      "harvested": 95,
+      "candidates": 95,
+      "live": 1,
+      "empty": 0,
+      "dead": 66,
+      "error": 28,
+      "postings": 2,
+      "hitRate": 0.0105,
+      "medianJobs": 2
+    },
+    "ashby": {
+      "harvested": 3654,
+      "candidates": 3654,
+      "live": 2919,
+      "empty": 231,
+      "dead": 504,
+      "error": 0,
+      "postings": 54945,
+      "hitRate": 0.7989,
+      "medianJobs": 8
+    }
+  },
+  "gate": {
+    "companiesRequired": 10000,
+    "postingsRequired": 150000,
+    "companiesActual": 7108,
+    "postingsActual": 216239,
+    "basis": "measured in full",
+    "pass": false
+  },
+  "sampled": null,
+  "totals": {
+    "live": 7108,
+    "postings": 216239
+  },
+  "projected": {
+    "live": 7108,
+    "postings": 216239
+  }
+}

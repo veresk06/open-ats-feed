@@ -1,0 +1,26 @@
+{
+  "name": "open-ats-feed",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Reproducible measurement of company and job-posting coverage available through the public, unauthenticated Greenhouse, Lever and Ashby job-board APIs.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "harvest": "node scripts/harvest-tokens.mjs",
+    "verify": "node scripts/verify-coverage.mjs",
+    "cross-probe": "node scripts/cross-probe.mjs"
+  },
+  "keywords": [
+    "ats",
+    "greenhouse",
+    "lever",
+    "ashby",
+    "job-board",
+    "jobs-api",
+    "common-crawl",
+    "open-data"
+  ]
+}

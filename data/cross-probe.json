@@ -1,0 +1,38 @@
+{
+  "greenhouse->lever": {
+    "probed": 400,
+    "live": 1,
+    "hitRate": 0.0025,
+    "postings": 7
+  },
+  "greenhouse->ashby": {
+    "probed": 400,
+    "live": 13,
+    "hitRate": 0.0325,
+    "postings": 396
+  },
+  "lever->greenhouse": {
+    "probed": 88,
+    "live": 2,
+    "hitRate": 0.0227,
+    "postings": 16
+  },
+  "lever->ashby": {
+    "probed": 88,
+    "live": 7,
+    "hitRate": 0.0795,
+    "postings": 197
+  },
+  "ashby->greenhouse": {
+    "probed": 400,
+    "live": 10,
+    "hitRate": 0.025,
+    "postings": 239
+  },
+  "ashby->lever": {
+    "probed": 400,
+    "live": 2,
+    "hitRate": 0.005,
+    "postings": 27
+  }
+}

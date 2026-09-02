@@ -1,0 +1,7 @@
+node_modules
+.DS_Store
+
+# Intermediate snapshots from ad-hoc runs — not part of the published measurement.
+data/tokens-sample-src.json
+data/sample-coverage.json
+data/feed.ndjson
