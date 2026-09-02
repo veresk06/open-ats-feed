@@ -1,0 +1,111 @@
+{
+  "title": "Open ATS Jobs Feed",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "providers": {
+      "title": "ATS providers",
+      "type": "array",
+      "description": "Which applicant tracking systems to read. Greenhouse and Ashby are fast. Lever is fetched at 1 request per second because api.lever.co asks for that in its robots.txt, so a large Lever run is slow by design.",
+      "editor": "select",
+      "default": ["greenhouse", "ashby"],
+      "items": {
+        "type": "string",
+        "enum": ["greenhouse", "ashby", "lever"],
+        "enumTitles": ["Greenhouse", "Ashby", "Lever (slow — 1 req/s)"]
+      }
+    },
+    "keywords": {
+      "title": "Keywords",
+      "type": "array",
+      "description": "Keep a posting if any keyword appears in its title, department, team, or description. Leave empty to keep everything.",
+      "editor": "stringList",
+      "prefill": ["engineer"]
+    },
+    "location": {
+      "title": "Location contains",
+      "type": "string",
+      "description": "Substring match on the posting's location string, e.g. \"Berlin\", \"United Kingdom\", \"New York\".",
+      "editor": "textfield"
+    },
+    "workplace": {
+      "title": "Workplace type",
+      "type": "array",
+      "description": "Remote / hybrid / onsite, derived from the vendor's own workplace field where it exists and from the location text otherwise.",
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": ["remote", "hybrid", "onsite"],
+        "enumTitles": ["Remote", "Hybrid", "Onsite"]
+      }
+    },
+    "seniority": {
+      "title": "Seniority",
+      "type": "array",
+      "description": "Inferred from the job title.",
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": ["intern", "junior", "mid", "senior", "principal", "executive"],
+        "enumTitles": ["Intern", "Junior", "Mid", "Senior", "Principal / Staff", "Executive"]
+      }
+    },
+    "department": {
+      "title": "Department contains",
+      "type": "string",
+      "description": "Substring match on the department name, e.g. \"Engineering\", \"Sales\".",
+      "editor": "textfield"
+    },
+    "postedSince": {
+      "title": "Only postings updated since",
+      "type": "string",
+      "description": "YYYY-MM-DD. This is the delta mode: poll daily and pay for what changed instead of re-downloading the world.",
+      "editor": "datepicker"
+    },
+    "withSalaryOnly": {
+      "title": "Only postings with a parsed salary range",
+      "type": "boolean",
+      "description": "Salary is parsed out of free text and is left null unless the range is unambiguous. A wrong salary is worse than an absent one.",
+      "default": false
+    },
+    "companies": {
+      "title": "Specific company boards",
+      "type": "array",
+      "description": "Board tokens, optionally prefixed with the provider — \"greenhouse:stripe\", \"ashby:ramp\", or a bare \"stripe\" to try it on every selected provider. Overrides the bundled index entirely.",
+      "editor": "stringList"
+    },
+    "maxCompaniesPerProvider": {
+      "title": "Max company boards per provider",
+      "type": "integer",
+      "description": "Boards are ordered by posting count, largest first, so a capped run gets the biggest boards rather than an alphabetical slice. Raise it to sweep everything.",
+      "default": 250,
+      "minimum": 1,
+      "maximum": 12000
+    },
+    "maxItems": {
+      "title": "Max postings",
+      "type": "integer",
+      "description": "Hard cap on dataset rows. The run stops as soon as it is reached.",
+      "default": 5000,
+      "minimum": 1
+    },
+    "includeDescription": {
+      "title": "Include full job description",
+      "type": "boolean",
+      "description": "Adds the plain-text description to every record. Roughly 10x the dataset size.",
+      "default": false
+    },
+    "includeEmptyBoards": {
+      "title": "Also fetch boards that were empty at index time",
+      "type": "boolean",
+      "description": "1,268 boards existed but had nothing open when we last swept. They may have postings now.",
+      "default": false
+    },
+    "includeUnverifiedLever": {
+      "title": "Also try unverified Lever boards",
+      "type": "boolean",
+      "description": "3,961 harvested Lever tokens have not been probed yet — unprobed, not dead. Checking them costs 1 second each.",
+      "default": false
+    }
+  }
+}

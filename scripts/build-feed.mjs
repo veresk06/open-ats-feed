@@ -116,6 +116,16 @@ function stripHtml(html) {
     .trim()
 }
 
+// Greenhouse URI-encodes `content`, but not reliably: a literal "%" in a description
+// makes decodeURIComponent throw and drops the whole board. Fall back to raw.
+function decodeMaybe(s) {
+  try {
+    return decodeURIComponent(s)
+  } catch {
+    return s
+  }
+}
+
 function iso(v) {
   if (!v) return null
   const d = new Date(v)
@@ -129,7 +139,7 @@ const PROVIDERS = {
     url: (t) => `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(t)}/jobs?content=true`,
     list: (j) => (Array.isArray(j?.jobs) ? j.jobs : null),
     map: (job, token) => {
-      const body = stripHtml(decodeURIComponent(job.content ?? ''))
+      const body = stripHtml(decodeMaybe(job.content ?? ''))
       const loc = job.location?.name ?? ''
       return {
         source: 'greenhouse',

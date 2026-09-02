@@ -13,3 +13,6 @@ data/coverage-final.json
 # Working logs from our own runs. The reproducible artifacts are the data/ summaries.
 verify-*.log
 data-harvest*.log
+
+# Actor local run state
+actor/storage
