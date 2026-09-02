@@ -152,6 +152,188 @@
         "description": "Full plain-text job description. Only present when includeDescription is on; it is roughly ten times the size of everything else.",
         "example": "We are looking for…"
       },
+      "record_type": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "title": "Record type",
+        "description": "Present and equal to company_signal on rows produced in signals mode. Absent on job postings.",
+        "example": "company_signal"
+      },
+      "signal": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "title": "Signal",
+        "description": "ramping (3+ roles opened in the last 30 days, at 2x or more the pace of the prior 60), new_board (nothing on the board older than 60 days), steady, quiet (open roles but none opened in 30 days), or undated (this ATS published no dates for this board).",
+        "example": "ramping"
+      },
+      "open_postings": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "title": "Open roles",
+        "description": "How many roles this company has open right now, after your filters.",
+        "example": 34
+      },
+      "postings_dated": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "title": "Dated roles",
+        "description": "How many of those carry a publication date. Every window below is computed against this number, not against open roles, so an undated board is never silently counted as a quiet one.",
+        "example": 34
+      },
+      "opened_7d": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "title": "Opened 7d",
+        "description": "Roles first published in the last 7 days.",
+        "example": 6
+      },
+      "opened_30d": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "title": "Opened 30d",
+        "description": "Roles first published in the last 30 days.",
+        "example": 18
+      },
+      "opened_90d": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "title": "Opened 90d",
+        "description": "Roles first published in the last 90 days.",
+        "example": 27
+      },
+      "baseline_30d": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "title": "Baseline 30d",
+        "description": "The company's own prior pace: roles opened in the 60 days before the last 30, expressed per 30 days. This is the number the last month is being compared against.",
+        "example": 4.5
+      },
+      "ramp_ratio": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "title": "Ramp",
+        "description": "Opened 30d divided by the baseline. 2.0 means the company is hiring at twice its own recent pace. Null when there is no prior baseline to divide by — a board with no postings older than 30 days is a new board, not an infinite ramp.",
+        "example": 4.0
+      },
+      "new_functions": {
+        "type": [
+          "array",
+          "null"
+        ],
+        "title": "Newly opened functions",
+        "description": "Departments where every currently-open role was opened in the last 45 days, at a company whose board also carries older roles — the \"they just opened a sales function\" signal. Two limits stated plainly: only open roles are visible, so this is evidence a function is being staffed now rather than proof it did not exist before; and it is suppressed entirely on boards carrying more than 25 distinct departments, because those use the field as a site or sub-team code and a new function cannot be told from a new location.",
+        "example": [
+          {
+            "name": "Sales",
+            "count": 3
+          }
+        ]
+      },
+      "top_departments": {
+        "type": [
+          "array",
+          "null"
+        ],
+        "title": "Departments",
+        "description": "The five departments with the most open roles, largest first.",
+        "example": [
+          {
+            "name": "Engineering",
+            "count": 21
+          }
+        ]
+      },
+      "top_titles": {
+        "type": [
+          "array",
+          "null"
+        ],
+        "title": "Repeated titles",
+        "description": "The five most repeated job titles on the board. A title opened many times over is usually a team being built rather than a backfill.",
+        "example": [
+          {
+            "name": "Account Executive",
+            "count": 4
+          }
+        ]
+      },
+      "tech_signals": {
+        "type": [
+          "array",
+          "null"
+        ],
+        "title": "Technologies",
+        "description": "Technologies named in roles opened in the last 90 days, most-mentioned first. Matched on whole words from a conservative list — an ambiguous term produces a wrong signal, so terms like \"Go\" and \"R\" are deliberately not matched.",
+        "example": [
+          {
+            "name": "Snowflake",
+            "count": 3
+          }
+        ]
+      },
+      "executive_openings_90d": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "title": "Exec openings 90d",
+        "description": "Head-of / VP / C-level roles opened in the last 90 days. Seniority is inferred from the title.",
+        "example": 2
+      },
+      "remote_postings": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "title": "Remote roles",
+        "description": "How many of the open roles are remote.",
+        "example": 12
+      },
+      "postings_with_salary": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "title": "Roles with salary",
+        "description": "How many of the open roles publish a compensation range we could parse unambiguously.",
+        "example": 9
+      },
+      "oldest_posting_at": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "title": "Oldest role",
+        "description": "Publication date of the oldest role still open, ISO 8601.",
+        "example": "2025-11-14T09:02:11.000Z"
+      },
+      "newest_posting_at": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "title": "Newest role",
+        "description": "Publication date of the most recently opened role, ISO 8601.",
+        "example": "2026-09-02T18:40:05.000Z"
+      },
       "index_as_of": {
         "type": "string",
         "title": "Index date",
@@ -224,6 +406,68 @@
           },
           "url": {
             "label": "Apply",
+            "format": "link"
+          }
+        }
+      }
+    },
+    "signals": {
+      "title": "Hiring signals",
+      "transformation": {
+        "fields": [
+          "company",
+          "signal",
+          "open_postings",
+          "opened_7d",
+          "opened_30d",
+          "ramp_ratio",
+          "new_functions",
+          "tech_signals",
+          "executive_openings_90d",
+          "company_url"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "company": {
+            "label": "Company",
+            "format": "text"
+          },
+          "signal": {
+            "label": "Signal",
+            "format": "text"
+          },
+          "open_postings": {
+            "label": "Open",
+            "format": "number"
+          },
+          "opened_7d": {
+            "label": "New 7d",
+            "format": "number"
+          },
+          "opened_30d": {
+            "label": "New 30d",
+            "format": "number"
+          },
+          "ramp_ratio": {
+            "label": "Ramp",
+            "format": "number"
+          },
+          "new_functions": {
+            "label": "New functions",
+            "format": "array"
+          },
+          "tech_signals": {
+            "label": "Technologies",
+            "format": "array"
+          },
+          "executive_openings_90d": {
+            "label": "Exec 90d",
+            "format": "number"
+          },
+          "company_url": {
+            "label": "Board",
             "format": "link"
           }
         }

@@ -4,6 +4,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { PROVIDERS } from './normalize.js'
+import { companySignal } from './signals.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const INDEX_FILE = resolve(HERE, '../data/companies.json')
@@ -15,6 +16,9 @@ const {
   // Same default as input_schema.json. Lever is opt-in because it is fetched at
   // 1 req/s, so silently including it turns a two-minute run into an hour-long one.
   providers = ['greenhouse', 'ashby'],
+  outputMode = 'postings',
+  signalTypes = [],
+  minOpenPostings = 1,
   companies = [],
   keywords = [],
   location = '',
@@ -71,6 +75,17 @@ const selected = providers.filter((p) => PROVIDERS[p])
 if (!selected.length) {
   await Actor.fail('No valid provider selected. Choose at least one of: greenhouse, ashby, lever.')
 }
+
+// Two shapes of output from the same scan. "postings" is one row per open job.
+// "signals" is one row per company: how fast it is hiring right now against its
+// own recent baseline, which functions it has just opened, and which technologies
+// it is hiring for. Both are derived from the same fetch, so a signals run costs
+// the same to produce and delivers roughly 1/30th of the rows.
+const SIGNALS = outputMode === 'signals'
+if (!['postings', 'signals'].includes(outputMode)) {
+  await Actor.fail(`outputMode must be "postings" or "signals", not "${outputMode}".`)
+}
+const wantedSignals = new Set(signalTypes)
 
 const plan = selected.map((provider) => {
   const all = explicit ? (explicit[provider] ?? []) : boardsFor(provider)
@@ -186,7 +201,14 @@ if (since && Number.isNaN(since.getTime())) {
   await Actor.fail(`postedSince is not a date I can parse: "${postedSince}". Use YYYY-MM-DD.`)
 }
 
-function keep(r) {
+// `postedSince` is a delta filter on the posting stream. Applying it in signals
+// mode would hide exactly the older postings the baseline is measured against, so
+// every company would read as ramping. It is ignored there, out loud.
+if (SIGNALS && since) {
+  log.warning('postedSince is ignored in signals mode — the 7/30/90-day windows are computed from posted_at, and filtering the history away would make every company look like a ramp.')
+}
+
+function keep(r, ignoreSince = false) {
   if (kw.length) {
     const hay = `${r.title} ${r.department ?? ''} ${r.team ?? ''} ${r.description ?? ''}`.toLowerCase()
     if (!kw.some((k) => hay.includes(k))) return false
@@ -196,7 +218,7 @@ function keep(r) {
   if (wp.size && !wp.has(r.workplace)) return false
   if (sen.size && !sen.has(r.seniority)) return false
   if (withSalaryOnly && r.salary_min === null) return false
-  if (since) {
+  if (since && !ignoreSince) {
     const t = r.updated_at ?? r.posted_at
     if (!t || new Date(t) < since) return false
   }
@@ -211,6 +233,7 @@ function keep(r) {
 await chargeSafely(EVENT.start, 1)
 
 const stats = {
+  output_mode: outputMode,
   index_as_of: INDEX_AS_OF,
   boards_planned: planned,
   boards_fetched: 0,
@@ -219,6 +242,10 @@ const stats = {
   postings_seen: 0,
   postings_pushed: 0,
   per_provider: {},
+}
+if (SIGNALS) {
+  stats.companies_pushed = 0
+  stats.signal_breakdown = { ramping: 0, new_board: 0, steady: 0, quiet: 0, undated: 0 }
 }
 
 async function fetchBoard(provider, token) {
@@ -271,6 +298,10 @@ async function runPool(tokens, worker, { concurrency, delayMs }) {
 }
 
 const fetched_at = new Date().toISOString()
+// Every 7/30/90-day window in signals mode is measured from this one instant, so
+// a board read in the first minute of a run and one read an hour later are scored
+// against the same clock.
+const NOW_MS = Date.parse(fetched_at)
 
 for (const { provider, tokens } of plan) {
   if (stop || !tokens.length) continue
@@ -327,11 +358,38 @@ for (const { provider, tokens } of plan) {
       stats.postings_seen += rows.length
       ps.postings += rows.length
 
-      for (const r of rows) {
-        if (!keep(r)) continue
-        if (!includeDescription) delete r.description
-        batch.push({ ...r, index_as_of: INDEX_AS_OF, fetched_at })
-        if (pushed + batch.length >= maxItems) break
+      if (SIGNALS) {
+        // One row per company, computed the moment its board is read. Nothing is
+        // held in memory across boards: a signal only ever needs that company's
+        // own postings, which is what makes this streamable rather than a
+        // second pass over the whole run.
+        const kept = rows.filter((r) => keep(r, true))
+        // Descriptions are fetched either way. Off by default they are used for
+        // nothing; on, they widen technology detection past the title at the cost
+        // of matching a stack mentioned only in a benefits paragraph.
+        if (!includeDescription) for (const r of kept) delete r.description
+        const sig =
+          kept.length >= minOpenPostings
+            ? companySignal(kept, {
+                provider,
+                token,
+                company_url: kept[0].company_url,
+                index_as_of: INDEX_AS_OF,
+                fetched_at,
+                now: NOW_MS,
+              })
+            : null
+        if (sig && (!wantedSignals.size || wantedSignals.has(sig.signal))) {
+          stats.signal_breakdown[sig.signal]++
+          batch.push(sig)
+        }
+      } else {
+        for (const r of rows) {
+          if (!keep(r)) continue
+          if (!includeDescription) delete r.description
+          batch.push({ ...r, index_as_of: INDEX_AS_OF, fetched_at })
+          if (pushed + batch.length >= maxItems) break
+        }
       }
       await flush(pushed + batch.length >= maxItems)
       await chargeBoards()
@@ -349,7 +407,11 @@ for (const { provider, tokens } of plan) {
 await chargeBoards(true)
 log.info('all charges settled, writing RUN_STATS')
 
-stats.postings_pushed = pushed
+// In signals mode no posting is delivered at all — the run reads them and ships
+// one aggregate row per company — so reporting them as delivered rows would
+// overstate what the buyer received.
+stats.postings_pushed = SIGNALS ? 0 : pushed
+if (SIGNALS) stats.companies_pushed = pushed
 stats.charged = isPpe
   ? {
       [EVENT.start]: charging.getChargedEventCount(EVENT.start),

@@ -5,8 +5,8 @@
   "properties": {
     "postings": {
       "type": "string",
-      "title": "Job postings",
-      "description": "One row per open posting, after your filters: company, title, location, workplace, seniority, parsed salary range, department, posted/updated timestamps and the apply URL. Every row carries index_as_of and fetched_at.",
+      "title": "Job postings or hiring signals",
+      "description": "In postings mode: one row per open posting, after your filters — company, title, location, workplace, seniority, parsed salary range, department, posted/updated timestamps and the apply URL. In signals mode: one row per company — open roles, roles opened in the last 7/30/90 days, the ramp against that company's own prior pace, newly opened functions, repeated titles and the technologies it is hiring for. Every row carries index_as_of and fetched_at.",
       "template": "{{links.apiDefaultDatasetUrl}}/items"
     },
     "runStats": {

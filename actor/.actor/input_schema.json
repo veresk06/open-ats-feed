@@ -3,6 +3,33 @@
   "type": "object",
   "schemaVersion": 1,
   "properties": {
+    "outputMode": {
+      "title": "What to deliver",
+      "type": "string",
+      "description": "Postings: one row per open job. Hiring signals: one row per company — how many roles it opened in the last 7 / 30 / 90 days, how that compares with its own prior pace, which functions it has just opened for the first time, and which technologies it is hiring for. Both come from the same scan, so a signals run reads exactly the same boards and delivers roughly 1/30th of the rows.",
+      "editor": "select",
+      "default": "postings",
+      "enum": ["postings", "signals"],
+      "enumTitles": ["Job postings (one row per job)", "Hiring signals (one row per company)"]
+    },
+    "signalTypes": {
+      "title": "Only these signals",
+      "type": "array",
+      "description": "Signals mode only. Ramping: 3+ roles opened in the last 30 days, at 2x or more the pace of the 60 days before that. New board: nothing on the board is older than 60 days. Steady: hiring, but not accelerating. Quiet: open roles, none opened in the last 30 days. Leave empty to get every company.",
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": ["ramping", "new_board", "steady", "quiet", "undated"],
+        "enumTitles": ["Ramping", "New board", "Steady", "Quiet", "No dates published"]
+      }
+    },
+    "minOpenPostings": {
+      "title": "Minimum open roles per company",
+      "type": "integer",
+      "description": "Signals mode only. Companies with fewer open roles than this (after your filters) are skipped entirely, so you are not billed for one-role boards.",
+      "default": 1,
+      "minimum": 1
+    },
     "providers": {
       "title": "ATS providers",
       "type": "array",
@@ -83,16 +110,16 @@
       "maximum": 12000
     },
     "maxItems": {
-      "title": "Max postings",
+      "title": "Max rows",
       "type": "integer",
-      "description": "Hard cap on dataset rows. The run stops as soon as it is reached.",
+      "description": "Hard cap on dataset rows — postings in postings mode, companies in signals mode. The run stops as soon as it is reached.",
       "default": 5000,
       "minimum": 1
     },
     "includeDescription": {
       "title": "Include full job description",
       "type": "boolean",
-      "description": "Adds the plain-text description to every record. Roughly 10x the dataset size.",
+      "description": "Postings mode: adds the plain-text description to every record, roughly 10x the dataset size. Signals mode: the description is never delivered, but turning this on widens technology detection past the job title — more matches, and some of them from a stack mentioned only in a benefits paragraph.",
       "default": false
     },
     "includeEmptyBoards": {
