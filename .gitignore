@@ -9,8 +9,6 @@ data/tokens-before-s3.json
 data/tokens-final.json
 data/tokens-gh-403.json
 data/coverage-final.json
-data/coverage-3crawl.json
-data/tokens-3crawl.json
 
 # Working logs from our own runs. The reproducible artifacts are the data/ summaries.
 verify-*.log
