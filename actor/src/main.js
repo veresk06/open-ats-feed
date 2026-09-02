@@ -190,7 +190,27 @@ for (const { provider, tokens } of plan) {
   const spec = PROVIDERS[provider]
   const ps = { boards: 0, postings: 0, pushed: 0, failed: 0 }
   stats.per_provider[provider] = ps
-  let batch = []
+  const batch = []
+
+  // `pushed` is claimed before the await, not after. A dozen workers share this
+  // batch, and incrementing after `await Actor.pushData` let two of them size
+  // their slice against the same stale count — a 600-item cap delivered 676 on
+  // the first platform run. maxItems is what a paying user is billed against, so
+  // overshooting it is not a rounding error.
+  async function flush(force) {
+    if (!batch.length || (!force && batch.length < 500)) return
+    const out = batch.splice(0, Math.min(batch.length, maxItems - pushed))
+    if (out.length) {
+      pushed += out.length
+      ps.pushed += out.length
+      await Actor.pushData(out)
+    }
+    if (pushed >= maxItems && !stop) {
+      stop = true
+      batch.length = 0
+      log.info(`maxItems (${maxItems}) reached — stopping early.`)
+    }
+  }
 
   await runPool(
     tokens,
@@ -214,29 +234,12 @@ for (const { provider, tokens } of plan) {
         batch.push({ ...r, index_as_of: INDEX_AS_OF, fetched_at })
         if (pushed + batch.length >= maxItems) break
       }
-      if (batch.length >= 500 || pushed + batch.length >= maxItems) {
-        const out = batch.slice(0, Math.max(0, maxItems - pushed))
-        batch = []
-        if (out.length) {
-          await Actor.pushData(out)
-          pushed += out.length
-          ps.pushed += out.length
-        }
-        if (pushed >= maxItems) {
-          stop = true
-          log.info(`maxItems (${maxItems}) reached — stopping early.`)
-        }
-      }
+      await flush(pushed + batch.length >= maxItems)
     },
     { concurrency: spec.concurrency, delayMs: spec.delayMs },
   )
 
-  if (batch.length && pushed < maxItems) {
-    const out = batch.slice(0, maxItems - pushed)
-    await Actor.pushData(out)
-    pushed += out.length
-    ps.pushed += out.length
-  }
+  await flush(true)
   log.info(`${provider} done`, ps)
 }
 
