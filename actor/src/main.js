@@ -44,7 +44,11 @@ const {
   includeEmptyBoards = false,
   includeUnverifiedLever = false,
   maxCompaniesPerProvider = 250,
-  maxItems = 5000,
+  // 1,000, not 5,000. At 5,000 a first press of Try on the store billed roughly $7.50 in
+  // job-result fees, hit the run's charge budget before it got there, and returned a truncated
+  // 28-of-500-board result marked `complete: false`. A default is a first impression, not a
+  // harvest; anyone who wants the harvest raises it.
+  maxItems = 1000,
 } = input
 
 const index = JSON.parse(await readFile(INDEX_FILE, 'utf8'))
@@ -308,11 +312,14 @@ async function fetchBoard(provider, token) {
   return { rows: [], failed: 'refused after retries' }
 }
 
-async function runPool(tokens, worker, { concurrency, delayMs }) {
+// `halted` defaults to the global budget flag. A caller that also has a local reason to stop —
+// a provider that has spent its share of maxItems while the run as a whole still has budget —
+// passes its own predicate rather than setting the global flag, which would end the run.
+async function runPool(tokens, worker, { concurrency, delayMs, halted = () => stop }) {
   let next = 0
   await Promise.all(
     Array.from({ length: Math.min(concurrency, tokens.length) }, async () => {
-      while (!stop) {
+      while (!halted()) {
         const i = next++
         if (i >= tokens.length) return
         const startedAt = Date.now()
@@ -332,11 +339,33 @@ const fetched_at = new Date().toISOString()
 // against the same clock.
 const NOW_MS = Date.parse(fetched_at)
 
-for (const { provider, tokens } of plan) {
-  if (stop || !tokens.length) continue
+// Every selected provider gets a row before any fetching, so a provider that returns nothing —
+// or never gets reached — is visibly zero rather than silently absent. The Ashby bug below was
+// invisible in RUN_STATS for exactly that reason: the key was missing, not zero.
+for (const { provider } of plan) {
+  stats.per_provider[provider] = { boards: 0, postings: 0, pushed: 0, failed: 0 }
+}
+
+// Providers are drained one after another. Without a per-provider ceiling the first one in the
+// list eats the whole item budget and the rest never run at all — and on a DEFAULT run that is
+// not a corner case. `boardsFor` returns boards largest-first, so the 14 biggest Greenhouse
+// boards carry 30,449 postings, six times the default maxItems of 5,000. Ashby was therefore
+// structurally unreachable: a store visitor pressing Try on a two-provider default got a
+// single-provider result, 14 of 500 boards, and `complete: false`. Measured on run
+// `usk8FoTK6YfqFLHbE`, build 0.1.21, before this fix.
+//
+// The share is recomputed at each provider against what is LEFT rather than divided up front,
+// so a provider that yields less than its share hands the remainder to the ones after it and a
+// two-provider run still delivers maxItems in total.
+const active = plan.filter((p) => p.tokens.length)
+for (const [planIndex, { provider, tokens }] of active.entries()) {
+  if (stop) continue
   const spec = PROVIDERS[provider]
-  const ps = { boards: 0, postings: 0, pushed: 0, failed: 0 }
-  stats.per_provider[provider] = ps
+  const ps = stats.per_provider[provider]
+  const share = Math.ceil((maxItems - pushed) / (active.length - planIndex))
+  const cap = Math.min(maxItems, pushed + share)
+  // Local to this provider: spending the share ends this provider's pool, not the run.
+  let providerStop = false
   const batch = []
 
   // `pushed` is claimed before the await, not after. A dozen workers share this
@@ -346,7 +375,7 @@ for (const { provider, tokens } of plan) {
   // overshooting it is not a rounding error.
   async function flush(force) {
     if (!batch.length || (!force && batch.length < 500)) return
-    const out = batch.splice(0, Math.min(batch.length, maxItems - pushed))
+    const out = batch.splice(0, Math.min(batch.length, cap - pushed))
     if (out.length) {
       pushed += out.length
       ps.pushed += out.length
@@ -363,10 +392,15 @@ for (const { provider, tokens } of plan) {
         haltOnBudget(EVENT.result)
       }
     }
-    if (pushed >= maxItems && !stop) {
-      stop = true
+    if (pushed >= cap && !providerStop) {
+      providerStop = true
       batch.length = 0
-      log.info(`maxItems (${maxItems}) reached — stopping early.`)
+      if (pushed >= maxItems) {
+        stop = true
+        log.info(`maxItems (${maxItems}) reached — stopping early.`)
+      } else {
+        log.info(`${provider}: spent its ${share}-row share of maxItems — moving to the next provider.`)
+      }
     }
   }
 
@@ -431,13 +465,13 @@ for (const { provider, tokens } of plan) {
         for (const r of kept) {
           if (!includeDescription) delete r.description
           batch.push({ ...r, index_as_of: INDEX_AS_OF, fetched_at })
-          if (pushed + batch.length >= maxItems) break
+          if (pushed + batch.length >= cap) break
         }
       }
-      await flush(pushed + batch.length >= maxItems)
+      await flush(pushed + batch.length >= cap)
       await chargeBoards()
     },
-    { concurrency: spec.concurrency, delayMs: spec.delayMs },
+    { concurrency: spec.concurrency, delayMs: spec.delayMs, halted: () => stop || providerStop },
   )
 
   log.info(`${provider}: fetch pool drained, flushing`)
@@ -453,8 +487,18 @@ log.info('all charges settled, writing RUN_STATS')
 // In signals mode no posting is delivered at all — the run reads them and ships
 // one aggregate row per company — so reporting them as delivered rows would
 // overstate what the buyer received.
-stats.postings_pushed = SIGNALS ? 0 : pushed
-if (SIGNALS) stats.companies_pushed = pushed
+// `pushed` is what this process CLAIMED to deliver. The platform's own charge ledger is what the
+// buyer actually received, and the two can differ: on run `laSvdF3z2Wgij0hxD` they differed by 78
+// rows. The per-batch give-back above is supposed to catch that, but when the run's budget ran out
+// mid-batch the SDK's `chargedCount` did not report the shortfall, so the correction never fired
+// and RUN_STATS over-reported delivery by 2.4%. Report the ledger and, when they disagree, say by
+// how much rather than quietly picking the smaller number.
+const delivered = isPpe ? charging.getChargedEventCount(EVENT.result) : pushed
+stats.postings_pushed = SIGNALS ? 0 : delivered
+if (SIGNALS) stats.companies_pushed = delivered
+// Only ever non-zero on a budget-capped run. `per_provider[*].pushed` stays as claimed, so this
+// is also the amount by which those per-provider figures sum above the run total.
+if (pushed > delivered) stats.claimed_not_delivered = pushed - delivered
 stats.charged = isPpe
   ? {
       [EVENT.start]: charging.getChargedEventCount(EVENT.start),

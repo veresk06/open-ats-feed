@@ -186,8 +186,8 @@
     "maxItems": {
       "title": "Max rows",
       "type": "integer",
-      "description": "Hard cap on dataset rows — postings in postings mode, companies in signals mode. The run stops as soon as it is reached.",
-      "default": 5000,
+      "description": "Hard cap on dataset rows — postings in postings mode, companies in signals mode. The run stops as soon as it is reached. The cap is split evenly across the providers you selected, so a two-provider run returns both rather than filling up on the first one. Raise it for a full harvest; the default is sized to be a cheap look at the feed.",
+      "default": 1000,
       "minimum": 1
     },
     "includeDescription": {
