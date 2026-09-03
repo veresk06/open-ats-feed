@@ -1,0 +1,34 @@
+{
+  "perProvider": {
+    "breezy": {
+      "harvested": 4562,
+      "candidates": 4562,
+      "live": 1841,
+      "empty": 1458,
+      "dead": 1261,
+      "error": 1,
+      "blocked": 1,
+      "postings": 35533,
+      "resolved": 4561,
+      "hitRate": 0.4036,
+      "medianJobs": 4
+    }
+  },
+  "gate": {
+    "companiesRequired": 10000,
+    "postingsRequired": 150000,
+    "companiesActual": 1841,
+    "postingsActual": 35533,
+    "basis": "measured in full",
+    "pass": false
+  },
+  "sampled": null,
+  "totals": {
+    "live": 1841,
+    "postings": 35533
+  },
+  "projected": {
+    "live": 1841,
+    "postings": 35533
+  }
+}
