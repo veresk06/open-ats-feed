@@ -241,7 +241,7 @@ export const explain = (rawTitle) => {
   return { family: 'other', key: null }
 }
 
-const PROVIDERS = {
+export const PROVIDERS = {
   greenhouse: {
     url: (t) => `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(t)}/jobs`,
     titles: (j) => (Array.isArray(j?.jobs) ? j.jobs.map((x) => x?.title) : null),
@@ -269,7 +269,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 // One retry, because Cycle 18 measured this exact failure: `mozilla` and `vanta` both failed a
 // first probe on timeout and passed on retry with 90 and 110 live postings. A single-shot probe
 // silently drops good boards, and a census that drops the good ones is worse than no census.
-async function fetchTitles(provider, token) {
+export async function fetchTitles(provider, token) {
   const cfg = PROVIDERS[provider]
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
