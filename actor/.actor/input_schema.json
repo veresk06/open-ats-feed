@@ -151,7 +151,14 @@
     "excludeRecruitmentAds": {
       "title": "Exclude suspect recruitment ads",
       "type": "boolean",
-      "description": "On by default. Removes open-ended commission-only / MLM recruitment copy — \"be your own boss\", \"tired of your income being capped?\", \"work from home – client benefits representative\" — which sits on real Greenhouse, Ashby and Lever boards and is not an opening. Measured on 2026-09-03: 1,413 of 121,050 titles read, 0.48% of the corpus. RUN_STATS.recruitment_ads_excluded reports how many rows this removed on your run. Turn it off to receive the corpus unfiltered.",
+      "description": "On by default. Removes open-ended commission-only / MLM recruitment copy — \"be your own boss\", \"tired of your income being capped?\", \"work from home – client benefits representative\" — which sits on real Greenhouse, Ashby and Lever boards and is not an opening. Measured on 2026-09-03: 1,411 of 121,050 titles read across 500 boards, 1.17% of what was read. The share is not the point — the concentration is: only 2 of those 500 boards carry any of it, and one of them, lever/globalelitecareers, is 1,380 of its 1,752 postings. On almost every board this filter does nothing; on that one it is the difference between a usable run and 1,380 rows of pitch. RUN_STATS.recruitment_ads_excluded reports how many rows it removed on your run whether it is on or off. Turn it off to receive the corpus unfiltered.",
+      "default": true,
+      "groupCaption": "Quality"
+    },
+    "excludeVolunteerListings": {
+      "title": "Exclude volunteer and unpaid listings",
+      "type": "boolean",
+      "description": "On by default. Removes listings that are not paid work — \"Hospice Volunteer (Unpaid)\", \"Private Equity Event Volunteer\", \"Event Assistant (volunteer)\". Measured on 2026-09-03: 445 of 121,050 titles read, on 8 of 500 boards, mostly conference organisers staffing events with unpaid help — greenhouse/privateequityinsights is 113 of 1,159 postings. Paid jobs that manage volunteers (\"Volunteer Services Manager\", \"Director of Volunteer Engagement\") are deliberately kept. RUN_STATS.volunteer_listings_excluded reports the count whether this is on or off. Turn it off if you want unpaid roles in the feed — nonprofit boards usually do.",
       "default": true,
       "groupCaption": "Quality"
     },

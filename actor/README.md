@@ -131,6 +131,55 @@ a home-care board `dbt` is Dialectical Behavior Therapy and `PHP` is a Partial H
 Program. Turning on `includeDescription` widens matching past the job title — more hits, some of
 them from a stack named only in a benefits paragraph.
 
+## Rows that are not jobs, and why one board matters more than one percent
+
+Every feed in this category ships some rows that are not openings. We counted ours. On
+2026-09-03 we read **121,050 titles from 500 live boards** and classified every one:
+
+| | Postings | Boards carrying any, of 500 |
+|---|---:|---:|
+| Commission-only / MLM recruitment copy | **1,411** | **2** |
+| Volunteer and unpaid listings | **445** | **8** |
+
+The percentages are small — 1.17% and 0.37% of what we read — and **the percentage is the wrong
+thing to look at.** This junk is not spread thinly across the corpus. It is concentrated:
+
+| Board | Postings | Not a paid job |
+|---|---:|---:|
+| `lever/globalelitecareers` | 1,752 | **1,380 recruitment ads (79%)** |
+| `greenhouse/privateequityinsights` | 1,159 | 113 volunteer (9.8%) |
+| `greenhouse/cfoinsights` | 373 | 112 volunteer (30%) |
+| `greenhouse/unitedmedia` | 367 | 102 volunteer (28%) |
+
+So on roughly 490 of 500 boards these filters do nothing whatsoever, and on a handful they are
+the difference between a usable run and a dataset dominated by "tired of your income being
+capped?". Both are **on by default**, and both report what they took in `RUN_STATS` —
+`recruitment_ads_excluded` and `volunteer_listings_excluded` — whether they are on or off. A
+filter that will not tell you what it removed is worse than no filter.
+
+Verified on a live run of build 0.1.17 against the two worst boards in the index — not inferred
+from the build, run on the platform and read back out of `RUN_STATS`:
+
+```
+boards_fetched              2
+postings_seen           2,911
+postings_pushed         1,418
+recruitment_ads_excluded 1,380   ← all from lever/globalelitecareers (1,752 → 372)
+volunteer_listings_excluded 113  ← all from greenhouse/privateequityinsights (1,159 → 1,046)
+```
+
+Two deliberate limits, because a default-on filter has to be judged on its false positives:
+
+- **Paid jobs that manage volunteers are kept.** "Volunteer Services Manager", "Director of
+  Volunteer Engagement" — these are salaried roles and removing them from a jobs feed would be
+  the opposite of the point.
+- **The ad phrase list is the pitch, not the job.** `remote opportunity` and `no experience
+  necessary` were both tested and **dropped**: they fired 2 and 0 times respectively in 121,050
+  titles, against a real cost — "Registered Nurse - Remote Opportunity" is a job.
+
+Turn either off with `excludeRecruitmentAds: false` / `excludeVolunteerListings: false` and you
+get the corpus exactly as the ATS published it.
+
 ## Typical uses
 
 - **Prospecting on hiring intent.** Companies that just opened a sales function, or that are
@@ -162,6 +211,8 @@ input at all you get the 250 largest Greenhouse boards *and* the 250 largest Ash
 | `department` | — | Substring |
 | `postedSince` | — | `YYYY-MM-DD`, the delta mode |
 | `withSalaryOnly` | `false` | Only rows with a parsed range |
+| `excludeRecruitmentAds` | `true` | Drops commission-only / MLM copy — see above |
+| `excludeVolunteerListings` | `true` | Drops volunteer and unpaid listings — see above |
 | `companies` | — | `greenhouse:stripe`, `ashby:ramp`, or bare `stripe` — overrides the index |
 | `maxCompaniesPerProvider` | `250` | **Per provider.** Two providers selected = up to 500 boards. Ordered largest first, so a cap gets the big ones |
 | `maxItems` | `5000` | Hard cap on rows |

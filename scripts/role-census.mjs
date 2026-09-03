@@ -66,8 +66,12 @@ export const FAMILIES = [
   // Second data-quality finding, run 2: the corpus carries **unpaid** listings on real ATS
   // boards — "hospice volunteer (unpaid)", "private equity event volunteer". A buyer paying per
   // delivered row is paying for rows that are not jobs. Named for the same reason as the ads.
+  // Run 3: dropped 'pro bono' — 0 hits in 121,050 titles, and "Pro Bono Counsel" is a salaried
+  // law-firm position, so it is pure false-positive risk. The Actor filters on this list
+  // (actor/src/volunteer.js) and additionally refuses paid roles that *manage* volunteers
+  // ("Volunteer Services Manager"); that guard also fires 0 times here.
   ['volunteer_unpaid', [
-    'volunteer', 'unpaid intern', 'pro bono',
+    'volunteer', 'unpaid intern',
   ]],
   ['engineering', [
     'software engineer', 'software developer', 'backend', 'back end', 'back-end', 'frontend',

@@ -1,10 +1,22 @@
 // Recruitment-ad detection.
 //
 // The ATS corpus is not all real openings. Measured on 2026-09-03 across 121,050 titles read
-// from 500 live boards: **1,413 postings (0.48%) carry the open-ended commission-only / MLM
-// signature** — "stop building someone else's dream", "tired of your income being capped?",
-// "work from home - client benefits representative" — sitting on genuine Greenhouse, Ashby and
-// Lever boards. Full method and numbers: docs/research/cycle-19-role-census.md.
+// from 500 live boards: **1,411 postings carry the open-ended commission-only / MLM signature**
+// — "stop building someone else's dream", "tired of your income being capped?", "work from home
+// - client benefits representative" — sitting on genuine Greenhouse, Ashby and Lever boards.
+// Full method and numbers: docs/research/cycle-19-role-census.md.
+//
+// Two corrections to how this was stated in build 0.1.16, both of which make the claim better:
+//
+//  1. The count is 1,411, not 1,413, and "1,413 of 121,050 titles, 0.48% of the corpus" invited
+//     the reader to divide and get 1.17%. Both numbers were real — 1.17% is the share of what
+//     was read, 0.48% the stratum-weighted estimate over the whole corpus — but printed side by
+//     side they read as an arithmetic error. Quote the measured share of what was read.
+//  2. **The share was the wrong statistic anyway. It is the concentration that sells.** Of 500
+//     boards, exactly **2** carry any recruitment ads, and `lever/globalelitecareers` alone is
+//     1,380 of them — 79% of that board's 1,752 postings. So this filter does nothing at all on
+//     ~498 boards, and on one board it decides whether the run is usable. A buyer does not fear
+//     losing 1% of their rows; they fear paying for 1,380 rows of pitch off a single board.
 //
 // Every competitor in this category ships these rows silently, because none of them has counted
 // them. We compute the classification anyway, so filtering costs nothing and the count is
