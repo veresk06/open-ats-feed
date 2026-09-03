@@ -7,6 +7,7 @@ import { PROVIDERS } from './normalize.js'
 import { companySignal } from './signals.js'
 import { isRecruitmentAd } from './recruitment-ads.js'
 import { isVolunteerListing } from './volunteer.js'
+import { dedupeBoardRows } from './dedupe.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const INDEX_FILE = resolve(HERE, '../data/companies.json')
@@ -34,6 +35,11 @@ const {
   // src/recruitment-ads.js and src/volunteer.js.
   excludeRecruitmentAds = true,
   excludeVolunteerListings = true,
+  // Off by default, unlike the two above, and the asymmetry is deliberate. Those two remove rows
+  // that are not paid openings at all. This one removes rows that may well be — three
+  // requisitions for three headcount at one site look exactly like three copies of one job, and
+  // the ATS does not publish headcount. See src/dedupe.js.
+  dedupe = false,
   includeDescription = false,
   includeEmptyBoards = false,
   includeUnverifiedLever = false,
@@ -216,8 +222,17 @@ if (SIGNALS && since) {
 }
 
 function keep(r, ignoreSince = false) {
-  if (excludeRecruitmentAds && isRecruitmentAd(r)) { stats.recruitment_ads_excluded++; return false }
-  if (excludeVolunteerListings && isVolunteerListing(r)) { stats.volunteer_listings_excluded++; return false }
+  // Both rules are evaluated whether or not their flag is on, because the input schema promises
+  // that RUN_STATS reports the count either way and build 0.1.17 and earlier did not deliver
+  // that: the counter sat behind the flag, so a run with the filter off reported zero ads rather
+  // than the ads it had just delivered. The rules are counted independently, so a row matching
+  // both increments both — these are per-rule match counts, not a partition. On the measured
+  // corpus the two populations are disjoint: 2 boards of 500 carry ads, 8 carry volunteer
+  // listings, and no board carries both.
+  let drop = false
+  if (isRecruitmentAd(r)) { stats.recruitment_ads_excluded++; drop ||= excludeRecruitmentAds }
+  if (isVolunteerListing(r)) { stats.volunteer_listings_excluded++; drop ||= excludeVolunteerListings }
+  if (drop) return false
   if (kw.length) {
     const hay = `${r.title} ${r.department ?? ''} ${r.team ?? ''} ${r.description ?? ''}`.toLowerCase()
     if (!kw.some((k) => hay.includes(k))) return false
@@ -251,8 +266,10 @@ const stats = {
   postings_seen: 0,
   postings_pushed: 0,
   // Reported whether or not the filters are on, so the numbers are visible rather than implied.
+  // With a filter off these say what it would have taken; with it on, what it took.
   recruitment_ads_excluded: 0,
   volunteer_listings_excluded: 0,
+  duplicates_merged: 0,
   per_provider: {},
 }
 if (SIGNALS) {
@@ -375,7 +392,15 @@ for (const { provider, tokens } of plan) {
         // held in memory across boards: a signal only ever needs that company's
         // own postings, which is what makes this streamable rather than a
         // second pass over the whole run.
-        const kept = rows.filter((r) => keep(r, true))
+        // Deduped here too, not only in postings mode. No row is billed per duplicate in signals
+        // mode, so this is not about cost — it is that a retail chain posting one role at
+        // seventy-six stores under one location string reads as a hiring ramp it is not. With
+        // the flag on, `open_postings` and the 7/30/90-day windows are counted over collapsed
+        // rows and `minOpenPostings` gates on that same collapsed count. Not annotated: signals
+        // rows are per-company aggregates and never carry a posting's own fields.
+        const deduped = rows.filter((r) => keep(r, true))
+        const { rows: kept, merged } = dedupeBoardRows(deduped, { apply: dedupe, annotate: false })
+        stats.duplicates_merged += merged
         // Descriptions are fetched either way. Off by default they are used for
         // nothing; on, they widen technology detection past the title at the cost
         // of matching a stack mentioned only in a benefits paragraph.
@@ -396,8 +421,14 @@ for (const { provider, tokens } of plan) {
           batch.push(sig)
         }
       } else {
-        for (const r of rows) {
-          if (!keep(r)) continue
+        // Filter first, collapse second. The other order would decide which copy survives on a
+        // population the buyer never asked for — with `location=Berlin` set, a Berlin row could
+        // be dropped in favour of a Munich one that is then filtered away, and the buyer would
+        // lose a posting they matched. Collapsing what they asked for cannot do that.
+        const matched = rows.filter((r) => keep(r))
+        const { rows: kept, merged } = dedupeBoardRows(matched, { apply: dedupe })
+        stats.duplicates_merged += merged
+        for (const r of kept) {
           if (!includeDescription) delete r.description
           batch.push({ ...r, index_as_of: INDEX_AS_OF, fetched_at })
           if (pushed + batch.length >= maxItems) break

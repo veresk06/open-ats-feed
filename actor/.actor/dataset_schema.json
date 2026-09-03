@@ -345,6 +345,12 @@
         "title": "Fetched",
         "description": "When this run read the board.",
         "example": "2026-09-03T09:12:44.000Z"
+      },
+      "duplicates_merged": {
+        "type": "integer",
+        "title": "Duplicates merged",
+        "description": "Present only when the \"Collapse duplicate postings\" option is on. How many further copies of this exact title at this exact stated location were collapsed into this row — 0 on a row that had none. It is deliberately kept rather than discarded: a company that posted one role at one site twelve times is telling you something about its hiring, and a filter that threw that away would be destroying signal to save storage.",
+        "example": 0
       }
     }
   },

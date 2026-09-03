@@ -12,7 +12,7 @@
     "runStats": {
       "type": "string",
       "title": "Coverage statistics for this run",
-      "description": "Boards planned, fetched, empty and failed; postings seen and delivered; per-provider breakdown; charged event counts. A board that refused the request is counted as failed, never as empty.",
+      "description": "Boards planned, fetched, empty and failed; postings seen and delivered; per-provider breakdown; charged event counts. A board that refused the request is counted as failed, never as empty. The three quality counters — recruitment_ads_excluded, volunteer_listings_excluded, duplicates_merged — are reported whether or not their filter is on, so a run says what each one would have taken as well as what it took.",
       "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/RUN_STATS"
     }
   }
