@@ -180,6 +180,27 @@ be counted from postings still open today, and older postings have had longer to
 flat-rate company reads as a mild ramp. Counts of roles opened are direct measurements; ratios
 against a surviving baseline are not.
 
+### Why the series matters more than any one issue
+
+A single issue counts postings that are **open**, so it can see hiring start and is structurally
+unable to see hiring stop. Two issues subtract. From the second onward, each carries a **What
+changed** section computed from the two committed JSON files and from nothing else — no network
+call, no trust in either document:
+
+```bash
+node scripts/diff-digests.mjs digests/<earlier>.json digests/<later>.json
+```
+
+That works because the sample is deterministic (the N largest boards per provider in committed
+index order), so two dates read the same boards, and because every issue's JSON carries a
+**per-board roster** — one row for each board read, not only the ones that made a published
+table. Without the roster a company could leave the top-20 by being displaced rather than by
+changing, and the diff would report a movement that never happened. Boards that could not be read
+are listed by name too, so "we did not reach it" is never mistakable for "it went quiet".
+
+The index at [`digests/README.md`](./digests) is regenerated from the issues themselves rather
+than maintained by hand.
+
 What posting dates *cannot* show is a role that closed or a board that went dark. That is what
 `scripts/snapshot-history.mjs` and `scripts/hiring-signals.mjs` are for: a daily open-count
 series per board, started 2026-09-03, which diffs into `ramp_up` / `ramp_down` / `new_board` /

@@ -9,6 +9,8 @@
     "node": ">=18"
   },
   "scripts": {
+    "test": "node --test actor/test test",
+    "digest": "node scripts/build-digest.mjs",
     "harvest": "node scripts/harvest-tokens.mjs",
     "verify": "node scripts/verify-coverage.mjs",
     "cross-probe": "node scripts/cross-probe.mjs"

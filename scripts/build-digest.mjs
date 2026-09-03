@@ -12,6 +12,8 @@
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 
+import { diffDigests, renderDiff } from './lib/digest-diff.mjs'
+import { issueFiles, writeIndex } from './lib/digest-index.mjs'
 import { PROVIDERS } from '../actor/src/normalize.js'
 import {
   companySignal,
@@ -39,6 +41,16 @@ const limits = {
 const now = Date.now()
 const date = arg('date', new Date(now).toISOString().slice(0, 10))
 const fetched_at = new Date(now).toISOString()
+
+const dir = new URL('../digests/', import.meta.url)
+await mkdir(dir, { recursive: true })
+
+// Rebuilding the index needs no network and no boards, so it is available on its
+// own — otherwise a stale index would cost a full 650-board run to correct.
+if (process.argv.includes('--index-only')) {
+  process.stderr.write(`wrote digests/README.md — ${await writeIndex(dir)} issues\n`)
+  process.exit(0)
+}
 
 const index = JSON.parse(await readFile(new URL('../actor/data/companies.json', import.meta.url), 'utf8'))
 
@@ -86,7 +98,13 @@ const seniorityCount = new Map()
 const workplaceCount = new Map()
 const stats = { attempted: 0, responded: 0, withPostings: 0, postings: 0, dated: 0, opened7: 0, opened30: 0 }
 const failures = new Map() // why -> count, reported in the digest rather than hidden
+const unread = [] // and which board, so the next issue can tell "gone quiet" from "not read"
 const signals = []
+// One compact row per board with postings, for every board — not just the ones
+// that made a published table. Without it the next issue can only compare top-20
+// lists, where a company leaving the table might merely have been displaced. This
+// is what makes two issues subtractable at the board level.
+const roster = []
 
 function tally(rows, company) {
   for (const r of rows) {
@@ -136,7 +154,10 @@ async function run(provider) {
       } catch (err) {
         out = { ok: false, why: String(err?.message ?? err) }
       }
-      if (!out.ok) failures.set(out.why, (failures.get(out.why) ?? 0) + 1)
+      if (!out.ok) {
+        failures.set(out.why, (failures.get(out.why) ?? 0) + 1)
+        unread.push({ provider, token, why: out.why })
+      }
       if (out.ok) {
         stats.responded++
         if (out.rows.length) {
@@ -151,6 +172,16 @@ async function run(provider) {
             now,
           })
           if (s) signals.push(s)
+          roster.push({
+            c: token,
+            p: provider,
+            open: s?.open_postings ?? out.rows.length,
+            dated: s?.postings_dated ?? 0,
+            d7: s?.opened_7d ?? 0,
+            d30: s?.opened_30d ?? 0,
+            sig: s?.signal ?? 'unclassified',
+            ratio: s?.ramp_ratio ?? null,
+          })
         }
       }
       if (spec.delayMs) await new Promise((r) => setTimeout(r, spec.delayMs))
@@ -237,7 +268,9 @@ const payload = {
   },
   stats,
   boards_not_read: Object.fromEntries([...failures.entries()].sort(byCount)),
+  boards_not_read_detail: unread.sort((a, b) => a.provider.localeCompare(b.provider) || a.token.localeCompare(b.token)),
   signal_breakdown: breakdown,
+  boards: roster.sort((a, b) => a.p.localeCompare(b.p) || a.c.localeCompare(b.c)),
   ramping,
   new_boards: newBoards,
   new_functions: newFunctions,
@@ -246,6 +279,19 @@ const payload = {
   technology_climbing: climbing,
   seniority_30d: Object.fromEntries([...seniorityCount.entries()].sort(byCount)),
   workplace_30d: Object.fromEntries([...workplaceCount.entries()].sort(byCount)),
+}
+
+// The previous issue, if there is one. A digest series whose issues cannot be
+// subtracted is just a pile of snapshots, so this is not decoration: the diff is
+// the only section that can show hiring stopping, and it is the only thing here a
+// competitor starting today cannot reproduce, because it needs a yesterday.
+let previous = null
+if (!process.argv.includes('--no-diff')) {
+  const last = (await issueFiles(dir)).map((f) => f.slice(0, 10)).filter((d) => d < date).at(-1)
+  if (last) {
+    previous = JSON.parse(await readFile(new URL(`${last}.json`, dir), 'utf8'))
+    payload.previous = { date: last, file: `${last}.json` }
+  }
 }
 
 const pct = (n, d) => (d ? ((n / d) * 100).toFixed(1) : '0.0')
@@ -296,6 +342,8 @@ w(
     '.',
 )
 w()
+
+if (previous) for (const line of renderDiff(diffDigests(previous, payload))) w(line)
 
 w('## Companies ramping hardest')
 w()
@@ -461,10 +509,10 @@ w(
 )
 w()
 
-const dir = new URL('../digests/', import.meta.url)
-await mkdir(dir, { recursive: true })
 await writeFile(new URL(`${date}.json`, dir), `${JSON.stringify(payload, null, 2)}\n`)
 await writeFile(new URL(`${date}.md`, dir), `${md.join('\n')}`)
+
+await writeIndex(dir)
 process.stderr.write(
   `\nwrote digests/${date}.md and digests/${date}.json — ${stats.withPostings} boards, ` +
     `${stats.postings} postings, ${ramping.length} ramps, ${newFunctions.length} new functions\n`,
