@@ -8,6 +8,10 @@ No scraping. No authentication. No terms-of-service gymnastics. Every number her
 endpoints those vendors publish for anyone to call, and every number is reproducible by running
 two scripts in this repo.
 
+**Browse the result:** <https://veresk06.github.io/open-ats-feed/> — all 10,197 boards with their
+open-posting counts, searchable, with CSV downloads. Free, public domain, no signup.
+Built from `actor/data/companies.json` by `scripts/build-site.mjs`.
+
 ## Why this exists
 
 Most job-data products are built on scrapers pointed at LinkedIn or Indeed, which means they

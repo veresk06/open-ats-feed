@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://veresk06.github.io/open-ats-feed/sitemap.xml

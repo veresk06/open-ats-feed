@@ -1,0 +1,433 @@
+/* Open ATS Index — "blueprint census".
+   A register of who is hiring, read from public endpoints on a dated day.
+   Cool drafting-paper ground, signage display over document serif, and the
+   dot-leader row of a printed index — because this is literally an index. */
+
+:root {
+  --field: #e4ebee;
+  --card: #f5f8f9;
+  --ink: #10222c;
+  --muted: #5c737c;
+  --rule: #c6d4da;
+  --mark: #b4482e;
+  --greenhouse: #2f6f52;
+  --ashby: #5b4b9e;
+  --lever: #1e6e8c;
+
+  --display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --prose: "Source Serif 4", Georgia, serif;
+  --mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --pad: clamp(1.25rem, 5vw, 4.5rem);
+  --measure: 68rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--field);
+  color: var(--ink);
+  font-family: var(--display);
+  font-variation-settings: "wdth" 100;
+  font-size: 16px;
+  line-height: 1.5;
+  /* faint drafting grid, kept almost subliminal */
+  background-image:
+    linear-gradient(to right, rgba(16, 34, 44, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 34, 44, 0.035) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
+}
+
+a { color: inherit; }
+
+.serif { font-family: var(--prose); }
+.sep { color: var(--rule); padding: 0 0.15em; }
+
+/* ── top bar ─────────────────────────────────────────────────────────────── */
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem 1.5rem;
+  padding: 1.1rem var(--pad);
+  border-bottom: 1px solid var(--rule);
+  background: rgba(228, 235, 238, 0.92);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.wordmark {
+  font-variation-settings: "wdth" 118;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.topbar nav { display: flex; gap: 1.25rem; font-size: 0.82rem; }
+
+.topbar nav a {
+  font-family: var(--mono);
+  color: var(--muted);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+
+.topbar nav a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--mark); }
+
+main { padding: 0 var(--pad) 5rem; max-width: var(--measure); margin: 0 auto; }
+
+/* ── hero ────────────────────────────────────────────────────────────────── */
+
+.hero { padding: clamp(3rem, 9vw, 6.5rem) 0 clamp(2rem, 5vw, 3.5rem); }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hero h1 {
+  font-variation-settings: "wdth" 112;
+  font-weight: 800;
+  font-size: clamp(2.35rem, 6.6vw, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.022em;
+  margin: 0 0 1.5rem;
+  max-width: 26ch;
+}
+
+/* Each vendor keeps its own colour everywhere it appears — headline, composition
+   band, section tick, row hover. Rust stays reserved for things you can act on. */
+.hero h1 em { font-style: normal; }
+.v-greenhouse { color: var(--greenhouse); }
+.v-ashby { color: var(--ashby); }
+.v-lever { color: var(--lever); }
+
+.lede {
+  font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+  line-height: 1.55;
+  max-width: 46ch;
+  margin: 0 0 2.25rem;
+  color: #23414d;
+}
+
+.hero-narrow { padding-bottom: 1.5rem; }
+.hero-narrow h1 { font-size: clamp(2rem, 5vw, 3.4rem); }
+
+/* ── composition band ────────────────────────────────────────────────────── */
+
+.bars {
+  display: flex;
+  height: 4.25rem;
+  border: 1px solid var(--ink);
+  overflow: hidden;
+}
+
+.bar {
+  width: var(--w);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.1rem;
+  padding: 0 0.85rem;
+  overflow: hidden;
+  color: var(--card);
+  border-right: 1px solid var(--ink);
+  animation: grow 1s cubic-bezier(0.16, 0.84, 0.28, 1) both;
+}
+
+.bar:last-child { border-right: 0; }
+.bar-greenhouse { background: var(--greenhouse); }
+.bar-ashby { background: var(--ashby); animation-delay: 0.09s; }
+.bar-lever { background: var(--lever); animation-delay: 0.18s; }
+
+.bar-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.82;
+  white-space: nowrap;
+}
+
+.bar-num {
+  font-variation-settings: "wdth" 108;
+  font-weight: 700;
+  font-size: 1.15rem;
+  white-space: nowrap;
+}
+
+@keyframes grow { from { width: 0; } to { width: var(--w); } }
+
+/* Narrow screens cannot fit "1,538" inside a 15%-wide segment, and a clipped
+   number is worse than none. The band becomes pure composition; the counts are
+   already stated in the section headers a scroll below. */
+@media (max-width: 34rem) {
+  .bars { height: 1.5rem; }
+  .bar-label, .bar-num { display: none; }
+}
+
+/* ── provider sections ───────────────────────────────────────────────────── */
+
+.prov { padding-top: clamp(3rem, 7vw, 4.75rem); }
+
+.prov-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 0.7rem;
+}
+
+.prov-head h2 {
+  font-variation-settings: "wdth" 115;
+  font-weight: 800;
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  letter-spacing: -0.01em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.tick {
+  width: 0.7rem;
+  height: 0.7rem;
+  flex: none;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.tick-greenhouse { background: var(--greenhouse); }
+.tick-ashby { background: var(--ashby); }
+.tick-lever { background: var(--lever); }
+
+.prov-stat { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); margin: 0; }
+.prov-stat b { color: var(--ink); font-weight: 500; }
+
+.endpoint { margin: 0.9rem 0 1.4rem; }
+
+.endpoint code {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 0.35rem 0.6rem;
+  display: inline-block;
+  overflow-wrap: anywhere;
+}
+
+/* ── the index rows: the signature ───────────────────────────────────────── */
+
+.rows { list-style: none; margin: 0; padding: 0; }
+
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid transparent;
+}
+
+.row[hidden] { display: none; }
+.row:hover { border-bottom-color: var(--rule); }
+
+.slug {
+  font-family: var(--mono);
+  font-size: 0.93rem;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.row:hover .slug { color: var(--mark); }
+
+/* The dot leader of a printed index. Drawn as a repeating gradient rather than a
+   dotted border so the dots stay crisp and evenly spaced at any width. */
+.leader {
+  flex: 1 1 auto;
+  min-width: 1.5rem;
+  align-self: center;
+  height: 2px;
+  background-image: radial-gradient(circle, var(--muted) 1px, transparent 1.3px);
+  background-size: 7px 2px;
+  background-repeat: repeat-x;
+  opacity: 0.5;
+  transform: translateY(0.12em);
+}
+
+.row:hover .leader { opacity: 0.9; }
+
+.count {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  flex: none;
+}
+
+.rows-greenhouse .row:hover .count { color: var(--greenhouse); }
+.rows-ashby .row:hover .count { color: var(--ashby); }
+.rows-lever .row:hover .count { color: var(--lever); }
+
+.rows-full { margin-top: 1.5rem; column-gap: 3.5rem; }
+
+@media (min-width: 46rem) { .rows-full { columns: 2; } }
+@media (min-width: 72rem) { .rows-full { columns: 3; } }
+
+.rows-full .row { break-inside: avoid; }
+.rows-full.empty::after {
+  content: "No board matches that.";
+  font-family: var(--prose);
+  color: var(--muted);
+  display: block;
+  padding: 2rem 0;
+}
+
+.more { font-family: var(--mono); font-size: 0.82rem; margin: 1.4rem 0 0; }
+.more a { color: var(--mark); text-underline-offset: 3px; }
+
+/* ── search ──────────────────────────────────────────────────────────────── */
+
+.finder {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ink);
+}
+
+.search { display: block; flex: 1 1 22rem; }
+
+.search-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+
+.search input {
+  width: 100%;
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 0.7rem 0.85rem;
+  border-radius: 0;
+}
+
+.search input:focus-visible { outline: 2px solid var(--mark); outline-offset: 1px; }
+
+.readout { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); margin: 0 0 0.2rem; }
+
+/* ── method + downloads ──────────────────────────────────────────────────── */
+
+.method { padding-top: clamp(3.5rem, 8vw, 5.5rem); }
+
+.method h2, .downloads h2 {
+  font-variation-settings: "wdth" 115;
+  font-weight: 800;
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--ink);
+}
+
+.cols { font-size: 1.02rem; line-height: 1.62; color: #23414d; }
+.cols p { margin: 0 0 1.1rem; max-width: 62ch; }
+
+@media (min-width: 58rem) {
+  .cols { columns: 2; column-gap: 3.5rem; }
+  .cols p { break-inside: avoid; }
+}
+
+.caveat {
+  font-family: var(--prose);
+  font-size: 0.98rem;
+  color: var(--muted);
+  border-left: 2px solid var(--mark);
+  padding-left: 1rem;
+  margin: 1.5rem 0 0;
+  max-width: 62ch;
+}
+
+.downloads { padding-top: clamp(3.5rem, 8vw, 5.5rem); }
+.dl { list-style: none; margin: 0 0 1.75rem; padding: 0; }
+
+.dl a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+  padding: 0.85rem 0.9rem;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  margin-bottom: -1px;
+  text-decoration: none;
+}
+
+.dl a:hover { border-color: var(--ink); position: relative; }
+.dl-name { font-family: var(--mono); font-size: 0.95rem; color: var(--mark); }
+.dl-meta { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+
+.downloads .serif { font-size: 1.02rem; line-height: 1.6; max-width: 62ch; color: #23414d; }
+
+/* ── footer ──────────────────────────────────────────────────────────────── */
+
+/* Rule sits on the content edge, so it lines up with the section rules in main
+   rather than with main's outer padding box. */
+footer {
+  padding: 0 var(--pad) 4rem;
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+
+footer::before {
+  content: "";
+  display: block;
+  border-top: 1px solid var(--ink);
+  margin-bottom: 2.5rem;
+}
+
+footer .serif {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 62ch;
+  margin: 0 0 1.25rem;
+}
+footer .meta { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin: 0; }
+footer .meta a { color: var(--ink); text-underline-offset: 3px; }
+
+/* ── floor ───────────────────────────────────────────────────────────────── */
+
+:focus-visible { outline: 2px solid var(--mark); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bar { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
