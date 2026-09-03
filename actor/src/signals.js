@@ -20,6 +20,14 @@ const DAY = 86_400_000
 // `PHP` matched Partial Hospitalization Program, and the first draft of this file
 // duly reported that a nursing agency was hiring for a data stack. Terms flagged
 // `guarded` below only count when the posting also reads as a technical one.
+//
+// The context is tested against the title, team and department — NOT the
+// description, which is why `techIn` takes the two separately. A description long
+// enough to be useful nearly always contains the word "data" or "technical"
+// somewhere, so testing the whole text made the guard pass for practically every
+// posting and stopped being a guard at all. BAYADA still came back holding `.NET`
+// and `PHP` with the guard on the full text; it does not with the guard on the
+// title.
 const TECH_CONTEXT =
   /\b(engineer|engineering|developer|software|programmer|architect|devops|sre|technolog|technical|data|analytics|scientist|backend|frontend|full[- ]?stack|platform|infrastructure)\b/i
 
@@ -44,7 +52,13 @@ const TECH = [
   ['Swift', /\bswift(?:ui)?\b/i, true],
   ['Scala', /\bscala\b/i],
   ['Ruby', /\bruby\b/i, true],
-  ['Rails', /\b(?:ruby on rails|rails)\b/i],
+  // Bare "rails" is out, and it is the clearest case in this file for why the
+  // list is conservative. Measured on live boards today: on a construction-
+  // equipment board it is "safety rails", and on one fintech board it is
+  // "third-party rails" sitting in a boilerplate paragraph repeated across 359
+  // of 3,080 postings — enough, on its own, to put Ruby on Rails at the top of a
+  // market-wide "climbing fastest" list it has no business being on.
+  ['Rails', /\b(?:ruby on rails|ror)\b/i],
   ['PHP', /\bphp\b/i, true],
   ['Laravel', /\blaravel\b/i],
   ['Django', /\bdjango\b/i],
@@ -129,12 +143,22 @@ function topCounts(pairs, limit) {
     .map(([name, count]) => ({ name, count }))
 }
 
-export function techIn(text) {
+// Descriptions arrive as raw HTML from all three vendors, and the markup is where
+// the false positives actually live. Measured on BAYADA's live board today: `.NET`
+// matched 4 postings and every one of them was a CDN hostname —
+// `//cdn2.hubspot.net/hubfs/…` and `//static.xx.fbcdn.net/images/emoji.php/…`.
+// That second URL is also where `PHP` came from. So the home-care board reporting
+// a Microsoft stack was never clinical jargon; it was an embedded share button.
+// Links, e-mail addresses and tags are removed before any keyword is matched.
+const MARKUP = /(?:https?:)?\/\/\S+|\bwww\.\S+|[\w.+-]+@[\w.-]+\.\w+|<[^>]*>/g
+
+export function techIn(text, context = text) {
   const found = []
-  const technical = TECH_CONTEXT.test(text)
+  const hay = text.replace(MARKUP, ' ')
+  const technical = TECH_CONTEXT.test(context === text ? hay : context.replace(MARKUP, ' '))
   for (const [label, re, guarded] of TECH) {
     if (guarded && !technical) continue
-    if (re.test(text)) found.push(label)
+    if (re.test(hay)) found.push(label)
   }
   return found
 }
@@ -143,10 +167,16 @@ export function techIn(text) {
 // been posting for longer than that. This is the "they just opened a sales
 // function" signal, and it is only meaningful when there is enough history on the
 // board to tell a new function from a new company.
+// "North San Diego, CA" is a place, not a function, and a board can carry a
+// handful of them without tripping the site-code suppression above. A department
+// that reads as a location is dropped rather than reported as a newly opened
+// team.
+const LOCATION_LIKE = /,\s*(?:[A-Z]{2}|[A-Z][a-z]+)\s*$|\b(?:remote|onsite|hybrid)\b/
+
 function newFunctions(dated, now) {
   const byDept = new Map()
   for (const r of dated) {
-    if (!r.department) continue
+    if (!r.department || LOCATION_LIKE.test(r.department)) continue
     const cur = byDept.get(r.department)
     if (!cur || r.at < cur.oldest) byDept.set(r.department, { oldest: r.at, count: (cur?.count ?? 0) + 1 })
     else byDept.set(r.department, { ...cur, count: cur.count + 1 })
@@ -202,8 +232,10 @@ export function companySignal(rows, meta) {
   const recent = dated.filter((r) => r.at > now - 90 * DAY)
   const techCounts = new Map()
   for (const r of recent) {
-    const hay = `${r.title ?? ''} ${r.team ?? ''} ${r.department ?? ''} ${r.description ?? ''}`
-    for (const t of techIn(hay)) techCounts.set(t, (techCounts.get(t) ?? 0) + 1)
+    const where = `${r.title ?? ''} ${r.team ?? ''} ${r.department ?? ''}`
+    for (const t of techIn(`${where} ${r.description ?? ''}`, where)) {
+      techCounts.set(t, (techCounts.get(t) ?? 0) + 1)
+    }
   }
 
   const withSalary = rows.filter((r) => r.salary_min !== null && r.salary_min !== undefined).length

@@ -1,0 +1,6822 @@
+{
+  "date": "2026-09-03",
+  "generated_at": "2026-09-03T01:26:07.508Z",
+  "generator": "scripts/build-digest.mjs",
+  "command": "node scripts/build-digest.mjs --greenhouse 300 --ashby 250 --lever 100 --date 2026-09-03",
+  "index_as_of": "2026-09-03",
+  "sample": {
+    "rule": "the N largest boards per provider, in company-index order (sorted by open postings)",
+    "limits": {
+      "greenhouse": 300,
+      "ashby": 250,
+      "lever": 100
+    }
+  },
+  "thresholds": {
+    "ramping": ">= 3 roles opened in 30 days AND >= 2x the company's own prior 60-day pace",
+    "new_board": "no posting older than 60 days",
+    "new_function": "a department whose every posting is newer than 45 days, on a board with <= 25 departments",
+    "digest_ramping_floor": "this digest additionally requires >= 10 roles opened in 30 days and a surviving baseline of >= 5 before listing a ramp"
+  },
+  "stats": {
+    "attempted": 650,
+    "responded": 650,
+    "withPostings": 650,
+    "postings": 155490,
+    "dated": 155490,
+    "opened7": 15751,
+    "opened30": 50760
+  },
+  "boards_not_read": {},
+  "signal_breakdown": {
+    "ramping": 339,
+    "steady": 289,
+    "quiet": 10,
+    "new_board": 12
+  },
+  "ramping": [
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "clera",
+      "company_url": "https://jobs.ashbyhq.com/clera",
+      "signal": "ramping",
+      "open_postings": 284,
+      "postings_dated": 284,
+      "opened_7d": 209,
+      "opened_30d": 213,
+      "opened_90d": 224,
+      "baseline_30d": 5.5,
+      "ramp_ratio": 38.73,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Engineering",
+          "count": 278
+        },
+        {
+          "name": "Growth",
+          "count": 6
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Founding Engineer",
+          "count": 23
+        },
+        {
+          "name": "Founding Engineer ($3M pre-seed)",
+          "count": 14
+        },
+        {
+          "name": "Founding Engineer – SF Hackerhouse (Visa sponsored; $3M pre-seed)",
+          "count": 9
+        },
+        {
+          "name": "Founding Product Engineer",
+          "count": 8
+        },
+        {
+          "name": "Forward Deployed Engineer",
+          "count": 7
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "LLM",
+          "count": 69
+        },
+        {
+          "name": "Python",
+          "count": 59
+        },
+        {
+          "name": "TypeScript",
+          "count": 57
+        },
+        {
+          "name": "React",
+          "count": 47
+        },
+        {
+          "name": "AWS",
+          "count": 29
+        },
+        {
+          "name": "PostgreSQL",
+          "count": 27
+        },
+        {
+          "name": "GCP",
+          "count": 20
+        },
+        {
+          "name": "Node.js",
+          "count": 19
+        },
+        {
+          "name": "Docker",
+          "count": 18
+        },
+        {
+          "name": "Kubernetes",
+          "count": 17
+        },
+        {
+          "name": "Azure",
+          "count": 15
+        },
+        {
+          "name": "Figma",
+          "count": 14
+        }
+      ],
+      "executive_openings_90d": 7,
+      "remote_postings": 53,
+      "postings_with_salary": 185,
+      "oldest_posting_at": "2026-03-23T23:25:32.034Z",
+      "newest_posting_at": "2026-09-02T22:02:12.708Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "legionhealth",
+      "company_url": "https://jobs.ashbyhq.com/legionhealth",
+      "signal": "ramping",
+      "open_postings": 156,
+      "postings_dated": 156,
+      "opened_7d": 1,
+      "opened_30d": 141,
+      "opened_90d": 152,
+      "baseline_30d": 5.5,
+      "ramp_ratio": 25.64,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Patient Care",
+          "count": 140
+        },
+        {
+          "name": "Operations",
+          "count": 7
+        },
+        {
+          "name": "Growth",
+          "count": 5
+        },
+        {
+          "name": "Engineering and Product",
+          "count": 3
+        },
+        {
+          "name": "Administrative",
+          "count": 1
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Collaborating Psychiatrist / Supervising Physician (MD or DO) — Remote | Telehealth | Part-Time | Alabama",
+          "count": 1
+        },
+        {
+          "name": "Collaborating Psychiatrist / Supervising Physician (MD or DO) — Remote | Telehealth | Part-Time | Arkansas",
+          "count": 1
+        },
+        {
+          "name": "Collaborating Psychiatrist / Supervising Physician (MD or DO) — Remote | Telehealth | Part-Time | Connecticut",
+          "count": 1
+        },
+        {
+          "name": "Collaborating Psychiatrist / Supervising Physician (MD or DO) — Remote | Telehealth | Part-Time | Florida",
+          "count": 1
+        },
+        {
+          "name": "Collaborating Psychiatrist / Supervising Physician (MD or DO) — Remote | Telehealth | Part-Time | Georgia",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Figma",
+          "count": 3
+        },
+        {
+          "name": "Looker",
+          "count": 3
+        },
+        {
+          "name": "HubSpot",
+          "count": 2
+        },
+        {
+          "name": "JavaScript",
+          "count": 2
+        },
+        {
+          "name": "LLM",
+          "count": 2
+        },
+        {
+          "name": "Python",
+          "count": 2
+        },
+        {
+          "name": "Salesforce",
+          "count": 2
+        },
+        {
+          "name": "TypeScript",
+          "count": 2
+        },
+        {
+          "name": "AWS",
+          "count": 1
+        },
+        {
+          "name": "Node.js",
+          "count": 1
+        },
+        {
+          "name": "PostgreSQL",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 2,
+      "remote_postings": 146,
+      "postings_with_salary": 151,
+      "oldest_posting_at": "2025-02-26T18:49:49.768Z",
+      "newest_posting_at": "2026-09-01T14:57:26.326Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "horacemannagents",
+      "company_url": "https://job-boards.greenhouse.io/horacemannagents",
+      "signal": "ramping",
+      "open_postings": 417,
+      "postings_dated": 417,
+      "opened_7d": 119,
+      "opened_30d": 366,
+      "opened_90d": 400,
+      "baseline_30d": 17,
+      "ramp_ratio": 21.53,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Field Sales",
+          "count": 395
+        },
+        {
+          "name": "Worksite",
+          "count": 22
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Insurance Producer - Warwick, RI",
+          "count": 2
+        },
+        {
+          "name": "Insurance Agent -  Sanford, NC",
+          "count": 1
+        },
+        {
+          "name": "Insurance Agent - Akron, OH",
+          "count": 1
+        },
+        {
+          "name": "Insurance Agent - Anchorage, Alaska",
+          "count": 1
+        },
+        {
+          "name": "Insurance Agent - Ann Arbor, MI",
+          "count": 1
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 0,
+      "remote_postings": 1,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2025-08-05T21:29:55.000Z",
+      "newest_posting_at": "2026-09-02T17:11:55.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "ouihelp",
+      "company_url": "https://job-boards.greenhouse.io/ouihelp",
+      "signal": "ramping",
+      "open_postings": 697,
+      "postings_dated": 697,
+      "opened_7d": 215,
+      "opened_30d": 593,
+      "opened_90d": 667,
+      "baseline_30d": 37,
+      "ramp_ratio": 16.03,
+      "new_functions": [
+        {
+          "name": "Tech",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Auxiliaires de vie",
+          "count": 650
+        },
+        {
+          "name": "Opérations (RS, Coordo et Stagiaires / Alternants RH)",
+          "count": 43
+        },
+        {
+          "name": "Tech",
+          "count": 2
+        },
+        {
+          "name": "Admin",
+          "count": 1
+        },
+        {
+          "name": "Joya - Opérations (RS, Coordo et Stagiaires / Alternants RH)",
+          "count": 1
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Auxiliaire de vie H/F",
+          "count": 177
+        },
+        {
+          "name": "Aide à domicile H/F",
+          "count": 80
+        },
+        {
+          "name": "Aide aux personnes âgées H/F",
+          "count": 59
+        },
+        {
+          "name": "Auxiliaire de vie (H/F)",
+          "count": 43
+        },
+        {
+          "name": "Assistant de vie H/F",
+          "count": 42
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "LLM",
+          "count": 2
+        },
+        {
+          "name": "PostgreSQL",
+          "count": 2
+        },
+        {
+          "name": "Python",
+          "count": 2
+        },
+        {
+          "name": "React",
+          "count": 2
+        },
+        {
+          "name": "TypeScript",
+          "count": 2
+        },
+        {
+          "name": "AWS",
+          "count": 1
+        },
+        {
+          "name": "Docker",
+          "count": 1
+        },
+        {
+          "name": "Kubernetes",
+          "count": 1
+        },
+        {
+          "name": "RAG",
+          "count": 1
+        },
+        {
+          "name": "Redis",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 0,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2023-03-20T17:02:51.000Z",
+      "newest_posting_at": "2026-09-02T21:33:56.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "lever",
+      "company": "lifestance",
+      "company_url": "https://jobs.lever.co/lifestance",
+      "signal": "ramping",
+      "open_postings": 1386,
+      "postings_dated": 1386,
+      "opened_7d": 499,
+      "opened_30d": 1195,
+      "opened_90d": 1357,
+      "baseline_30d": 81,
+      "ramp_ratio": 14.75,
+      "new_functions": [],
+      "top_departments": [],
+      "top_titles": [
+        {
+          "name": "Licensed Clinical Social Worker (LCSW)",
+          "count": 57
+        },
+        {
+          "name": "Psychiatric Nurse Practitioner (PMHNP)",
+          "count": 53
+        },
+        {
+          "name": "Clinical Psychologist",
+          "count": 41
+        },
+        {
+          "name": "Psychiatrist",
+          "count": 29
+        },
+        {
+          "name": "Licensed Marriage and Family Therapist (LMFT)",
+          "count": 24
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 0,
+      "remote_postings": 41,
+      "postings_with_salary": 7,
+      "oldest_posting_at": "2026-04-02T15:05:53.554Z",
+      "newest_posting_at": "2026-09-02T23:52:16.243Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "spektrum",
+      "company_url": "https://job-boards.greenhouse.io/spektrum",
+      "signal": "ramping",
+      "open_postings": 216,
+      "postings_dated": 216,
+      "opened_7d": 34,
+      "opened_30d": 84,
+      "opened_90d": 96,
+      "baseline_30d": 6,
+      "ramp_ratio": 14,
+      "new_functions": [
+        {
+          "name": "JWC",
+          "count": 11
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "NATO ",
+          "count": 75
+        },
+        {
+          "name": "NATO Communications and Information Agency (NCIA)",
+          "count": 75
+        },
+        {
+          "name": "eu-LISA",
+          "count": 30
+        },
+        {
+          "name": "JWC",
+          "count": 11
+        },
+        {
+          "name": "NATO Support and Procurement Agency (NSPA)",
+          "count": 11
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Senior Application Support Engineer",
+          "count": 4
+        },
+        {
+          "name": "Network Engineer",
+          "count": 3
+        },
+        {
+          "name": "Penetration Tester",
+          "count": 3
+        },
+        {
+          "name": "Project Support Officer",
+          "count": 3
+        },
+        {
+          "name": "Cyber Security Architect",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 26
+        },
+        {
+          "name": "Azure",
+          "count": 16
+        },
+        {
+          "name": "AWS",
+          "count": 13
+        },
+        {
+          "name": "Java",
+          "count": 12
+        },
+        {
+          "name": "JavaScript",
+          "count": 8
+        },
+        {
+          "name": "C#",
+          "count": 7
+        },
+        {
+          "name": "Power BI",
+          "count": 7
+        },
+        {
+          "name": ".NET",
+          "count": 6
+        },
+        {
+          "name": "Kubernetes",
+          "count": 6
+        },
+        {
+          "name": "LLM",
+          "count": 6
+        },
+        {
+          "name": "Terraform",
+          "count": 6
+        },
+        {
+          "name": "GCP",
+          "count": 5
+        }
+      ],
+      "executive_openings_90d": 0,
+      "remote_postings": 3,
+      "postings_with_salary": 1,
+      "oldest_posting_at": "2022-10-17T08:34:38.000Z",
+      "newest_posting_at": "2026-09-02T16:28:17.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "lever",
+      "company": "beautybarrage",
+      "company_url": "https://jobs.lever.co/beautybarrage",
+      "signal": "ramping",
+      "open_postings": 185,
+      "postings_dated": 185,
+      "opened_7d": 63,
+      "opened_30d": 97,
+      "opened_90d": 111,
+      "baseline_30d": 7,
+      "ramp_ratio": 13.86,
+      "new_functions": [],
+      "top_departments": [],
+      "top_titles": [
+        {
+          "name": "Brand Specialist - Oak Brook, IL",
+          "count": 2
+        },
+        {
+          "name": "Brand Specialist - Tulsa, OK",
+          "count": 2
+        },
+        {
+          "name": "Beauty Brand Specialist - Greater London Area",
+          "count": 1
+        },
+        {
+          "name": "Beauty Brand Specialist - North of England",
+          "count": 1
+        },
+        {
+          "name": "Beauty Brand Specialist - South of England",
+          "count": 1
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 0,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2024-07-03T17:17:16.042Z",
+      "newest_posting_at": "2026-09-02T23:32:16.717Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "pennylane",
+      "company_url": "https://jobs.ashbyhq.com/pennylane",
+      "signal": "ramping",
+      "open_postings": 163,
+      "postings_dated": 163,
+      "opened_7d": 79,
+      "opened_30d": 116,
+      "opened_90d": 136,
+      "baseline_30d": 10,
+      "ramp_ratio": 11.6,
+      "new_functions": [
+        {
+          "name": "People",
+          "count": 6
+        },
+        {
+          "name": "Sales",
+          "count": 6
+        },
+        {
+          "name": "Financial Services",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Customer Success",
+          "count": 75
+        },
+        {
+          "name": "Partner Success - Cabinets comptable",
+          "count": 34
+        },
+        {
+          "name": "G&A",
+          "count": 11
+        },
+        {
+          "name": "Product",
+          "count": 9
+        },
+        {
+          "name": "Tech",
+          "count": 8
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Chef de Projet Fonctionnel – Migration Comptable (Télétravail complet possible)",
+          "count": 11
+        },
+        {
+          "name": "Senior Legal Counsel – Contracts (German speaker)",
+          "count": 8
+        },
+        {
+          "name": "Spécialiste Support Pilotage et Comptabilité (Télétravail complet possible)",
+          "count": 8
+        },
+        {
+          "name": "Account Executive - Small Business Spain",
+          "count": 1
+        },
+        {
+          "name": "Account Executive SME's - Large Accounts",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Stripe",
+          "count": 133
+        },
+        {
+          "name": "Salesforce",
+          "count": 7
+        },
+        {
+          "name": "LLM",
+          "count": 5
+        },
+        {
+          "name": "Ruby",
+          "count": 4
+        },
+        {
+          "name": "AWS",
+          "count": 3
+        },
+        {
+          "name": "Figma",
+          "count": 3
+        },
+        {
+          "name": "Python",
+          "count": 3
+        },
+        {
+          "name": "Rails",
+          "count": 3
+        },
+        {
+          "name": "React",
+          "count": 3
+        },
+        {
+          "name": "Workday",
+          "count": 3
+        },
+        {
+          "name": "TypeScript",
+          "count": 2
+        },
+        {
+          "name": "dbt",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 4,
+      "remote_postings": 78,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-01-26T09:25:48.951Z",
+      "newest_posting_at": "2026-09-02T15:13:42.396Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "lever",
+      "company": "daniels-sharpsmart",
+      "company_url": "https://jobs.lever.co/daniels-sharpsmart",
+      "signal": "ramping",
+      "open_postings": 210,
+      "postings_dated": 210,
+      "opened_7d": 46,
+      "opened_30d": 157,
+      "opened_90d": 186,
+      "baseline_30d": 14.5,
+      "ramp_ratio": 10.83,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "USA",
+          "count": 196
+        },
+        {
+          "name": "CANADA",
+          "count": 10
+        },
+        {
+          "name": "AUSTRALIA",
+          "count": 4
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Hospital Technician - Penn Family Medicine West Chester & King of Prussia",
+          "count": 3
+        },
+        {
+          "name": "Maintenance Technician",
+          "count": 3
+        },
+        {
+          "name": "Northern California Business Development Director",
+          "count": 3
+        },
+        {
+          "name": "Transportation Supervisor",
+          "count": 3
+        },
+        {
+          "name": "Box Truck Driver - 1st Shift 5AM to 3PM",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Workday",
+          "count": 2
+        },
+        {
+          "name": "Salesforce",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 2,
+      "remote_postings": 12,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2025-02-27T23:20:47.917Z",
+      "newest_posting_at": "2026-09-02T22:49:38.245Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "equipmentsharecom",
+      "company_url": "https://job-boards.greenhouse.io/equipmentsharecom",
+      "signal": "ramping",
+      "open_postings": 967,
+      "postings_dated": 967,
+      "opened_7d": 233,
+      "opened_30d": 768,
+      "opened_90d": 913,
+      "baseline_30d": 72.5,
+      "ramp_ratio": 10.59,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Maintenance",
+          "count": 471
+        },
+        {
+          "name": "Equipment Rental",
+          "count": 157
+        },
+        {
+          "name": "Delivery and Pickup",
+          "count": 126
+        },
+        {
+          "name": "Administrative",
+          "count": 54
+        },
+        {
+          "name": "Sales",
+          "count": 38
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Heavy Equipment Field Technician (Mechanic)",
+          "count": 100
+        },
+        {
+          "name": "Heavy Equipment Shop Technician (Mechanic)",
+          "count": 93
+        },
+        {
+          "name": "Yard Technician",
+          "count": 91
+        },
+        {
+          "name": "Territory Account Manager",
+          "count": 83
+        },
+        {
+          "name": "Heavy Equipment CDL Driver",
+          "count": 69
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Workday",
+          "count": 9
+        },
+        {
+          "name": "Python",
+          "count": 7
+        },
+        {
+          "name": "AWS",
+          "count": 2
+        },
+        {
+          "name": "Azure",
+          "count": 1
+        },
+        {
+          "name": "C#",
+          "count": 1
+        },
+        {
+          "name": "C++",
+          "count": 1
+        },
+        {
+          "name": "dbt",
+          "count": 1
+        },
+        {
+          "name": "Elasticsearch",
+          "count": 1
+        },
+        {
+          "name": "GCP",
+          "count": 1
+        },
+        {
+          "name": "HubSpot",
+          "count": 1
+        },
+        {
+          "name": "Java",
+          "count": 1
+        },
+        {
+          "name": "Kafka",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 1,
+      "remote_postings": 0,
+      "postings_with_salary": 129,
+      "oldest_posting_at": "2022-10-20T18:07:19.000Z",
+      "newest_posting_at": "2026-09-02T23:49:39.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "lever",
+      "company": "globalelitecareers",
+      "company_url": "https://jobs.lever.co/globalelitecareers",
+      "signal": "ramping",
+      "open_postings": 1752,
+      "postings_dated": 1752,
+      "opened_7d": 464,
+      "opened_30d": 1472,
+      "opened_90d": 1752,
+      "baseline_30d": 140,
+      "ramp_ratio": 10.51,
+      "new_functions": [],
+      "top_departments": [],
+      "top_titles": [
+        {
+          "name": "Stop Building Someone Else's Dream - Remote Opportunity",
+          "count": 135
+        },
+        {
+          "name": "Tired of Your Income Being Capped? Work from Home Opportunity",
+          "count": 134
+        },
+        {
+          "name": "Burned Out from the 9-5? There's Another Way - Remote Role",
+          "count": 133
+        },
+        {
+          "name": "Work From Home - Client Benefits Representative",
+          "count": 95
+        },
+        {
+          "name": "Work From Home - Insurance Representative",
+          "count": 93
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Workday",
+          "count": 156
+        }
+      ],
+      "executive_openings_90d": 0,
+      "remote_postings": 1752,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-06-16T13:00:44.428Z",
+      "newest_posting_at": "2026-09-02T17:45:21.395Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "veterinarypracticepartners",
+      "company_url": "https://job-boards.greenhouse.io/veterinarypracticepartners",
+      "signal": "ramping",
+      "open_postings": 290,
+      "postings_dated": 290,
+      "opened_7d": 62,
+      "opened_30d": 192,
+      "opened_90d": 230,
+      "baseline_30d": 19,
+      "ramp_ratio": 10.11,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Veterinary Doctors",
+          "count": 87
+        },
+        {
+          "name": "Technicians",
+          "count": 79
+        },
+        {
+          "name": "Assistants",
+          "count": 57
+        },
+        {
+          "name": "Reception",
+          "count": 43
+        },
+        {
+          "name": "Boarding/ Kennel/ Grooming/ Maintenance/Trainer",
+          "count": 12
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Veterinarian",
+          "count": 61
+        },
+        {
+          "name": "Veterinary Assistant",
+          "count": 50
+        },
+        {
+          "name": "Veterinary Receptionist",
+          "count": 40
+        },
+        {
+          "name": "Veterinary Technician",
+          "count": 39
+        },
+        {
+          "name": "Licensed Veterinary Technician",
+          "count": 14
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Workday",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 5,
+      "remote_postings": 0,
+      "postings_with_salary": 70,
+      "oldest_posting_at": "2019-02-15T20:53:20.000Z",
+      "newest_posting_at": "2026-09-02T19:31:07.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "terac",
+      "company_url": "https://jobs.ashbyhq.com/terac",
+      "signal": "ramping",
+      "open_postings": 64,
+      "postings_dated": 64,
+      "opened_7d": 8,
+      "opened_30d": 46,
+      "opened_90d": 56,
+      "baseline_30d": 5,
+      "ramp_ratio": 9.2,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Participant Recruitment",
+          "count": 55
+        },
+        {
+          "name": "Operations",
+          "count": 6
+        },
+        {
+          "name": "Engineering",
+          "count": 1
+        },
+        {
+          "name": "Growth",
+          "count": 1
+        },
+        {
+          "name": "GTM",
+          "count": 1
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "CAD Engineers: Parametric Modeling and Modification Tasks",
+          "count": 2
+        },
+        {
+          "name": "Recruiting Coordinator",
+          "count": 2
+        },
+        {
+          "name": "TEMPLATE",
+          "count": 2
+        },
+        {
+          "name": "Accounting Professionals: Interview on QuickBooks Workflows",
+          "count": 1
+        },
+        {
+          "name": "Advanced STEM Experts (PhD Level): Scientific Reasoning For AI Training",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Salesforce",
+          "count": 3
+        },
+        {
+          "name": "React",
+          "count": 1
+        },
+        {
+          "name": "ServiceNow",
+          "count": 1
+        },
+        {
+          "name": "Workday",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 1,
+      "remote_postings": 57,
+      "postings_with_salary": 6,
+      "oldest_posting_at": "2025-12-17T08:09:53.104Z",
+      "newest_posting_at": "2026-09-03T00:51:40.662Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "pragmatike",
+      "company_url": "https://jobs.ashbyhq.com/pragmatike",
+      "signal": "ramping",
+      "open_postings": 71,
+      "postings_dated": 71,
+      "opened_7d": 1,
+      "opened_30d": 54,
+      "opened_90d": 66,
+      "baseline_30d": 6,
+      "ramp_ratio": 9,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Work with our Clients",
+          "count": 65
+        },
+        {
+          "name": "HR",
+          "count": 6
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "GPU Server Hardware Validation Engineer",
+          "count": 4
+        },
+        {
+          "name": "Engineering Manager - AI Product (100% Remote EMEA)",
+          "count": 2
+        },
+        {
+          "name": "Engineering Manager - AI Product(100% Remote EMEA)",
+          "count": 2
+        },
+        {
+          "name": "Founding Recruiter (tech freelance)",
+          "count": 2
+        },
+        {
+          "name": "Principal Founding Product Engineer",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 30
+        },
+        {
+          "name": "Kubernetes",
+          "count": 25
+        },
+        {
+          "name": "TypeScript",
+          "count": 25
+        },
+        {
+          "name": "LLM",
+          "count": 15
+        },
+        {
+          "name": "CUDA",
+          "count": 12
+        },
+        {
+          "name": "React",
+          "count": 9
+        },
+        {
+          "name": "Terraform",
+          "count": 5
+        },
+        {
+          "name": "RAG",
+          "count": 4
+        },
+        {
+          "name": "AWS",
+          "count": 3
+        },
+        {
+          "name": "HubSpot",
+          "count": 3
+        },
+        {
+          "name": "PostgreSQL",
+          "count": 3
+        },
+        {
+          "name": "PyTorch",
+          "count": 3
+        }
+      ],
+      "executive_openings_90d": 0,
+      "remote_postings": 45,
+      "postings_with_salary": 37,
+      "oldest_posting_at": "2025-10-23T10:24:21.918Z",
+      "newest_posting_at": "2026-09-02T09:30:48.536Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "lever",
+      "company": "tomjames",
+      "company_url": "https://jobs.lever.co/tomjames",
+      "signal": "ramping",
+      "open_postings": 103,
+      "postings_dated": 103,
+      "opened_7d": 37,
+      "opened_30d": 44,
+      "opened_90d": 54,
+      "baseline_30d": 5,
+      "ramp_ratio": 8.8,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Sales",
+          "count": 76
+        },
+        {
+          "name": "H.R.",
+          "count": 27
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Administrative Assistant - Sales",
+          "count": 4
+        },
+        {
+          "name": "Outside Sales Professional",
+          "count": 4
+        },
+        {
+          "name": "Seeking Experienced Tailor/Seamstress",
+          "count": 3
+        },
+        {
+          "name": "Experienced Tailor/Seamstress Needed",
+          "count": 2
+        },
+        {
+          "name": "Office Administrative Assistant - Sales",
+          "count": 2
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 0,
+      "remote_postings": 0,
+      "postings_with_salary": 1,
+      "oldest_posting_at": "2023-10-29T17:44:56.264Z",
+      "newest_posting_at": "2026-08-31T21:16:05.242Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "delinea",
+      "company_url": "https://jobs.ashbyhq.com/delinea",
+      "signal": "ramping",
+      "open_postings": 95,
+      "postings_dated": 95,
+      "opened_7d": 23,
+      "opened_30d": 72,
+      "opened_90d": 89,
+      "baseline_30d": 8.5,
+      "ramp_ratio": 8.47,
+      "new_functions": [
+        {
+          "name": "Finance & Accounting",
+          "count": 3
+        },
+        {
+          "name": "Cybersecurity",
+          "count": 2
+        },
+        {
+          "name": "Human Resources",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Sales",
+          "count": 31
+        },
+        {
+          "name": "Engineering",
+          "count": 30
+        },
+        {
+          "name": "Product Management",
+          "count": 13
+        },
+        {
+          "name": "Marketing",
+          "count": 5
+        },
+        {
+          "name": "Finance & Accounting",
+          "count": 3
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Data Governance Analyst",
+          "count": 5
+        },
+        {
+          "name": "Channel Partner Operations Manager",
+          "count": 2
+        },
+        {
+          "name": "Commercial Account Executive",
+          "count": 2
+        },
+        {
+          "name": "Enterprise Account Manager",
+          "count": 2
+        },
+        {
+          "name": "FP&A Analyst",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Azure",
+          "count": 34
+        },
+        {
+          "name": "AWS",
+          "count": 27
+        },
+        {
+          "name": "Salesforce",
+          "count": 25
+        },
+        {
+          "name": "C#",
+          "count": 21
+        },
+        {
+          "name": "Kubernetes",
+          "count": 20
+        },
+        {
+          "name": "GCP",
+          "count": 17
+        },
+        {
+          "name": "Python",
+          "count": 16
+        },
+        {
+          "name": "LLM",
+          "count": 15
+        },
+        {
+          "name": "Terraform",
+          "count": 15
+        },
+        {
+          "name": ".NET",
+          "count": 13
+        },
+        {
+          "name": "Java",
+          "count": 6
+        },
+        {
+          "name": "JavaScript",
+          "count": 5
+        }
+      ],
+      "executive_openings_90d": 7,
+      "remote_postings": 44,
+      "postings_with_salary": 54,
+      "oldest_posting_at": "2026-02-26T23:42:18.951Z",
+      "newest_posting_at": "2026-09-02T21:33:23.722Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "neofinancial",
+      "company_url": "https://jobs.ashbyhq.com/neofinancial",
+      "signal": "ramping",
+      "open_postings": 93,
+      "postings_dated": 93,
+      "opened_7d": 5,
+      "opened_30d": 70,
+      "opened_90d": 87,
+      "baseline_30d": 8.5,
+      "ramp_ratio": 8.24,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Sales",
+          "count": 82
+        },
+        {
+          "name": "Engineering",
+          "count": 5
+        },
+        {
+          "name": "Mortgages",
+          "count": 3
+        },
+        {
+          "name": "Fraud Strategy",
+          "count": 1
+        },
+        {
+          "name": "Legal & Compliance",
+          "count": 1
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Sales Team Lead - Tecumseh Mall",
+          "count": 2
+        },
+        {
+          "name": "Bilingual Sales Representative (Spanish) - Dufferin Mall",
+          "count": 1
+        },
+        {
+          "name": "Chef d'équipe - CF Fairview Pointe Claire",
+          "count": 1
+        },
+        {
+          "name": "Chef d'équipe - Galeries De La Capitale",
+          "count": 1
+        },
+        {
+          "name": "Director, Sales (D2C) - Alberta",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "AWS",
+          "count": 1
+        },
+        {
+          "name": "JavaScript",
+          "count": 1
+        },
+        {
+          "name": "Kotlin",
+          "count": 1
+        },
+        {
+          "name": "React",
+          "count": 1
+        },
+        {
+          "name": "Snowflake",
+          "count": 1
+        },
+        {
+          "name": "Swift",
+          "count": 1
+        },
+        {
+          "name": "TypeScript",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 2,
+      "remote_postings": 1,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-03-24T16:52:27.179Z",
+      "newest_posting_at": "2026-09-01T15:28:35.141Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "spoton",
+      "company_url": "https://jobs.ashbyhq.com/spoton",
+      "signal": "ramping",
+      "open_postings": 85,
+      "postings_dated": 85,
+      "opened_7d": 38,
+      "opened_30d": 64,
+      "opened_90d": 80,
+      "baseline_30d": 8,
+      "ramp_ratio": 8,
+      "new_functions": [
+        {
+          "name": "Product",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Territory Sales Representative",
+          "count": 46
+        },
+        {
+          "name": "Customer Success",
+          "count": 25
+        },
+        {
+          "name": "Engineering",
+          "count": 7
+        },
+        {
+          "name": "Finance",
+          "count": 4
+        },
+        {
+          "name": "Product",
+          "count": 2
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Client Onboarding Specialist",
+          "count": 2
+        },
+        {
+          "name": "Hardware Shipping Specialist",
+          "count": 2
+        },
+        {
+          "name": "Associate Manager, Installation & Go Live",
+          "count": 1
+        },
+        {
+          "name": "Associate Manager, Product Implementation",
+          "count": 1
+        },
+        {
+          "name": "Associate Trainer - Afternoon Shift",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Salesforce",
+          "count": 49
+        },
+        {
+          "name": "NetSuite",
+          "count": 4
+        },
+        {
+          "name": "Power BI",
+          "count": 4
+        },
+        {
+          "name": "Snowflake",
+          "count": 3
+        },
+        {
+          "name": "AWS",
+          "count": 2
+        },
+        {
+          "name": "Golang",
+          "count": 2
+        },
+        {
+          "name": "Kubernetes",
+          "count": 2
+        },
+        {
+          "name": "PHP",
+          "count": 2
+        },
+        {
+          "name": "Python",
+          "count": 2
+        },
+        {
+          "name": "Terraform",
+          "count": 2
+        },
+        {
+          "name": "dbt",
+          "count": 1
+        },
+        {
+          "name": "Java",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 2,
+      "remote_postings": 7,
+      "postings_with_salary": 60,
+      "oldest_posting_at": "2026-04-21T14:22:02.199Z",
+      "newest_posting_at": "2026-09-02T20:04:56.434Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "silverado",
+      "company_url": "https://job-boards.greenhouse.io/silverado",
+      "signal": "ramping",
+      "open_postings": 121,
+      "postings_dated": 121,
+      "opened_7d": 26,
+      "opened_30d": 95,
+      "opened_90d": 119,
+      "baseline_30d": 12,
+      "ramp_ratio": 7.92,
+      "new_functions": [
+        {
+          "name": "Facility Operations ",
+          "count": 8
+        },
+        {
+          "name": "Culinary ",
+          "count": 7
+        },
+        {
+          "name": "Administrative (Business Office) - Communities",
+          "count": 6
+        },
+        {
+          "name": "Clinical Nurses - Hospice",
+          "count": 5
+        },
+        {
+          "name": "Sales",
+          "count": 4
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Clinical Non-Nurses - Communities",
+          "count": 52
+        },
+        {
+          "name": "Clinical Nurses - Communities",
+          "count": 17
+        },
+        {
+          "name": "Activites/Engagement",
+          "count": 12
+        },
+        {
+          "name": "Facility Operations ",
+          "count": 8
+        },
+        {
+          "name": "Culinary ",
+          "count": 7
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Full Time Caregiver (PM)",
+          "count": 15
+        },
+        {
+          "name": "Part Time Caregiver (NOC)",
+          "count": 6
+        },
+        {
+          "name": "Full Time Caregiver (AM)",
+          "count": 5
+        },
+        {
+          "name": "Part Time Caregiver (AM)",
+          "count": 5
+        },
+        {
+          "name": "Full Time Caregiver (NOC)",
+          "count": 4
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 7,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-06-03T17:07:50.000Z",
+      "newest_posting_at": "2026-09-02T22:45:04.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "mariner-careers",
+      "company_url": "https://jobs.ashbyhq.com/mariner-careers",
+      "signal": "ramping",
+      "open_postings": 63,
+      "postings_dated": 63,
+      "opened_7d": 14,
+      "opened_30d": 43,
+      "opened_90d": 54,
+      "baseline_30d": 5.5,
+      "ramp_ratio": 7.82,
+      "new_functions": [
+        {
+          "name": "Internship Program",
+          "count": 27
+        },
+        {
+          "name": "Human Resources",
+          "count": 6
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Internship Program",
+          "count": 27
+        },
+        {
+          "name": "Wealth",
+          "count": 16
+        },
+        {
+          "name": "Human Resources",
+          "count": 6
+        },
+        {
+          "name": "Tax",
+          "count": 4
+        },
+        {
+          "name": "Platform",
+          "count": 2
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Senior Wealth Advisor",
+          "count": 6
+        },
+        {
+          "name": "Wealth Advisor",
+          "count": 4
+        },
+        {
+          "name": "Client Service Associate",
+          "count": 3
+        },
+        {
+          "name": "Intern, Financial Planning",
+          "count": 3
+        },
+        {
+          "name": "Tax Manager",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Salesforce",
+          "count": 7
+        },
+        {
+          "name": "Azure",
+          "count": 1
+        },
+        {
+          "name": "Databricks",
+          "count": 1
+        },
+        {
+          "name": "dbt",
+          "count": 1
+        },
+        {
+          "name": "LLM",
+          "count": 1
+        },
+        {
+          "name": "Python",
+          "count": 1
+        },
+        {
+          "name": "Snowflake",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 3,
+      "remote_postings": 13,
+      "postings_with_salary": 32,
+      "oldest_posting_at": "2026-03-07T00:28:30.515Z",
+      "newest_posting_at": "2026-09-02T20:01:32.393Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    }
+  ],
+  "new_boards": [
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "westernveterinarypartnersllc",
+      "company_url": "https://job-boards.greenhouse.io/westernveterinarypartnersllc",
+      "signal": "new_board",
+      "open_postings": 476,
+      "postings_dated": 476,
+      "opened_7d": 42,
+      "opened_30d": 431,
+      "opened_90d": 476,
+      "baseline_30d": 22.5,
+      "ramp_ratio": 19.16,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Associate",
+          "count": 155
+        },
+        {
+          "name": "Technical (non-licensed)",
+          "count": 92
+        },
+        {
+          "name": "Technical (licensed)",
+          "count": 77
+        },
+        {
+          "name": "Non-technical",
+          "count": 45
+        },
+        {
+          "name": "Extern (DVM)",
+          "count": 39
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Veterinary Assistant",
+          "count": 68
+        },
+        {
+          "name": "Veterinary Receptionist / Client Service Representative",
+          "count": 24
+        },
+        {
+          "name": "Registered Veterinary Technician",
+          "count": 20
+        },
+        {
+          "name": "Veterinary Technician",
+          "count": 17
+        },
+        {
+          "name": "Licensed Veterinary Technician",
+          "count": 11
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Workday",
+          "count": 47
+        },
+        {
+          "name": "Tableau",
+          "count": 2
+        },
+        {
+          "name": "Databricks",
+          "count": 1
+        },
+        {
+          "name": "dbt",
+          "count": 1
+        },
+        {
+          "name": "Power BI",
+          "count": 1
+        },
+        {
+          "name": "Snowflake",
+          "count": 1
+        },
+        {
+          "name": "Unity",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 49,
+      "remote_postings": 1,
+      "postings_with_salary": 34,
+      "oldest_posting_at": "2026-07-29T15:26:24.000Z",
+      "newest_posting_at": "2026-09-03T00:27:29.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "n2publishingglassdoor",
+      "company_url": "https://job-boards.greenhouse.io/n2publishingglassdoor",
+      "signal": "new_board",
+      "open_postings": 197,
+      "postings_dated": 197,
+      "opened_7d": 6,
+      "opened_30d": 197,
+      "opened_90d": 197,
+      "baseline_30d": 0,
+      "ramp_ratio": null,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Stroll",
+          "count": 174
+        },
+        {
+          "name": "Professionals",
+          "count": 23
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Senior Account Executive",
+          "count": 174
+        },
+        {
+          "name": "Area Sales Director",
+          "count": 23
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Workday",
+          "count": 197
+        }
+      ],
+      "executive_openings_90d": 23,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-08-17T17:07:11.000Z",
+      "newest_posting_at": "2026-09-02T18:38:01.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "bozzuto",
+      "company_url": "https://job-boards.greenhouse.io/bozzuto",
+      "signal": "new_board",
+      "open_postings": 125,
+      "postings_dated": 125,
+      "opened_7d": 47,
+      "opened_30d": 111,
+      "opened_90d": 125,
+      "baseline_30d": 7,
+      "ramp_ratio": 15.86,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "511 - Maintenance",
+          "count": 69
+        },
+        {
+          "name": "511 - Office",
+          "count": 55
+        },
+        {
+          "name": "510 - BMC Management",
+          "count": 1
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Maintenance Technician",
+          "count": 20
+        },
+        {
+          "name": "Leasing Consultant",
+          "count": 9
+        },
+        {
+          "name": "Assistant Maintenance Manager",
+          "count": 5
+        },
+        {
+          "name": "Maintenance Manager",
+          "count": 4
+        },
+        {
+          "name": "Maintenance Technician - $2,500 Sign-On Bonus",
+          "count": 4
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 2,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-07-14T14:26:30.000Z",
+      "newest_posting_at": "2026-09-02T20:39:59.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "loula",
+      "company_url": "https://jobs.ashbyhq.com/loula",
+      "signal": "new_board",
+      "open_postings": 122,
+      "postings_dated": 122,
+      "opened_7d": 0,
+      "opened_30d": 122,
+      "opened_90d": 122,
+      "baseline_30d": 0,
+      "ramp_ratio": null,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Loula Providers",
+          "count": 122
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Full-spectrum Doula (Anaheim, CA)",
+          "count": 1
+        },
+        {
+          "name": "Full-spectrum Doula (Antioch, CA)",
+          "count": 1
+        },
+        {
+          "name": "Full-spectrum Doula (Bakersfield, CA)",
+          "count": 1
+        },
+        {
+          "name": "Full-spectrum Doula (Berkeley, CA)",
+          "count": 1
+        },
+        {
+          "name": "Full-spectrum Doula (California)",
+          "count": 1
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 0,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-08-17T05:46:37.894Z",
+      "newest_posting_at": "2026-08-21T19:17:58.141Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "lever",
+      "company": "roshalimaging",
+      "company_url": "https://jobs.lever.co/roshalimaging",
+      "signal": "new_board",
+      "open_postings": 95,
+      "postings_dated": 95,
+      "opened_7d": 95,
+      "opened_30d": 95,
+      "opened_90d": 95,
+      "baseline_30d": 0,
+      "ramp_ratio": null,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Clinical - Central",
+          "count": 26
+        },
+        {
+          "name": "Clinical - East",
+          "count": 21
+        },
+        {
+          "name": "Clinical - Southeast",
+          "count": 16
+        },
+        {
+          "name": "Clinical - Texas West",
+          "count": 8
+        },
+        {
+          "name": "Clinical - West",
+          "count": 8
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Respiratory Therapist / Registered Respiratory Therapist - Newport News / Norfolk VA",
+          "count": 2
+        },
+        {
+          "name": "Cardiac Catheterization Lab Nurse - PRN",
+          "count": 1
+        },
+        {
+          "name": "Cardiac Sonographer - Alaska",
+          "count": 1
+        },
+        {
+          "name": "Cardiac Sonographer - PRN - Aston, PA",
+          "count": 1
+        },
+        {
+          "name": "Cardiac Sonographer - PRN - Bullhead City, AZ",
+          "count": 1
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 0,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-08-28T00:35:18.182Z",
+      "newest_posting_at": "2026-09-02T17:36:20.282Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "cowboyspace",
+      "company_url": "https://jobs.ashbyhq.com/cowboyspace",
+      "signal": "new_board",
+      "open_postings": 89,
+      "postings_dated": 89,
+      "opened_7d": 89,
+      "opened_30d": 89,
+      "opened_90d": 89,
+      "baseline_30d": 0,
+      "ramp_ratio": null,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Launch & Propulsion Engineering",
+          "count": 38
+        },
+        {
+          "name": "Avionics",
+          "count": 16
+        },
+        {
+          "name": "Spacecraft Engineering",
+          "count": 12
+        },
+        {
+          "name": "Chief Engineering & Reliability",
+          "count": 10
+        },
+        {
+          "name": "Lasers & Optical Communications Engineering",
+          "count": 6
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Lead Propulsion Analyst",
+          "count": 2
+        },
+        {
+          "name": "Senior Avionics Engineer",
+          "count": 2
+        },
+        {
+          "name": "Avionics Engineer",
+          "count": 1
+        },
+        {
+          "name": "Avionics Engineer, Flight Computer",
+          "count": 1
+        },
+        {
+          "name": "Avionics Technician",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 31
+        },
+        {
+          "name": "C++",
+          "count": 15
+        },
+        {
+          "name": "Rust",
+          "count": 6
+        },
+        {
+          "name": "CUDA",
+          "count": 2
+        },
+        {
+          "name": "Angular",
+          "count": 1
+        },
+        {
+          "name": "NetSuite",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 5,
+      "remote_postings": 0,
+      "postings_with_salary": 83,
+      "oldest_posting_at": "2026-09-02T21:10:00.127Z",
+      "newest_posting_at": "2026-09-03T00:16:09.842Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "volta",
+      "company_url": "https://jobs.ashbyhq.com/volta",
+      "signal": "new_board",
+      "open_postings": 68,
+      "postings_dated": 68,
+      "opened_7d": 2,
+      "opened_30d": 10,
+      "opened_90d": 68,
+      "baseline_30d": 29,
+      "ramp_ratio": 0.34,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Delivery",
+          "count": 18
+        },
+        {
+          "name": "Engineering",
+          "count": 11
+        },
+        {
+          "name": "Product",
+          "count": 10
+        },
+        {
+          "name": "Finance",
+          "count": 9
+        },
+        {
+          "name": "Legal",
+          "count": 5
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "IT Analyst",
+          "count": 2
+        },
+        {
+          "name": "Legal Counsel",
+          "count": 2
+        },
+        {
+          "name": "Analyst, Corporate Development",
+          "count": 1
+        },
+        {
+          "name": "Analyst, Strategic Finance",
+          "count": 1
+        },
+        {
+          "name": "Associate, Corporate Development",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 12
+        },
+        {
+          "name": "Kubernetes",
+          "count": 11
+        },
+        {
+          "name": "Rust",
+          "count": 9
+        },
+        {
+          "name": "C#",
+          "count": 4
+        },
+        {
+          "name": "C++",
+          "count": 4
+        },
+        {
+          "name": "Java",
+          "count": 4
+        },
+        {
+          "name": "NetSuite",
+          "count": 2
+        },
+        {
+          "name": "Figma",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 9,
+      "remote_postings": 18,
+      "postings_with_salary": 68,
+      "oldest_posting_at": "2026-07-28T17:25:53.796Z",
+      "newest_posting_at": "2026-08-31T14:09:09.293Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "bravehealth",
+      "company_url": "https://jobs.ashbyhq.com/bravehealth",
+      "signal": "new_board",
+      "open_postings": 57,
+      "postings_dated": 57,
+      "opened_7d": 46,
+      "opened_30d": 51,
+      "opened_90d": 57,
+      "baseline_30d": 3,
+      "ramp_ratio": 17,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Clinical-Therapist",
+          "count": 31
+        },
+        {
+          "name": "Clinical-NP",
+          "count": 16
+        },
+        {
+          "name": "Clinical-Associate ",
+          "count": 7
+        },
+        {
+          "name": "Clinical-MD",
+          "count": 3
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Psychiatric Nurse Practitioner (PMHNP) - Remote",
+          "count": 16
+        },
+        {
+          "name": "Licensed Clinical Social Worker (LCSW) - Remote",
+          "count": 11
+        },
+        {
+          "name": "Licensed Clinical Professional Counselor (LCPC) - Remote",
+          "count": 5
+        },
+        {
+          "name": "Licensed Mental Health Counselor (LMHC-D) - Remote",
+          "count": 4
+        },
+        {
+          "name": "Supervising Psychiatrist (1099, Remote)",
+          "count": 3
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 0,
+      "remote_postings": 49,
+      "postings_with_salary": 54,
+      "oldest_posting_at": "2026-07-31T20:16:42.565Z",
+      "newest_posting_at": "2026-08-31T21:29:01.181Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "irissoftwaregroup",
+      "company_url": "https://jobs.ashbyhq.com/irissoftwaregroup",
+      "signal": "new_board",
+      "open_postings": 57,
+      "postings_dated": 57,
+      "opened_7d": 9,
+      "opened_30d": 36,
+      "opened_90d": 57,
+      "baseline_30d": 10.5,
+      "ramp_ratio": 3.43,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "IRIS ",
+          "count": 56
+        },
+        {
+          "name": "DEXT",
+          "count": 1
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Account Development Executive",
+          "count": 2
+        },
+        {
+          "name": "Customer Renewals Advisor",
+          "count": 2
+        },
+        {
+          "name": "Senior Customer Renewals Advisor",
+          "count": 2
+        },
+        {
+          "name": "Accountant",
+          "count": 1
+        },
+        {
+          "name": "Billing Administrator",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Salesforce",
+          "count": 14
+        },
+        {
+          "name": ".NET",
+          "count": 8
+        },
+        {
+          "name": "AWS",
+          "count": 8
+        },
+        {
+          "name": "Azure",
+          "count": 8
+        },
+        {
+          "name": "C#",
+          "count": 8
+        },
+        {
+          "name": "Angular",
+          "count": 6
+        },
+        {
+          "name": "React",
+          "count": 6
+        },
+        {
+          "name": "Vue",
+          "count": 6
+        },
+        {
+          "name": "Kubernetes",
+          "count": 5
+        },
+        {
+          "name": "Terraform",
+          "count": 5
+        },
+        {
+          "name": "Docker",
+          "count": 4
+        },
+        {
+          "name": "GCP",
+          "count": 2
+        }
+      ],
+      "executive_openings_90d": 2,
+      "remote_postings": 29,
+      "postings_with_salary": 10,
+      "oldest_posting_at": "2026-07-31T09:51:50.642Z",
+      "newest_posting_at": "2026-09-02T16:34:39.337Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "multiplymii",
+      "company_url": "https://jobs.ashbyhq.com/multiplymii",
+      "signal": "new_board",
+      "open_postings": 54,
+      "postings_dated": 54,
+      "opened_7d": 10,
+      "opened_30d": 34,
+      "opened_90d": 54,
+      "baseline_30d": 10,
+      "ramp_ratio": 3.4,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Marketing & eCommerce",
+          "count": 22
+        },
+        {
+          "name": "Finance Tech & Logistics",
+          "count": 16
+        },
+        {
+          "name": "Sales Support & Operations",
+          "count": 14
+        },
+        {
+          "name": "MultiplyMii",
+          "count": 2
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Accounts Receivable Administrator",
+          "count": 1
+        },
+        {
+          "name": "Advertising Coordinator",
+          "count": 1
+        },
+        {
+          "name": "Amazon Account Specialist/Manager",
+          "count": 1
+        },
+        {
+          "name": "Amazon PPC Manager",
+          "count": 1
+        },
+        {
+          "name": "AP Specialist",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Shopify",
+          "count": 9
+        },
+        {
+          "name": "HubSpot",
+          "count": 8
+        },
+        {
+          "name": "NetSuite",
+          "count": 2
+        },
+        {
+          "name": "Power BI",
+          "count": 2
+        },
+        {
+          "name": "Salesforce",
+          "count": 2
+        },
+        {
+          "name": "Figma",
+          "count": 1
+        },
+        {
+          "name": "LLM",
+          "count": 1
+        },
+        {
+          "name": "Looker",
+          "count": 1
+        },
+        {
+          "name": "ServiceNow",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 1,
+      "remote_postings": 54,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-07-20T01:33:23.528Z",
+      "newest_posting_at": "2026-09-02T03:57:13.738Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "everai",
+      "company_url": "https://jobs.ashbyhq.com/everai",
+      "signal": "new_board",
+      "open_postings": 53,
+      "postings_dated": 53,
+      "opened_7d": 30,
+      "opened_30d": 32,
+      "opened_90d": 53,
+      "baseline_30d": 10.5,
+      "ramp_ratio": 3.05,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Growth",
+          "count": 27
+        },
+        {
+          "name": "R&D",
+          "count": 24
+        },
+        {
+          "name": "Operations",
+          "count": 2
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Senior Software Engineer (Ruby on Rails) (Full Remote - Europe)",
+          "count": 2
+        },
+        {
+          "name": "Junior Business Analyst (Full Remote - Asia)",
+          "count": 1
+        },
+        {
+          "name": "Junior Business Analyst (Full Remote - Europe)",
+          "count": 1
+        },
+        {
+          "name": "Junior Performance Marketer (Full Remote - Europe)",
+          "count": 1
+        },
+        {
+          "name": "Security Engineer (Full Remote - Austria)",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "LLM",
+          "count": 53
+        },
+        {
+          "name": "Looker",
+          "count": 7
+        },
+        {
+          "name": "PostgreSQL",
+          "count": 2
+        },
+        {
+          "name": "Rails",
+          "count": 2
+        },
+        {
+          "name": "Redis",
+          "count": 2
+        },
+        {
+          "name": "Ruby",
+          "count": 2
+        }
+      ],
+      "executive_openings_90d": 0,
+      "remote_postings": 53,
+      "postings_with_salary": 51,
+      "oldest_posting_at": "2026-07-29T13:42:55.546Z",
+      "newest_posting_at": "2026-09-02T09:40:50.351Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "lumaai",
+      "company_url": "https://jobs.ashbyhq.com/lumaai",
+      "signal": "new_board",
+      "open_postings": 46,
+      "postings_dated": 46,
+      "opened_7d": 1,
+      "opened_30d": 9,
+      "opened_90d": 46,
+      "baseline_30d": 18.5,
+      "ramp_ratio": 0.49,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Go-To-Market",
+          "count": 16
+        },
+        {
+          "name": "Product & Engineering",
+          "count": 16
+        },
+        {
+          "name": "Research & AI",
+          "count": 11
+        },
+        {
+          "name": "Business Operations",
+          "count": 2
+        },
+        {
+          "name": "Talent Community",
+          "count": 1
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Forward Deployed Engineer",
+          "count": 5
+        },
+        {
+          "name": "Sales Executive",
+          "count": 3
+        },
+        {
+          "name": "Creative Technologist",
+          "count": 2
+        },
+        {
+          "name": "Sales Manager",
+          "count": 2
+        },
+        {
+          "name": "Account Executive – Entertainment",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 13
+        },
+        {
+          "name": "PyTorch",
+          "count": 7
+        },
+        {
+          "name": "TypeScript",
+          "count": 6
+        },
+        {
+          "name": "Kubernetes",
+          "count": 5
+        },
+        {
+          "name": "CUDA",
+          "count": 4
+        },
+        {
+          "name": "LLM",
+          "count": 4
+        },
+        {
+          "name": "Figma",
+          "count": 3
+        },
+        {
+          "name": "C++",
+          "count": 2
+        },
+        {
+          "name": "Airflow",
+          "count": 1
+        },
+        {
+          "name": "AWS",
+          "count": 1
+        },
+        {
+          "name": "Docker",
+          "count": 1
+        },
+        {
+          "name": "HubSpot",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 0,
+      "remote_postings": 1,
+      "postings_with_salary": 22,
+      "oldest_posting_at": "2026-07-24T21:48:23.220Z",
+      "newest_posting_at": "2026-08-28T16:53:54.632Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    }
+  ],
+  "new_functions": [
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "bjakcareer",
+      "company_url": "https://jobs.ashbyhq.com/bjakcareer",
+      "signal": "ramping",
+      "open_postings": 3080,
+      "postings_dated": 3080,
+      "opened_7d": 2008,
+      "opened_30d": 2334,
+      "opened_90d": 3046,
+      "baseline_30d": 356,
+      "ramp_ratio": 6.56,
+      "new_functions": [
+        {
+          "name": "Product",
+          "count": 1060
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Product",
+          "count": 1060
+        },
+        {
+          "name": "Engineering",
+          "count": 1031
+        },
+        {
+          "name": "CEO Office",
+          "count": 267
+        },
+        {
+          "name": "ActAI Engineering",
+          "count": 224
+        },
+        {
+          "name": "ActAI CEO Office",
+          "count": 174
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Lead Software Engineer",
+          "count": 54
+        },
+        {
+          "name": "Android Developer - AI Finance Agent",
+          "count": 46
+        },
+        {
+          "name": "iOS Developer - AI Finance Agent",
+          "count": 46
+        },
+        {
+          "name": "Engineering Lead",
+          "count": 44
+        },
+        {
+          "name": "Mobile Engineer - AI Finance Agent",
+          "count": 44
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "LLM",
+          "count": 561
+        },
+        {
+          "name": "Kotlin",
+          "count": 295
+        },
+        {
+          "name": "TensorFlow",
+          "count": 194
+        },
+        {
+          "name": "Figma",
+          "count": 152
+        },
+        {
+          "name": "Swift",
+          "count": 150
+        },
+        {
+          "name": "Python",
+          "count": 148
+        },
+        {
+          "name": "PyTorch",
+          "count": 102
+        },
+        {
+          "name": "RAG",
+          "count": 56
+        },
+        {
+          "name": "TypeScript",
+          "count": 28
+        },
+        {
+          "name": "JavaScript",
+          "count": 27
+        },
+        {
+          "name": "React",
+          "count": 27
+        },
+        {
+          "name": "Node.js",
+          "count": 26
+        }
+      ],
+      "executive_openings_90d": 119,
+      "remote_postings": 2217,
+      "postings_with_salary": 8,
+      "oldest_posting_at": "2026-02-11T11:24:03.969Z",
+      "newest_posting_at": "2026-09-02T14:06:55.956Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "privateequityinsights",
+      "company_url": "https://job-boards.greenhouse.io/privateequityinsights",
+      "signal": "ramping",
+      "open_postings": 1159,
+      "postings_dated": 1159,
+      "opened_7d": 0,
+      "opened_30d": 593,
+      "opened_90d": 598,
+      "baseline_30d": 2.5,
+      "ramp_ratio": 237.2,
+      "new_functions": [
+        {
+          "name": "Investments",
+          "count": 495
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Investments",
+          "count": 495
+        },
+        {
+          "name": "Operations",
+          "count": 211
+        },
+        {
+          "name": "Volunteer",
+          "count": 128
+        },
+        {
+          "name": "Marketing",
+          "count": 124
+        },
+        {
+          "name": "Sales",
+          "count": 119
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Private Equity Event Volunteer",
+          "count": 17
+        },
+        {
+          "name": "Finance Industry Event Volunteer",
+          "count": 15
+        },
+        {
+          "name": "Management Consulting Conference Volunteer",
+          "count": 8
+        },
+        {
+          "name": "Private Equity Conference Volunteer",
+          "count": 8
+        },
+        {
+          "name": "Conference Coordinator Volunteer",
+          "count": 7
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 19,
+      "remote_postings": 0,
+      "postings_with_salary": 4,
+      "oldest_posting_at": "2022-11-21T20:29:16.000Z",
+      "newest_posting_at": "2026-08-19T23:11:55.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "infuse",
+      "company_url": "https://job-boards.greenhouse.io/infuse",
+      "signal": "ramping",
+      "open_postings": 411,
+      "postings_dated": 411,
+      "opened_7d": 91,
+      "opened_30d": 312,
+      "opened_90d": 393,
+      "baseline_30d": 40.5,
+      "ramp_ratio": 7.7,
+      "new_functions": [
+        {
+          "name": "INFUSE Academy",
+          "count": 179
+        },
+        {
+          "name": "Copywriting Team",
+          "count": 36
+        },
+        {
+          "name": "CM",
+          "count": 3
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "INFUSE Academy",
+          "count": 179
+        },
+        {
+          "name": "Project Management Office",
+          "count": 130
+        },
+        {
+          "name": "Client Success",
+          "count": 40
+        },
+        {
+          "name": "Copywriting Team",
+          "count": 36
+        },
+        {
+          "name": "Design & Innovation Lab",
+          "count": 10
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "B2B Content Writer (Remote, Contract)",
+          "count": 36
+        },
+        {
+          "name": "Graphic Designer, Data Visualization (Remote, Contract)",
+          "count": 35
+        },
+        {
+          "name": "Instructional Designer (Contract, Remote)",
+          "count": 29
+        },
+        {
+          "name": "Mid-Level Instructional Designer (Contract, Remote)",
+          "count": 29
+        },
+        {
+          "name": "Senior Instructional Designer (Contract, Remote)",
+          "count": 29
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "LLM",
+          "count": 94
+        },
+        {
+          "name": "Figma",
+          "count": 71
+        },
+        {
+          "name": "Node.js",
+          "count": 19
+        },
+        {
+          "name": "AWS",
+          "count": 14
+        },
+        {
+          "name": "Python",
+          "count": 14
+        },
+        {
+          "name": "PostgreSQL",
+          "count": 12
+        },
+        {
+          "name": "React",
+          "count": 12
+        },
+        {
+          "name": "Redis",
+          "count": 12
+        },
+        {
+          "name": "Vue",
+          "count": 12
+        },
+        {
+          "name": "GraphQL",
+          "count": 7
+        },
+        {
+          "name": "Kafka",
+          "count": 7
+        },
+        {
+          "name": "MongoDB",
+          "count": 7
+        }
+      ],
+      "executive_openings_90d": 1,
+      "remote_postings": 397,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-05-01T09:51:21.000Z",
+      "newest_posting_at": "2026-09-02T17:50:07.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "allarahealth",
+      "company_url": "https://jobs.ashbyhq.com/allarahealth",
+      "signal": "ramping",
+      "open_postings": 174,
+      "postings_dated": 174,
+      "opened_7d": 5,
+      "opened_30d": 173,
+      "opened_90d": 173,
+      "baseline_30d": 0,
+      "ramp_ratio": null,
+      "new_functions": [
+        {
+          "name": "Clinical",
+          "count": 168
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Clinical",
+          "count": 168
+        },
+        {
+          "name": "Corporate",
+          "count": 6
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Endocrinologist -  IMLC License | Flexible 1099 Remote",
+          "count": 19
+        },
+        {
+          "name": "Gynecologist - IMLC License | Flexible 1099 Remote",
+          "count": 19
+        },
+        {
+          "name": "Telehealth Endocrinologist (1099) | Flexible Schedule",
+          "count": 17
+        },
+        {
+          "name": "Telehealth (board-eligible) Endocrinologist (1099) | Flexible Schedule",
+          "count": 14
+        },
+        {
+          "name": "1099 Telehealth Registered Dietitian | Evenings, Fridays, and/or Weekends",
+          "count": 11
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "AWS",
+          "count": 1
+        },
+        {
+          "name": "Python",
+          "count": 1
+        },
+        {
+          "name": "TypeScript",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 1,
+      "remote_postings": 171,
+      "postings_with_salary": 12,
+      "oldest_posting_at": "2026-06-02T22:42:30.849Z",
+      "newest_posting_at": "2026-09-02T20:53:15.767Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "alpacahealth",
+      "company_url": "https://jobs.ashbyhq.com/alpacahealth",
+      "signal": "steady",
+      "open_postings": 404,
+      "postings_dated": 404,
+      "opened_7d": 72,
+      "opened_30d": 175,
+      "opened_90d": 378,
+      "baseline_30d": 101.5,
+      "ramp_ratio": 1.72,
+      "new_functions": [
+        {
+          "name": "Registered Behavior Technician (RBT)",
+          "count": 116
+        },
+        {
+          "name": "Marketing",
+          "count": 15
+        },
+        {
+          "name": "Join an ABA Practice",
+          "count": 12
+        },
+        {
+          "name": "Operations - Intake",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Start an ABA Practice",
+          "count": 200
+        },
+        {
+          "name": "Registered Behavior Technician (RBT)",
+          "count": 116
+        },
+        {
+          "name": "Outside Sales / Field",
+          "count": 29
+        },
+        {
+          "name": "Marketing",
+          "count": 15
+        },
+        {
+          "name": "Operations",
+          "count": 14
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Board Certified Behavior Analyst (BCBA)",
+          "count": 111
+        },
+        {
+          "name": "Registered Behavior Technician (RBT)",
+          "count": 109
+        },
+        {
+          "name": "Start an ABA Practice - Board Certified Behavior Analyst (BCBA)",
+          "count": 98
+        },
+        {
+          "name": "Physician Liaison",
+          "count": 14
+        },
+        {
+          "name": "Referral Partnerships Manager",
+          "count": 14
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "HubSpot",
+          "count": 3
+        },
+        {
+          "name": "Figma",
+          "count": 2
+        },
+        {
+          "name": "LLM",
+          "count": 2
+        }
+      ],
+      "executive_openings_90d": 2,
+      "remote_postings": 14,
+      "postings_with_salary": 258,
+      "oldest_posting_at": "2026-04-01T03:29:11.287Z",
+      "newest_posting_at": "2026-09-02T19:22:08.103Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "sailorhealth",
+      "company_url": "https://jobs.ashbyhq.com/sailorhealth",
+      "signal": "steady",
+      "open_postings": 155,
+      "postings_dated": 155,
+      "opened_7d": 5,
+      "opened_30d": 16,
+      "opened_90d": 130,
+      "baseline_30d": 57,
+      "ramp_ratio": 0.28,
+      "new_functions": [
+        {
+          "name": "Clinical",
+          "count": 111
+        },
+        {
+          "name": "Provider Growth",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Clinical",
+          "count": 111
+        },
+        {
+          "name": "Patient Growth",
+          "count": 20
+        },
+        {
+          "name": "Operations",
+          "count": 6
+        },
+        {
+          "name": "Engineering",
+          "count": 5
+        },
+        {
+          "name": "People",
+          "count": 4
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Care Navigator (Remote)",
+          "count": 2
+        },
+        {
+          "name": "Clinical Recruiter - Remote",
+          "count": 2
+        },
+        {
+          "name": "50-State Physician (MD/DO) - Remote, Geriatric",
+          "count": 1
+        },
+        {
+          "name": "Care Concierge (Remote)",
+          "count": 1
+        },
+        {
+          "name": "Care Coordinator (Patient Support)",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "HubSpot",
+          "count": 5
+        },
+        {
+          "name": "dbt",
+          "count": 1
+        },
+        {
+          "name": "GraphQL",
+          "count": 1
+        },
+        {
+          "name": "Python",
+          "count": 1
+        },
+        {
+          "name": "Snowflake",
+          "count": 1
+        },
+        {
+          "name": "TypeScript",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 2,
+      "remote_postings": 128,
+      "postings_with_salary": 18,
+      "oldest_posting_at": "2025-10-07T02:59:54.921Z",
+      "newest_posting_at": "2026-08-28T03:12:03.687Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "compasspathways",
+      "company_url": "https://job-boards.greenhouse.io/compasspathways",
+      "signal": "ramping",
+      "open_postings": 116,
+      "postings_dated": 116,
+      "opened_7d": 3,
+      "opened_30d": 112,
+      "opened_90d": 115,
+      "baseline_30d": 1.5,
+      "ramp_ratio": 74.67,
+      "new_functions": [
+        {
+          "name": "Sales",
+          "count": 99
+        },
+        {
+          "name": "Marketing",
+          "count": 9
+        },
+        {
+          "name": "Commercial Operations",
+          "count": 2
+        },
+        {
+          "name": "Medical Affairs",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Sales",
+          "count": 99
+        },
+        {
+          "name": "Marketing",
+          "count": 9
+        },
+        {
+          "name": "Commercial Operations",
+          "count": 2
+        },
+        {
+          "name": "Legal",
+          "count": 2
+        },
+        {
+          "name": "Medical Affairs",
+          "count": 2
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Associate Director, HCP Marketing",
+          "count": 1
+        },
+        {
+          "name": "Associate Director, Scientific Communications",
+          "count": 1
+        },
+        {
+          "name": "Director, Medical Information",
+          "count": 1
+        },
+        {
+          "name": "Director, National Site of Care",
+          "count": 1
+        },
+        {
+          "name": "Director, VA and DoD Accounts",
+          "count": 1
+        }
+      ],
+      "tech_signals": [],
+      "executive_openings_90d": 5,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-05-15T21:10:57.000Z",
+      "newest_posting_at": "2026-09-01T13:42:08.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "accelschools",
+      "company_url": "https://job-boards.greenhouse.io/accelschools",
+      "signal": "ramping",
+      "open_postings": 237,
+      "postings_dated": 237,
+      "opened_7d": 123,
+      "opened_30d": 228,
+      "opened_90d": 235,
+      "baseline_30d": 3.5,
+      "ramp_ratio": 65.14,
+      "new_functions": [
+        {
+          "name": "School Support",
+          "count": 82
+        },
+        {
+          "name": "Special Education",
+          "count": 38
+        },
+        {
+          "name": "Elementary Teaching",
+          "count": 35
+        },
+        {
+          "name": "Middle School Teaching",
+          "count": 11
+        },
+        {
+          "name": "Virtual Special Education",
+          "count": 10
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "School Support",
+          "count": 82
+        },
+        {
+          "name": "Special Education",
+          "count": 38
+        },
+        {
+          "name": "Elementary Teaching",
+          "count": 35
+        },
+        {
+          "name": "Middle School Teaching",
+          "count": 11
+        },
+        {
+          "name": "Virtual Special Education",
+          "count": 10
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Intervention Specialist",
+          "count": 35
+        },
+        {
+          "name": "Daily Substitute Teacher",
+          "count": 31
+        },
+        {
+          "name": "Instructional Aide",
+          "count": 20
+        },
+        {
+          "name": "3rd Grade Teacher",
+          "count": 6
+        },
+        {
+          "name": "2nd Grade Teacher",
+          "count": 5
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "NetSuite",
+          "count": 1
+        },
+        {
+          "name": "Workday",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 6,
+      "remote_postings": 2,
+      "postings_with_salary": 120,
+      "oldest_posting_at": "2024-01-04T18:25:31.000Z",
+      "newest_posting_at": "2026-09-02T20:44:28.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "directive",
+      "company_url": "https://jobs.ashbyhq.com/directive",
+      "signal": "ramping",
+      "open_postings": 71,
+      "postings_dated": 71,
+      "opened_7d": 18,
+      "opened_30d": 62,
+      "opened_90d": 70,
+      "baseline_30d": 4,
+      "ramp_ratio": 15.5,
+      "new_functions": [
+        {
+          "name": "Performance",
+          "count": 48
+        },
+        {
+          "name": "Communications",
+          "count": 19
+        },
+        {
+          "name": "Client Strategy",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Performance",
+          "count": 48
+        },
+        {
+          "name": "Communications",
+          "count": 19
+        },
+        {
+          "name": "Client Strategy",
+          "count": 2
+        },
+        {
+          "name": "Finance & Accounting",
+          "count": 1
+        },
+        {
+          "name": "Operational Technology",
+          "count": 1
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Account Director, Client Strategy (Remote Canada)",
+          "count": 1
+        },
+        {
+          "name": "Account Director, Client Strategy (Remote US)",
+          "count": 1
+        },
+        {
+          "name": "Account Strategist, Paid Media (Remote Canada)",
+          "count": 1
+        },
+        {
+          "name": "Account Strategist, Paid Media (Remote US)",
+          "count": 1
+        },
+        {
+          "name": "Associate Director, Paid Media (Remote Canada)- Future Opening",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "HubSpot",
+          "count": 12
+        },
+        {
+          "name": "Salesforce",
+          "count": 12
+        },
+        {
+          "name": "Figma",
+          "count": 3
+        },
+        {
+          "name": "NetSuite",
+          "count": 2
+        }
+      ],
+      "executive_openings_90d": 11,
+      "remote_postings": 71,
+      "postings_with_salary": 25,
+      "oldest_posting_at": "2026-05-07T18:29:22.818Z",
+      "newest_posting_at": "2026-09-02T13:36:04.662Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "crfamilyofcompanies",
+      "company_url": "https://job-boards.greenhouse.io/crfamilyofcompanies",
+      "signal": "steady",
+      "open_postings": 125,
+      "postings_dated": 125,
+      "opened_7d": 43,
+      "opened_30d": 58,
+      "opened_90d": 122,
+      "baseline_30d": 32,
+      "ramp_ratio": 1.81,
+      "new_functions": [
+        {
+          "name": "Coho Integrated Solutions",
+          "count": 46
+        },
+        {
+          "name": "Coho Construction Management",
+          "count": 4
+        },
+        {
+          "name": "TACG",
+          "count": 4
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Coho Consulting Group",
+          "count": 60
+        },
+        {
+          "name": "Coho Integrated Solutions",
+          "count": 46
+        },
+        {
+          "name": "Coho Construction Management",
+          "count": 4
+        },
+        {
+          "name": "RECONCRAFT",
+          "count": 4
+        },
+        {
+          "name": "TACG",
+          "count": 4
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Family Advocacy Intervention Specialist (FAIS)",
+          "count": 9
+        },
+        {
+          "name": "Family Advocacy Program Assistant (FAPA)",
+          "count": 9
+        },
+        {
+          "name": "Domestic Abuse Victim Advocate (DAVA)",
+          "count": 8
+        },
+        {
+          "name": "Family Advocacy Nurse (FAN)",
+          "count": 7
+        },
+        {
+          "name": "Project Manager",
+          "count": 6
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Angular",
+          "count": 1
+        },
+        {
+          "name": "Power BI",
+          "count": 1
+        },
+        {
+          "name": "Tableau",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 0,
+      "remote_postings": 0,
+      "postings_with_salary": 1,
+      "oldest_posting_at": "2022-12-21T14:20:38.000Z",
+      "newest_posting_at": "2026-08-31T18:22:14.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "small-door-veterinary",
+      "company_url": "https://jobs.ashbyhq.com/small-door-veterinary",
+      "signal": "ramping",
+      "open_postings": 47,
+      "postings_dated": 47,
+      "opened_7d": 2,
+      "opened_30d": 44,
+      "opened_90d": 46,
+      "baseline_30d": 1,
+      "ramp_ratio": 44,
+      "new_functions": [
+        {
+          "name": "Practice Team",
+          "count": 42
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Practice Team",
+          "count": 42
+        },
+        {
+          "name": "Headquarters",
+          "count": 5
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Licensed Veterinary Technician",
+          "count": 3
+        },
+        {
+          "name": "Managing Veterinarian",
+          "count": 2
+        },
+        {
+          "name": "Director of Product - Montreal",
+          "count": 1
+        },
+        {
+          "name": "Director of Product - New York City",
+          "count": 1
+        },
+        {
+          "name": "Junior Accountant",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "NetSuite",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 2,
+      "remote_postings": 3,
+      "postings_with_salary": 8,
+      "oldest_posting_at": "2026-03-12T20:16:43.524Z",
+      "newest_posting_at": "2026-08-27T20:57:29.452Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "allenintegratedsolutions",
+      "company_url": "https://job-boards.greenhouse.io/allenintegratedsolutions",
+      "signal": "ramping",
+      "open_postings": 124,
+      "postings_dated": 124,
+      "opened_7d": 21,
+      "opened_30d": 57,
+      "opened_90d": 86,
+      "baseline_30d": 14.5,
+      "ramp_ratio": 3.93,
+      "new_functions": [
+        {
+          "name": "INSCOM",
+          "count": 29
+        },
+        {
+          "name": "ASTRA",
+          "count": 21
+        },
+        {
+          "name": "GTLSS",
+          "count": 4
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "INSCOM",
+          "count": 29
+        },
+        {
+          "name": "ASTRA",
+          "count": 21
+        },
+        {
+          "name": "GEOSPI",
+          "count": 21
+        },
+        {
+          "name": "VERTEX",
+          "count": 16
+        },
+        {
+          "name": "IMUA",
+          "count": 10
+        }
+      ],
+      "top_titles": [
+        {
+          "name": ".NET / C# Developer - Senior - #879",
+          "count": 1
+        },
+        {
+          "name": "Agile Engineer (Cloud) - Expert - #904",
+          "count": 1
+        },
+        {
+          "name": "Agile Engineer (Cloud) - Mid - #907",
+          "count": 1
+        },
+        {
+          "name": "Agile Engineer (Cloud) - Senior - #905",
+          "count": 1
+        },
+        {
+          "name": "Agile Interface / Integration Engineer (Cloud) - Expert - #909",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 13
+        },
+        {
+          "name": ".NET",
+          "count": 3
+        },
+        {
+          "name": "JavaScript",
+          "count": 2
+        },
+        {
+          "name": "ServiceNow",
+          "count": 2
+        },
+        {
+          "name": "Azure",
+          "count": 1
+        },
+        {
+          "name": "C#",
+          "count": 1
+        },
+        {
+          "name": "Java",
+          "count": 1
+        },
+        {
+          "name": "LLM",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 0,
+      "remote_postings": 5,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2022-11-23T21:13:32.000Z",
+      "newest_posting_at": "2026-09-01T00:21:07.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "mariner-careers",
+      "company_url": "https://jobs.ashbyhq.com/mariner-careers",
+      "signal": "ramping",
+      "open_postings": 63,
+      "postings_dated": 63,
+      "opened_7d": 14,
+      "opened_30d": 43,
+      "opened_90d": 54,
+      "baseline_30d": 5.5,
+      "ramp_ratio": 7.82,
+      "new_functions": [
+        {
+          "name": "Internship Program",
+          "count": 27
+        },
+        {
+          "name": "Human Resources",
+          "count": 6
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Internship Program",
+          "count": 27
+        },
+        {
+          "name": "Wealth",
+          "count": 16
+        },
+        {
+          "name": "Human Resources",
+          "count": 6
+        },
+        {
+          "name": "Tax",
+          "count": 4
+        },
+        {
+          "name": "Platform",
+          "count": 2
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Senior Wealth Advisor",
+          "count": 6
+        },
+        {
+          "name": "Wealth Advisor",
+          "count": 4
+        },
+        {
+          "name": "Client Service Associate",
+          "count": 3
+        },
+        {
+          "name": "Intern, Financial Planning",
+          "count": 3
+        },
+        {
+          "name": "Tax Manager",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Salesforce",
+          "count": 7
+        },
+        {
+          "name": "Azure",
+          "count": 1
+        },
+        {
+          "name": "Databricks",
+          "count": 1
+        },
+        {
+          "name": "dbt",
+          "count": 1
+        },
+        {
+          "name": "LLM",
+          "count": 1
+        },
+        {
+          "name": "Python",
+          "count": 1
+        },
+        {
+          "name": "Snowflake",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 3,
+      "remote_postings": 13,
+      "postings_with_salary": 32,
+      "oldest_posting_at": "2026-03-07T00:28:30.515Z",
+      "newest_posting_at": "2026-09-02T20:01:32.393Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "stone",
+      "company_url": "https://job-boards.greenhouse.io/stone",
+      "signal": "ramping",
+      "open_postings": 428,
+      "postings_dated": 428,
+      "opened_7d": 144,
+      "opened_30d": 235,
+      "opened_90d": 416,
+      "baseline_30d": 90.5,
+      "ramp_ratio": 2.6,
+      "new_functions": [
+        {
+          "name": "Logística",
+          "count": 26
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Comercial",
+          "count": 352
+        },
+        {
+          "name": "Logística",
+          "count": 26
+        },
+        {
+          "name": "Engenharia & Tecnologia",
+          "count": 23
+        },
+        {
+          "name": "Financeiro",
+          "count": 15
+        },
+        {
+          "name": "Inside Sales",
+          "count": 7
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "[Vaga Temporária] Auxiliar de Atendimento Logístico | CNH A (Moto) | ABC/SP",
+          "count": 2
+        },
+        {
+          "name": "Agente Stone - Consultor (a) Comercial Externo | Campos dos  Goytacazes/RJ",
+          "count": 2
+        },
+        {
+          "name": "Agente Stone - Consultor(a) Comercial Externo |  Colombo/PR",
+          "count": 2
+        },
+        {
+          "name": "Agente Stone - Executivo(a) de Contas Externo | Carapicuíba/SP",
+          "count": 2
+        },
+        {
+          "name": "Agente Stone - Executivo(a) de Contas Externo | Cotia/SP",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 13
+        },
+        {
+          "name": "Databricks",
+          "count": 10
+        },
+        {
+          "name": "GCP",
+          "count": 7
+        },
+        {
+          "name": "AWS",
+          "count": 6
+        },
+        {
+          "name": "Kafka",
+          "count": 6
+        },
+        {
+          "name": "Kotlin",
+          "count": 6
+        },
+        {
+          "name": "LLM",
+          "count": 6
+        },
+        {
+          "name": "Azure",
+          "count": 5
+        },
+        {
+          "name": "Looker",
+          "count": 5
+        },
+        {
+          "name": "PostgreSQL",
+          "count": 5
+        },
+        {
+          "name": "Java",
+          "count": 3
+        },
+        {
+          "name": "Power BI",
+          "count": 3
+        }
+      ],
+      "executive_openings_90d": 0,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2025-10-06T17:24:41.000Z",
+      "newest_posting_at": "2026-09-02T18:23:10.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "missionhealthcare",
+      "company_url": "https://job-boards.greenhouse.io/missionhealthcare",
+      "signal": "ramping",
+      "open_postings": 119,
+      "postings_dated": 119,
+      "opened_7d": 28,
+      "opened_30d": 82,
+      "opened_90d": 110,
+      "baseline_30d": 14,
+      "ramp_ratio": 5.86,
+      "new_functions": [
+        {
+          "name": "Administrative Services",
+          "count": 24
+        },
+        {
+          "name": "Hospice Nursing & Clinical Support",
+          "count": 15
+        },
+        {
+          "name": "Home Health Sales",
+          "count": 3
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Rehab",
+          "count": 34
+        },
+        {
+          "name": "Administrative Services",
+          "count": 24
+        },
+        {
+          "name": "Home Health Nursing & Clinical Support",
+          "count": 18
+        },
+        {
+          "name": "Hospice Nursing & Clinical Support",
+          "count": 15
+        },
+        {
+          "name": "Hospice Sales",
+          "count": 8
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Hospice Account Manager",
+          "count": 7
+        },
+        {
+          "name": "Physical Therapist Assistant / PTA (Home Health)",
+          "count": 4
+        },
+        {
+          "name": "RN Case Manager / RNCM (Home Health)",
+          "count": 4
+        },
+        {
+          "name": "Speech Language Therapist / SLP (Home Health)",
+          "count": 4
+        },
+        {
+          "name": "Home Health Account Manager",
+          "count": 3
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "AWS",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 4,
+      "remote_postings": 0,
+      "postings_with_salary": 15,
+      "oldest_posting_at": "2025-11-26T20:27:27.000Z",
+      "newest_posting_at": "2026-09-02T18:21:06.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "writer",
+      "company_url": "https://jobs.ashbyhq.com/writer",
+      "signal": "steady",
+      "open_postings": 51,
+      "postings_dated": 51,
+      "opened_7d": 1,
+      "opened_30d": 6,
+      "opened_90d": 41,
+      "baseline_30d": 17.5,
+      "ramp_ratio": 0.34,
+      "new_functions": [
+        {
+          "name": "Delivery & customer success",
+          "count": 23
+        },
+        {
+          "name": "Sales",
+          "count": 7
+        },
+        {
+          "name": "Marketing",
+          "count": 3
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Delivery & customer success",
+          "count": 23
+        },
+        {
+          "name": "Engineering, product & design",
+          "count": 17
+        },
+        {
+          "name": "Sales",
+          "count": 7
+        },
+        {
+          "name": "Marketing",
+          "count": 3
+        },
+        {
+          "name": "Legal",
+          "count": 1
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "AI deployment engineer (Central)",
+          "count": 1
+        },
+        {
+          "name": "AI deployment engineer (East)",
+          "count": 1
+        },
+        {
+          "name": "AI deployment engineer (UK)",
+          "count": 1
+        },
+        {
+          "name": "AI deployment engineer (West)",
+          "count": 1
+        },
+        {
+          "name": "AI engineer",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "LLM",
+          "count": 41
+        },
+        {
+          "name": "Python",
+          "count": 13
+        },
+        {
+          "name": "AWS",
+          "count": 5
+        },
+        {
+          "name": "GCP",
+          "count": 5
+        },
+        {
+          "name": "Salesforce",
+          "count": 4
+        },
+        {
+          "name": "Azure",
+          "count": 3
+        },
+        {
+          "name": "Kubernetes",
+          "count": 2
+        },
+        {
+          "name": "Terraform",
+          "count": 2
+        },
+        {
+          "name": "PyTorch",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 2,
+      "remote_postings": 0,
+      "postings_with_salary": 35,
+      "oldest_posting_at": "2026-05-11T19:33:10.719Z",
+      "newest_posting_at": "2026-08-29T01:37:11.237Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "waldensecurity",
+      "company_url": "https://job-boards.greenhouse.io/waldensecurity",
+      "signal": "ramping",
+      "open_postings": 136,
+      "postings_dated": 136,
+      "opened_7d": 81,
+      "opened_30d": 125,
+      "opened_90d": 130,
+      "baseline_30d": 2.5,
+      "ramp_ratio": 50,
+      "new_functions": [
+        {
+          "name": "Operations",
+          "count": 22
+        },
+        {
+          "name": "Accounting & Finance",
+          "count": 2
+        },
+        {
+          "name": "CTC",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "CSD Security",
+          "count": 72
+        },
+        {
+          "name": "FSD Security",
+          "count": 33
+        },
+        {
+          "name": "Operations",
+          "count": 22
+        },
+        {
+          "name": "Accounting & Finance",
+          "count": 2
+        },
+        {
+          "name": "CTC",
+          "count": 2
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Armed Contract Security Officer - Memphis, TN",
+          "count": 2
+        },
+        {
+          "name": "2nd Shift Security Officer (Nashville TN)",
+          "count": 1
+        },
+        {
+          "name": "Account Manager - San Antonio, TX",
+          "count": 1
+        },
+        {
+          "name": "Armed Account Manager (multiple regions) - Chattanooga, TN",
+          "count": 1
+        },
+        {
+          "name": "Armed Account Manager (multiple sites) - Knoxville, TN",
+          "count": 1
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Workday",
+          "count": 2
+        }
+      ],
+      "executive_openings_90d": 0,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2024-05-10T15:02:03.000Z",
+      "newest_posting_at": "2026-09-02T19:44:39.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "telus-digital",
+      "company_url": "https://jobs.ashbyhq.com/telus-digital",
+      "signal": "ramping",
+      "open_postings": 86,
+      "postings_dated": 86,
+      "opened_7d": 11,
+      "opened_30d": 54,
+      "opened_90d": 78,
+      "baseline_30d": 12,
+      "ramp_ratio": 4.5,
+      "new_functions": [
+        {
+          "name": "Commercial",
+          "count": 22
+        },
+        {
+          "name": "AI Digital Solutions",
+          "count": 9
+        },
+        {
+          "name": "Talent Programs",
+          "count": 5
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "DS Operations",
+          "count": 45
+        },
+        {
+          "name": "Commercial",
+          "count": 22
+        },
+        {
+          "name": "AI Digital Solutions",
+          "count": 9
+        },
+        {
+          "name": "CXAI Business Delivery",
+          "count": 5
+        },
+        {
+          "name": "Talent Programs",
+          "count": 5
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Senior Manager, Solutions Architecture",
+          "count": 3
+        },
+        {
+          "name": "Senior Manager, Solutions Architecture - Data & AI",
+          "count": 3
+        },
+        {
+          "name": "Associate Principal, AI & CX Solutions Strategist",
+          "count": 2
+        },
+        {
+          "name": "Associate Principal, Business Development",
+          "count": 2
+        },
+        {
+          "name": "Associate Principal, CX Application Strategy",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "AWS",
+          "count": 23
+        },
+        {
+          "name": "GCP",
+          "count": 22
+        },
+        {
+          "name": "LLM",
+          "count": 19
+        },
+        {
+          "name": "Azure",
+          "count": 16
+        },
+        {
+          "name": "Python",
+          "count": 16
+        },
+        {
+          "name": "Kubernetes",
+          "count": 12
+        },
+        {
+          "name": "Salesforce",
+          "count": 11
+        },
+        {
+          "name": "Docker",
+          "count": 10
+        },
+        {
+          "name": "Java",
+          "count": 10
+        },
+        {
+          "name": "TypeScript",
+          "count": 8
+        },
+        {
+          "name": "Databricks",
+          "count": 6
+        },
+        {
+          "name": "JavaScript",
+          "count": 6
+        }
+      ],
+      "executive_openings_90d": 12,
+      "remote_postings": 47,
+      "postings_with_salary": 39,
+      "oldest_posting_at": "2026-02-04T01:39:16.923Z",
+      "newest_posting_at": "2026-09-02T21:16:46.143Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "fivetran",
+      "company_url": "https://job-boards.greenhouse.io/fivetran",
+      "signal": "ramping",
+      "open_postings": 227,
+      "postings_dated": 227,
+      "opened_7d": 19,
+      "opened_30d": 127,
+      "opened_90d": 196,
+      "baseline_30d": 34.5,
+      "ramp_ratio": 3.68,
+      "new_functions": [
+        {
+          "name": "dbt Community Department",
+          "count": 20
+        },
+        {
+          "name": "Finance Department",
+          "count": 16
+        },
+        {
+          "name": "Fivetran AI Department",
+          "count": 8
+        },
+        {
+          "name": "HR Department",
+          "count": 5
+        },
+        {
+          "name": "Analytics Department",
+          "count": 4
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Sales Department",
+          "count": 63
+        },
+        {
+          "name": "Engineering Department",
+          "count": 49
+        },
+        {
+          "name": "Product Department",
+          "count": 28
+        },
+        {
+          "name": "dbt Community Department",
+          "count": 20
+        },
+        {
+          "name": "Finance Department",
+          "count": 16
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Senior Community Manager",
+          "count": 20
+        },
+        {
+          "name": "Senior Manager, Solutions Engineering",
+          "count": 9
+        },
+        {
+          "name": "Senior Manager, Solutions Architect",
+          "count": 8
+        },
+        {
+          "name": "Account Executive, Enterprise",
+          "count": 5
+        },
+        {
+          "name": "Compliance, Employment & Litigation Counsel",
+          "count": 5
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "dbt",
+          "count": 97
+        },
+        {
+          "name": "Snowflake",
+          "count": 57
+        },
+        {
+          "name": "AWS",
+          "count": 56
+        },
+        {
+          "name": "GCP",
+          "count": 53
+        },
+        {
+          "name": "Python",
+          "count": 53
+        },
+        {
+          "name": "Databricks",
+          "count": 45
+        },
+        {
+          "name": "Kubernetes",
+          "count": 45
+        },
+        {
+          "name": "Azure",
+          "count": 39
+        },
+        {
+          "name": "Java",
+          "count": 38
+        },
+        {
+          "name": "Docker",
+          "count": 36
+        },
+        {
+          "name": "PostgreSQL",
+          "count": 34
+        },
+        {
+          "name": "Salesforce",
+          "count": 28
+        }
+      ],
+      "executive_openings_90d": 14,
+      "remote_postings": 77,
+      "postings_with_salary": 1,
+      "oldest_posting_at": "2020-12-14T00:00:29.000Z",
+      "newest_posting_at": "2026-09-02T18:35:49.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "convenientmd",
+      "company_url": "https://job-boards.greenhouse.io/convenientmd",
+      "signal": "ramping",
+      "open_postings": 303,
+      "postings_dated": 303,
+      "opened_7d": 96,
+      "opened_30d": 159,
+      "opened_90d": 250,
+      "baseline_30d": 45.5,
+      "ramp_ratio": 3.49,
+      "new_functions": [
+        {
+          "name": "Early Career/New Grad Providers",
+          "count": 19
+        },
+        {
+          "name": "Operations",
+          "count": 7
+        },
+        {
+          "name": "Laboratory",
+          "count": 2
+        },
+        {
+          "name": "Warehouse & Supply Chain",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Allied",
+          "count": 109
+        },
+        {
+          "name": "Provider",
+          "count": 76
+        },
+        {
+          "name": "Radiology",
+          "count": 42
+        },
+        {
+          "name": "Intake/Administration",
+          "count": 28
+        },
+        {
+          "name": "Early Career/New Grad Providers",
+          "count": 19
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Medical Assistant (MA) - Urgent Care",
+          "count": 30
+        },
+        {
+          "name": "Radiologic Technologist (Rad Tech)",
+          "count": 27
+        },
+        {
+          "name": "Medical Receptionist",
+          "count": 25
+        },
+        {
+          "name": "EMT-B - Urgent Care",
+          "count": 21
+        },
+        {
+          "name": "Lead Family Nurse Practitioner (FNP) - Urgent Care",
+          "count": 20
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Power BI",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 2,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2024-12-16T05:57:18.000Z",
+      "newest_posting_at": "2026-09-02T19:43:05.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    }
+  ],
+  "executive_openings": [
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "wppmedia",
+      "company_url": "https://job-boards.greenhouse.io/wppmedia",
+      "signal": "ramping",
+      "open_postings": 1073,
+      "postings_dated": 1073,
+      "opened_7d": 90,
+      "opened_30d": 416,
+      "opened_90d": 796,
+      "baseline_30d": 190,
+      "ramp_ratio": 2.19,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Media Management & Delivery",
+          "count": 569
+        },
+        {
+          "name": "Client Teams",
+          "count": 279
+        },
+        {
+          "name": "Technology & Data",
+          "count": 98
+        },
+        {
+          "name": "Finance",
+          "count": 32
+        },
+        {
+          "name": "Marketing",
+          "count": 24
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Senior Executive Social, GOC",
+          "count": 13
+        },
+        {
+          "name": "Associate Director, Planning",
+          "count": 9
+        },
+        {
+          "name": "Manager, Planning",
+          "count": 8
+        },
+        {
+          "name": "Associate Director, Client Services",
+          "count": 7
+        },
+        {
+          "name": "Data Management and BI Senior Executive, GOC",
+          "count": 6
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 55
+        },
+        {
+          "name": "Power BI",
+          "count": 47
+        },
+        {
+          "name": "GCP",
+          "count": 36
+        },
+        {
+          "name": "Looker",
+          "count": 26
+        },
+        {
+          "name": "Tableau",
+          "count": 20
+        },
+        {
+          "name": "Azure",
+          "count": 17
+        },
+        {
+          "name": "dbt",
+          "count": 15
+        },
+        {
+          "name": "JavaScript",
+          "count": 14
+        },
+        {
+          "name": "AWS",
+          "count": 13
+        },
+        {
+          "name": "Salesforce",
+          "count": 12
+        },
+        {
+          "name": "LLM",
+          "count": 11
+        },
+        {
+          "name": "Databricks",
+          "count": 10
+        }
+      ],
+      "executive_openings_90d": 176,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2025-09-07T02:02:57.000Z",
+      "newest_posting_at": "2026-09-03T00:10:53.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "revolutionmedicines",
+      "company_url": "https://job-boards.greenhouse.io/revolutionmedicines",
+      "signal": "ramping",
+      "open_postings": 268,
+      "postings_dated": 268,
+      "opened_7d": 27,
+      "opened_30d": 127,
+      "opened_90d": 217,
+      "baseline_30d": 45,
+      "ramp_ratio": 2.82,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "EU Commercialization - Commercial & General",
+          "count": 41
+        },
+        {
+          "name": "Legal",
+          "count": 17
+        },
+        {
+          "name": "Corporate Accounting",
+          "count": 13
+        },
+        {
+          "name": "Regulatory Affairs",
+          "count": 13
+        },
+        {
+          "name": "Clinical Development",
+          "count": 11
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Senior Director, Clinical Development",
+          "count": 3
+        },
+        {
+          "name": "Associate Director, Business Operations",
+          "count": 2
+        },
+        {
+          "name": "Associate Director, Market Access AMNOG, Germany",
+          "count": 2
+        },
+        {
+          "name": "Associate Director, Statistical Programming",
+          "count": 2
+        },
+        {
+          "name": "Clinical Trial Manager",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "GCP",
+          "count": 20
+        },
+        {
+          "name": "NetSuite",
+          "count": 7
+        },
+        {
+          "name": "Python",
+          "count": 7
+        },
+        {
+          "name": "Salesforce",
+          "count": 4
+        },
+        {
+          "name": "Workday",
+          "count": 4
+        },
+        {
+          "name": "Power BI",
+          "count": 2
+        },
+        {
+          "name": "AWS",
+          "count": 1
+        },
+        {
+          "name": "Azure",
+          "count": 1
+        },
+        {
+          "name": "Databricks",
+          "count": 1
+        },
+        {
+          "name": "LLM",
+          "count": 1
+        },
+        {
+          "name": "PyTorch",
+          "count": 1
+        },
+        {
+          "name": "ServiceNow",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 146,
+      "remote_postings": 85,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2026-03-24T23:35:04.000Z",
+      "newest_posting_at": "2026-09-02T22:04:38.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "bjakcareer",
+      "company_url": "https://jobs.ashbyhq.com/bjakcareer",
+      "signal": "ramping",
+      "open_postings": 3080,
+      "postings_dated": 3080,
+      "opened_7d": 2008,
+      "opened_30d": 2334,
+      "opened_90d": 3046,
+      "baseline_30d": 356,
+      "ramp_ratio": 6.56,
+      "new_functions": [
+        {
+          "name": "Product",
+          "count": 1060
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Product",
+          "count": 1060
+        },
+        {
+          "name": "Engineering",
+          "count": 1031
+        },
+        {
+          "name": "CEO Office",
+          "count": 267
+        },
+        {
+          "name": "ActAI Engineering",
+          "count": 224
+        },
+        {
+          "name": "ActAI CEO Office",
+          "count": 174
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Lead Software Engineer",
+          "count": 54
+        },
+        {
+          "name": "Android Developer - AI Finance Agent",
+          "count": 46
+        },
+        {
+          "name": "iOS Developer - AI Finance Agent",
+          "count": 46
+        },
+        {
+          "name": "Engineering Lead",
+          "count": 44
+        },
+        {
+          "name": "Mobile Engineer - AI Finance Agent",
+          "count": 44
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "LLM",
+          "count": 561
+        },
+        {
+          "name": "Kotlin",
+          "count": 295
+        },
+        {
+          "name": "TensorFlow",
+          "count": 194
+        },
+        {
+          "name": "Figma",
+          "count": 152
+        },
+        {
+          "name": "Swift",
+          "count": 150
+        },
+        {
+          "name": "Python",
+          "count": 148
+        },
+        {
+          "name": "PyTorch",
+          "count": 102
+        },
+        {
+          "name": "RAG",
+          "count": 56
+        },
+        {
+          "name": "TypeScript",
+          "count": 28
+        },
+        {
+          "name": "JavaScript",
+          "count": 27
+        },
+        {
+          "name": "React",
+          "count": 27
+        },
+        {
+          "name": "Node.js",
+          "count": 26
+        }
+      ],
+      "executive_openings_90d": 119,
+      "remote_postings": 2217,
+      "postings_with_salary": 8,
+      "oldest_posting_at": "2026-02-11T11:24:03.969Z",
+      "newest_posting_at": "2026-09-02T14:06:55.956Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "icapitalnetwork",
+      "company_url": "https://job-boards.greenhouse.io/icapitalnetwork",
+      "signal": "steady",
+      "open_postings": 212,
+      "postings_dated": 212,
+      "opened_7d": 9,
+      "opened_30d": 59,
+      "opened_90d": 137,
+      "baseline_30d": 39,
+      "ramp_ratio": 1.51,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Regulatory and Compliance",
+          "count": 15
+        },
+        {
+          "name": "Legal",
+          "count": 14
+        },
+        {
+          "name": "Fund Finance",
+          "count": 13
+        },
+        {
+          "name": "Annuities Platform",
+          "count": 12
+        },
+        {
+          "name": "Core Operations Technology",
+          "count": 11
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Data, Technology and IP Attorney - Assistant Vice President / Vice President",
+          "count": 3
+        },
+        {
+          "name": "Direct Funds Product Manager",
+          "count": 3
+        },
+        {
+          "name": "Fund Attorney - Assistant Vice President / Vice President",
+          "count": 3
+        },
+        {
+          "name": "Fund Finance, CIT Funds - Assistant Vice President",
+          "count": 3
+        },
+        {
+          "name": "HR Due Diligence & Audit Support - Associate / Assistant Vice President",
+          "count": 3
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 20
+        },
+        {
+          "name": "Salesforce",
+          "count": 15
+        },
+        {
+          "name": "AWS",
+          "count": 12
+        },
+        {
+          "name": "Docker",
+          "count": 9
+        },
+        {
+          "name": "JavaScript",
+          "count": 8
+        },
+        {
+          "name": "Ruby",
+          "count": 8
+        },
+        {
+          "name": "Java",
+          "count": 7
+        },
+        {
+          "name": "React",
+          "count": 6
+        },
+        {
+          "name": "Scala",
+          "count": 6
+        },
+        {
+          "name": ".NET",
+          "count": 5
+        },
+        {
+          "name": "Azure",
+          "count": 5
+        },
+        {
+          "name": "C#",
+          "count": 4
+        }
+      ],
+      "executive_openings_90d": 88,
+      "remote_postings": 4,
+      "postings_with_salary": 159,
+      "oldest_posting_at": "2019-07-18T13:44:16.000Z",
+      "newest_posting_at": "2026-09-01T21:35:00.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "wundermanthompson",
+      "company_url": "https://job-boards.greenhouse.io/wundermanthompson",
+      "signal": "ramping",
+      "open_postings": 598,
+      "postings_dated": 598,
+      "opened_7d": 41,
+      "opened_30d": 234,
+      "opened_90d": 405,
+      "baseline_30d": 85.5,
+      "ramp_ratio": 2.74,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Creative",
+          "count": 143
+        },
+        {
+          "name": "Client & Business Leadership",
+          "count": 99
+        },
+        {
+          "name": "Freelance",
+          "count": 92
+        },
+        {
+          "name": "Technology & Innovation",
+          "count": 77
+        },
+        {
+          "name": "Marketing Effectiveness & Intelligence",
+          "count": 51
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Art Director",
+          "count": 13
+        },
+        {
+          "name": "Account Executive",
+          "count": 9
+        },
+        {
+          "name": "Senior Copywriter",
+          "count": 9
+        },
+        {
+          "name": "Account Manager",
+          "count": 8
+        },
+        {
+          "name": "Copywriter",
+          "count": 8
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Salesforce",
+          "count": 83
+        },
+        {
+          "name": "Shopify",
+          "count": 60
+        },
+        {
+          "name": "Figma",
+          "count": 32
+        },
+        {
+          "name": "AWS",
+          "count": 27
+        },
+        {
+          "name": "JavaScript",
+          "count": 25
+        },
+        {
+          "name": "Power BI",
+          "count": 16
+        },
+        {
+          "name": "SAP",
+          "count": 16
+        },
+        {
+          "name": "Azure",
+          "count": 12
+        },
+        {
+          "name": "LLM",
+          "count": 12
+        },
+        {
+          "name": "Looker",
+          "count": 10
+        },
+        {
+          "name": "Python",
+          "count": 10
+        },
+        {
+          "name": "Workday",
+          "count": 9
+        }
+      ],
+      "executive_openings_90d": 84,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2024-09-05T09:52:12.000Z",
+      "newest_posting_at": "2026-09-03T00:52:57.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "andurilindustries",
+      "company_url": "https://job-boards.greenhouse.io/andurilindustries",
+      "signal": "steady",
+      "open_postings": 2207,
+      "postings_dated": 2207,
+      "opened_7d": 216,
+      "opened_30d": 693,
+      "opened_90d": 1425,
+      "baseline_30d": 366,
+      "ramp_ratio": 1.89,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Hardware Operations : Supply Chain : Product Sourcing Engineering",
+          "count": 60
+        },
+        {
+          "name": "Mission Systems : Battlespace Awareness Engineering",
+          "count": 59
+        },
+        {
+          "name": "Tactical Recon & Strike",
+          "count": 49
+        },
+        {
+          "name": "AFS : Space Engineering",
+          "count": 45
+        },
+        {
+          "name": "Manufacturing : Manufacturing Engineering : Manufacturing Engineering",
+          "count": 44
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Senior Product Quality Engineer",
+          "count": 8
+        },
+        {
+          "name": "Senior Product Sourcing Engineer",
+          "count": 7
+        },
+        {
+          "name": "Senior Robotics Software Engineer, Payload Integration",
+          "count": 7
+        },
+        {
+          "name": "Senior Software Engineer",
+          "count": 7
+        },
+        {
+          "name": "Senior Systems Analyst, Cost & Receipt Accounting",
+          "count": 7
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 373
+        },
+        {
+          "name": "C++",
+          "count": 225
+        },
+        {
+          "name": "Rust",
+          "count": 143
+        },
+        {
+          "name": "Kubernetes",
+          "count": 71
+        },
+        {
+          "name": "AWS",
+          "count": 70
+        },
+        {
+          "name": "React",
+          "count": 59
+        },
+        {
+          "name": "JavaScript",
+          "count": 56
+        },
+        {
+          "name": "Azure",
+          "count": 52
+        },
+        {
+          "name": "NetSuite",
+          "count": 51
+        },
+        {
+          "name": "TypeScript",
+          "count": 45
+        },
+        {
+          "name": "Docker",
+          "count": 44
+        },
+        {
+          "name": "Tableau",
+          "count": 39
+        }
+      ],
+      "executive_openings_90d": 82,
+      "remote_postings": 24,
+      "postings_with_salary": 3,
+      "oldest_posting_at": "2023-12-01T22:22:10.000Z",
+      "newest_posting_at": "2026-09-03T00:41:57.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "powerdigitalmarketing",
+      "company_url": "https://job-boards.greenhouse.io/powerdigitalmarketing",
+      "signal": "ramping",
+      "open_postings": 305,
+      "postings_dated": 305,
+      "opened_7d": 27,
+      "opened_30d": 178,
+      "opened_90d": 231,
+      "baseline_30d": 26.5,
+      "ramp_ratio": 6.72,
+      "new_functions": [
+        {
+          "name": "nova",
+          "count": 6
+        },
+        {
+          "name": "Operations",
+          "count": 4
+        },
+        {
+          "name": "Revenue",
+          "count": 2
+        }
+      ],
+      "top_departments": [
+        {
+          "name": "Paid Advertising",
+          "count": 88
+        },
+        {
+          "name": "Client Services",
+          "count": 72
+        },
+        {
+          "name": "Creative",
+          "count": 19
+        },
+        {
+          "name": "Data",
+          "count": 19
+        },
+        {
+          "name": "Organic Search",
+          "count": 19
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Project Manager, Digital Marketing",
+          "count": 10
+        },
+        {
+          "name": "Paid Advertising Account Manager",
+          "count": 9
+        },
+        {
+          "name": "Senior Paid Advertising Strategist - Ecommerce",
+          "count": 9
+        },
+        {
+          "name": "Content Editor",
+          "count": 7
+        },
+        {
+          "name": "Creative Strategist",
+          "count": 7
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Shopify",
+          "count": 33
+        },
+        {
+          "name": "Salesforce",
+          "count": 32
+        },
+        {
+          "name": "HubSpot",
+          "count": 28
+        },
+        {
+          "name": "Looker",
+          "count": 16
+        },
+        {
+          "name": "dbt",
+          "count": 12
+        },
+        {
+          "name": "Python",
+          "count": 12
+        },
+        {
+          "name": "Snowflake",
+          "count": 12
+        },
+        {
+          "name": "Power BI",
+          "count": 10
+        },
+        {
+          "name": "Tableau",
+          "count": 10
+        },
+        {
+          "name": "GCP",
+          "count": 7
+        },
+        {
+          "name": "Figma",
+          "count": 5
+        },
+        {
+          "name": "GraphQL",
+          "count": 5
+        }
+      ],
+      "executive_openings_90d": 76,
+      "remote_postings": 302,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2024-02-29T00:36:02.000Z",
+      "newest_posting_at": "2026-09-02T20:19:31.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "urpt",
+      "company_url": "https://job-boards.greenhouse.io/urpt",
+      "signal": "ramping",
+      "open_postings": 1216,
+      "postings_dated": 1216,
+      "opened_7d": 222,
+      "opened_30d": 606,
+      "opened_90d": 1078,
+      "baseline_30d": 236,
+      "ramp_ratio": 2.57,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Clinical Site Operations",
+          "count": 76
+        },
+        {
+          "name": "Region 35",
+          "count": 31
+        },
+        {
+          "name": "Region 48",
+          "count": 30
+        },
+        {
+          "name": "Region 88",
+          "count": 26
+        },
+        {
+          "name": "Region 95",
+          "count": 26
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Physical Therapist",
+          "count": 476
+        },
+        {
+          "name": "Physical Therapist Assistant",
+          "count": 135
+        },
+        {
+          "name": "Patient Care Coordinator",
+          "count": 60
+        },
+        {
+          "name": "Physical Therapy Technician",
+          "count": 52
+        },
+        {
+          "name": "Physical Therapist National Traveler",
+          "count": 50
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": ".NET",
+          "count": 1
+        },
+        {
+          "name": "Azure",
+          "count": 1
+        },
+        {
+          "name": "C#",
+          "count": 1
+        },
+        {
+          "name": "Databricks",
+          "count": 1
+        },
+        {
+          "name": "Power BI",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 73,
+      "remote_postings": 4,
+      "postings_with_salary": 721,
+      "oldest_posting_at": "2024-05-14T03:04:54.000Z",
+      "newest_posting_at": "2026-09-03T01:24:54.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "monks",
+      "company_url": "https://job-boards.greenhouse.io/monks",
+      "signal": "ramping",
+      "open_postings": 358,
+      "postings_dated": 358,
+      "opened_7d": 38,
+      "opened_30d": 155,
+      "opened_90d": 277,
+      "baseline_30d": 61,
+      "ramp_ratio": 2.54,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "POD - Managed Media (ISO NAMER)",
+          "count": 38
+        },
+        {
+          "name": "CLIENT - Google (ISO NAMER)",
+          "count": 36
+        },
+        {
+          "name": "Tech Services",
+          "count": 22
+        },
+        {
+          "name": "SELECT FROM DROPDOWN (Marketing Services)",
+          "count": 18
+        },
+        {
+          "name": "Temporary Workers - Marketing Services",
+          "count": 18
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "GCD - Performance, CRM and Scale",
+          "count": 6
+        },
+        {
+          "name": "Associate Director of Project Management",
+          "count": 5
+        },
+        {
+          "name": "Account Director",
+          "count": 4
+        },
+        {
+          "name": "Art Director",
+          "count": 4
+        },
+        {
+          "name": "Paid Search Delivery Lead, Media Operations",
+          "count": 4
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Figma",
+          "count": 32
+        },
+        {
+          "name": "Python",
+          "count": 28
+        },
+        {
+          "name": "AWS",
+          "count": 25
+        },
+        {
+          "name": "Salesforce",
+          "count": 18
+        },
+        {
+          "name": "GCP",
+          "count": 17
+        },
+        {
+          "name": "NetSuite",
+          "count": 15
+        },
+        {
+          "name": "TypeScript",
+          "count": 13
+        },
+        {
+          "name": "LLM",
+          "count": 11
+        },
+        {
+          "name": "JavaScript",
+          "count": 10
+        },
+        {
+          "name": "Looker",
+          "count": 10
+        },
+        {
+          "name": "Workday",
+          "count": 10
+        },
+        {
+          "name": "Azure",
+          "count": 9
+        }
+      ],
+      "executive_openings_90d": 66,
+      "remote_postings": 13,
+      "postings_with_salary": 2,
+      "oldest_posting_at": "2025-03-10T19:11:38.000Z",
+      "newest_posting_at": "2026-09-02T20:49:55.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "openai",
+      "company_url": "https://jobs.ashbyhq.com/openai",
+      "signal": "ramping",
+      "open_postings": 771,
+      "postings_dated": 771,
+      "opened_7d": 82,
+      "opened_30d": 286,
+      "opened_90d": 515,
+      "baseline_30d": 114.5,
+      "ramp_ratio": 2.5,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Go To Market",
+          "count": 132
+        },
+        {
+          "name": "Scaling",
+          "count": 110
+        },
+        {
+          "name": "Applied AI",
+          "count": 98
+        },
+        {
+          "name": "Research",
+          "count": 67
+        },
+        {
+          "name": "User Operations",
+          "count": 51
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Applied AI Architect",
+          "count": 5
+        },
+        {
+          "name": "Applied AI Engineer",
+          "count": 5
+        },
+        {
+          "name": "Account Director, Startups",
+          "count": 4
+        },
+        {
+          "name": "Account Director, Digital Natives",
+          "count": 3
+        },
+        {
+          "name": "Applied AI Architect, Digital Natives",
+          "count": 3
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 107
+        },
+        {
+          "name": "LLM",
+          "count": 49
+        },
+        {
+          "name": "TypeScript",
+          "count": 32
+        },
+        {
+          "name": "JavaScript",
+          "count": 31
+        },
+        {
+          "name": "Rust",
+          "count": 31
+        },
+        {
+          "name": "C++",
+          "count": 21
+        },
+        {
+          "name": "Salesforce",
+          "count": 15
+        },
+        {
+          "name": "AWS",
+          "count": 14
+        },
+        {
+          "name": "React",
+          "count": 12
+        },
+        {
+          "name": "Kubernetes",
+          "count": 8
+        },
+        {
+          "name": "Azure",
+          "count": 7
+        },
+        {
+          "name": "GCP",
+          "count": 7
+        }
+      ],
+      "executive_openings_90d": 51,
+      "remote_postings": 36,
+      "postings_with_salary": 637,
+      "oldest_posting_at": "2023-05-25T04:06:29.356Z",
+      "newest_posting_at": "2026-09-03T01:08:56.950Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "ashby",
+      "company": "airwallex",
+      "company_url": "https://jobs.ashbyhq.com/airwallex",
+      "signal": "steady",
+      "open_postings": 584,
+      "postings_dated": 584,
+      "opened_7d": 50,
+      "opened_30d": 176,
+      "opened_90d": 353,
+      "baseline_30d": 88.5,
+      "ramp_ratio": 1.99,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Engineering",
+          "count": 159
+        },
+        {
+          "name": "SME & Growth Business",
+          "count": 112
+        },
+        {
+          "name": "Product",
+          "count": 55
+        },
+        {
+          "name": "Regulatory & Compliance",
+          "count": 41
+        },
+        {
+          "name": "Strategy & Operations",
+          "count": 34
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Sales Development Representative, SME & Growth",
+          "count": 7
+        },
+        {
+          "name": "Account Executive, SME & Growth",
+          "count": 6
+        },
+        {
+          "name": "Talent Acquisition Partner",
+          "count": 5
+        },
+        {
+          "name": "Manager, Sales Development, SME & Growth",
+          "count": 4
+        },
+        {
+          "name": "Senior Technical Account Manager",
+          "count": 4
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Salesforce",
+          "count": 353
+        },
+        {
+          "name": "Python",
+          "count": 48
+        },
+        {
+          "name": "Java",
+          "count": 27
+        },
+        {
+          "name": "Kubernetes",
+          "count": 27
+        },
+        {
+          "name": "Kotlin",
+          "count": 26
+        },
+        {
+          "name": "Looker",
+          "count": 26
+        },
+        {
+          "name": "GCP",
+          "count": 22
+        },
+        {
+          "name": "LLM",
+          "count": 21
+        },
+        {
+          "name": "AWS",
+          "count": 18
+        },
+        {
+          "name": "Tableau",
+          "count": 17
+        },
+        {
+          "name": "Kafka",
+          "count": 15
+        },
+        {
+          "name": "Docker",
+          "count": 13
+        }
+      ],
+      "executive_openings_90d": 50,
+      "remote_postings": 8,
+      "postings_with_salary": 174,
+      "oldest_posting_at": "2024-11-06T03:25:36.759Z",
+      "newest_posting_at": "2026-09-02T23:13:36.667Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "westernveterinarypartnersllc",
+      "company_url": "https://job-boards.greenhouse.io/westernveterinarypartnersllc",
+      "signal": "new_board",
+      "open_postings": 476,
+      "postings_dated": 476,
+      "opened_7d": 42,
+      "opened_30d": 431,
+      "opened_90d": 476,
+      "baseline_30d": 22.5,
+      "ramp_ratio": 19.16,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "Associate",
+          "count": 155
+        },
+        {
+          "name": "Technical (non-licensed)",
+          "count": 92
+        },
+        {
+          "name": "Technical (licensed)",
+          "count": 77
+        },
+        {
+          "name": "Non-technical",
+          "count": 45
+        },
+        {
+          "name": "Extern (DVM)",
+          "count": 39
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Veterinary Assistant",
+          "count": 68
+        },
+        {
+          "name": "Veterinary Receptionist / Client Service Representative",
+          "count": 24
+        },
+        {
+          "name": "Registered Veterinary Technician",
+          "count": 20
+        },
+        {
+          "name": "Veterinary Technician",
+          "count": 17
+        },
+        {
+          "name": "Licensed Veterinary Technician",
+          "count": 11
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Workday",
+          "count": 47
+        },
+        {
+          "name": "Tableau",
+          "count": 2
+        },
+        {
+          "name": "Databricks",
+          "count": 1
+        },
+        {
+          "name": "dbt",
+          "count": 1
+        },
+        {
+          "name": "Power BI",
+          "count": 1
+        },
+        {
+          "name": "Snowflake",
+          "count": 1
+        },
+        {
+          "name": "Unity",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 49,
+      "remote_postings": 1,
+      "postings_with_salary": 34,
+      "oldest_posting_at": "2026-07-29T15:26:24.000Z",
+      "newest_posting_at": "2026-09-03T00:27:29.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "coupang",
+      "company_url": "https://job-boards.greenhouse.io/coupang",
+      "signal": "ramping",
+      "open_postings": 687,
+      "postings_dated": 687,
+      "opened_7d": 104,
+      "opened_30d": 278,
+      "opened_90d": 524,
+      "baseline_30d": 123,
+      "ramp_ratio": 2.26,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "zz-Evergreen Requisition",
+          "count": 92
+        },
+        {
+          "name": "Global Operations Technology (Global Ops Tech)",
+          "count": 34
+        },
+        {
+          "name": "Customer Service",
+          "count": 29
+        },
+        {
+          "name": "Finance",
+          "count": 29
+        },
+        {
+          "name": "CP One Japan (Rocket Now)",
+          "count": 25
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Staff Backend Engineer",
+          "count": 7
+        },
+        {
+          "name": "Principal, Program Management",
+          "count": 4
+        },
+        {
+          "name": "Senior Executive Assistant",
+          "count": 4
+        },
+        {
+          "name": "Senior Staff Backend Engineer",
+          "count": 4
+        },
+        {
+          "name": "Principal, Brand Management",
+          "count": 3
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Python",
+          "count": 95
+        },
+        {
+          "name": "AWS",
+          "count": 76
+        },
+        {
+          "name": "Java",
+          "count": 66
+        },
+        {
+          "name": "Tableau",
+          "count": 55
+        },
+        {
+          "name": "Power BI",
+          "count": 38
+        },
+        {
+          "name": "Kubernetes",
+          "count": 37
+        },
+        {
+          "name": "Airflow",
+          "count": 31
+        },
+        {
+          "name": "Azure",
+          "count": 31
+        },
+        {
+          "name": "GCP",
+          "count": 31
+        },
+        {
+          "name": "Spark",
+          "count": 29
+        },
+        {
+          "name": "Kafka",
+          "count": 27
+        },
+        {
+          "name": "LLM",
+          "count": 27
+        }
+      ],
+      "executive_openings_90d": 47,
+      "remote_postings": 0,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2022-02-03T04:35:05.000Z",
+      "newest_posting_at": "2026-09-03T01:09:05.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "sharkninjaoperatingllc",
+      "company_url": "https://job-boards.greenhouse.io/sharkninjaoperatingllc",
+      "signal": "ramping",
+      "open_postings": 229,
+      "postings_dated": 229,
+      "opened_7d": 26,
+      "opened_30d": 125,
+      "opened_90d": 192,
+      "baseline_30d": 33.5,
+      "ramp_ratio": 3.73,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "30000 - DTC Digital Experience",
+          "count": 48
+        },
+        {
+          "name": "25400 - Strategic Sales & Analytics",
+          "count": 23
+        },
+        {
+          "name": "25000 - Commercial",
+          "count": 20
+        },
+        {
+          "name": "12000 - Product Development",
+          "count": 15
+        },
+        {
+          "name": "36000 - Creative Services",
+          "count": 15
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Art Director, DTC",
+          "count": 2
+        },
+        {
+          "name": "Associate Creative Director, Design – Ninja",
+          "count": 2
+        },
+        {
+          "name": "Key Account Manager",
+          "count": 2
+        },
+        {
+          "name": "Senior Electrical Engineer",
+          "count": 2
+        },
+        {
+          "name": "Senior Test Engineer",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Power BI",
+          "count": 20
+        },
+        {
+          "name": "Figma",
+          "count": 11
+        },
+        {
+          "name": "Tableau",
+          "count": 8
+        },
+        {
+          "name": "Snowflake",
+          "count": 7
+        },
+        {
+          "name": "LLM",
+          "count": 5
+        },
+        {
+          "name": "Salesforce",
+          "count": 5
+        },
+        {
+          "name": "Spark",
+          "count": 5
+        },
+        {
+          "name": "AWS",
+          "count": 4
+        },
+        {
+          "name": "Looker",
+          "count": 4
+        },
+        {
+          "name": "Python",
+          "count": 4
+        },
+        {
+          "name": "C++",
+          "count": 1
+        },
+        {
+          "name": "GCP",
+          "count": 1
+        }
+      ],
+      "executive_openings_90d": 42,
+      "remote_postings": 4,
+      "postings_with_salary": 0,
+      "oldest_posting_at": "2025-03-20T22:11:14.000Z",
+      "newest_posting_at": "2026-09-02T18:01:22.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    },
+    {
+      "record_type": "company_signal",
+      "source": "greenhouse",
+      "company": "nscaleoperationsukltd",
+      "company_url": "https://job-boards.greenhouse.io/nscaleoperationsukltd",
+      "signal": "steady",
+      "open_postings": 248,
+      "postings_dated": 248,
+      "opened_7d": 22,
+      "opened_30d": 73,
+      "opened_90d": 188,
+      "baseline_30d": 57.5,
+      "ramp_ratio": 1.27,
+      "new_functions": [],
+      "top_departments": [
+        {
+          "name": "AI Infrastructure Operations",
+          "count": 35
+        },
+        {
+          "name": "Construction",
+          "count": 26
+        },
+        {
+          "name": "Product",
+          "count": 24
+        },
+        {
+          "name": "Design",
+          "count": 15
+        },
+        {
+          "name": "Global GTM & Marketing",
+          "count": 14
+        }
+      ],
+      "top_titles": [
+        {
+          "name": "Principal Network Engineer",
+          "count": 3
+        },
+        {
+          "name": "Senior Network Engineer",
+          "count": 3
+        },
+        {
+          "name": "Creative Director",
+          "count": 2
+        },
+        {
+          "name": "GTM Enablement Lead",
+          "count": 2
+        },
+        {
+          "name": "Infrastructure Operations Engineer",
+          "count": 2
+        }
+      ],
+      "tech_signals": [
+        {
+          "name": "Spark",
+          "count": 35
+        },
+        {
+          "name": "Python",
+          "count": 26
+        },
+        {
+          "name": "Kubernetes",
+          "count": 16
+        },
+        {
+          "name": "Terraform",
+          "count": 14
+        },
+        {
+          "name": "AWS",
+          "count": 7
+        },
+        {
+          "name": "GCP",
+          "count": 7
+        },
+        {
+          "name": "NetSuite",
+          "count": 7
+        },
+        {
+          "name": "ServiceNow",
+          "count": 7
+        },
+        {
+          "name": "Azure",
+          "count": 6
+        },
+        {
+          "name": "CUDA",
+          "count": 5
+        },
+        {
+          "name": "Power BI",
+          "count": 5
+        },
+        {
+          "name": "Workday",
+          "count": 5
+        }
+      ],
+      "executive_openings_90d": 41,
+      "remote_postings": 0,
+      "postings_with_salary": 1,
+      "oldest_posting_at": "2025-12-11T15:49:56.000Z",
+      "newest_posting_at": "2026-09-02T21:02:26.000Z",
+      "index_as_of": "2026-09-03",
+      "fetched_at": "2026-09-03T01:26:07.508Z"
+    }
+  ],
+  "technology": [
+    {
+      "name": "Python",
+      "d30": 4628,
+      "companies": 389,
+      "baseline30": 2345,
+      "ratio": 1.97
+    },
+    {
+      "name": "AWS",
+      "d30": 2327,
+      "companies": 318,
+      "baseline30": 1318,
+      "ratio": 1.77
+    },
+    {
+      "name": "LLM",
+      "d30": 2307,
+      "companies": 313,
+      "baseline30": 991.5,
+      "ratio": 2.33
+    },
+    {
+      "name": "Salesforce",
+      "d30": 2293,
+      "companies": 270,
+      "baseline30": 987,
+      "ratio": 2.32
+    },
+    {
+      "name": "Kubernetes",
+      "d30": 1479,
+      "companies": 265,
+      "baseline30": 845.5,
+      "ratio": 1.75
+    },
+    {
+      "name": "TypeScript",
+      "d30": 872,
+      "companies": 233,
+      "baseline30": 479.5,
+      "ratio": 1.82
+    },
+    {
+      "name": "GCP",
+      "d30": 1392,
+      "companies": 226,
+      "baseline30": 820,
+      "ratio": 1.7
+    },
+    {
+      "name": "Terraform",
+      "d30": 719,
+      "companies": 218,
+      "baseline30": 410.5,
+      "ratio": 1.75
+    },
+    {
+      "name": "Azure",
+      "d30": 1435,
+      "companies": 216,
+      "baseline30": 779,
+      "ratio": 1.84
+    },
+    {
+      "name": "React",
+      "d30": 969,
+      "companies": 215,
+      "baseline30": 415.5,
+      "ratio": 2.33
+    },
+    {
+      "name": "Tableau",
+      "d30": 696,
+      "companies": 205,
+      "baseline30": 327,
+      "ratio": 2.13
+    },
+    {
+      "name": "Docker",
+      "d30": 762,
+      "companies": 203,
+      "baseline30": 447,
+      "ratio": 1.7
+    },
+    {
+      "name": "JavaScript",
+      "d30": 775,
+      "companies": 201,
+      "baseline30": 442,
+      "ratio": 1.75
+    },
+    {
+      "name": "Java",
+      "d30": 1052,
+      "companies": 194,
+      "baseline30": 635.5,
+      "ratio": 1.66
+    },
+    {
+      "name": "C++",
+      "d30": 998,
+      "companies": 170,
+      "baseline30": 592.5,
+      "ratio": 1.68
+    },
+    {
+      "name": "Power BI",
+      "d30": 581,
+      "companies": 165,
+      "baseline30": 252,
+      "ratio": 2.31
+    },
+    {
+      "name": "Workday",
+      "d30": 972,
+      "companies": 161,
+      "baseline30": 252,
+      "ratio": 3.86
+    },
+    {
+      "name": "PostgreSQL",
+      "d30": 634,
+      "companies": 161,
+      "baseline30": 328.5,
+      "ratio": 1.93
+    },
+    {
+      "name": "NetSuite",
+      "d30": 404,
+      "companies": 158,
+      "baseline30": 191,
+      "ratio": 2.12
+    },
+    {
+      "name": "Kafka",
+      "d30": 481,
+      "companies": 155,
+      "baseline30": 269,
+      "ratio": 1.79
+    },
+    {
+      "name": "Snowflake",
+      "d30": 641,
+      "companies": 153,
+      "baseline30": 292.5,
+      "ratio": 2.19
+    },
+    {
+      "name": "Figma",
+      "d30": 506,
+      "companies": 153,
+      "baseline30": 254.5,
+      "ratio": 1.99
+    },
+    {
+      "name": "Looker",
+      "d30": 369,
+      "companies": 137,
+      "baseline30": 208,
+      "ratio": 1.77
+    },
+    {
+      "name": "HubSpot",
+      "d30": 400,
+      "companies": 129,
+      "baseline30": 163,
+      "ratio": 2.45
+    },
+    {
+      "name": "Airflow",
+      "d30": 242,
+      "companies": 121,
+      "baseline30": 148,
+      "ratio": 1.64
+    }
+  ],
+  "technology_climbing": [
+    {
+      "name": "Workday",
+      "d30": 972,
+      "companies": 161,
+      "baseline30": 252,
+      "ratio": 3.86
+    },
+    {
+      "name": "HubSpot",
+      "d30": 400,
+      "companies": 129,
+      "baseline30": 163,
+      "ratio": 2.45
+    },
+    {
+      "name": "LLM",
+      "d30": 2307,
+      "companies": 313,
+      "baseline30": 991.5,
+      "ratio": 2.33
+    },
+    {
+      "name": "React",
+      "d30": 969,
+      "companies": 215,
+      "baseline30": 415.5,
+      "ratio": 2.33
+    },
+    {
+      "name": "Salesforce",
+      "d30": 2293,
+      "companies": 270,
+      "baseline30": 987,
+      "ratio": 2.32
+    },
+    {
+      "name": "Power BI",
+      "d30": 581,
+      "companies": 165,
+      "baseline30": 252,
+      "ratio": 2.31
+    },
+    {
+      "name": "Snowflake",
+      "d30": 641,
+      "companies": 153,
+      "baseline30": 292.5,
+      "ratio": 2.19
+    },
+    {
+      "name": "Tableau",
+      "d30": 696,
+      "companies": 205,
+      "baseline30": 327,
+      "ratio": 2.13
+    },
+    {
+      "name": "NetSuite",
+      "d30": 404,
+      "companies": 158,
+      "baseline30": 191,
+      "ratio": 2.12
+    },
+    {
+      "name": "Figma",
+      "d30": 506,
+      "companies": 153,
+      "baseline30": 254.5,
+      "ratio": 1.99
+    }
+  ],
+  "seniority_30d": {
+    "mid": 28670,
+    "senior": 14721,
+    "junior": 2404,
+    "executive": 2351,
+    "principal": 2006,
+    "intern": 608
+  },
+  "workplace_30d": {
+    "onsite": 36701,
+    "remote": 9125,
+    "hybrid": 4934
+  }
+}

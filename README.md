@@ -149,7 +149,36 @@ running it on live boards rather than fixtures:
   rather than guessed at — the first draft reported 190 of them for a single home-care company.
 - **Acronyms belong to industries.** On that same home-care board, `dbt` is Dialectical Behavior
   Therapy and `PHP` is a Partial Hospitalization Program, not a data stack and a web language.
-  Ambiguous terms only count inside a technical posting.
+  Ambiguous terms only count inside a technical posting, and the test for "is this technical"
+  reads the title, team and department — not the description, which is long enough that almost
+  any of them contains the word "data" somewhere.
+- **Most of a job description is not the job.** BAYADA still came back holding `.NET` after the
+  guard above. Every one of the four matching postings turned out to be a CDN hostname in the
+  page markup — `//cdn2.hubspot.net/hubfs/…` and `//static.xx.fbcdn.net/images/emoji.php/…`, the
+  latter also the source of the `PHP`. A share button, not a stack. Links, e-mail addresses and
+  tags are stripped before any keyword is matched.
+
+### The digest
+
+`scripts/build-digest.mjs` runs that classifier over a sample of live boards and writes a dated,
+committed issue to [`digests/`](./digests) — `<date>.md` to read, `<date>.json` carrying every
+number in it so you can recompute rather than trust:
+
+```bash
+node scripts/build-digest.mjs --greenhouse 300 --ashby 250 --lever 100
+```
+
+Which companies are ramping against their own prior pace, which functions opened from scratch,
+which technologies are being staffed, where the executive openings cluster. The sample is the
+largest boards per provider — a stated bias, repeated in each issue's own *Limits* section — and
+nothing is scaled up to the full index. Boards that could not be read are counted and named in the
+issue rather than quietly dropped, because a refused connection is instrument state, not a company
+that stopped hiring.
+
+One thing each issue says about itself: the ramp *ratio* is an upper bound. Its baseline can only
+be counted from postings still open today, and older postings have had longer to be filled, so a
+flat-rate company reads as a mild ramp. Counts of roles opened are direct measurements; ratios
+against a surviving baseline are not.
 
 What posting dates *cannot* show is a role that closed or a board that went dark. That is what
 `scripts/snapshot-history.mjs` and `scripts/hiring-signals.mjs` are for: a daily open-count

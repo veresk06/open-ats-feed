@@ -143,6 +143,51 @@ test('acronyms that belong to another industry do not count outside a technical 
   assert.deepEqual(techIn('Painter — surface preparation and rust removal'), [])
 })
 
+test('a technology named only inside a URL is not a technology', () => {
+  // Both of these are verbatim from BAYADA's live board, and between them they
+  // are the whole reason a home-care company appeared to be hiring for a
+  // Microsoft stack: a HubSpot CDN link and a Facebook emoji image.
+  const nurse = 'Home Care Nurse'
+  const share =
+    '<img src="//cdn2.hubspot.net/hubfs/201792/Social.png"> ' +
+    '<img src="//static.xx.fbcdn.net/images/emoji.php/v9/t39/1/16/1f4e2.png">'
+  assert.deepEqual(techIn(`${nurse} ${share}`, nurse), [])
+  // And the same terms still count when a posting genuinely names them.
+  const dev = 'Senior Software Engineer'
+  const real = techIn(`${dev} Maintain our ASP.NET services and a legacy PHP admin tool.`, dev)
+  assert.ok(real.includes('.NET'))
+  assert.ok(real.includes('PHP'))
+})
+
+test('the guard reads the title, not the description', () => {
+  // A description long enough to be useful nearly always says "data" or
+  // "technical" somewhere, so a guard applied to the whole text passes for
+  // practically every posting and stops being a guard.
+  const description = 'Document each visit in our clinical data system. PHP/IOP caseload.'
+  assert.deepEqual(techIn(`Registered Nurse ${description}`, 'Registered Nurse'), [])
+  assert.ok(techIn(`Data Engineer ${description}`, 'Data Engineer').includes('PHP'))
+  // One argument still guards on that argument, as the earlier callers assume.
+  assert.deepEqual(techIn('Registered Nurse, PHP/IOP'), [])
+})
+
+test('bare "rails" is not Ruby on Rails', () => {
+  // Both live: a construction-equipment board and a fintech board.
+  assert.deepEqual(techIn('Trench Safety Specialist — bedding boxes, safety rails, trench ladders'), [])
+  const fintech = 'Technical Product Lead'
+  assert.deepEqual(techIn(`${fintech} licensing, compliance, and third-party rails are core`, fintech), [])
+  assert.ok(techIn('Senior Ruby on Rails Engineer').includes('Rails'))
+})
+
+test('a department that names a place is not a function', () => {
+  const rows = [
+    post(5, { department: 'North San Diego, CA' }),
+    post(6, { department: 'North San Diego, CA' }),
+    post(300, { department: 'Clinical' }),
+    post(301, { department: 'Clinical' }),
+  ]
+  assert.deepEqual(sig(rows).new_functions, [])
+})
+
 test('technologies are counted over the last 90 days only', () => {
   const rows = [post(200, { title: 'Rust Engineer' }), post(10, { title: 'Snowflake Data Engineer' }), post(11, { title: 'Snowflake Analyst' })]
   const s = sig(rows)

@@ -19,3 +19,6 @@ actor/storage
 
 # transient probe logs
 lever-resume.log
+
+# progress output from a digest build; the digest itself is the artifact
+digests/build.log
