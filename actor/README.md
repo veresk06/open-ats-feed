@@ -180,6 +180,78 @@ Two deliberate limits, because a default-on filter has to be judged on its false
 Turn either off with `excludeRecruitmentAds: false` / `excludeVolunteerListings: false` and you
 get the corpus exactly as the ATS published it.
 
+## Duplicates: the 40% number that is mostly not a defect
+
+40.29% of the 121,050 titles we read are an exact duplicate of another title **on the same
+board**. `lever/boxlunch` carries 3,653 postings across 76 distinct titles. It would be easy to
+sell that as "we remove 40% of the junk", and it would be wrong.
+
+A retailer posting "Sales Associate" seventy-six times is filling seventy-six real openings in
+seventy-six stores. The store is in the `location` field, not in the title. **A repeated title is
+evidence of nothing until you read the location alongside it** — so we did, live, and the 40%
+splits into two populations that deserve opposite treatment:
+
+| | What it is |
+|---|---|
+| Same title, **different** stated location | Real multi-site hiring. A legitimate row. Never touched. |
+| Same title, **same** stated location | The board duplicating itself. You pay twice for one place. |
+
+Only the second is a defect, and measured across the 40 worst boards by title-repeat it is
+**4,374 postings, 8.87% of that stratum**. Stated precisely, because the distinction matters:
+those 40 boards were selected *because* they repeat titles, so 8.87% is the rate where it is
+worst, **not a corpus-wide rate**. We do not have a corpus-wide number and will not quote one
+until we have measured it.
+
+Set `dedupe: true` and one row survives each same-title-same-location group, carrying
+`duplicates_merged` — how many copies were folded into it. Nothing is silently discarded: a
+company that posted one role at one site twelve times is telling you something about its hiring,
+and a filter that threw that away would be destroying signal to save storage.
+
+Three live boards, the third chosen as a negative control:
+
+| Board | Postings | Distinct titles | Merged | Rate |
+|---|---:|---:|---:|---:|
+| `lever/boxlunch` | 3,653 | 76 | **1,126** | 30.82% |
+| `greenhouse/blueskytelepsych` | 945 | 5 | **161** | 17.04% |
+| `greenhouse/geniussportssn` | 477 | 475 | **2** | 0.42% |
+
+Verified on two live runs of build 0.1.18 over those three boards — run on the platform and read
+back out of `RUN_STATS`, not inferred from the build:
+
+```
+dedupe: true    postings_seen 5,075   postings_pushed 3,786   duplicates_merged 1,289
+dedupe: false   postings_seen 5,075   postings_pushed 5,060   duplicates_merged 1,289
+```
+
+Same number both times. With the flag on it is what was removed; with it off it is what would
+have been. 5,075 − 1,289 = 3,786, so nothing is lost to rounding or to a second rule.
+
+The third board is the check that the rule is not just counting repeated words.
+`geniussportssn` writes the city *into* the title — "Sports Data Collector (American Football) -
+Ames, Iowa, USA" — so it is one role posted at 475 different places. A title-only rule sees 475
+distinct titles and a naive location rule could see one employer duplicating itself. This one
+correctly leaves it almost entirely alone.
+
+**Why this is off by default when the other two Quality filters are on.** Those remove rows that
+are not paid openings at all. This one removes rows that may well be: a company opening three
+headcount at one site often posts three requisitions with three distinct `job_id`s, identical
+titles and identical locations, and the ATS does not publish headcount, so nothing in the feed
+can tell those apart from three copies of one job. Dropping a real opening is worse than
+carrying a duplicate, so the choice is yours rather than ours.
+
+Two conservatisms worth knowing before you turn it on:
+
+- **A posting with no stated location is never collapsed.** Unstated is not the same as
+  same-place. Roughly a fifth of the corpus publishes no location, and treating those as one
+  place would delete real jobs in bulk.
+- **Location strings are compared, not resolved.** "Chicago, IL" and "IL - Chicago" are one
+  place; "Chicago, IL" and "Aurora, IL" are two. `remote` / `hybrid` / `onsite` are ignored in
+  the comparison, because a board that writes its work arrangement into the location column
+  would otherwise defeat the rule — the workplace type is carried in its own field regardless.
+
+`RUN_STATS.duplicates_merged` reports the count **whether `dedupe` is on or off**, so you can see
+what it would take on your own query before you turn it on.
+
 ## Typical uses
 
 - **Prospecting on hiring intent.** Companies that just opened a sales function, or that are
@@ -213,6 +285,7 @@ input at all you get the 250 largest Greenhouse boards *and* the 250 largest Ash
 | `withSalaryOnly` | `false` | Only rows with a parsed range |
 | `excludeRecruitmentAds` | `true` | Drops commission-only / MLM copy — see above |
 | `excludeVolunteerListings` | `true` | Drops volunteer and unpaid listings — see above |
+| `dedupe` | `false` | Collapses same-title-same-stated-location rows within a board — see above |
 | `companies` | — | `greenhouse:stripe`, `ashby:ramp`, or bare `stripe` — overrides the index |
 | `maxCompaniesPerProvider` | `250` | **Per provider.** Two providers selected = up to 500 boards. Ordered largest first, so a cap gets the big ones |
 | `maxItems` | `5000` | Hard cap on rows |
