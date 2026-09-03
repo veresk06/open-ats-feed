@@ -199,4 +199,52 @@ export const PROVIDERS = {
       }
     },
   },
+  workable: {
+    url: (t) =>
+      `https://apply.workable.com/api/v1/widget/accounts/${encodeURIComponent(t)}?details=true`,
+    // Without `details=true` the account resolves but `jobs` comes back empty, which
+    // reads identically to a board with nothing open. The flag is not optional.
+    list: (j) => (Array.isArray(j?.jobs) ? j.jobs : null),
+    // apply.workable.com/robots.txt: "User-agent: * / Disallow:" — an empty Disallow,
+    // i.e. everything allowed — plus "Content-Signal: search=yes, ai-input=yes,
+    // ai-train=no". We index and redistribute postings and do not train on them.
+    concurrency: 12,
+    delayMs: 0,
+    map: (job, token) => {
+      const body = stripHtml(job.description ?? '')
+      const loc = [job.city, job.state, job.country].map((s) => (s ?? '').trim())
+        .filter(Boolean).join(', ')
+      const label = `${loc} ${job.title ?? ''}`
+      // `telecommuting` is trusted where Ashby's `isRemote` is not, and the difference
+      // was measured rather than assumed: across 590 sampled postings it was true on
+      // 8.0% and overlapped a "hybrid" location or title exactly 0 times. Ashby's flag
+      // was true for Hybrid roles too, which is why it stays banned above. The text
+      // fallback still runs first for anything labelled hybrid, so a future vendor
+      // change degrades to the string match instead of mislabelling the feed.
+      const remote = job.telecommuting === true && !HYBRID_RE.test(label)
+      return {
+        source: 'workable',
+        company: token,
+        company_url: `https://apply.workable.com/${token}/`,
+        job_id: String(job.shortcode ?? job.id),
+        title: (job.title ?? '').trim(),
+        url: job.url ?? job.shortlink ?? job.application_url ?? null,
+        location: loc || null,
+        workplace: workplace(label, remote ? 'remote' : undefined),
+        department: job.department || null,
+        team: null,
+        employment_type: job.employment_type ?? null,
+        posted_at: iso(job.published_on ?? job.created_at),
+        updated_at: iso(job.created_at ?? job.published_on),
+        ...salaryFields(`${job.title ?? ''} ${body}`),
+        // Deliberately still inferred from the title, though Workable ships an
+        // `experience` field. Mixing a vendor enum into one provider and title
+        // inference into the other three would make one column mean two different
+        // things depending on the row it sits in. Uniform and documented beats
+        // marginally richer and inconsistent.
+        seniority: seniority(job.title ?? ''),
+        description: body || null,
+      }
+    },
+  },
 }

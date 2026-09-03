@@ -9,6 +9,17 @@ import { fileURLToPath } from 'node:url'
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 export const OUT = resolve(ROOT, 'data/tokens.json')
 
+// SmartRecruiters was harvested here in Cycle 33 and then removed on evidence, not on
+// taste. `api.smartrecruiters.com/robots.txt` reads `User-agent: * / Disallow: /`, with
+// a single `Allow: /v1/companies/` carve-out granted to `LinkedInBot`. We are not
+// LinkedInBot. Our one claim no scraper can make is that every posting comes from an
+// API its vendor publishes for the taking; fetching a host that refuses us would spend
+// that claim to buy ~1,800 boards. Do not re-add it without a changed robots.txt.
+//
+// `caseSensitive` survives that removal because it is the correct general rule:
+// Greenhouse, Lever, Ashby and Workable all resolve a lowercased token, and a vendor
+// that puts a case-sensitive identifier in the API path does not. Lowercasing those
+// silently yields a roster of 404s.
 export const SOURCES = [
   { provider: 'greenhouse', host: 'boards.greenhouse.io' },
   { provider: 'greenhouse', host: 'job-boards.greenhouse.io' },
@@ -17,16 +28,22 @@ export const SOURCES = [
   { provider: 'lever', host: 'jobs.lever.co' },
   { provider: 'lever', host: 'jobs.eu.lever.co' },
   { provider: 'ashby', host: 'jobs.ashbyhq.com' },
+  { provider: 'workable', host: 'apply.workable.com' },
 ]
 
-// First path segments that are platform routes, not company tokens.
+export const PROVIDER_NAMES = [...new Set(SOURCES.map((s) => s.provider))]
+
+// First path segments that are platform routes, not company tokens. `j` is Workable's
+// direct-to-posting route (apply.workable.com/j/{JOBID}); `oauth` and `account` are
+// SmartRecruiters console routes that appear under careers. hosts.
 const NOT_A_TOKEN = new Set([
   'embed', 'api', 'v1', 'v0', 'jobs', 'job', 'static', 'assets', 'favicon.ico',
   'robots.txt', 'sitemap.xml', 'error', '404', 'index.html', 'apply', 'search',
   'postings', 'boards', 'company', 'companies', 'auth', 'login', 'signup',
+  'j', 'oauth', 'account', 'settings', 'terms', 'privacy',
 ])
 
-export function tokenFromUrl(raw) {
+export function tokenFromUrl(raw, { caseSensitive = false } = {}) {
   let u
   try {
     u = new URL(raw)
@@ -37,14 +54,15 @@ export function tokenFromUrl(raw) {
   if (!seg) return null
   let token
   try {
-    token = decodeURIComponent(seg).trim().toLowerCase()
+    token = decodeURIComponent(seg).trim()
   } catch {
     return null
   }
+  if (!caseSensitive) token = token.toLowerCase()
   if (!token || token.length > 100) return null
-  if (NOT_A_TOKEN.has(token)) return null
+  if (NOT_A_TOKEN.has(token.toLowerCase())) return null
   // Board tokens are slugs. Pure digits are job ids that leaked into position 0.
-  if (!/^[a-z0-9][a-z0-9._-]*$/.test(token)) return null
+  if (!/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(token)) return null
   if (/^\d+$/.test(token)) return null
   return token
 }

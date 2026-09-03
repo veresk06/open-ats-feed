@@ -8,7 +8,7 @@
       "source": {
         "type": "string",
         "title": "ATS",
-        "description": "Which applicant tracking system this posting came from: greenhouse, ashby or lever.",
+        "description": "Which applicant tracking system this posting came from: greenhouse, ashby, workable or lever.",
         "example": "greenhouse"
       },
       "company": {

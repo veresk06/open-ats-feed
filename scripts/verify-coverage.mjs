@@ -53,8 +53,13 @@ function sample(list, n, rand) {
 //   boards-api.greenhouse.io  "Disallow: /embed/"      — we fetch /v1/boards/, allowed
 //   api.ashbyhq.com           robots.txt returns 401   — nothing stated, no restriction
 //   api.lever.co              "Allow: /, Crawl-delay: 1" — allowed, and rate-limited below
+//   apply.workable.com        "User-agent: * / Disallow:" — empty Disallow, all allowed
 // The crawl delay is the reason `rate` exists. Lever states a limit in the file it
 // serves us; honouring it costs an hour of wall clock and is not optional.
+//
+// Not here, and deliberately: api.smartrecruiters.com serves
+// "User-agent: * / Disallow: /" and allows /v1/companies/ to LinkedInBot alone.
+// Harvested in Cycle 33, dropped the same cycle. See scripts/lib/tokens.mjs.
 const PROVIDERS = {
   greenhouse: {
     url: (t) => `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(t)}/jobs`,
@@ -68,6 +73,15 @@ const PROVIDERS = {
   },
   ashby: {
     url: (t) => `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(t)}`,
+    count: (j) => (Array.isArray(j?.jobs) ? j.jobs.length : null),
+  },
+  workable: {
+    // `details=true` matters here as much as in the Actor: without it the account
+    // resolves 200 with an empty `jobs`, and every live board would be recorded
+    // `empty`. That is the same class of error as the Greenhouse 403 below — a fact
+    // about our request written down as a verdict about the company.
+    url: (t) =>
+      `https://apply.workable.com/api/v1/widget/accounts/${encodeURIComponent(t)}?details=true`,
     count: (j) => (Array.isArray(j?.jobs) ? j.jobs.length : null),
   },
 }

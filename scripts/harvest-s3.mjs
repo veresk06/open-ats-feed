@@ -17,7 +17,7 @@
 // share a checkpoint and either can resume the other.
 
 import { gunzipSync } from 'node:zlib'
-import { SOURCES, tokenFromUrl, snapshot, save, load, OUT } from './lib/tokens.mjs'
+import { SOURCES, PROVIDER_NAMES, tokenFromUrl, snapshot, save, load, OUT } from './lib/tokens.mjs'
 
 const BASE = 'https://data.commoncrawl.org/cc-index/collections'
 
@@ -32,6 +32,13 @@ const DEFAULT_CRAWLS = [
 const CRAWLS = (process.env.CRAWLS ?? '').trim()
   ? process.env.CRAWLS.split(',').map((s) => s.trim()).filter(Boolean)
   : DEFAULT_CRAWLS
+
+// Restricts the sweep to named hosts. Adding a provider does not mean re-walking the
+// ones already harvested — the checkpoint is still loaded and rewritten in full, so a
+// targeted run adds to the roster rather than replacing it.
+const ONLY_HOSTS = (process.env.HOSTS ?? '').trim()
+  ? new Set(process.env.HOSTS.split(',').map((s) => s.trim()).filter(Boolean))
+  : null
 
 const PROBE = 64 * 1024 // binary-search probe window
 const SCAN = 1024 * 1024 // linear-scan window once the search has narrowed
@@ -147,7 +154,7 @@ async function blocksFor(url, size, prefix) {
   return blocks
 }
 
-async function readBlock(crawl, block, prefix, found) {
+async function readBlock(crawl, block, prefix, found, opts = {}) {
   const url = `${BASE}/${crawl}/indexes/${block.file}`
   let buf
   try {
@@ -176,7 +183,7 @@ async function readBlock(crawl, block, prefix, found) {
       continue
     }
     if (!rec.url) continue
-    const token = tokenFromUrl(rec.url)
+    const token = tokenFromUrl(rec.url, opts)
     if (token) {
       if (!found.has(token)) n++
       found.add(token)
@@ -188,7 +195,10 @@ async function readBlock(crawl, block, prefix, found) {
 async function main() {
   console.log(`Sweeping ${CRAWLS.length} Common Crawl indices from S3: ${CRAWLS.join(', ')}\n`)
 
-  const byProvider = { greenhouse: new Set(), lever: new Set(), ashby: new Set() }
+  // Derived from SOURCES, not listed by hand: a provider added there but forgotten
+  // here would have its tokens dropped on the floor by readBlock and, worse, wiped
+  // from tokens.json by the save() below, which writes the whole file.
+  const byProvider = Object.fromEntries(PROVIDER_NAMES.map((p) => [p, new Set()]))
   await load(byProvider)
   const before = Object.fromEntries(
     Object.entries(byProvider).map(([k, v]) => [k, v.size]),
@@ -201,7 +211,8 @@ async function main() {
       console.log(`${crawl}: no cluster.idx, skipping`)
       continue
     }
-    for (const { provider, host } of SOURCES) {
+    for (const { provider, host, caseSensitive } of SOURCES) {
+      if (ONLY_HOSTS && !ONLY_HOSTS.has(host)) continue
       const prefix = surtPrefix(host)
       let blocks
       try {
@@ -216,7 +227,7 @@ async function main() {
       }
       let added = 0
       for (const block of blocks) {
-        added += await readBlock(crawl, block, prefix, byProvider[provider])
+        added += await readBlock(crawl, block, prefix, byProvider[provider], { caseSensitive })
       }
       console.log(`${crawl} ${host}: ${blocks.length} blocks -> +${added} new tokens (${provider} total ${byProvider[provider].size})`)
       await save(byProvider)
@@ -226,7 +237,8 @@ async function main() {
   await save(byProvider)
   const out = snapshot(byProvider)
   const total = Object.values(out).reduce((a, v) => a + v.length, 0)
-  console.log(`\nCandidate tokens: greenhouse ${out.greenhouse.length}, lever ${out.lever.length}, ashby ${out.ashby.length} (total ${total})`)
+  const per = Object.entries(out).map(([k, v]) => `${k} ${v.length}`).join(', ')
+  console.log(`\nCandidate tokens: ${per} (total ${total})`)
   for (const k of Object.keys(out)) {
     console.log(`  ${k}: +${out[k].length - (before[k] ?? 0)} new this run`)
   }

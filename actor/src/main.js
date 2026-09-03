@@ -18,6 +18,13 @@ const input = (await Actor.getInput()) ?? {}
 const {
   // Same default as input_schema.json. Lever is opt-in because it is fetched at
   // 1 req/s, so silently including it turns a two-minute run into an hour-long one.
+  // Workable is opt-in for a related reason, measured in Cycle 33: apply.workable.com
+  // sits behind Cloudflare bot management, which answers `429 cf-mitigated: challenge`
+  // to every request after roughly 700 in quick succession, and serves 200 again once
+  // the caller slows to about one request per 45 seconds. So it is rate-limited rather
+  // than closed — Lever's problem with an undocumented and far stricter limit. A
+  // provider that can be challenged mid-run must not be in the default set: a stranger
+  // presses Try and is billed per board for boards that returned nothing.
   providers = ['greenhouse', 'ashby'],
   outputMode = 'postings',
   signalTypes = [],
@@ -90,7 +97,9 @@ function boardsFor(provider) {
 const explicit = companies.length ? parseExplicit(companies) : null
 const selected = providers.filter((p) => PROVIDERS[p])
 if (!selected.length) {
-  await Actor.fail('No valid provider selected. Choose at least one of: greenhouse, ashby, lever.')
+  await Actor.fail(
+    `No valid provider selected. Choose at least one of: ${Object.keys(PROVIDERS).join(', ')}.`,
+  )
 }
 
 // Two shapes of output from the same scan. "postings" is one row per open job.

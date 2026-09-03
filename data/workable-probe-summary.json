@@ -1,0 +1,13 @@
+{
+  "as_of": "2026-09-03",
+  "harvested": 6882,
+  "probed": 45,
+  "remaining": 6837,
+  "live": 12,
+  "empty": 19,
+  "dead": 0,
+  "error": 0,
+  "blocked": 14,
+  "postings": 115,
+  "hitRate": 0.2667
+}

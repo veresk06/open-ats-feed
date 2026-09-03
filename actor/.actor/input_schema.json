@@ -51,7 +51,7 @@
     "providers": {
       "title": "ATS providers",
       "type": "array",
-      "description": "Which applicant tracking systems to read. Greenhouse and Ashby are fast. Lever is fetched at 1 request per second because api.lever.co asks for that in its robots.txt, so a large Lever run is slow by design.",
+      "description": "Which applicant tracking systems to read. Greenhouse and Ashby are fast and are the default. Lever is fetched at 1 request per second because api.lever.co asks for that in its robots.txt, so a large Lever run is slow by design. Workable is off by default for a different reason: its robots.txt allows everything, but apply.workable.com sits behind Cloudflare bot management, which begins answering 429 to every request after a few hundred in quick succession and clears again once you slow down. A large Workable run therefore returns blocked boards rather than jobs unless it is paced. Measured 2026-09-03.",
       "editor": "select",
       "default": [
         "greenhouse",
@@ -62,11 +62,13 @@
         "enum": [
           "greenhouse",
           "ashby",
+          "workable",
           "lever"
         ],
         "enumTitles": [
           "Greenhouse",
           "Ashby",
+          "Workable (rate-limited by Cloudflare)",
           "Lever (slow — 1 req/s)"
         ]
       }
