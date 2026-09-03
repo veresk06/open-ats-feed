@@ -35,6 +35,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const ROSTER = resolve(ROOT, 'docs/data/all.csv')
 const OUT = resolve(ROOT, 'data/role-census.json')
 const CACHE = resolve(ROOT, 'data/role-census-titles.json')
+const ENG_CSV = resolve(ROOT, 'docs/data/engineering.csv')
 const FROM_CACHE = process.argv.includes('--from-cache')
 
 const arg = (name, fallback) => {
@@ -49,7 +50,7 @@ const budgetLeft = () => BUDGET_MS - (Date.now() - started)
 
 // First match wins. Ordering is load-bearing: "software engineer" must beat the bare "engineer"
 // that also catches "maintenance engineer", and clinical titles must beat "technician".
-const FAMILIES = [
+export const FAMILIES = [
   // Deliberately first. These are not a job family, they are a data-quality finding: the ATS
   // corpus carries open-ended "work from home / be your own boss" recruitment ads, which are
   // the classic MLM and commission-only signature. A buyer filtering for real openings needs
@@ -59,6 +60,12 @@ const FAMILIES = [
     'income being capped', 'someone else s dream', 'break free of the 9 5', 'another way',
     'burned out from the 9 5', 'take back control of your time', 'remote opportunity',
     'no experience necessary', 'earn from home', 'financial freedom',
+  ]],
+  // Second data-quality finding, run 2: the corpus carries **unpaid** listings on real ATS
+  // boards — "hospice volunteer (unpaid)", "private equity event volunteer". A buyer paying per
+  // delivered row is paying for rows that are not jobs. Named for the same reason as the ads.
+  ['volunteer_unpaid', [
+    'volunteer', 'unpaid intern', 'pro bono',
   ]],
   ['engineering', [
     'software engineer', 'software developer', 'backend', 'back end', 'back-end', 'frontend',
@@ -71,6 +78,30 @@ const FAMILIES = [
     'developer advocate', 'engineering manager', 'staff engineer', 'principal engineer',
     'senior engineer', 'software qa', 'sdet', 'database administrator', 'data analyst',
     'analytics engineer', 'application engineer', 'integration engineer', 'api engineer',
+    // Run 2. The largest single thing left in `other` was software work that never says
+    // "software": named stacks, and lead titles that drop the noun entirely.
+    'laravel', 'react', 'angular', 'vue ', 'node js', 'nodejs', 'python', 'golang', ' java ',
+    'javascript', 'typescript', 'ruby on rails', ' rails ', ' php ', ' net ', 'kotlin',
+    'salesforce', 'sharepoint', 'servicenow',
+    'engineering lead', 'technical lead', 'tech lead', 'lead engineer', 'lead developer',
+    'product engineer', 'principal software', 'staff software', 'software qa', 'sre ',
+    'devsecops', 'data platform', 'bioinformatic', 'computer vision', 'nlp ', 'llm ',
+    'cybersecurity', 'cyber security', 'penetration test', 'blockchain', 'smart contract',
+    'game developer', 'unity developer', 'unreal', 'technical program manager',
+    'technical writer', 'solution engineer', 'forward deployed',
+  ]],
+  // Run 2, and it makes the headline *smaller*, which is the point. `engineering` is used as a
+  // proxy for "developer-facing", so physical-world engineering must not be counted into it.
+  // Must be matched before the bare `engineer` / `developer` catch at the bottom of this list.
+  ['engineering_nonsoftware', [
+    'electrical engineer', 'mechanical engineer', 'civil engineer', 'structural engineer',
+    'chemical engineer', 'industrial engineer', 'manufacturing engineer', 'process engineer',
+    'quality engineer', 'environmental engineer', 'geotechnical', 'petroleum engineer',
+    'mining engineer', 'aerospace engineer', 'field engineer', 'service engineer',
+    'maintenance engineer', 'project engineer', 'design engineer', 'packaging engineer',
+    'facilities engineer', 'sales engineer', 'stationary engineer', 'building engineer',
+    'controls engineer', 'safety engineer', 'engineering technician', 'cad ', 'drafter',
+    'surveyor', 'architect -', 'estimator',
   ]],
   ['healthcare', [
     'nurse', ' rn ', 'rn -', 'lpn', 'cna ', 'certified nursing', 'physician', 'clinician',
@@ -145,10 +176,29 @@ const FAMILIES = [
     'h f', 'temps plein', 'temps partiel', 'vendeur', 'vendeuse', 'auxiliaire de vie',
     'aide a domicile', 'chargé', 'charge de', 'responsable', 'stage ', 'alternance',
     'conseiller', 'assistante', 'technicien', 'ingénieur', 'ingenieur',
+    // Run 2: the tail is not only French. Portuguese, Spanish and Italian all showed up in the
+    // unmatched list — `consultor(a) comercial externo`, `agente di commercio`, `vaga afirmativa`.
+    'consultor', 'comercial', 'vaga', 'analista', 'gerente', 'auxiliar', 'estagi',
+    'agente di', 'commercio', 'addetto', 'impiegat', 'operaio', 'stagista',
+    'gestor', 'atendimento', 'desenvolvedor', 'ventas', 'asesor', 'mitarbeiter',
+    'praktikum', 'ausbildung', 'werkstudent', 'medewerker', 'stagiair',
+  ]],
+  // Run 2, deliberately last: the bare nouns. Everything above has had its shot, so a title
+  // still reading `engineer` or `developer` here is not a nurse, a driver or an electrician.
+  // Same family label as `engineering` above — the counts merge.
+  ['engineering', [
+    'engineer', 'developer', 'programmer', ' devops', 'software',
+  ]],
+  // Also last: generic seniority-only titles that name a level and nothing else. These are the
+  // honest residue — we can say they are jobs, we cannot say what kind.
+  ['unclassifiable_generic', [
+    'associate', 'coordinator', 'specialist', 'assistant', 'manager', 'supervisor',
+    'representative', 'lead', 'intern', 'apprentice', 'trainee', 'clerk', 'agent',
+    'officer', 'administrator', 'operator', 'attendant', 'aide', 'advisor', 'adviser',
   ]],
 ]
 
-const classify = (rawTitle) => {
+export const classify = (rawTitle) => {
   const t = ` ${String(rawTitle || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()} `
   for (const [family, keys] of FAMILIES) {
     for (const k of keys) {
@@ -158,6 +208,20 @@ const classify = (rawTitle) => {
     }
   }
   return 'other'
+}
+
+// Same walk, but reports which key fired. Used by scripts/audit-classifier.mjs: a keyword
+// classifier that cannot say *why* it matched cannot be audited, and run 2 added a bare
+// `engineer` / `developer` catch that has to be checked rather than trusted.
+export const explain = (rawTitle) => {
+  const t = ` ${String(rawTitle || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()} `
+  for (const [family, keys] of FAMILIES) {
+    for (const k of keys) {
+      const needle = k.includes(' ') ? k.replace(/[^a-z0-9]+/g, ' ') : k.trim()
+      if (t.includes(needle)) return { family, key: k }
+    }
+  }
+  return { family: 'other', key: null }
 }
 
 const PROVIDERS = {
@@ -342,6 +406,12 @@ const main = async () => {
       tail_postings_total_claimed: restPostingsTotal,
       tail_titles_read: readTail,
       tail_weight: +tailWeight.toFixed(4),
+      // Requested vs actually read. Run 1 hit the wall-clock budget partway through the Lever
+      // tail (1 req/s, robots.txt), so ~100 requested boards were never probed. That is not a
+      // fetch failure and it must not be reported as one; the tail weighting self-corrects,
+      // since it divides by postings actually sampled.
+      head_boards_read: boardStats.filter((b) => b.stratum === 'head').length,
+      tail_boards_read: boardStats.filter((b) => b.stratum === 'tail').length,
       failures,
       note: 'head is a census, tail is a deterministic every-kth sample weighted to the stratum',
     },
@@ -356,9 +426,24 @@ const main = async () => {
   await writeFile(OUT, JSON.stringify(result, null, 2))
   process.stderr.write(`wrote ${OUT}\n`)
 
+  // The free artifact this census earns: every measured board ranked by engineering postings.
+  // Ranking boards by size and ranking them by engineering give different lists — the biggest
+  // board in the roster is a tutoring staffing agency — and nobody in this category publishes
+  // the second list. Scope is stated in the header rather than implied: these are the boards
+  // whose titles were actually read, not the whole 10,197-board roster.
+  const csv = ['provider,token,titles_read,engineering,engineering_share,stratum']
+  for (const b of boardStats.sort((a, z) => z.engineering - a.engineering)) {
+    const share = b.total ? (100 * b.engineering / b.total).toFixed(1) : '0.0'
+    csv.push(`${b.provider},${b.token},${b.total},${b.engineering},${share},${b.stratum}`)
+  }
+  await writeFile(ENG_CSV, `${csv.join('\n')}\n`)
+  process.stderr.write(`wrote ${ENG_CSV} (${boardStats.length} boards)\n`)
+
   for (const [fam, v] of Object.entries(result.families)) {
     process.stdout.write(`${fam.padEnd(18)} ${String(v.total).padStart(8)}  ${String(v.share).padStart(6)}%\n`)
   }
 }
 
-main().catch((err) => { console.error(err); process.exit(1) })
+if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+  main().catch((err) => { console.error(err); process.exit(1) })
+}
