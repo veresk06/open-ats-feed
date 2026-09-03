@@ -44,8 +44,22 @@ const PROVIDERS = {
   },
 }
 
+// Candidate tokens harvested from the Common Crawl URL index, per provider, before
+// any of them were called. Sourced from data/coverage-summary.json (crawlsSwept: 17,
+// candidateTokens: 19438). These are the only numbers on the coverage page that do
+// not come from companies.json, because a candidate that turned out to be dead is by
+// definition not in the roster — so the roster cannot tell you how many there were.
+const CANDIDATES = { greenhouse: 10091, ashby: 4386, lever: 4961 }
+const CRAWLS_SWEPT = 17
+
+// The Lever projection published on 2026-09-03 and since superseded by the full probe.
+// Kept as data rather than prose so the erratum states the same numbers the correction
+// was actually made against.
+const LEVER_PROJECTION = { sample: 1000, seed: 7, hitRate: 0.347, live: 1721, ci: [1591, 1852] }
+
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const num = (n) => n.toLocaleString('en-US')
+const pct = (n, d) => ((n / d) * 100).toFixed(1)
 
 const index = JSON.parse(readFileSync(join(ROOT, 'actor/data/companies.json'), 'utf8'))
 const asOf = index.as_of
@@ -82,6 +96,7 @@ const TOPBAR = (here) => `<header class="topbar">
   <nav>
     ${Object.entries(PROVIDERS).map(([k, p]) =>
       `<a href="./${k}.html"${here === k ? ' aria-current="page"' : ''}>${p.label}</a>`).join('\n    ')}
+    <a href="./coverage.html"${here === 'coverage' ? ' aria-current="page"' : ''}>Coverage</a>
     <a href="./#method"${here === 'method' ? ' aria-current="page"' : ''}>Method</a>
   </nav>
 </header>`
@@ -136,6 +151,12 @@ ${TOPBAR('')}
   <div class="bars" role="img" aria-label="${Object.entries(PROVIDERS).map(([k, p]) => `${p.label} ${num(totals.perProvider[k].live)} boards`).join(', ')}">
 ${Object.entries(PROVIDERS).map(([k, p]) => `    <div class="bar bar-${k}" style="--w:${barPct(totals.perProvider[k].live)}%"><span class="bar-label">${p.label}</span><span class="bar-num">${num(totals.perProvider[k].live)}</span></div>`).join('\n')}
   </div>
+  <p class="more"><a href="./coverage.html">${pct(
+    Object.values(CANDIDATES).reduce((s, n) => s + n, 0) - totals.live,
+    Object.values(CANDIDATES).reduce((s, n) => s + n, 0),
+  )}% of the board links on the public web are dead ends &mdash; we measured all ${num(
+    Object.values(CANDIDATES).reduce((s, n) => s + n, 0),
+  )} &rarr;</a></p>
 </section>
 
 ${Object.keys(PROVIDERS).map(preview).join('\n\n')}
@@ -236,6 +257,152 @@ ${FOOTER.replace('</body>', `<script>
 </body>`)}`
 }
 
+// ── coverage.html ────────────────────────────────────────────────────────────
+// The one thing here that no competing job-board scraper publishes: what fraction of
+// the ATS board links on the public web still resolve to an open board. Everyone
+// harvests these tokens; nobody reports how many of them are already dead.
+const coveragePage = () => {
+  const per = Object.keys(PROVIDERS).map((k) => {
+    const cand = CANDIDATES[k]
+    const live = totals.perProvider[k].live
+    const empty = totals.perProvider[k].empty
+    return { k, label: PROVIDERS[k].label, cand, live, empty, dead: cand - live - empty }
+  })
+  const sum = (f) => per.reduce((s, p) => s + f(p), 0)
+  const all = { cand: sum((p) => p.cand), live: sum((p) => p.live), empty: sum((p) => p.empty), dead: sum((p) => p.dead) }
+  const notLive = all.cand - all.live
+
+  const title = `How many public ATS job boards are actually dead? We probed ${num(all.cand)}.`
+  const desc = `${pct(notLive, all.cand)}% of the Greenhouse, Ashby and Lever board links on the public web no longer lead to an open job board. Every candidate token called once against the vendor's own public API on ${asOf}. Method, per-vendor rates and the raw counts.`
+
+  return `${HEAD(title, desc, '/coverage.html')}
+${TOPBAR('coverage')}
+<main>
+<section class="hero hero-narrow">
+  <p class="eyebrow">Measurement <span class="sep">·</span> ${num(all.cand)} tokens probed <span class="sep">·</span> ${asOf}</p>
+  <h1>Nearly half of the ATS board links on the public web are&nbsp;dead&nbsp;ends.</h1>
+  <p class="lede serif">We harvested every Greenhouse, Ashby and Lever board link in ${CRAWLS_SWEPT} Common
+  Crawl indexes &mdash; ${num(all.cand)} distinct company tokens &mdash; then called every one of them against
+  the vendor's own public API. ${num(all.live)} answered with at least one posting open.
+  <strong>${num(notLive)} did not &mdash; ${pct(notLive, all.cand)}% of the list</strong>: ${num(all.dead)} are gone
+  outright, and ${num(all.empty)} still answer with nothing open. Everyone building a job feed harvests these
+  tokens. This is what nobody publishes about them.</p>
+</section>
+
+<section class="finding" id="attrition">
+  <h2>What survived, by vendor</h2>
+  <p class="serif">Solid is what answered with an open board. Hatched is what did not &mdash; a token that
+  was linked somewhere on the public web, and today has no open role behind it.</p>
+  <ul class="attrition">
+${per.map((p) => `    <li class="att att-${p.k}">
+      <div class="att-head">
+        <span class="att-name"><span class="tick tick-${p.k}"></span>${p.label}</span>
+        <span class="att-rate"><b>${pct(p.live, p.cand)}%</b> of ${num(p.cand)} tokens still live</span>
+      </div>
+      <div class="att-track" role="img" aria-label="${p.label}: ${num(p.live)} of ${num(p.cand)} tokens live, ${pct(p.live, p.cand)} percent">
+        <div class="att-live" style="--w:${pct(p.live, p.cand)}%"></div>
+      </div>
+      <p class="att-legend"><span>${num(p.live)} live</span><span>${num(p.empty)} answered, nothing open</span><span>${num(p.dead)} gone</span></p>
+    </li>`).join('\n')}
+  </ul>
+
+  <div class="ledger-wrap">
+  <table class="ledger">
+    <thead>
+      <tr><th>Vendor</th><th>Candidates</th><th>Live</th><th>Empty</th><th>Gone</th><th>Live rate</th><th>Postings</th></tr>
+    </thead>
+    <tbody>
+${per.map((p) => `      <tr>
+        <td><span class="name"><span class="tick tick-${p.k}"></span>${p.label}</span></td>
+        <td>${num(p.cand)}</td><td>${num(p.live)}</td><td class="dim">${num(p.empty)}</td><td class="dim">${num(p.dead)}</td>
+        <td>${pct(p.live, p.cand)}%</td><td>${num(totals.perProvider[p.k].postings)}</td>
+      </tr>`).join('\n')}
+    </tbody>
+    <tfoot>
+      <tr><td>All three</td><td>${num(all.cand)}</td><td>${num(all.live)}</td><td>${num(all.empty)}</td><td>${num(all.dead)}</td><td>${pct(all.live, all.cand)}%</td><td>${num(totals.postings)}</td></tr>
+    </tfoot>
+  </table>
+  </div>
+  <p class="caveat"><strong>Live</strong> means the token resolved and the board had at least one posting open
+  at the moment of reading. <strong>Empty</strong> means it resolved with zero postings &mdash; a real company with
+  nothing open &mdash; and is counted as not live, which is the conservative choice. <strong>Gone</strong> is a 404,
+  a 410, or a response that was not a job board at all.</p>
+</section>
+
+<section class="finding" id="erratum">
+  <h2>A correction to our own number</h2>
+  <div class="erratum">
+    <p class="erratum-tag">Erratum &mdash; Lever, ${asOf}</p>
+    <dl class="erratum-figs">
+      <div><dt>We projected</dt><dd class="struck">${num(LEVER_PROJECTION.live)}</dd></div>
+      <div><dt>We measured</dt><dd class="stands">${num(per.find((p) => p.k === 'lever').live)}</dd></div>
+      <div><dt>Our stated 95% interval</dt><dd class="struck">${num(LEVER_PROJECTION.ci[0])}&ndash;${num(LEVER_PROJECTION.ci[1])}</dd></div>
+    </dl>
+    <p>Lever's API asks for one request per second, so a full pass takes about eighty minutes. Rather than
+    wait, we probed a seeded random sample of ${num(LEVER_PROJECTION.sample)} of the ${num(per.find((p) => p.k === 'lever').cand)} tokens,
+    got a ${(LEVER_PROJECTION.hitRate * 100).toFixed(1)}% hit rate, scaled it, and published ${num(LEVER_PROJECTION.live)} live boards
+    with a 95% confidence interval of ${num(LEVER_PROJECTION.ci[0])}&ndash;${num(LEVER_PROJECTION.ci[1])}.</p>
+    <p>The pass has since finished. The measured answer is <strong>${num(per.find((p) => p.k === 'lever').live)}</strong> &mdash;
+    ${pct(LEVER_PROJECTION.live - per.find((p) => p.k === 'lever').live, per.find((p) => p.k === 'lever').live)}% above the truth, and
+    <strong>below the bottom of the interval we published with it</strong>. A 95% interval is allowed to miss one time in
+    twenty; the honest reading is that our sample was not the uniform draw we treated it as, because liveness is not
+    independent of where a token sits in the harvest.</p>
+    <p>We are leaving this here rather than quietly swapping the number, because a coverage figure you cannot audit is
+    worth nothing, and the only way to show ours is auditable is to show it being corrected.</p>
+  </div>
+</section>
+
+<section class="finding" id="throttling">
+  <h2>A 403 is a fact about your client, not a verdict about the company</h2>
+  <p class="serif">Greenhouse starts returning <code>403</code> once a client has asked too often. Our verifier
+  originally filed any non-<code>429</code>, non-<code>5xx</code> failure as dead &mdash; so throttling was being
+  recorded as "this company has no board."</p>
+  <p class="serif">The tell was arithmetic, not a stack trace. A run over ${num(CANDIDATES.greenhouse)} Greenhouse tokens
+  reported 4,391 live boards. An earlier run over 7,692 tokens &mdash; a strict <em>subset</em> of the same list &mdash; had
+  reported 4,932. Adding tokens cannot remove companies, so one of the two runs was not measuring what it claimed.
+  Splitting by status code found 2,107 <code>403</code>s in the new run against zero in the old, and 1,008 of those were
+  boards the earlier run had confirmed live hours before.</p>
+  <p class="serif">A refused request is now retried, and one still refused after its retries is recorded as
+  <code>blocked</code> &mdash; excluded from the denominator rather than counted as a miss. The general form of the
+  mistake: when a service rate-limits you, the failure describes your client, and folding it into a verdict about the
+  world biases the result downward while leaving it entirely believable.</p>
+</section>
+
+<section class="finding" id="cross-probe">
+  <h2>Guessing a company's token across vendors does not work</h2>
+  <p class="serif">A company's board token is often the same slug whichever ATS it runs &mdash; <code>stripe</code>,
+  <code>figma</code>, <code>ramp</code> &mdash; so tokens harvested from one vendor look like free candidates for the
+  others. Tested on seeded random samples of up to 400 tokens per direction, it is worth 2&ndash;3% marginal coverage,
+  and 0.3&ndash;0.5% into Lever. <strong>Hypothesis rejected.</strong> Published so nobody has to rediscover it.</p>
+</section>
+
+<section class="finding" id="limits">
+  <h2>What this measurement does not tell you</h2>
+  <p class="serif">A board is findable here only if something on the public web linked to it while Common Crawl was
+  looking. Companies that never linked their board anywhere crawlable are missing, and there is no way to count what
+  you cannot see. <strong>This is a floor, not a census.</strong></p>
+  <p class="serif">It also says nothing about freshness. The dead tokens measure the decay rate of an archive-aged
+  list; they do not say how fast <em>new</em> companies appear, which is the number a re-sweep cadence should be tuned
+  to. And the ${num(all.empty)} boards that answered with nothing open are not classified &mdash; seasonally quiet and
+  permanently dormant look identical from outside.</p>
+  <p class="serif">There is no Workday here, and no Taleo. Both are large, and both need a different method than a
+  public unauthenticated board API.</p>
+</section>
+
+<section class="downloads">
+  <h2>Check it yourself</h2>
+  <p class="serif">The ${num(all.live)} boards that answered are published in full, with the exact API URL that
+  produced each row. Call any of them and you should get a similar count, drifting as they hire.</p>
+  <ul class="dl">
+    <li><a href="./data/all.csv" download><span class="dl-name">all.csv</span><span class="dl-meta">${num(all.live)} rows &mdash; token, open postings, board URL, API URL</span></a></li>
+    <li><a href="${REPO_URL}/blob/main/docs/RESULTS.md"><span class="dl-name">RESULTS.md</span><span class="dl-meta">the long form &mdash; per-index yield, robots.txt handling, every superseded run</span></a></li>
+  </ul>
+  <p class="serif">Public domain, no attribution required, no signup. <a href="./">The directory is here</a>.</p>
+</section>
+</main>
+${FOOTER}`
+}
+
 // ── CSV ──────────────────────────────────────────────────────────────────────
 const csvFor = (keys) => {
   const head = 'provider,token,open_postings,board_url,api_url\n'
@@ -246,7 +413,7 @@ const csvFor = (keys) => {
 }
 
 // ── write ────────────────────────────────────────────────────────────────────
-for (const f of ['index.html', 'style.css', 'robots.txt', 'sitemap.xml', '.nojekyll']) {
+for (const f of ['index.html', 'coverage.html', 'style.css', 'robots.txt', 'sitemap.xml', '.nojekyll']) {
   rmSync(join(OUT, f), { force: true })
 }
 for (const key of Object.keys(PROVIDERS)) rmSync(join(OUT, `${key}.html`), { force: true })
@@ -254,6 +421,7 @@ rmSync(join(OUT, 'data'), { recursive: true, force: true })
 mkdirSync(join(OUT, 'data'), { recursive: true })
 
 writeFileSync(join(OUT, 'index.html'), indexHtml)
+writeFileSync(join(OUT, 'coverage.html'), coveragePage())
 for (const key of Object.keys(PROVIDERS)) {
   writeFileSync(join(OUT, `${key}.html`), providerPage(key))
   writeFileSync(join(OUT, 'data', `${key}.csv`), csvFor([key]))
@@ -265,7 +433,7 @@ writeFileSync(join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${SITE
 writeFileSync(
   join(OUT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    ['/', ...Object.keys(PROVIDERS).map((k) => `/${k}.html`)]
+    ['/', '/coverage.html', ...Object.keys(PROVIDERS).map((k) => `/${k}.html`)]
       .map((u) => `  <url><loc>${SITE_URL}${u}</loc><lastmod>${asOf}</lastmod></url>`)
       .join('\n') +
     `\n</urlset>\n`,

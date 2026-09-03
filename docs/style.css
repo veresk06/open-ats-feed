@@ -423,11 +423,208 @@ footer .serif {
 footer .meta { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin: 0; }
 footer .meta a { color: var(--ink); text-underline-offset: 3px; }
 
+/* ── coverage: the attrition band ────────────────────────────────────────── */
+
+/* The index page's .bars shows composition — how the live roster splits by
+   vendor. This shows survival, which is a different fact and needs a different
+   shape: one full-width track per vendor, solid for what answered, hatched for
+   what did not. The hatch is drawn rather than tinted so that "dead" reads as
+   absence of material, not as a second category of company. */
+
+.attrition { margin: 0; padding: 0; list-style: none; }
+
+.att { padding-top: 1.75rem; }
+
+.att-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.3rem 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.att-name {
+  font-variation-settings: "wdth" 115;
+  font-weight: 800;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.att-rate {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.att-rate b { color: var(--ink); font-weight: 500; }
+
+.att-track {
+  height: 2.4rem;
+  border: 1px solid var(--ink);
+  background-color: var(--card);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--rule) 0 1px,
+    transparent 1px 7px
+  );
+}
+
+.att-live {
+  height: 100%;
+  width: var(--w);
+  border-right: 1px solid var(--ink);
+  animation: grow 1.05s cubic-bezier(0.16, 0.84, 0.28, 1) both;
+}
+
+.att-greenhouse .att-live { background: var(--greenhouse); }
+.att-ashby .att-live { background: var(--ashby); animation-delay: 0.09s; }
+.att-lever .att-live { background: var(--lever); animation-delay: 0.18s; }
+
+.att-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0.45rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── coverage: the ledger ────────────────────────────────────────────────── */
+
+.ledger-wrap { overflow-x: auto; margin-top: 1.5rem; }
+
+.ledger {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 34rem;
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger th, .ledger td { padding: 0.55rem 0.7rem; text-align: right; white-space: nowrap; }
+.ledger th:first-child, .ledger td:first-child { text-align: left; }
+
+.ledger thead th {
+  border-bottom: 1px solid var(--ink);
+  font-weight: 500;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ledger tbody tr { border-bottom: 1px solid var(--rule); }
+.ledger tbody tr:hover { background: var(--card); }
+.ledger tfoot td { border-top: 1px solid var(--ink); font-weight: 500; }
+.ledger .name { display: flex; align-items: center; gap: 0.5rem; }
+.ledger .dim { color: var(--muted); }
+
+/* ── coverage: the erratum slip ──────────────────────────────────────────── */
+
+/* A printed register carries its corrections on the page, not in a reissue.
+   Rust is the site's reserved colour for things the reader should act on, and
+   a number we got wrong is the most actionable thing here. */
+
+.erratum {
+  margin-top: 1.6rem;
+  border: 1px solid var(--mark);
+  background: var(--card);
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+}
+
+.erratum-tag {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--mark);
+  margin: 0 0 0.75rem;
+}
+
+.erratum p {
+  font-family: var(--prose);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #23414d;
+  margin: 0 0 1rem;
+  max-width: 62ch;
+}
+
+.erratum p:last-child { margin-bottom: 0; }
+
+.erratum-figs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  margin: 0 0 1.1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.erratum-figs div { font-family: var(--mono); }
+
+.erratum-figs dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+
+.erratum-figs dd {
+  margin: 0;
+  font-variation-settings: "wdth" 108;
+  font-size: 1.35rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.struck { text-decoration: line-through; color: var(--muted); }
+.stands { color: var(--mark); }
+
+/* ── coverage: findings ──────────────────────────────────────────────────── */
+
+.finding { padding-top: clamp(3rem, 7vw, 4.25rem); }
+
+.finding h2 {
+  font-variation-settings: "wdth" 115;
+  font-weight: 800;
+  font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+  letter-spacing: -0.01em;
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--ink);
+  max-width: 30ch;
+}
+
+.finding .serif {
+  font-size: 1.02rem;
+  line-height: 1.62;
+  color: #23414d;
+  max-width: 62ch;
+  margin: 0 0 1.1rem;
+}
+
+.finding code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 0.1rem 0.3rem;
+  overflow-wrap: anywhere;
+}
+
 /* ── floor ───────────────────────────────────────────────────────────────── */
 
 :focus-visible { outline: 2px solid var(--mark); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .bar { animation: none; }
+  .bar, .att-live { animation: none; }
   *, *::before, *::after { transition-duration: 0.01ms !important; }
 }

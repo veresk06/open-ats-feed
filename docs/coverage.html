@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How many public ATS job boards are actually dead? We probed 19,438.</title>
+<meta name="description" content="47.5% of the Greenhouse, Ashby and Lever board links on the public web no longer lead to an open job board. Every candidate token called once against the vendor's own public API on 2026-09-03. Method, per-vendor rates and the raw counts.">
+<link rel="canonical" href="https://veresk06.github.io/open-ats-feed/coverage.html">
+<meta property="og:title" content="How many public ATS job boards are actually dead? We probed 19,438.">
+<meta property="og:description" content="47.5% of the Greenhouse, Ashby and Lever board links on the public web no longer lead to an open job board. Every candidate token called once against the vendor's own public API on 2026-09-03. Method, per-vendor rates and the raw counts.">
+<meta property="og:url" content="https://veresk06.github.io/open-ats-feed/coverage.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=DM+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="wordmark" href="./">Open&nbsp;ATS&nbsp;Index</a>
+  <nav>
+    <a href="./greenhouse.html">Greenhouse</a>
+    <a href="./ashby.html">Ashby</a>
+    <a href="./lever.html">Lever</a>
+    <a href="./coverage.html" aria-current="page">Coverage</a>
+    <a href="./#method">Method</a>
+  </nav>
+</header>
+<main>
+<section class="hero hero-narrow">
+  <p class="eyebrow">Measurement <span class="sep">·</span> 19,438 tokens probed <span class="sep">·</span> 2026-09-03</p>
+  <h1>Nearly half of the ATS board links on the public web are&nbsp;dead&nbsp;ends.</h1>
+  <p class="lede serif">We harvested every Greenhouse, Ashby and Lever board link in 17 Common
+  Crawl indexes &mdash; 19,438 distinct company tokens &mdash; then called every one of them against
+  the vendor's own public API. 10,197 answered with at least one posting open.
+  <strong>9,241 did not &mdash; 47.5% of the list</strong>: 7,661 are gone
+  outright, and 1,580 still answer with nothing open. Everyone building a job feed harvests these
+  tokens. This is what nobody publishes about them.</p>
+</section>
+
+<section class="finding" id="attrition">
+  <h2>What survived, by vendor</h2>
+  <p class="serif">Solid is what answered with an open board. Hatched is what did not &mdash; a token that
+  was linked somewhere on the public web, and today has no open role behind it.</p>
+  <ul class="attrition">
+    <li class="att att-greenhouse">
+      <div class="att-head">
+        <span class="att-name"><span class="tick tick-greenhouse"></span>Greenhouse</span>
+        <span class="att-rate"><b>54.6%</b> of 10,091 tokens still live</span>
+      </div>
+      <div class="att-track" role="img" aria-label="Greenhouse: 5,506 of 10,091 tokens live, 54.6 percent">
+        <div class="att-live" style="--w:54.6%"></div>
+      </div>
+      <p class="att-legend"><span>5,506 live</span><span>880 answered, nothing open</span><span>3,705 gone</span></p>
+    </li>
+    <li class="att att-ashby">
+      <div class="att-head">
+        <span class="att-name"><span class="tick tick-ashby"></span>Ashby</span>
+        <span class="att-rate"><b>71.9%</b> of 4,386 tokens still live</span>
+      </div>
+      <div class="att-track" role="img" aria-label="Ashby: 3,153 of 4,386 tokens live, 71.9 percent">
+        <div class="att-live" style="--w:71.9%"></div>
+      </div>
+      <p class="att-legend"><span>3,153 live</span><span>299 answered, nothing open</span><span>934 gone</span></p>
+    </li>
+    <li class="att att-lever">
+      <div class="att-head">
+        <span class="att-name"><span class="tick tick-lever"></span>Lever</span>
+        <span class="att-rate"><b>31.0%</b> of 4,961 tokens still live</span>
+      </div>
+      <div class="att-track" role="img" aria-label="Lever: 1,538 of 4,961 tokens live, 31.0 percent">
+        <div class="att-live" style="--w:31.0%"></div>
+      </div>
+      <p class="att-legend"><span>1,538 live</span><span>401 answered, nothing open</span><span>3,022 gone</span></p>
+    </li>
+  </ul>
+
+  <div class="ledger-wrap">
+  <table class="ledger">
+    <thead>
+      <tr><th>Vendor</th><th>Candidates</th><th>Live</th><th>Empty</th><th>Gone</th><th>Live rate</th><th>Postings</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="name"><span class="tick tick-greenhouse"></span>Greenhouse</span></td>
+        <td>10,091</td><td>5,506</td><td class="dim">880</td><td class="dim">3,705</td>
+        <td>54.6%</td><td>189,336</td>
+      </tr>
+      <tr>
+        <td><span class="name"><span class="tick tick-ashby"></span>Ashby</span></td>
+        <td>4,386</td><td>3,153</td><td class="dim">299</td><td class="dim">934</td>
+        <td>71.9%</td><td>56,721</td>
+      </tr>
+      <tr>
+        <td><span class="name"><span class="tick tick-lever"></span>Lever</span></td>
+        <td>4,961</td><td>1,538</td><td class="dim">401</td><td class="dim">3,022</td>
+        <td>31.0%</td><td>45,450</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr><td>All three</td><td>19,438</td><td>10,197</td><td>1,580</td><td>7,661</td><td>52.5%</td><td>291,507</td></tr>
+    </tfoot>
+  </table>
+  </div>
+  <p class="caveat"><strong>Live</strong> means the token resolved and the board had at least one posting open
+  at the moment of reading. <strong>Empty</strong> means it resolved with zero postings &mdash; a real company with
+  nothing open &mdash; and is counted as not live, which is the conservative choice. <strong>Gone</strong> is a 404,
+  a 410, or a response that was not a job board at all.</p>
+</section>
+
+<section class="finding" id="erratum">
+  <h2>A correction to our own number</h2>
+  <div class="erratum">
+    <p class="erratum-tag">Erratum &mdash; Lever, 2026-09-03</p>
+    <dl class="erratum-figs">
+      <div><dt>We projected</dt><dd class="struck">1,721</dd></div>
+      <div><dt>We measured</dt><dd class="stands">1,538</dd></div>
+      <div><dt>Our stated 95% interval</dt><dd class="struck">1,591&ndash;1,852</dd></div>
+    </dl>
+    <p>Lever's API asks for one request per second, so a full pass takes about eighty minutes. Rather than
+    wait, we probed a seeded random sample of 1,000 of the 4,961 tokens,
+    got a 34.7% hit rate, scaled it, and published 1,721 live boards
+    with a 95% confidence interval of 1,591&ndash;1,852.</p>
+    <p>The pass has since finished. The measured answer is <strong>1,538</strong> &mdash;
+    11.9% above the truth, and
+    <strong>below the bottom of the interval we published with it</strong>. A 95% interval is allowed to miss one time in
+    twenty; the honest reading is that our sample was not the uniform draw we treated it as, because liveness is not
+    independent of where a token sits in the harvest.</p>
+    <p>We are leaving this here rather than quietly swapping the number, because a coverage figure you cannot audit is
+    worth nothing, and the only way to show ours is auditable is to show it being corrected.</p>
+  </div>
+</section>
+
+<section class="finding" id="throttling">
+  <h2>A 403 is a fact about your client, not a verdict about the company</h2>
+  <p class="serif">Greenhouse starts returning <code>403</code> once a client has asked too often. Our verifier
+  originally filed any non-<code>429</code>, non-<code>5xx</code> failure as dead &mdash; so throttling was being
+  recorded as "this company has no board."</p>
+  <p class="serif">The tell was arithmetic, not a stack trace. A run over 10,091 Greenhouse tokens
+  reported 4,391 live boards. An earlier run over 7,692 tokens &mdash; a strict <em>subset</em> of the same list &mdash; had
+  reported 4,932. Adding tokens cannot remove companies, so one of the two runs was not measuring what it claimed.
+  Splitting by status code found 2,107 <code>403</code>s in the new run against zero in the old, and 1,008 of those were
+  boards the earlier run had confirmed live hours before.</p>
+  <p class="serif">A refused request is now retried, and one still refused after its retries is recorded as
+  <code>blocked</code> &mdash; excluded from the denominator rather than counted as a miss. The general form of the
+  mistake: when a service rate-limits you, the failure describes your client, and folding it into a verdict about the
+  world biases the result downward while leaving it entirely believable.</p>
+</section>
+
+<section class="finding" id="cross-probe">
+  <h2>Guessing a company's token across vendors does not work</h2>
+  <p class="serif">A company's board token is often the same slug whichever ATS it runs &mdash; <code>stripe</code>,
+  <code>figma</code>, <code>ramp</code> &mdash; so tokens harvested from one vendor look like free candidates for the
+  others. Tested on seeded random samples of up to 400 tokens per direction, it is worth 2&ndash;3% marginal coverage,
+  and 0.3&ndash;0.5% into Lever. <strong>Hypothesis rejected.</strong> Published so nobody has to rediscover it.</p>
+</section>
+
+<section class="finding" id="limits">
+  <h2>What this measurement does not tell you</h2>
+  <p class="serif">A board is findable here only if something on the public web linked to it while Common Crawl was
+  looking. Companies that never linked their board anywhere crawlable are missing, and there is no way to count what
+  you cannot see. <strong>This is a floor, not a census.</strong></p>
+  <p class="serif">It also says nothing about freshness. The dead tokens measure the decay rate of an archive-aged
+  list; they do not say how fast <em>new</em> companies appear, which is the number a re-sweep cadence should be tuned
+  to. And the 1,580 boards that answered with nothing open are not classified &mdash; seasonally quiet and
+  permanently dormant look identical from outside.</p>
+  <p class="serif">There is no Workday here, and no Taleo. Both are large, and both need a different method than a
+  public unauthenticated board API.</p>
+</section>
+
+<section class="downloads">
+  <h2>Check it yourself</h2>
+  <p class="serif">The 10,197 boards that answered are published in full, with the exact API URL that
+  produced each row. Call any of them and you should get a similar count, drifting as they hire.</p>
+  <ul class="dl">
+    <li><a href="./data/all.csv" download><span class="dl-name">all.csv</span><span class="dl-meta">10,197 rows &mdash; token, open postings, board URL, API URL</span></a></li>
+    <li><a href="https://github.com/veresk06/open-ats-feed/blob/main/docs/RESULTS.md"><span class="dl-name">RESULTS.md</span><span class="dl-meta">the long form &mdash; per-index yield, robots.txt handling, every superseded run</span></a></li>
+  </ul>
+  <p class="serif">Public domain, no attribution required, no signup. <a href="./">The directory is here</a>.</p>
+</section>
+</main>
+<footer>
+  <p class="serif">Read on 2026-09-03 by calling each vendor's own public job-board API, unauthenticated,
+  once per company. No scraping, no login, no third-party dataset. A board is listed here only if it
+  answered and had at least one posting open at that moment.</p>
+  <p class="meta">
+    <a href="https://github.com/veresk06/open-ats-feed">Source and raw data on GitHub</a> ·
+    <a href="https://github.com/veresk06/open-ats-feed/tree/main/digests">Daily digest series</a> ·
+    <a href="https://apify.com/sharp_malachite/open-ats-jobs-feed">The same scan, packaged as an Apify Actor</a>
+  </p>
+</footer>
+</body>
+</html>
