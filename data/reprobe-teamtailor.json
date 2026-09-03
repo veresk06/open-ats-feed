@@ -1,0 +1,51 @@
+{
+  "provider": "teamtailor",
+  "delayMs": 3000,
+  "results": [
+    {
+      "token": "copenhagencapacity",
+      "was": "error",
+      "http": 200,
+      "status": "dead",
+      "reason": "non-json body"
+    },
+    {
+      "token": "discover",
+      "was": "error",
+      "http": 200,
+      "status": "dead",
+      "reason": "non-json body"
+    },
+    {
+      "token": "ext",
+      "was": "error",
+      "status": "error",
+      "reason": "fetch failed"
+    },
+    {
+      "token": "refer",
+      "was": "error",
+      "status": "error",
+      "reason": "fetch failed"
+    },
+    {
+      "token": "seaber",
+      "was": "error",
+      "http": 200,
+      "status": "dead",
+      "reason": "non-json body"
+    },
+    {
+      "token": "xataio-1680192386",
+      "was": "error",
+      "http": 200,
+      "status": "dead",
+      "reason": "non-json body"
+    }
+  ],
+  "tally": {
+    "dead": 4,
+    "error": 2
+  },
+  "postings": 0
+}

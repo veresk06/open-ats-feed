@@ -51,12 +51,14 @@
     "providers": {
       "title": "ATS providers",
       "type": "array",
-      "description": "Which applicant tracking systems to read. Greenhouse, Ashby and Breezy are fast and are the default — all three were probed in full at concurrency 8 without being throttled. Lever is fetched at 1 request per second because api.lever.co asks for that in its robots.txt, so a large Lever run is slow by design. Workable is off by default for a different reason: its robots.txt allows everything, but apply.workable.com sits behind Cloudflare bot management, which begins answering 429 to every request after a few hundred in quick succession and clears again once you slow down. A large Workable run therefore returns blocked boards rather than jobs unless it is paced, and it has no boards in the bundled index yet — select it only together with an explicit company list. Measured 2026-09-03.",
+      "description": "Which applicant tracking systems to read. Greenhouse, Ashby, Breezy, Recruitee and Teamtailor are fast and are the default — every one of them was probed across its whole harvested token list at concurrency 8 without being throttled into uselessness (Recruitee refused 5 of 3,554 and Teamtailor 0 of 3,175; 4 of Recruitee's 5 turned out to be live boards when re-asked one at a time). Lever is fetched at 1 request per second because api.lever.co asks for that in its robots.txt, so a large Lever run is slow by design. Workable is off by default for a different reason: its robots.txt allows everything, but apply.workable.com sits behind Cloudflare bot management, which begins answering 429 to every request after a few hundred in quick succession and clears again once you slow down. A large Workable run therefore returns blocked boards rather than jobs unless it is paced, and it has no boards in the bundled index yet — select it only together with an explicit company list. Measured 2026-09-03.",
       "editor": "select",
       "default": [
         "greenhouse",
         "ashby",
-        "breezy"
+        "breezy",
+        "recruitee",
+        "teamtailor"
       ],
       "items": {
         "type": "string",
@@ -64,6 +66,8 @@
           "greenhouse",
           "ashby",
           "breezy",
+          "recruitee",
+          "teamtailor",
           "workable",
           "lever"
         ],
@@ -71,6 +75,8 @@
           "Greenhouse",
           "Ashby",
           "Breezy",
+          "Recruitee",
+          "Teamtailor",
           "Workable (no bundled boards — needs an explicit company list)",
           "Lever (slow — 1 req/s)"
         ]

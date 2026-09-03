@@ -2,13 +2,13 @@
 
 An open, reproducible measurement of how many companies you can reach through the **public,
 unauthenticated job-board APIs** of four applicant tracking systems — Greenhouse, Lever, Ashby
-and Breezy — and how many live job postings that adds up to.
+Breezy, Recruitee and Teamtailor — and how many live job postings that adds up to.
 
 No scraping. No authentication. No terms-of-service gymnastics. Every number here comes from
 endpoints those vendors publish for anyone to call, and every number is reproducible by running
 two scripts in this repo.
 
-**Browse the result:** <https://veresk06.github.io/open-ats-feed/> — all 12,121 boards with their
+**Browse the result:** <https://veresk06.github.io/open-ats-feed/> — all 16,361 boards with their
 open-posting counts, searchable, with CSV downloads. Free, public domain, no signup.
 Built from `actor/data/companies.json` by `scripts/build-site.mjs`.
 
@@ -27,9 +27,10 @@ first path segment:
 boards.greenhouse.io/{token}     jobs.lever.co/{token}     jobs.ashbyhq.com/{token}
 ```
 
-Breezy is the exception that proves the shape: it gives each customer a subdomain rather than a
-path, so the token is `{token}.breezy.hr` instead of a first path segment. Same index, same
-query, one different extraction rule.
+Breezy, Recruitee and Teamtailor are the exception that proves the shape: they give each
+customer a subdomain rather than a path, so the token is `{token}.breezy.hr`,
+`{token}.recruitee.com` or `{token}.teamtailor.com` instead of a first path segment. Same index,
+same query, one different extraction rule.
 
 So a CDX query against those host prefixes enumerates companies for free, without crawling
 anything ourselves. Then each candidate token is probed against the vendor's real API to see
@@ -37,8 +38,9 @@ what is live right now.
 
 ## Results
 
-**12,121 live companies and 335,305 live job postings**, across Greenhouse, Lever, Ashby and
-Breezy, from 24,000 candidate tokens harvested out of 17 Common Crawl indices.
+**16,361 live companies and 399,398 live job postings**, across Greenhouse, Ashby, Lever,
+Breezy, Recruitee and Teamtailor, from 30,729 candidate tokens harvested out of 17 Common Crawl
+indices.
 
 | Provider | Candidates | Probed | Live companies | Hit rate | Live postings |
 |---|---:|---:|---:|---:|---:|
@@ -46,7 +48,9 @@ Breezy, from 24,000 candidate tokens harvested out of 17 Common Crawl indices.
 | Ashby | 4,386 | 4,386 | 3,153 | 71.9% | 56,721 |
 | Lever | 4,961 | 4,824 | 1,621 | 33.6% | 53,715 |
 | Breezy | 4,562 | 4,562 | 1,841 | 40.4% | 35,533 |
-| **Total** | **24,000** | **23,863** | **12,121** | | **335,305** |
+| Recruitee | 3,554 | 3,554 | 2,247 | 63.2% | 36,588 |
+| Teamtailor | 3,175 | 3,175 | 1,993 | 62.8% | 27,505 |
+| **Total** | **30,729** | **30,592** | **16,361** | | **399,398** |
 
 **Every figure above is counted. None of it is projected.**
 

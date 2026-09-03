@@ -1,0 +1,47 @@
+{
+  "perProvider": {
+    "recruitee": {
+      "harvested": 3554,
+      "candidates": 3554,
+      "live": 2243,
+      "empty": 386,
+      "dead": 918,
+      "error": 2,
+      "blocked": 5,
+      "postings": 36527,
+      "resolved": 3549,
+      "hitRate": 0.632,
+      "medianJobs": 6
+    },
+    "teamtailor": {
+      "harvested": 3175,
+      "candidates": 3175,
+      "live": 1993,
+      "empty": 506,
+      "dead": 670,
+      "error": 6,
+      "blocked": 0,
+      "postings": 27505,
+      "resolved": 3175,
+      "hitRate": 0.6277,
+      "medianJobs": 6
+    }
+  },
+  "gate": {
+    "companiesRequired": 10000,
+    "postingsRequired": 150000,
+    "companiesActual": 4236,
+    "postingsActual": 64032,
+    "basis": "measured in full",
+    "pass": false
+  },
+  "sampled": null,
+  "totals": {
+    "live": 4236,
+    "postings": 64032
+  },
+  "projected": {
+    "live": 4236,
+    "postings": 64032
+  }
+}

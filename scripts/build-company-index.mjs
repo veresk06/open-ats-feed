@@ -22,6 +22,20 @@
 //               count to within 3.9% but under-predicted postings by 16.6%, because
 //               postings-per-board is long-tailed and a small sample misses the big
 //               boards. Sample company counts if you must; never sample posting counts.
+//   recruitee   coverage-subdomain2.json — all 3,554 harvested tokens in one pass,
+//               with reprobe-recruitee.json overriding the 7 that came back blocked
+//               or errored. That override is not a formality: 4 of those 7 were live
+//               boards, worth 61 postings. A `blocked` verdict at concurrency 8 is a
+//               statement about our request rate, not about the board, so counting it
+//               as dead understates coverage in the direction that flatters nobody.
+//               2 tokens still answer 403 at one request every 3 seconds; those are
+//               genuine refusals and are neither live nor empty.
+//   teamtailor  coverage-subdomain2.json — all 3,175 tokens in one pass, 0 blocked,
+//               with reprobe-teamtailor.json layered on for symmetry. It changed
+//               nothing: 4 of the 6 errors were parked tenants serving HTML, 2 still
+//               fail to connect. Re-probing that recovers nothing is still worth
+//               doing — it is what makes the Recruitee correction trustworthy rather
+//               than a number we went looking for.
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
@@ -51,14 +65,18 @@ const readJsonl = async (p) => {
     })
 }
 
-const [fast, gh403, lever, leverFull, breezyFull, tokens] = await Promise.all([
-  read('data/coverage-c3-fast.json'),
-  read('data/coverage-c3-gh403.json'),
-  read('data/coverage-c3-lever.json'),
-  readJsonl('data/lever-probe.jsonl'),
-  read('data/coverage-breezy-full.json'),
-  read('data/tokens.json'),
-])
+const [fast, gh403, lever, leverFull, breezyFull, sub2, reRecruitee, reTeamtailor, tokens] =
+  await Promise.all([
+    read('data/coverage-c3-fast.json'),
+    read('data/coverage-c3-gh403.json'),
+    read('data/coverage-c3-lever.json'),
+    readJsonl('data/lever-probe.jsonl'),
+    read('data/coverage-breezy-full.json'),
+    read('data/coverage-subdomain2.json'),
+    read('data/reprobe-recruitee.json'),
+    read('data/reprobe-teamtailor.json'),
+    read('data/tokens.json'),
+  ])
 
 // A token appears in both the fast run and the 403 re-probe; the re-probe is the
 // later and unthrottled measurement, so it wins.
@@ -95,6 +113,12 @@ const leverUnverified = (tokens.lever ?? []).filter((t) => !probed.has(t)).sort(
 // partial one.
 const breezy = split(merge(breezyFull.breezy))
 
+// The slow re-probe is the later and more meaningful measurement of the same token,
+// so it wins over the concurrent pass — the same rule that lets the Greenhouse 403
+// re-probe override the fast run.
+const recruitee = split(merge(sub2.recruitee, reRecruitee.results))
+const teamtailor = split(merge(sub2.teamtailor, reTeamtailor.results))
+
 const index = {
   as_of: AS_OF,
   source: 'Common Crawl indexes CC-MAIN-2024-51 … CC-MAIN-2025-51, verified against each vendor public API',
@@ -113,6 +137,8 @@ const index = {
         'Set includeUnverifiedLever to probe them inside a run.',
     },
     breezy: { ...breezy, verified: true },
+    recruitee: { ...recruitee, verified: true },
+    teamtailor: { ...teamtailor, verified: true },
   },
 }
 

@@ -30,7 +30,13 @@ const {
   // pass at concurrency 8, and exactly one came back blocked. Speed is the criterion
   // here, not vendor size — Breezy's boards are small (median 4 open roles), which is
   // a different slice of the market rather than more of the same one.
-  providers = ['greenhouse', 'ashby', 'breezy'],
+  // Recruitee and Teamtailor clear the same bar: every harvested token probed in one
+  // concurrent pass, 5 of 3,554 and 0 of 3,175 refused. Recruitee's five are the
+  // instructive part — re-asked one at a time, four of them answered with live boards.
+  // A `blocked` verdict at concurrency is a fact about our request rate, not about the
+  // board, so it is not evidence against a vendor the way Workable's Cloudflare
+  // challenge is.
+  providers = ['greenhouse', 'ashby', 'breezy', 'recruitee', 'teamtailor'],
   outputMode = 'postings',
   signalTypes = [],
   minOpenPostings = 1,

@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How many public ATS job boards are actually dead? We probed 24,000.</title>
-<meta name="description" content="49.5% of the Greenhouse, Ashby, Lever and Breezy board links on the public web no longer lead to an open job board. Every candidate token called once against the vendor's own public API on 2026-09-03. Method, per-vendor rates and the raw counts.">
+<title>How many public ATS job boards are actually dead? We probed 30,729.</title>
+<meta name="description" content="46.8% of the Greenhouse, Ashby, Lever, Breezy, Recruitee and Teamtailor board links on the public web no longer lead to an open job board. Every candidate token called once against the vendor's own public API on 2026-09-03. Method, per-vendor rates and the raw counts.">
 <link rel="canonical" href="https://veresk06.github.io/open-ats-feed/coverage.html">
-<meta property="og:title" content="How many public ATS job boards are actually dead? We probed 24,000.">
-<meta property="og:description" content="49.5% of the Greenhouse, Ashby, Lever and Breezy board links on the public web no longer lead to an open job board. Every candidate token called once against the vendor's own public API on 2026-09-03. Method, per-vendor rates and the raw counts.">
+<meta property="og:title" content="How many public ATS job boards are actually dead? We probed 30,729.">
+<meta property="og:description" content="46.8% of the Greenhouse, Ashby, Lever, Breezy, Recruitee and Teamtailor board links on the public web no longer lead to an open job board. Every candidate token called once against the vendor's own public API on 2026-09-03. Method, per-vendor rates and the raw counts.">
 <meta property="og:url" content="https://veresk06.github.io/open-ats-feed/coverage.html">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -24,6 +24,8 @@
     <a href="./ashby.html">Ashby</a>
     <a href="./lever.html">Lever</a>
     <a href="./breezy.html">Breezy</a>
+    <a href="./recruitee.html">Recruitee</a>
+    <a href="./teamtailor.html">Teamtailor</a>
     <a href="./ramp.html">Ramp</a>
     <a href="./coverage.html" aria-current="page">Coverage</a>
     <a href="./#method">Method</a>
@@ -31,13 +33,13 @@
 </header>
 <main>
 <section class="hero hero-narrow">
-  <p class="eyebrow">Measurement <span class="sep">·</span> 24,000 tokens probed <span class="sep">·</span> 2026-09-03</p>
+  <p class="eyebrow">Measurement <span class="sep">·</span> 30,729 tokens probed <span class="sep">·</span> 2026-09-03</p>
   <h1>Nearly half of the ATS board links on the public web are&nbsp;dead&nbsp;ends.</h1>
-  <p class="lede serif">We harvested every Greenhouse, Ashby, Lever and Breezy board link in 17 Common
-  Crawl indexes &mdash; 24,000 distinct company tokens &mdash; then called every one of them against
-  the vendor's own public API. 12,121 answered with at least one posting open.
-  <strong>11,879 did not &mdash; 49.5% of the list</strong>: 8,819 are gone
-  outright, and 3,060 still answer with nothing open. Everyone building a job feed harvests these
+  <p class="lede serif">We harvested every Greenhouse, Ashby, Lever, Breezy, Recruitee and Teamtailor board link in 17 Common
+  Crawl indexes &mdash; 30,729 distinct company tokens &mdash; then called every one of them against
+  the vendor's own public API. 16,361 answered with at least one posting open.
+  <strong>14,368 did not &mdash; 46.8% of the list</strong>: 10,416 are gone
+  outright, and 3,952 still answer with nothing open. Everyone building a job feed harvests these
   tokens. This is what nobody publishes about them.</p>
 </section>
 
@@ -86,6 +88,26 @@
       </div>
       <p class="att-legend"><span>1,841 live</span><span>1,458 answered, nothing open</span><span>1,263 gone</span></p>
     </li>
+    <li class="att att-recruitee">
+      <div class="att-head">
+        <span class="att-name"><span class="tick tick-recruitee"></span>Recruitee</span>
+        <span class="att-rate"><b>63.2%</b> of 3,554 tokens still live</span>
+      </div>
+      <div class="att-track" role="img" aria-label="Recruitee: 2,247 of 3,554 tokens live, 63.2 percent">
+        <div class="att-live" style="--w:63.2%"></div>
+      </div>
+      <p class="att-legend"><span>2,247 live</span><span>386 answered, nothing open</span><span>921 gone</span></p>
+    </li>
+    <li class="att att-teamtailor">
+      <div class="att-head">
+        <span class="att-name"><span class="tick tick-teamtailor"></span>Teamtailor</span>
+        <span class="att-rate"><b>62.8%</b> of 3,175 tokens still live</span>
+      </div>
+      <div class="att-track" role="img" aria-label="Teamtailor: 1,993 of 3,175 tokens live, 62.8 percent">
+        <div class="att-live" style="--w:62.8%"></div>
+      </div>
+      <p class="att-legend"><span>1,993 live</span><span>506 answered, nothing open</span><span>676 gone</span></p>
+    </li>
   </ul>
 
   <div class="ledger-wrap">
@@ -114,9 +136,19 @@
         <td>4,562</td><td>1,841</td><td class="dim">1,458</td><td class="dim">1,263</td>
         <td>40.4%</td><td>35,533</td>
       </tr>
+      <tr>
+        <td><span class="name"><span class="tick tick-recruitee"></span>Recruitee</span></td>
+        <td>3,554</td><td>2,247</td><td class="dim">386</td><td class="dim">921</td>
+        <td>63.2%</td><td>36,588</td>
+      </tr>
+      <tr>
+        <td><span class="name"><span class="tick tick-teamtailor"></span>Teamtailor</span></td>
+        <td>3,175</td><td>1,993</td><td class="dim">506</td><td class="dim">676</td>
+        <td>62.8%</td><td>27,505</td>
+      </tr>
     </tbody>
     <tfoot>
-      <tr><td>All four</td><td>24,000</td><td>12,121</td><td>3,060</td><td>8,819</td><td>50.5%</td><td>335,305</td></tr>
+      <tr><td>All six</td><td>30,729</td><td>16,361</td><td>3,952</td><td>10,416</td><td>53.2%</td><td>399,398</td></tr>
     </tfoot>
   </table>
   </div>
@@ -202,7 +234,7 @@
   you cannot see. <strong>This is a floor, not a census.</strong></p>
   <p class="serif">It also says nothing about freshness. The dead tokens measure the decay rate of an archive-aged
   list; they do not say how fast <em>new</em> companies appear, which is the number a re-sweep cadence should be tuned
-  to. And the 3,060 boards that answered with nothing open are not classified &mdash; seasonally quiet and
+  to. And the 3,952 boards that answered with nothing open are not classified &mdash; seasonally quiet and
   permanently dormant look identical from outside.</p>
   <p class="serif">There is no Workday here, and no Taleo. Both are large, and both need a different method than a
   public unauthenticated board API.</p>
@@ -210,10 +242,10 @@
 
 <section class="downloads">
   <h2>Check it yourself</h2>
-  <p class="serif">The 12,121 boards that answered are published in full, with the exact API URL that
+  <p class="serif">The 16,361 boards that answered are published in full, with the exact API URL that
   produced each row. Call any of them and you should get a similar count, drifting as they hire.</p>
   <ul class="dl">
-    <li><a href="./data/all.csv" download><span class="dl-name">all.csv</span><span class="dl-meta">12,121 rows &mdash; token, open postings, board URL, API URL</span></a></li>
+    <li><a href="./data/all.csv" download><span class="dl-name">all.csv</span><span class="dl-meta">16,361 rows &mdash; token, open postings, board URL, API URL</span></a></li>
     <li><a href="https://github.com/veresk06/open-ats-feed/blob/main/docs/RESULTS.md"><span class="dl-name">RESULTS.md</span><span class="dl-meta">the long form &mdash; per-index yield, robots.txt handling, every superseded run</span></a></li>
   </ul>
   <p class="serif">Public domain, no attribution required, no signup. <a href="./">The directory is here</a>.</p>

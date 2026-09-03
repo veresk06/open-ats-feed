@@ -18,6 +18,16 @@
      for things you can act on. Deliberately pink-leaning so a 0.7rem tick never
      reads as the brick-orange of an action. */
   --breezy: #8d3c63;
+  /* Fifth and sixth. With --mark holding the brick-orange wedge, six accents no
+     longer fit the wheel by walking it in order, so these two fill the widest gaps
+     instead: purple between ashby's violet and breezy's wine, khaki in the yellow-
+     green arc that nothing else occupies. Both were checked, not chosen by eye —
+     scripts/check-accent.mjs holds them to AA as text on both grounds and to 30°
+     of hue from every other accent, which is where two 0.7rem ticks stop being
+     tellable apart. Recruitee is the tightest at 37° from ashby; a seventh vendor
+     will not fit this way and should change the encoding rather than squeeze in. */
+  --recruitee: #7d3c8c;
+  --teamtailor: #5a6216;
 
   --display: "Archivo", ui-sans-serif, system-ui, sans-serif;
   --prose: "Source Serif 4", Georgia, serif;
@@ -123,6 +133,8 @@ main { padding: 0 var(--pad) 5rem; max-width: var(--measure); margin: 0 auto; }
 .v-ashby { color: var(--ashby); }
 .v-lever { color: var(--lever); }
 .v-breezy { color: var(--breezy); }
+.v-recruitee { color: var(--recruitee); }
+.v-teamtailor { color: var(--teamtailor); }
 
 .lede {
   font-size: clamp(1.05rem, 1.7vw, 1.3rem);
@@ -163,6 +175,8 @@ main { padding: 0 var(--pad) 5rem; max-width: var(--measure); margin: 0 auto; }
 .bar-ashby { background: var(--ashby); animation-delay: 0.09s; }
 .bar-lever { background: var(--lever); animation-delay: 0.18s; }
 .bar-breezy { background: var(--breezy); animation-delay: 0.27s; }
+.bar-recruitee { background: var(--recruitee); animation-delay: 0.36s; }
+.bar-teamtailor { background: var(--teamtailor); animation-delay: 0.45s; }
 
 .bar-label {
   font-family: var(--mono);
@@ -227,6 +241,8 @@ main { padding: 0 var(--pad) 5rem; max-width: var(--measure); margin: 0 auto; }
 .tick-ashby { background: var(--ashby); }
 .tick-lever { background: var(--lever); }
 .tick-breezy { background: var(--breezy); }
+.tick-recruitee { background: var(--recruitee); }
+.tick-teamtailor { background: var(--teamtailor); }
 
 .prov-stat { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); margin: 0; }
 .prov-stat b { color: var(--ink); font-weight: 500; }
@@ -296,6 +312,8 @@ main { padding: 0 var(--pad) 5rem; max-width: var(--measure); margin: 0 auto; }
 .rows-ashby .row:hover .count { color: var(--ashby); }
 .rows-lever .row:hover .count { color: var(--lever); }
 .rows-breezy .row:hover .count { color: var(--breezy); }
+.rows-recruitee .row:hover .count { color: var(--recruitee); }
+.rows-teamtailor .row:hover .count { color: var(--teamtailor); }
 
 .rows-full { margin-top: 1.5rem; column-gap: 3.5rem; }
 
@@ -493,6 +511,8 @@ footer .meta a { color: var(--ink); text-underline-offset: 3px; }
 .att-ashby .att-live { background: var(--ashby); animation-delay: 0.09s; }
 .att-lever .att-live { background: var(--lever); animation-delay: 0.18s; }
 .att-breezy .att-live { background: var(--breezy); animation-delay: 0.27s; }
+.att-recruitee .att-live { background: var(--recruitee); animation-delay: 0.36s; }
+.att-teamtailor .att-live { background: var(--teamtailor); animation-delay: 0.45s; }
 
 .att-legend {
   display: flex;

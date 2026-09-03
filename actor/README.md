@@ -1,20 +1,20 @@
-# Open ATS Jobs Feed — Greenhouse, Ashby, Lever
+# Open ATS Jobs Feed — Greenhouse, Ashby, Lever, Breezy, Recruitee, Teamtailor
 
-Job postings from **10,197 verified company career boards**, straight from each vendor's own
+Job postings from **16,361 verified company career boards**, straight from each vendor's own
 public API, normalised into a single flat schema.
 
-No HTML scraping, no headless browser, no login. Greenhouse, Ashby and Lever all publish a
-public JSON job-board API. The hard part is not reading them — it is knowing **which companies
-exist on each one**, because none of the three publishes a directory. That index is what this
-Actor ships with.
+No HTML scraping, no headless browser, no login. Greenhouse, Ashby, Lever, Breezy, Recruitee
+and Teamtailor all publish a public JSON job-board API. The hard part is not reading them — it
+is knowing **which companies exist on each one**, because not one of the six publishes a
+directory. That index is what this Actor ships with.
 
 ## What you get
 
 | | |
 |---|---|
-| Verified live boards | **10,197** |
-| Postings behind them | **291,507** at index time |
-| Providers | Greenhouse (5,506) · Ashby (3,153) · Lever (1,538) |
+| Verified live boards | **16,361** |
+| Postings behind them | **399,398** at index time |
+| Providers | Greenhouse (5,506) · Ashby (3,153) · Recruitee (2,247) · Teamtailor (1,993) · Breezy (1,841) · Lever (1,621) |
 | Index built | 2026-09-03, from 17 Common Crawl indexes |
 
 Every record is the same shape whatever the source:
@@ -202,6 +202,11 @@ postings, 57% of the corpus**, drawn from the full roster **by board size and ne
 board repeats itself**. The two largest size strata (498 boards, half of all postings) were read
 in full rather than sampled, so half the answer carries no sampling error at all.
 
+That 291,507 is the corpus as it stood on the measurement day, and it is left as measured rather
+than rescaled to today's 399,398 — Recruitee and Teamtailor were added afterwards and were not in
+the sample frame. The rate has not been re-measured against them, so treat 3.03% as covering the
+four providers it was drawn from, not the six shipping now.
+
 For contrast, across the 40 worst boards by title-repeat the rate is **8.87%** — 2.9× the corpus.
 Those boards were picked *because* they repeat titles, which is exactly why that number was never
 quoted as a corpus rate.
@@ -352,7 +357,7 @@ exactly the same boards and returns one row per company rather than one per post
 much the cheaper of the two outputs: the default 500 boards costs **$1.01** as signals against
 $7.76 for the 5,000 postings behind them.
 
-**Why the scan is charged separately.** A narrow filter over the whole index reads 10,197 boards
+**Why the scan is charged separately.** A narrow filter over the whole index reads 16,361 boards
 to hand back a few hundred rows. Priced per result, that run costs you almost nothing and costs
 us the entire sweep, which is the kind of arrangement that ends with the Actor being withdrawn.
 Charging the read and the row separately means you pay for the work you actually asked for, and
@@ -361,8 +366,8 @@ a broad cheap query stays broad and cheap.
 Worked examples:
 
 - **Default run** — 500 boards, 5,000 postings: **$7.76**, or $1.55 per 1,000 postings.
-- **Full sweep** — 10,197 boards, ~290,000 postings: **$440.10**, or $1.52 per 1,000.
-- **One title across everything** — 10,197 boards, 300 matching postings: **$5.55**.
+- **Full sweep** — 16,361 boards, ~399,000 postings: **$607.28**, or $1.52 per 1,000.
+- **One title across everything** — 16,361 boards, 300 matching postings: **$8.64**.
 - **Daily delta** — `postedSince=yesterday` over 500 boards, ~400 new postings: **$0.86**.
 
 A board we could not read after four attempts is not charged. You paid for a result we did not
@@ -378,11 +383,16 @@ a measured number you cannot audit is worth the same as a guess.
   covers 17 indexes. Marginal yield across the tail was roughly flat at 240–493 new candidate
   tokens per additional index, so sweeping further would find more companies. This number is not
   a fixed property of the internet; it is a property of how much sweeping we did.
-- **10,197 is counted, not projected.** All three providers were probed token by token:
-  Greenhouse and Ashby in full, Lever 4,580 of 4,961 at a 33.6% hit rate. Earlier versions of
-  this page quoted a Lever figure extrapolated from a 1,000-token sample; that projection is
-  gone, and nothing above rests on one. The 381 tokens still unprobed ship as an opt-in list
-  and are counted as neither live nor dead.
+- **16,361 is counted, not projected.** Every provider was probed token by token: Greenhouse,
+  Ashby, Breezy, Recruitee and Teamtailor in full, Lever 4,824 of 4,961 at a 33.6% hit rate.
+  Earlier versions of this page quoted a Lever figure extrapolated from a 1,000-token sample and
+  a Breezy figure from a 250-token one; both projections are gone, and nothing above rests on
+  one. The 137 tokens still unprobed ship as an opt-in list and are counted as neither live nor
+  dead.
+- **A board that refuses us under load is not counted dead.** Recruitee refused 5 of 3,554
+  tokens when probed at concurrency 8. Re-asked one at a time, four of the five answered with
+  live boards worth 61 postings. A refusal is a fact about our request rate, so those tokens are
+  re-probed slowly before any number here is published.
 - **`index_as_of` is on every record.** Boards open and close. The index is refreshed out of
   band; the postings themselves are always fetched live at run time.
 - **Lever runs at 1 request per second**, because `api.lever.co/robots.txt` asks for

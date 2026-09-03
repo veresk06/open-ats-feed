@@ -29,18 +29,21 @@ const PROVIDERS = {
     board: (t) => `https://boards.greenhouse.io/${t}`,
     api: (t) => `https://boards-api.greenhouse.io/v1/boards/${t}/jobs`,
     apiPattern: 'https://boards-api.greenhouse.io/v1/boards/{token}/jobs',
+    tokenForm: 'path',
   },
   ashby: {
     label: 'Ashby',
     board: (t) => `https://jobs.ashbyhq.com/${t}`,
     api: (t) => `https://api.ashbyhq.com/posting-api/job-board/${t}`,
     apiPattern: 'https://api.ashbyhq.com/posting-api/job-board/{token}',
+    tokenForm: 'path',
   },
   lever: {
     label: 'Lever',
     board: (t) => `https://jobs.lever.co/${t}`,
     api: (t) => `https://api.lever.co/v0/postings/${t}?mode=json`,
     apiPattern: 'https://api.lever.co/v0/postings/{token}?mode=json',
+    tokenForm: 'path',
   },
   // Breezy is the first vendor here that gives each customer its own subdomain
   // rather than a path on a shared board host. That is a difference in the token,
@@ -51,6 +54,21 @@ const PROVIDERS = {
     board: (t) => `https://${t}.breezy.hr/`,
     api: (t) => `https://${t}.breezy.hr/json`,
     apiPattern: 'https://{token}.breezy.hr/json',
+    tokenForm: 'subdomain',
+  },
+  recruitee: {
+    label: 'Recruitee',
+    board: (t) => `https://${t}.recruitee.com/`,
+    api: (t) => `https://${t}.recruitee.com/api/offers/`,
+    apiPattern: 'https://{token}.recruitee.com/api/offers/',
+    tokenForm: 'subdomain',
+  },
+  teamtailor: {
+    label: 'Teamtailor',
+    board: (t) => `https://${t}.teamtailor.com/`,
+    api: (t) => `https://${t}.teamtailor.com/jobs.json`,
+    apiPattern: 'https://{token}.teamtailor.com/jobs.json',
+    tokenForm: 'subdomain',
   },
 }
 
@@ -64,6 +82,21 @@ const PROVIDER_LIST = Object.values(PROVIDERS).map((p) => p.label)
 const PROVIDER_PHRASE =
   PROVIDER_LIST.slice(0, -1).join(', ') + ' and ' + PROVIDER_LIST[PROVIDER_LIST.length - 1]
 
+// Where the token lives in the URL splits the roster in two, and the split moves as
+// vendors are added — it was "Breezy alone" for exactly one cycle. Generated from
+// tokenForm for the same reason the count word is: prose that restates the data is
+// prose that goes quietly wrong.
+const namesWhere = (form) => {
+  const names = Object.values(PROVIDERS).filter((p) => p.tokenForm === form).map((p) => p.label)
+  return names.length > 1
+    ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1]
+    : names[0]
+}
+const pathNames = namesWhere('path')
+const subNames = namesWhere('subdomain')
+const TOKEN_FORM_SENTENCE =
+  `On ${pathNames} the token sits in the path; on ${subNames} it is the subdomain.`
+
 // Candidate tokens harvested from the Common Crawl URL index, per provider, before
 // any of them were called. The first three come from data/coverage-summary.json
 // (crawlsSwept: 17, candidateTokens: 19438); breezy comes from the same 17 crawls,
@@ -71,7 +104,14 @@ const PROVIDER_PHRASE =
 // coverage page that do not come from companies.json, because a candidate that turned
 // out to be dead is by definition not in the roster — so the roster cannot tell you
 // how many there were.
-const CANDIDATES = { greenhouse: 10091, ashby: 4386, lever: 4961, breezy: 4562 }
+const CANDIDATES = {
+  greenhouse: 10091,
+  ashby: 4386,
+  lever: 4961,
+  breezy: 4562,
+  recruitee: 3554,
+  teamtailor: 3175,
+}
 const CRAWLS_SWEPT = 17
 
 // The Lever projection published on 2026-09-03 and since superseded by the full probe.
@@ -221,7 +261,7 @@ ${Object.keys(PROVIDERS).map(preview).join('\n\n')}
     is not reading a board — it is knowing which tokens exist.</p>
     <p>Those came from the Common Crawl web indexes, CC-MAIN-2024-51 through CC-MAIN-2025-51: every
     URL on the public web pointing at one of the ${PROVIDERS_WORD} board hosts, reduced to the distinct
-    token. On Greenhouse, Ashby and Lever the token sits in the path; on Breezy it is the subdomain.
+    token. ${TOKEN_FORM_SENTENCE}
     That harvest is a list of candidates, not of companies.</p>
     <p>Every candidate was then called directly, once. ${num(totals.live)} answered with at least one
     open posting and are listed here. ${num(Object.values(totals.perProvider).reduce((s, p) => s + p.empty, 0))}
@@ -529,7 +569,10 @@ function rampPage(scan) {
   const partial = Object.entries(scan.per_provider).filter(([, p]) => !p.complete)
 
   return `${HEAD(
-    'Who started hiring — ramp signals across 10,197 company job boards',
+    // The board count belongs to the scan, not to this string. It was hardcoded at
+    // 10,197 and stayed there through two vendors being added, which is exactly the
+    // drift the rest of this file generates its way around.
+    `Who started hiring — ramp signals across ${num(scan.scanned)} company job boards`,
     `${num(scan.breakdown.ramping)} companies opened more roles in the last 30 days than in the 60 before it, measured on ${day} across ${num(scan.scanned)} job boards read from the vendors' own public APIs.`,
     '/ramp.html',
   )}

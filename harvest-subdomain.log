@@ -1,0 +1,40 @@
+Sweeping 13 Common Crawl indices from S3: CC-MAIN-2026-04, CC-MAIN-2025-51, CC-MAIN-2025-47, CC-MAIN-2025-43, CC-MAIN-2025-38, CC-MAIN-2025-33, CC-MAIN-2025-30, CC-MAIN-2025-26, CC-MAIN-2025-21, CC-MAIN-2025-18, CC-MAIN-2025-13, CC-MAIN-2025-08, CC-MAIN-2025-05
+
+Resuming from checkpoint: 30882 tokens already known
+
+CC-MAIN-2026-04 recruitee.com: 4 blocks -> +914 new tokens (recruitee total 914)
+CC-MAIN-2026-04 teamtailor.com: 5 blocks -> +563 new tokens (teamtailor total 563)
+CC-MAIN-2025-51 recruitee.com: 3 blocks -> +404 new tokens (recruitee total 1318)
+CC-MAIN-2025-51 teamtailor.com: 5 blocks -> +443 new tokens (teamtailor total 1006)
+CC-MAIN-2025-47 recruitee.com: 1 blocks -> +25 new tokens (recruitee total 1343)
+CC-MAIN-2025-47 teamtailor.com: 4 blocks -> +293 new tokens (teamtailor total 1299)
+CC-MAIN-2025-43 recruitee.com: 4 blocks -> +539 new tokens (recruitee total 1882)
+CC-MAIN-2025-43 teamtailor.com: 5 blocks -> +327 new tokens (teamtailor total 1626)
+CC-MAIN-2025-38 recruitee.com: 4 blocks -> +271 new tokens (recruitee total 2153)
+CC-MAIN-2025-38 teamtailor.com: 4 blocks -> +285 new tokens (teamtailor total 1911)
+CC-MAIN-2025-33 recruitee.com: 4 blocks -> +345 new tokens (recruitee total 2498)
+CC-MAIN-2025-33 teamtailor.com: 4 blocks -> +312 new tokens (teamtailor total 2223)
+CC-MAIN-2025-30 recruitee.com: 3 blocks -> +201 new tokens (recruitee total 2699)
+CC-MAIN-2025-30 teamtailor.com: 2 blocks -> +9 new tokens (teamtailor total 2232)
+CC-MAIN-2025-26 recruitee.com: 3 blocks -> +143 new tokens (recruitee total 2842)
+CC-MAIN-2025-26 teamtailor.com: 1 blocks -> +15 new tokens (teamtailor total 2247)
+CC-MAIN-2025-21 recruitee.com: 3 blocks -> +102 new tokens (recruitee total 2944)
+CC-MAIN-2025-21 teamtailor.com: 4 blocks -> +253 new tokens (teamtailor total 2500)
+CC-MAIN-2025-18 recruitee.com: 3 blocks -> +125 new tokens (recruitee total 3069)
+CC-MAIN-2025-18 teamtailor.com: 4 blocks -> +193 new tokens (teamtailor total 2693)
+CC-MAIN-2025-13 recruitee.com: 4 blocks -> +156 new tokens (recruitee total 3225)
+CC-MAIN-2025-13 teamtailor.com: 3 blocks -> +164 new tokens (teamtailor total 2857)
+CC-MAIN-2025-08 recruitee.com: 4 blocks -> +144 new tokens (recruitee total 3369)
+CC-MAIN-2025-08 teamtailor.com: 4 blocks -> +201 new tokens (teamtailor total 3058)
+CC-MAIN-2025-05 recruitee.com: 4 blocks -> +185 new tokens (recruitee total 3554)
+CC-MAIN-2025-05 teamtailor.com: 4 blocks -> +117 new tokens (teamtailor total 3175)
+
+Candidate tokens: greenhouse 10091, lever 4961, ashby 4386, workable 6882, breezy 4562, recruitee 3554, teamtailor 3175 (total 37611)
+  greenhouse: +0 new this run
+  lever: +0 new this run
+  ashby: +0 new this run
+  workable: +0 new this run
+  breezy: +0 new this run
+  recruitee: +3554 new this run
+  teamtailor: +3175 new this run
+Wrote /Users/valentin/code/work/auto-company/projects/open-ats-feed/data/tokens.json

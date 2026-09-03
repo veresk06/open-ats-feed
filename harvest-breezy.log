@@ -1,0 +1,25 @@
+Sweeping 13 Common Crawl indices from S3: CC-MAIN-2026-04, CC-MAIN-2025-51, CC-MAIN-2025-47, CC-MAIN-2025-43, CC-MAIN-2025-38, CC-MAIN-2025-33, CC-MAIN-2025-30, CC-MAIN-2025-26, CC-MAIN-2025-21, CC-MAIN-2025-18, CC-MAIN-2025-13, CC-MAIN-2025-08, CC-MAIN-2025-05
+
+Resuming from checkpoint: 26320 tokens already known
+
+CC-MAIN-2026-04 breezy.hr: 6 blocks -> +1420 new tokens (breezy total 1420)
+CC-MAIN-2025-51 breezy.hr: 7 blocks -> +943 new tokens (breezy total 2363)
+CC-MAIN-2025-47 breezy.hr: 6 blocks -> +629 new tokens (breezy total 2992)
+CC-MAIN-2025-43 breezy.hr: 6 blocks -> +371 new tokens (breezy total 3363)
+CC-MAIN-2025-38 breezy.hr: 6 blocks -> +277 new tokens (breezy total 3640)
+CC-MAIN-2025-33 breezy.hr: 5 blocks -> +165 new tokens (breezy total 3805)
+CC-MAIN-2025-30 breezy.hr: 5 blocks -> +178 new tokens (breezy total 3983)
+CC-MAIN-2025-26 breezy.hr: 5 blocks -> +129 new tokens (breezy total 4112)
+CC-MAIN-2025-21 breezy.hr: 5 blocks -> +118 new tokens (breezy total 4230)
+CC-MAIN-2025-18 breezy.hr: 5 blocks -> +86 new tokens (breezy total 4316)
+CC-MAIN-2025-13 breezy.hr: 6 blocks -> +79 new tokens (breezy total 4395)
+CC-MAIN-2025-08 breezy.hr: 6 blocks -> +101 new tokens (breezy total 4496)
+CC-MAIN-2025-05 breezy.hr: 6 blocks -> +66 new tokens (breezy total 4562)
+
+Candidate tokens: greenhouse 10091, lever 4961, ashby 4386, workable 6882, breezy 4562 (total 30882)
+  greenhouse: +0 new this run
+  lever: +0 new this run
+  ashby: +0 new this run
+  workable: +0 new this run
+  breezy: +4562 new this run
+Wrote /Users/valentin/code/work/auto-company/projects/open-ats-feed/data/tokens.json

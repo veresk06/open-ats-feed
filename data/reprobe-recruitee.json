@@ -1,0 +1,61 @@
+{
+  "provider": "recruitee",
+  "delayMs": 3000,
+  "results": [
+    {
+      "token": "anthonyveder",
+      "was": "blocked",
+      "http": 403,
+      "status": "blocked",
+      "reason": "http 403 at 1 req/3000ms"
+    },
+    {
+      "token": "azubi",
+      "was": "blocked",
+      "http": 200,
+      "status": "live",
+      "jobs": 32
+    },
+    {
+      "token": "azumuta",
+      "was": "blocked",
+      "http": 200,
+      "status": "live",
+      "jobs": 11
+    },
+    {
+      "token": "detalentpoolnederland",
+      "was": "error",
+      "http": 200,
+      "status": "live",
+      "jobs": 13
+    },
+    {
+      "token": "epicdata",
+      "was": "blocked",
+      "http": 403,
+      "status": "blocked",
+      "reason": "http 403 at 1 req/3000ms"
+    },
+    {
+      "token": "interactive",
+      "was": "error",
+      "http": 200,
+      "status": "dead",
+      "reason": "non-json body"
+    },
+    {
+      "token": "rosval",
+      "was": "blocked",
+      "http": 200,
+      "status": "live",
+      "jobs": 5
+    }
+  ],
+  "tally": {
+    "blocked": 2,
+    "live": 4,
+    "dead": 1
+  },
+  "postings": 61
+}
