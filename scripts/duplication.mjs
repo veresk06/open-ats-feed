@@ -40,12 +40,16 @@ import { fileURLToPath } from 'node:url'
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const CACHE = resolve(ROOT, 'data/role-census-titles.json')
 const OUT = resolve(ROOT, 'data/duplication.json')
+const FANOUT_OUT = resolve(ROOT, 'data/fanout-verified.json')
 
 const arg = (name, fallback) => {
   const hit = process.argv.find((a) => a.startsWith(`--${name}=`))
   return hit ? hit.split('=').slice(1).join('=') : fallback
 }
-const BOARDS_N = Number(arg('boards', 40))
+const VERIFY_FANOUT = process.argv.includes('--verify-fanout')
+// The plain audit picks its 40 targets by title-repeat. The fan-out verifier has no reason to
+// stop early — every board with any fan-out is visited unless --boards says otherwise.
+const BOARDS_N = Number(arg('boards', VERIFY_FANOUT ? 0 : 40))
 const ONE_BOARD = arg('board', null)
 const EXPLAIN = process.argv.includes('--explain')
 
@@ -63,11 +67,14 @@ const LOC_NOISE = new Set([
   'or', 'and', 'the', 'of', 'in', 'at', 'area', 'greater', 'metro', 'region', 'multiple',
   'locations', 'location', 'various', 'flexible', 'anywhere', 'office', 'based',
 ])
+export const locTokens = (s) => new Set(
+  String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().split(' ')
+    .filter((w) => w && !LOC_NOISE.has(w)),
+)
 export const normLoc = (s) => {
-  const toks = String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().split(' ')
-    .filter((w) => w && !LOC_NOISE.has(w))
-  if (!toks.length) return '' // empty means "unstated", which is not the same as "same place"
-  return [...new Set(toks)].sort().join(' ')
+  const toks = locTokens(s)
+  if (!toks.size) return '' // empty means "unstated", which is not the same as "same place"
+  return [...toks].sort().join(' ')
 }
 
 // The inverse error: the location is inside the title. Detected structurally, not by a city
@@ -86,6 +93,80 @@ const SPLITTERS = /\s+[-–—|(]\s*|\s*,\s*/
 export const titleStem = (raw) => {
   const parts = String(raw || '').split(SPLITTERS).map((p) => normTitle(p)).filter(Boolean)
   return parts.length > 1 ? parts[0] : null
+}
+
+// The tail is everything after the first separator — the part that varies across the fan-out.
+// `titleStem` answers "does this board repeat one stem many ways"; `titleTail` answers "what does
+// the varying part actually say", which is the question the location field can settle.
+export const titleTail = (raw) => {
+  const parts = String(raw || '').split(SPLITTERS).map((p) => normTitle(p)).filter(Boolean)
+  return parts.length > 1 ? parts.slice(1).join(' ') : null
+}
+
+// Cycle 24 could only bound fan-out from above: the rule is structural (stem + >= 5 tails) and a
+// structure cannot tell a city from a specialisation. Hand-auditing the eight largest stems found
+// six geographic and two not — `bjakcareer` ("- AI Neobank App") and `andurilindustries`
+// ("- Air Defense") are products and teams, and every posting under them is a distinct real role.
+//
+// The field that settles it was already being fetched. If the tail names the place the posting
+// itself states, the title is carrying the location and the fan-out is one role spread over many
+// sites. If the tail says something the location does not, it is naming a product, a team or a
+// grade, and the postings are distinct. No city dictionary, no sampling, no judgement call.
+//
+// Direction of the residual error, stated because it is not symmetric: an alias the two fields
+// spell differently ("München" vs "Munich", "NYC" vs "New York") reads as not_geographic. So
+// `geographic` is a LOWER bound and `not_geographic` an UPPER bound on the false-positive class.
+export const classifyFanoutRow = (rawTitle, loc) => {
+  const tail = titleTail(rawTitle)
+  const t = tail ? locTokens(tail) : new Set()
+  if (!t.size) return 'uninformative' // no tail, or a tail made only of noise words
+  const l = locTokens(loc)
+  if (!l.size) return 'unstated' // the posting states no location; it cannot testify
+  for (const w of t) if (l.has(w)) return 'geographic'
+  return 'not_geographic'
+}
+
+// Per board: take the stems the title-only rule flags as fan-out, then classify every posting
+// under them against its own location. A stem is called geographic when the majority of its
+// postings that CAN testify do.
+export const verifyFanoutBoard = (rows) => {
+  const stems = new Map()
+  for (const r of rows) {
+    const title = normTitle(r.title)
+    if (!title) continue
+    const stem = titleStem(r.title)
+    if (!stem || stem === title) continue
+    if (!stems.has(stem)) stems.set(stem, { tails: new Set(), rows: [] })
+    const e = stems.get(stem)
+    e.tails.add(title)
+    e.rows.push(r)
+  }
+
+  const out = { fanout_postings: 0, geographic: 0, not_geographic: 0, unstated: 0, uninformative: 0, stems: [] }
+  for (const [stem, e] of stems) {
+    if (e.tails.size < MIN_FANOUT) continue
+    const c = { geographic: 0, not_geographic: 0, unstated: 0, uninformative: 0 }
+    for (const r of e.rows) c[classifyFanoutRow(r.title, r.loc)]++
+    const testified = c.geographic + c.not_geographic
+    out.fanout_postings += e.rows.length
+    out.geographic += c.geographic
+    out.not_geographic += c.not_geographic
+    out.unstated += c.unstated
+    out.uninformative += c.uninformative
+    out.stems.push({
+      stem,
+      variants: e.tails.size,
+      postings: e.rows.length,
+      ...c,
+      verdict: testified === 0 ? 'undecidable' : (c.geographic * 2 >= testified ? 'geographic' : 'not_geographic'),
+      example: e.rows[0]?.title || null,
+    })
+  }
+  out.stems.sort((a, b) => b.postings - a.postings)
+  out.stems_geographic = out.stems.filter((s) => s.verdict === 'geographic').length
+  out.stems_not_geographic = out.stems.filter((s) => s.verdict === 'not_geographic').length
+  out.stems_undecidable = out.stems.filter((s) => s.verdict === 'undecidable').length
+  return out
 }
 
 const PROVIDERS = {
@@ -244,6 +325,97 @@ export const fanoutOverCache = (cached) => {
   return { postings, fanout_postings: fanoutPostings, fanout_rate_pct: +(100 * fanoutPostings / postings).toFixed(2), boards }
 }
 
+// `node scripts/duplication.mjs --verify-fanout` — turns the title-only fan-out upper bound into
+// a measurement. Ranks every board in the cache by title-only fan-out, then reads each one live
+// and asks the location field which stems are really geographic. Every board with any fan-out is
+// visited by default, so this is a census of the fan-out population, not a stratum.
+const verifyMain = async () => {
+  const cached = JSON.parse(await readFile(CACHE, 'utf8'))
+  const fan = fanoutOverCache(cached)
+  const targets = fan.boards.slice(0, BOARDS_N > 0 ? BOARDS_N : fan.boards.length)
+  process.stderr.write(`verifying ${targets.length} of ${fan.boards.length} fan-out boards live\n`)
+
+  const results = []
+  let done = 0
+  for (const b of targets) {
+    const [provider, token] = b.board.split('/')
+    const rows = await fetchBoard(provider, token)
+    if (PROVIDERS[provider]?.delayMs) await sleep(PROVIDERS[provider].delayMs)
+    done++
+    if (!rows || !rows.length) {
+      results.push({ board: b.board, cached_fanout_postings: b.fanout_postings, error: 'unreachable_or_empty' })
+      process.stderr.write(`  ! ${b.board} unreachable (${done}/${targets.length})\n`)
+      continue
+    }
+    const v = verifyFanoutBoard(rows)
+    results.push({
+      board: b.board,
+      live_postings: rows.length,
+      cached_fanout_postings: b.fanout_postings,
+      ...v,
+      stems: v.stems.slice(0, 5),
+    })
+    process.stderr.write(
+      `  ${b.board.padEnd(38)} fanout=${String(v.fanout_postings).padStart(5)} `
+      + `geo=${String(v.geographic).padStart(5)} not-geo=${String(v.not_geographic).padStart(5)} `
+      + `unstated=${String(v.unstated).padStart(4)} (${done}/${targets.length})\n`,
+    )
+  }
+
+  const ok = results.filter((r) => !r.error)
+  const sum = (k) => ok.reduce((a, b) => a + (b[k] || 0), 0)
+  const totals = {
+    boards_targeted: targets.length,
+    boards_verified: ok.length,
+    boards_unreachable: results.length - ok.length,
+    live_postings: sum('live_postings'),
+    fanout_postings: sum('fanout_postings'),
+    geographic: sum('geographic'),
+    not_geographic: sum('not_geographic'),
+    unstated: sum('unstated'),
+    uninformative: sum('uninformative'),
+    stems_geographic: sum('stems_geographic'),
+    stems_not_geographic: sum('stems_not_geographic'),
+    stems_undecidable: sum('stems_undecidable'),
+  }
+  const testified = totals.geographic + totals.not_geographic
+  totals.geographic_pct_of_testified = testified ? +(100 * totals.geographic / testified).toFixed(2) : 0
+  totals.not_geographic_pct_of_testified = testified ? +(100 * totals.not_geographic / testified).toFixed(2) : 0
+  totals.fanout_pct_of_live_postings = totals.live_postings
+    ? +(100 * totals.fanout_postings / totals.live_postings).toFixed(2) : 0
+
+  const payload = {
+    generated_at: new Date().toISOString(),
+    method: 'Boards ranked by title-only fan-out over data/role-census-titles.json, then read live '
+      + 'from the vendor public APIs. Each posting under a fan-out stem is classified by whether '
+      + 'its title tail shares a token with its own stated location. geographic = the title '
+      + 'carries the location, one role over many sites. not_geographic = the tail names a '
+      + 'product, team or grade, and the postings are distinct roles. An alias spelled differently '
+      + 'in the two fields reads as not_geographic, so geographic is a lower bound and '
+      + 'not_geographic an upper bound on the false-positive class.',
+    min_fanout_variants: MIN_FANOUT,
+    cached_fanout: {
+      postings: fan.postings,
+      fanout_postings: fan.fanout_postings,
+      fanout_rate_pct: fan.fanout_rate_pct,
+      boards: fan.boards.length,
+    },
+    totals,
+    boards: results,
+  }
+  await writeFile(FANOUT_OUT, `${JSON.stringify(payload, null, 2)}\n`)
+
+  console.log('')
+  console.log(`verified ${totals.boards_verified} fan-out boards live, ${totals.live_postings} postings`)
+  console.log(`  flagged fan-out by title alone   ${totals.fanout_postings}  ${totals.fanout_pct_of_live_postings}% of those boards`)
+  console.log(`  ...location is in the title      ${totals.geographic}  ${totals.geographic_pct_of_testified}% of those that can testify`)
+  console.log(`  ...tail is NOT the location      ${totals.not_geographic}  ${totals.not_geographic_pct_of_testified}%   <- false positives of the title-only rule`)
+  console.log(`  ...location unstated             ${totals.unstated}`)
+  console.log(`  ...tail uninformative            ${totals.uninformative}`)
+  console.log(`  stems: ${totals.stems_geographic} geographic, ${totals.stems_not_geographic} not, ${totals.stems_undecidable} undecidable`)
+  console.log(`wrote ${FANOUT_OUT}`)
+}
+
 const main = async () => {
   const cached = JSON.parse(await readFile(CACHE, 'utf8'))
 
@@ -338,4 +510,4 @@ const main = async () => {
   console.log(`wrote ${OUT}`)
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) await main()
+if (import.meta.url === `file://${process.argv[1]}`) await (VERIFY_FANOUT ? verifyMain() : main())

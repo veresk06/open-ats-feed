@@ -1,22 +1,575 @@
 {
-  "generated_at": "2026-09-03T04:31:36.333Z",
+  "generated_at": "2026-09-03T04:43:27.359Z",
+  "fanout_corpus": {
+    "note": "Measured over all 500 cached boards, not the audited stratum — fan-out needs no location field, and the title-repeat ranking that picks the audit targets cannot find a fan-out board by construction.",
+    "postings": 121050,
+    "fanout_postings": 38077,
+    "fanout_rate_pct": 31.46,
+    "boards": [
+      {
+        "board": "greenhouse/prolificacademicltd",
+        "postings": 3706,
+        "fanout_postings": 3678,
+        "fanout_share_pct": 99.2,
+        "top": [
+          {
+            "stem": "ai trainer",
+            "variants": 404,
+            "postings": 413
+          },
+          {
+            "stem": "canada residents",
+            "variants": 153,
+            "postings": 155
+          },
+          {
+            "stem": "ai training",
+            "variants": 152,
+            "postings": 153
+          }
+        ]
+      },
+      {
+        "board": "ashby/bjakcareer",
+        "postings": 3084,
+        "fanout_postings": 1456,
+        "fanout_share_pct": 47.2,
+        "top": [
+          {
+            "stem": "technical product lead",
+            "variants": 9,
+            "postings": 200
+          },
+          {
+            "stem": "product owner",
+            "variants": 6,
+            "postings": 181
+          },
+          {
+            "stem": "product lead",
+            "variants": 8,
+            "postings": 178
+          }
+        ]
+      },
+      {
+        "board": "lever/boxlunch",
+        "postings": 3653,
+        "fanout_postings": 1363,
+        "fanout_share_pct": 37.3,
+        "top": [
+          {
+            "stem": "part time assistant manager",
+            "variants": 30,
+            "postings": 1327
+          },
+          {
+            "stem": "sales associate",
+            "variants": 17,
+            "postings": 19
+          },
+          {
+            "stem": "seasonal sales associate",
+            "variants": 15,
+            "postings": 17
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/pulse",
+        "postings": 2649,
+        "fanout_postings": 1357,
+        "fanout_share_pct": 51.2,
+        "top": [
+          {
+            "stem": "band 5",
+            "variants": 210,
+            "postings": 213
+          },
+          {
+            "stem": "band 6",
+            "variants": 139,
+            "postings": 154
+          },
+          {
+            "stem": "consultant in adult psychiatry",
+            "variants": 87,
+            "postings": 126
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/speechify",
+        "postings": 1317,
+        "fanout_postings": 1313,
+        "fanout_share_pct": 99.7,
+        "top": [
+          {
+            "stem": "software engineer",
+            "variants": 681,
+            "postings": 704
+          },
+          {
+            "stem": "senior software engineer",
+            "variants": 464,
+            "postings": 486
+          },
+          {
+            "stem": "go to market",
+            "variants": 108,
+            "postings": 108
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/liquidpersonnel",
+        "postings": 1586,
+        "fanout_postings": 1195,
+        "fanout_share_pct": 75.3,
+        "top": [
+          {
+            "stem": "social worker",
+            "variants": 206,
+            "postings": 806
+          },
+          {
+            "stem": "occupational therapist",
+            "variants": 108,
+            "postings": 154
+          },
+          {
+            "stem": "senior social worker",
+            "variants": 40,
+            "postings": 48
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/bayada",
+        "postings": 2577,
+        "fanout_postings": 1082,
+        "fanout_share_pct": 42,
+        "top": [
+          {
+            "stem": "registered nurse",
+            "variants": 131,
+            "postings": 284
+          },
+          {
+            "stem": "lpn",
+            "variants": 82,
+            "postings": 121
+          },
+          {
+            "stem": "licensed practical nurse",
+            "variants": 59,
+            "postings": 107
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/veterinaryemergencygroupst",
+        "postings": 1130,
+        "fanout_postings": 1049,
+        "fanout_share_pct": 92.8,
+        "top": [
+          {
+            "stem": "emergency credentialed veterinary technician",
+            "variants": 248,
+            "postings": 261
+          },
+          {
+            "stem": "emergency veterinarian",
+            "variants": 244,
+            "postings": 250
+          },
+          {
+            "stem": "emergency veterinary assistant",
+            "variants": 163,
+            "postings": 166
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/aloyoga",
+        "postings": 1108,
+        "fanout_postings": 979,
+        "fanout_share_pct": 88.4,
+        "top": [
+          {
+            "stem": "sales associate",
+            "variants": 220,
+            "postings": 220
+          },
+          {
+            "stem": "seasonal sales associate",
+            "variants": 172,
+            "postings": 173
+          },
+          {
+            "stem": "seasonal operations associate",
+            "variants": 171,
+            "postings": 171
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/spacex",
+        "postings": 2281,
+        "fanout_postings": 932,
+        "fanout_share_pct": 40.9,
+        "top": [
+          {
+            "stem": "software engineer",
+            "variants": 67,
+            "postings": 91
+          },
+          {
+            "stem": "mechanical engineer",
+            "variants": 42,
+            "postings": 45
+          },
+          {
+            "stem": "manager",
+            "variants": 35,
+            "postings": 44
+          }
+        ]
+      },
+      {
+        "board": "lever/globalelitecareers",
+        "postings": 1752,
+        "fanout_postings": 847,
+        "fanout_share_pct": 48.3,
+        "top": [
+          {
+            "stem": "work from home",
+            "variants": 18,
+            "postings": 847
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/andurilindustries",
+        "postings": 2208,
+        "fanout_postings": 739,
+        "fanout_share_pct": 33.5,
+        "top": [
+          {
+            "stem": "senior software engineer",
+            "variants": 52,
+            "postings": 83
+          },
+          {
+            "stem": "software engineer",
+            "variants": 43,
+            "postings": 69
+          },
+          {
+            "stem": "director",
+            "variants": 23,
+            "postings": 29
+          }
+        ]
+      },
+      {
+        "board": "lever/paytmpayments",
+        "postings": 846,
+        "fanout_postings": 710,
+        "fanout_share_pct": 83.9,
+        "top": [
+          {
+            "stem": "team leader",
+            "variants": 379,
+            "postings": 385
+          },
+          {
+            "stem": "key account manager",
+            "variants": 72,
+            "postings": 86
+          },
+          {
+            "stem": "area sales manager",
+            "variants": 57,
+            "postings": 59
+          }
+        ]
+      },
+      {
+        "board": "lever/gopuff",
+        "postings": 763,
+        "fanout_postings": 695,
+        "fanout_share_pct": 91.1,
+        "top": [
+          {
+            "stem": "operations associate",
+            "variants": 294,
+            "postings": 295
+          },
+          {
+            "stem": "retail key holder",
+            "variants": 159,
+            "postings": 159
+          },
+          {
+            "stem": "retail sales associate",
+            "variants": 144,
+            "postings": 144
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/svetness",
+        "postings": 4981,
+        "fanout_postings": 588,
+        "fanout_share_pct": 11.8,
+        "top": [
+          {
+            "stem": "personal trainer",
+            "variants": 576,
+            "postings": 588
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/privateequityinsights",
+        "postings": 1159,
+        "fanout_postings": 508,
+        "fanout_share_pct": 43.8,
+        "top": [
+          {
+            "stem": "event coordinator",
+            "variants": 10,
+            "postings": 11
+          },
+          {
+            "stem": "business development manager",
+            "variants": 10,
+            "postings": 10
+          },
+          {
+            "stem": "event manager",
+            "variants": 10,
+            "postings": 10
+          }
+        ]
+      },
+      {
+        "board": "lever/lifestance",
+        "postings": 1386,
+        "fanout_postings": 500,
+        "fanout_share_pct": 36.1,
+        "top": [
+          {
+            "stem": "licensed clinical social worker",
+            "variants": 14,
+            "postings": 99
+          },
+          {
+            "stem": "clinical psychologist",
+            "variants": 9,
+            "postings": 68
+          },
+          {
+            "stem": "psychiatric nurse practitioner",
+            "variants": 6,
+            "postings": 68
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/geniussportssn",
+        "postings": 477,
+        "fanout_postings": 477,
+        "fanout_share_pct": 100,
+        "top": [
+          {
+            "stem": "sports data collector",
+            "variants": 475,
+            "postings": 477
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/herewithgmbh",
+        "postings": 605,
+        "fanout_postings": 459,
+        "fanout_share_pct": 75.9,
+        "top": [
+          {
+            "stem": "in home dialysis care partner",
+            "variants": 23,
+            "postings": 81
+          },
+          {
+            "stem": "in home hhd dialysis care partner",
+            "variants": 26,
+            "postings": 78
+          },
+          {
+            "stem": "now hiring helpers for in home support",
+            "variants": 23,
+            "postings": 76
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/databricks",
+        "postings": 859,
+        "fanout_postings": 456,
+        "fanout_share_pct": 53.1,
+        "top": [
+          {
+            "stem": "staff software engineer",
+            "variants": 41,
+            "postings": 63
+          },
+          {
+            "stem": "sr forward deployed engineer",
+            "variants": 11,
+            "postings": 52
+          },
+          {
+            "stem": "solutions architect",
+            "variants": 29,
+            "postings": 51
+          }
+        ]
+      },
+      {
+        "board": "lever/lyrahealth",
+        "postings": 550,
+        "fanout_postings": 455,
+        "fanout_share_pct": 82.7,
+        "top": [
+          {
+            "stem": "psychiatrist",
+            "variants": 97,
+            "postings": 119
+          },
+          {
+            "stem": "mental health therapist",
+            "variants": 109,
+            "postings": 109
+          },
+          {
+            "stem": "prescribing nurse practitioner or physician assistant",
+            "variants": 82,
+            "postings": 104
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/horacemannagents",
+        "postings": 417,
+        "fanout_postings": 409,
+        "fanout_share_pct": 98.1,
+        "top": [
+          {
+            "stem": "insurance producer",
+            "variants": 195,
+            "postings": 197
+          },
+          {
+            "stem": "insurance agent",
+            "variants": 189,
+            "postings": 190
+          },
+          {
+            "stem": "supplemental sales agent",
+            "variants": 22,
+            "postings": 22
+          }
+        ]
+      },
+      {
+        "board": "ashby/lilt-production",
+        "postings": 400,
+        "fanout_postings": 382,
+        "fanout_share_pct": 95.5,
+        "top": [
+          {
+            "stem": "subject matter expert",
+            "variants": 229,
+            "postings": 232
+          },
+          {
+            "stem": "ai training contributor",
+            "variants": 76,
+            "postings": 76
+          },
+          {
+            "stem": "linguist",
+            "variants": 25,
+            "postings": 25
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/stone",
+        "postings": 428,
+        "fanout_postings": 368,
+        "fanout_share_pct": 86,
+        "top": [
+          {
+            "stem": "agente stone",
+            "variants": 150,
+            "postings": 157
+          },
+          {
+            "stem": "vendedor a externo",
+            "variants": 78,
+            "postings": 78
+          },
+          {
+            "stem": "executivo a comercial hunter para grandes contas",
+            "variants": 60,
+            "postings": 62
+          }
+        ]
+      },
+      {
+        "board": "greenhouse/wppmedia",
+        "postings": 1073,
+        "fanout_postings": 367,
+        "fanout_share_pct": 34.2,
+        "top": [
+          {
+            "stem": "manager",
+            "variants": 57,
+            "postings": 87
+          },
+          {
+            "stem": "associate director",
+            "variants": 32,
+            "postings": 55
+          },
+          {
+            "stem": "senior associate",
+            "variants": 25,
+            "postings": 39
+          }
+        ]
+      }
+    ]
+  },
   "method": "Live title+location read from vendor public APIs for the boards with the highest title-repeat in data/role-census-titles.json. A repeated title is split by whether the copies share a stated location. Boards audited are the worst offenders by title-repeat, NOT a random sample — these totals describe that stratum and are not a corpus estimate.",
   "min_fanout_variants": 5,
   "totals": {
     "boards_audited": 40,
     "boards_unreachable": 0,
-    "postings": 49330,
+    "postings": 49331,
     "distinct_titles": 14217,
     "unstated_location": 515,
-    "repeated_extra": 35113,
-    "same_location_extra": 4375,
-    "distinct_location_extra": 30675,
+    "repeated_extra": 35114,
+    "same_location_extra": 4374,
+    "distinct_location_extra": 30443,
     "unstated_location_extra": 297,
-    "fanout_postings": 0,
+    "fanout_postings": 12633,
     "repeat_rate_pct": 71.18,
     "true_duplicate_rate_pct": 8.87,
-    "multi_site_rate_pct": 62.18,
-    "fanout_rate_pct": 0
+    "multi_site_rate_pct": 61.71,
+    "fanout_rate_pct": 25.61
   },
   "boards": [
     {
@@ -28,9 +581,15 @@
       "same_location_extra": 150,
       "distinct_location_extra": 4240,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 1,
+      "fanout_postings": 588,
+      "fanout_top": [
+        {
+          "stem": "personal trainer",
+          "variants": 576,
+          "postings": 588
+        }
+      ],
       "offenders": [
         {
           "title": "personal trainer",
@@ -68,9 +627,25 @@
       "same_location_extra": 1126,
       "distinct_location_extra": 2451,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 3,
+      "fanout_postings": 1363,
+      "fanout_top": [
+        {
+          "stem": "part time assistant manager",
+          "variants": 30,
+          "postings": 1327
+        },
+        {
+          "stem": "sales associate",
+          "variants": 17,
+          "postings": 19
+        },
+        {
+          "stem": "seasonal sales associate",
+          "variants": 15,
+          "postings": 17
+        }
+      ],
       "offenders": [
         {
           "title": "seasonal sales associate",
@@ -106,11 +681,37 @@
       "unstated_location": 193,
       "repeated_extra": 2812,
       "same_location_extra": 731,
-      "distinct_location_extra": 2042,
+      "distinct_location_extra": 1892,
       "unstated_location_extra": 189,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 10,
+      "fanout_postings": 1456,
+      "fanout_top": [
+        {
+          "stem": "technical product lead",
+          "variants": 9,
+          "postings": 200
+        },
+        {
+          "stem": "product owner",
+          "variants": 6,
+          "postings": 181
+        },
+        {
+          "stem": "product lead",
+          "variants": 8,
+          "postings": 178
+        },
+        {
+          "stem": "product engineer",
+          "variants": 5,
+          "postings": 177
+        },
+        {
+          "stem": "product manager",
+          "variants": 7,
+          "postings": 174
+        }
+      ],
       "offenders": [
         {
           "title": "lead software engineer",
@@ -188,9 +789,15 @@
       "same_location_extra": 209,
       "distinct_location_extra": 1509,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 1,
+      "fanout_postings": 847,
+      "fanout_top": [
+        {
+          "stem": "work from home",
+          "variants": 18,
+          "postings": 847
+        }
+      ],
       "offenders": [
         {
           "title": "work from home customer care specialist",
@@ -228,9 +835,35 @@
       "same_location_extra": 27,
       "distinct_location_extra": 1257,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 24,
+      "fanout_postings": 1082,
+      "fanout_top": [
+        {
+          "stem": "registered nurse",
+          "variants": 131,
+          "postings": 284
+        },
+        {
+          "stem": "lpn",
+          "variants": 82,
+          "postings": 121
+        },
+        {
+          "stem": "licensed practical nurse",
+          "variants": 59,
+          "postings": 107
+        },
+        {
+          "stem": "rn",
+          "variants": 59,
+          "postings": 79
+        },
+        {
+          "stem": "physical therapist",
+          "variants": 27,
+          "postings": 67
+        }
+      ],
       "offenders": [
         {
           "title": "registered nurse",
@@ -346,11 +979,17 @@
       "unstated_location": 5,
       "repeated_extra": 1127,
       "same_location_extra": 2,
-      "distinct_location_extra": 1125,
+      "distinct_location_extra": 1124,
       "unstated_location_extra": 1,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 1,
+      "fanout_postings": 14,
+      "fanout_top": [
+        {
+          "stem": "paralegal",
+          "variants": 5,
+          "postings": 14
+        }
+      ],
       "offenders": [
         {
           "title": "data specialist",
@@ -373,9 +1012,35 @@
       "same_location_extra": 2,
       "distinct_location_extra": 1037,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 13,
+      "fanout_postings": 500,
+      "fanout_top": [
+        {
+          "stem": "licensed clinical social worker",
+          "variants": 14,
+          "postings": 99
+        },
+        {
+          "stem": "clinical psychologist",
+          "variants": 9,
+          "postings": 68
+        },
+        {
+          "stem": "psychiatric nurse practitioner",
+          "variants": 6,
+          "postings": 68
+        },
+        {
+          "stem": "licensed mental health therapist",
+          "variants": 13,
+          "postings": 53
+        },
+        {
+          "stem": "psychiatrist",
+          "variants": 16,
+          "postings": 48
+        }
+      ],
       "offenders": [
         {
           "title": "clinical post doc outpatient testing psychologist",
@@ -398,9 +1063,35 @@
       "same_location_extra": 116,
       "distinct_location_extra": 901,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 6,
+      "fanout_postings": 283,
+      "fanout_top": [
+        {
+          "stem": "physical therapist",
+          "variants": 86,
+          "postings": 219
+        },
+        {
+          "stem": "physical therapist assistant",
+          "variants": 20,
+          "postings": 31
+        },
+        {
+          "stem": "physical therapy technician",
+          "variants": 7,
+          "postings": 13
+        },
+        {
+          "stem": "occupational therapist",
+          "variants": 8,
+          "postings": 9
+        },
+        {
+          "stem": "patient care coordinator",
+          "variants": 6,
+          "postings": 6
+        }
+      ],
       "offenders": [
         {
           "title": "physical therapist",
@@ -471,11 +1162,37 @@
       "unstated_location": 7,
       "repeated_extra": 938,
       "same_location_extra": 148,
-      "distinct_location_extra": 789,
+      "distinct_location_extra": 785,
       "unstated_location_extra": 5,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 25,
+      "fanout_postings": 300,
+      "fanout_top": [
+        {
+          "stem": "team lead",
+          "variants": 15,
+          "postings": 50
+        },
+        {
+          "stem": "experienced automotive technician",
+          "variants": 14,
+          "postings": 23
+        },
+        {
+          "stem": "operations manager",
+          "variants": 21,
+          "postings": 22
+        },
+        {
+          "stem": "reconditioning manager",
+          "variants": 16,
+          "postings": 16
+        },
+        {
+          "stem": "customer service delivery advocate",
+          "variants": 5,
+          "postings": 15
+        }
+      ],
       "offenders": [
         {
           "title": "car detailer",
@@ -511,11 +1228,37 @@
       "unstated_location": 39,
       "repeated_extra": 831,
       "same_location_extra": 276,
-      "distinct_location_extra": 554,
+      "distinct_location_extra": 545,
       "unstated_location_extra": 10,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 16,
+      "fanout_postings": 1195,
+      "fanout_top": [
+        {
+          "stem": "social worker",
+          "variants": 206,
+          "postings": 806
+        },
+        {
+          "stem": "occupational therapist",
+          "variants": 108,
+          "postings": 154
+        },
+        {
+          "stem": "senior social worker",
+          "variants": 40,
+          "postings": 48
+        },
+        {
+          "stem": "adult social worker",
+          "variants": 25,
+          "postings": 26
+        },
+        {
+          "stem": "team manager",
+          "variants": 24,
+          "postings": 25
+        }
+      ],
       "offenders": [
         {
           "title": "social worker child protection",
@@ -546,12 +1289,12 @@
     },
     {
       "board": "greenhouse/equipmentsharecom",
-      "postings": 967,
+      "postings": 969,
       "distinct_titles": 206,
       "unstated_location": 0,
-      "repeated_extra": 761,
+      "repeated_extra": 763,
       "same_location_extra": 60,
-      "distinct_location_extra": 701,
+      "distinct_location_extra": 703,
       "unstated_location_extra": 0,
       "fanout_stems": 0,
       "fanout_postings": 0,
@@ -574,7 +1317,7 @@
         },
         {
           "title": "territory account manager",
-          "postings": 83,
+          "postings": 84,
           "same_location_extra": 5
         },
         {
@@ -661,7 +1404,7 @@
       "unstated_location": 13,
       "repeated_extra": 622,
       "same_location_extra": 183,
-      "distinct_location_extra": 433,
+      "distinct_location_extra": 426,
       "unstated_location_extra": 13,
       "fanout_stems": 0,
       "fanout_postings": 0,
@@ -703,9 +1446,20 @@
       "same_location_extra": 21,
       "distinct_location_extra": 582,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 2,
+      "fanout_postings": 103,
+      "fanout_top": [
+        {
+          "stem": "auxiliaire de vie",
+          "variants": 15,
+          "postings": 97
+        },
+        {
+          "stem": "responsable d agence",
+          "variants": 5,
+          "postings": 6
+        }
+      ],
       "offenders": [
         {
           "title": "auxiliaire de vie h f",
@@ -766,11 +1520,37 @@
       "unstated_location": 19,
       "repeated_extra": 459,
       "same_location_extra": 93,
-      "distinct_location_extra": 366,
+      "distinct_location_extra": 357,
       "unstated_location_extra": 9,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 48,
+      "fanout_postings": 739,
+      "fanout_top": [
+        {
+          "stem": "senior software engineer",
+          "variants": 52,
+          "postings": 83
+        },
+        {
+          "stem": "software engineer",
+          "variants": 43,
+          "postings": 69
+        },
+        {
+          "stem": "director",
+          "variants": 23,
+          "postings": 29
+        },
+        {
+          "stem": "manager",
+          "variants": 26,
+          "postings": 29
+        },
+        {
+          "stem": "senior manufacturing engineer",
+          "variants": 26,
+          "postings": 27
+        }
+      ],
       "offenders": [
         {
           "title": "senior product quality engineer",
@@ -848,9 +1628,35 @@
       "same_location_extra": 18,
       "distinct_location_extra": 419,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 71,
+      "fanout_postings": 932,
+      "fanout_top": [
+        {
+          "stem": "software engineer",
+          "variants": 67,
+          "postings": 91
+        },
+        {
+          "stem": "mechanical engineer",
+          "variants": 42,
+          "postings": 45
+        },
+        {
+          "stem": "manager",
+          "variants": 35,
+          "postings": 44
+        },
+        {
+          "stem": "sr software engineer",
+          "variants": 30,
+          "postings": 43
+        },
+        {
+          "stem": "supervisor",
+          "variants": 33,
+          "postings": 36
+        }
+      ],
       "offenders": [
         {
           "title": "software engineer starlink",
@@ -888,9 +1694,35 @@
       "same_location_extra": 16,
       "distinct_location_extra": 404,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 6,
+      "fanout_postings": 36,
+      "fanout_top": [
+        {
+          "stem": "quality assurance analyst",
+          "variants": 6,
+          "postings": 7
+        },
+        {
+          "stem": "backend engineer",
+          "variants": 5,
+          "postings": 7
+        },
+        {
+          "stem": "ai product manager",
+          "variants": 5,
+          "postings": 6
+        },
+        {
+          "stem": "community manager",
+          "variants": 5,
+          "postings": 6
+        },
+        {
+          "stem": "ai ml engineer",
+          "variants": 5,
+          "postings": 5
+        }
+      ],
       "offenders": [
         {
           "title": "software architect",
@@ -933,9 +1765,30 @@
       "same_location_extra": 17,
       "distinct_location_extra": 355,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 4,
+      "fanout_postings": 94,
+      "fanout_top": [
+        {
+          "stem": "project manager",
+          "variants": 16,
+          "postings": 45
+        },
+        {
+          "stem": "alternative delivery manager",
+          "variants": 6,
+          "postings": 20
+        },
+        {
+          "stem": "senior project manager",
+          "variants": 7,
+          "postings": 18
+        },
+        {
+          "stem": "estimator",
+          "variants": 7,
+          "postings": 11
+        }
+      ],
       "offenders": [
         {
           "title": "project engineer michels construction inc",
@@ -966,22 +1819,17 @@
     },
     {
       "board": "lever/cscgeneration-2",
-      "postings": 465,
+      "postings": 464,
       "distinct_titles": 95,
       "unstated_location": 5,
-      "repeated_extra": 370,
-      "same_location_extra": 6,
-      "distinct_location_extra": 363,
+      "repeated_extra": 369,
+      "same_location_extra": 5,
+      "distinct_location_extra": 362,
       "unstated_location_extra": 2,
       "fanout_stems": 0,
       "fanout_postings": 0,
       "fanout_top": [],
       "offenders": [
-        {
-          "title": "kitchen assistant sur la table",
-          "postings": 55,
-          "same_location_extra": 2
-        },
         {
           "title": "ai solutions engineer",
           "postings": 2,
@@ -990,6 +1838,11 @@
         {
           "title": "culinary lead sur la table",
           "postings": 37,
+          "same_location_extra": 1
+        },
+        {
+          "title": "kitchen assistant sur la table",
+          "postings": 54,
           "same_location_extra": 1
         },
         {
@@ -1013,9 +1866,35 @@
       "same_location_extra": 359,
       "distinct_location_extra": 3,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 10,
+      "fanout_postings": 459,
+      "fanout_top": [
+        {
+          "stem": "in home dialysis care partner",
+          "variants": 23,
+          "postings": 81
+        },
+        {
+          "stem": "in home hhd dialysis care partner",
+          "variants": 26,
+          "postings": 78
+        },
+        {
+          "stem": "now hiring helpers for in home support",
+          "variants": 23,
+          "postings": 76
+        },
+        {
+          "stem": "urgent hiring helpers for in home support",
+          "variants": 61,
+          "postings": 76
+        },
+        {
+          "stem": "compassionate caregiver needed",
+          "variants": 13,
+          "postings": 62
+        }
+      ],
       "offenders": [
         {
           "title": "in home staff assist thousand oaks ca 91359",
@@ -1051,7 +1930,7 @@
       "unstated_location": 10,
       "repeated_extra": 343,
       "same_location_extra": 19,
-      "distinct_location_extra": 323,
+      "distinct_location_extra": 322,
       "unstated_location_extra": 2,
       "fanout_stems": 0,
       "fanout_postings": 0,
@@ -1163,9 +2042,25 @@
       "same_location_extra": 4,
       "distinct_location_extra": 319,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 3,
+      "fanout_postings": 82,
+      "fanout_top": [
+        {
+          "stem": "retail brand ambassador",
+          "variants": 5,
+          "postings": 56
+        },
+        {
+          "stem": "brand ambassador",
+          "variants": 15,
+          "postings": 17
+        },
+        {
+          "stem": "entry level sales development specialist",
+          "variants": 9,
+          "postings": 9
+        }
+      ],
       "offenders": [
         {
           "title": "warehouse associate",
@@ -1196,11 +2091,37 @@
       "unstated_location": 61,
       "repeated_extra": 275,
       "same_location_extra": 17,
-      "distinct_location_extra": 258,
+      "distinct_location_extra": 252,
       "unstated_location_extra": 6,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 24,
+      "fanout_postings": 456,
+      "fanout_top": [
+        {
+          "stem": "staff software engineer",
+          "variants": 41,
+          "postings": 63
+        },
+        {
+          "stem": "sr forward deployed engineer",
+          "variants": 11,
+          "postings": 52
+        },
+        {
+          "stem": "solutions architect",
+          "variants": 29,
+          "postings": 51
+        },
+        {
+          "stem": "senior software engineer",
+          "variants": 22,
+          "postings": 39
+        },
+        {
+          "stem": "director",
+          "variants": 25,
+          "postings": 31
+        }
+      ],
       "offenders": [
         {
           "title": "senior staff software engineer backend",
@@ -1238,9 +2159,15 @@
       "same_location_extra": 14,
       "distinct_location_extra": 262,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 1,
+      "fanout_postings": 35,
+      "fanout_top": [
+        {
+          "stem": "occupational therapist",
+          "variants": 8,
+          "postings": 35
+        }
+      ],
       "offenders": [
         {
           "title": "occupational therapist home health",
@@ -1276,11 +2203,27 @@
       "unstated_location": 4,
       "repeated_extra": 265,
       "same_location_extra": 9,
-      "distinct_location_extra": 256,
+      "distinct_location_extra": 254,
       "unstated_location_extra": 2,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 3,
+      "fanout_postings": 85,
+      "fanout_top": [
+        {
+          "stem": "senior project manager",
+          "variants": 10,
+          "postings": 50
+        },
+        {
+          "stem": "practice leader",
+          "variants": 5,
+          "postings": 24
+        },
+        {
+          "stem": "intern co op",
+          "variants": 7,
+          "postings": 11
+        }
+      ],
       "offenders": [
         {
           "title": "senior staff civil engineer",
@@ -1316,11 +2259,37 @@
       "unstated_location": 130,
       "repeated_extra": 263,
       "same_location_extra": 10,
-      "distinct_location_extra": 246,
+      "distinct_location_extra": 205,
       "unstated_location_extra": 48,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 9,
+      "fanout_postings": 178,
+      "fanout_top": [
+        {
+          "stem": "language alignment resource partner",
+          "variants": 34,
+          "postings": 35
+        },
+        {
+          "stem": "coding specialist",
+          "variants": 21,
+          "postings": 29
+        },
+        {
+          "stem": "mathematics specialist",
+          "variants": 17,
+          "postings": 24
+        },
+        {
+          "stem": "stem specialist",
+          "variants": 19,
+          "postings": 23
+        },
+        {
+          "stem": "latex specialist",
+          "variants": 13,
+          "postings": 20
+        }
+      ],
       "offenders": [
         {
           "title": "video collection latam freelance ai trainer project",
@@ -1358,9 +2327,20 @@
       "same_location_extra": 19,
       "distinct_location_extra": 244,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 2,
+      "fanout_postings": 63,
+      "fanout_top": [
+        {
+          "stem": "mep",
+          "variants": 9,
+          "postings": 43
+        },
+        {
+          "stem": "operations",
+          "variants": 5,
+          "postings": 20
+        }
+      ],
       "offenders": [
         {
           "title": "engineer",
@@ -1398,9 +2378,35 @@
       "same_location_extra": 17,
       "distinct_location_extra": 238,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 10,
+      "fanout_postings": 271,
+      "fanout_top": [
+        {
+          "stem": "registered nurse",
+          "variants": 20,
+          "postings": 78
+        },
+        {
+          "stem": "physical therapist",
+          "variants": 14,
+          "postings": 52
+        },
+        {
+          "stem": "occupational therapist",
+          "variants": 8,
+          "postings": 34
+        },
+        {
+          "stem": "physical therapy assistant",
+          "variants": 11,
+          "postings": 30
+        },
+        {
+          "stem": "licensed practical nurse",
+          "variants": 6,
+          "postings": 22
+        }
+      ],
       "offenders": [
         {
           "title": "registered nurse rn home health prn",
@@ -1438,9 +2444,35 @@
       "same_location_extra": 21,
       "distinct_location_extra": 226,
       "unstated_location_extra": 0,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 7,
+      "fanout_postings": 115,
+      "fanout_top": [
+        {
+          "stem": "medical assistant",
+          "variants": 18,
+          "postings": 46
+        },
+        {
+          "stem": "registered nurse",
+          "variants": 18,
+          "postings": 19
+        },
+        {
+          "stem": "ophthalmic technician",
+          "variants": 10,
+          "postings": 14
+        },
+        {
+          "stem": "medical receptionist",
+          "variants": 10,
+          "postings": 13
+        },
+        {
+          "stem": "surgical technician",
+          "variants": 8,
+          "postings": 11
+        }
+      ],
       "offenders": [
         {
           "title": "optical technician optician",
@@ -1476,11 +2508,37 @@
       "unstated_location": 12,
       "repeated_extra": 242,
       "same_location_extra": 150,
-      "distinct_location_extra": 92,
+      "distinct_location_extra": 89,
       "unstated_location_extra": 3,
-      "fanout_stems": 0,
-      "fanout_postings": 0,
-      "fanout_top": [],
+      "fanout_stems": 79,
+      "fanout_postings": 1357,
+      "fanout_top": [
+        {
+          "stem": "band 5",
+          "variants": 210,
+          "postings": 213
+        },
+        {
+          "stem": "band 6",
+          "variants": 139,
+          "postings": 154
+        },
+        {
+          "stem": "consultant in adult psychiatry",
+          "variants": 87,
+          "postings": 126
+        },
+        {
+          "stem": "band 7",
+          "variants": 121,
+          "postings": 125
+        },
+        {
+          "stem": "medical scientist",
+          "variants": 47,
+          "postings": 47
+        }
+      ],
       "offenders": [
         {
           "title": "adult acute speech and language therapist",

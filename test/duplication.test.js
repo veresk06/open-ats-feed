@@ -1,6 +1,9 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { normTitle, normLoc, titleStem, analyseBoard, fanoutOverCache } from '../scripts/duplication.mjs'
+import {
+  normTitle, normLoc, titleStem, titleTail, locTokens,
+  classifyFanoutRow, verifyFanoutBoard, analyseBoard, fanoutOverCache,
+} from '../scripts/duplication.mjs'
 
 test('normLoc treats differently-written forms of one place as one place', () => {
   assert.equal(normLoc('Chicago, IL'), normLoc('IL - Chicago'))
@@ -71,6 +74,74 @@ test('fan-out needs MIN_FANOUT distinct tails, so a role at two sites is not acc
     titles: ['Nurse - Leeds', 'Nurse - York', 'Nurse - Hull', 'Nurse - Bath', 'Nurse - Ely'],
   }]
   assert.equal(fanoutOverCache(manySites).fanout_postings, 5)
+})
+
+test('titleTail is everything after the first separator, and it is what names the place', () => {
+  assert.equal(titleTail('Sports Data Collector (American Football) - Ames, Iowa, USA'), 'american football ames iowa usa')
+  assert.equal(titleTail('Software Engineer'), null)
+})
+
+test('a fan-out tail that names the posting own location is geographic', () => {
+  assert.equal(classifyFanoutRow('Data Collector - Ames, Iowa', 'Ames, IA'), 'geographic')
+  assert.equal(classifyFanoutRow('Researcher - Berlin', 'Berlin, Germany'), 'geographic')
+})
+
+test('a fan-out tail that names a product or a team is NOT geographic', () => {
+  // The two false positives Cycle 24 found by hand-auditing the eight largest stems. This is
+  // the class the title-only rule could not tell from a city, and the location field can.
+  assert.equal(classifyFanoutRow('Senior Engineer - AI Neobank App', 'Kuala Lumpur, Malaysia'), 'not_geographic')
+  assert.equal(classifyFanoutRow('Software Engineer - Air Defense', 'Costa Mesa, CA'), 'not_geographic')
+})
+
+test('a posting with no stated location cannot testify either way', () => {
+  assert.equal(classifyFanoutRow('Data Collector - Ames, Iowa', ''), 'unstated')
+  assert.equal(classifyFanoutRow('Data Collector - Ames, Iowa', 'Remote'), 'unstated')
+})
+
+test('a tail made only of noise words is uninformative, not evidence against geography', () => {
+  // "Engineer - Remote" must not be counted as a product tail. It says nothing.
+  assert.equal(classifyFanoutRow('Engineer - Remote, USA', 'Chicago, IL'), 'uninformative')
+  assert.equal(classifyFanoutRow('Engineer', 'Chicago, IL'), 'uninformative')
+})
+
+test('locTokens drops the noise words that appear on one copy and not the other', () => {
+  assert.deepEqual([...locTokens('Chicago, IL (Remote)')].sort(), ['chicago', 'il'])
+  assert.equal(locTokens('Remote').size, 0)
+  assert.equal(normLoc('Chicago, IL'), [...locTokens('Chicago, IL')].sort().join(' '))
+})
+
+test('verifyFanoutBoard splits a fan-out board into geographic and not, by the location field', () => {
+  const rows = [
+    { title: 'Data Collector - Ames, Iowa', loc: 'Ames, IA' },
+    { title: 'Data Collector - Athens, Ohio', loc: 'Athens, OH' },
+    { title: 'Data Collector - Boise, Idaho', loc: 'Boise, ID' },
+    { title: 'Data Collector - Allen, Texas', loc: 'Allen, TX' },
+    { title: 'Data Collector - Boone, NC', loc: 'Boone, NC' },
+    { title: 'Engineer - Air Defense', loc: 'Costa Mesa, CA' },
+    { title: 'Engineer - Space Systems', loc: 'Costa Mesa, CA' },
+    { title: 'Engineer - Maritime', loc: 'Costa Mesa, CA' },
+    { title: 'Engineer - Counter UAS', loc: 'Costa Mesa, CA' },
+    { title: 'Engineer - Autonomy', loc: 'Costa Mesa, CA' },
+  ]
+  const v = verifyFanoutBoard(rows)
+  assert.equal(v.fanout_postings, 10, 'title-only rule flags all ten')
+  assert.equal(v.geographic, 5)
+  assert.equal(v.not_geographic, 5)
+  assert.equal(v.stems_geographic, 1)
+  assert.equal(v.stems_not_geographic, 1)
+})
+
+test('the verified buckets always sum to the postings the title-only rule flagged', () => {
+  const rows = [
+    { title: 'Nurse - Leeds', loc: 'Leeds, UK' },
+    { title: 'Nurse - York', loc: '' },
+    { title: 'Nurse - Band 6', loc: 'Leeds, UK' },
+    { title: 'Nurse - Hull', loc: 'Hull' },
+    { title: 'Nurse - Remote', loc: 'Bath' },
+    { title: 'Nurse - Ely', loc: 'Ely' },
+  ]
+  const v = verifyFanoutBoard(rows)
+  assert.equal(v.geographic + v.not_geographic + v.unstated + v.uninformative, v.fanout_postings)
 })
 
 test('fan-out is measured over every board, not only boards with repeated titles', () => {
