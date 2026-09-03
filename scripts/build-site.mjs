@@ -199,6 +199,8 @@ ${Object.keys(PROVIDERS).map(preview).join('\n\n')}
   <ul class="dl">
 ${Object.entries(PROVIDERS).map(([k, p]) => `    <li><a href="./data/${k}.csv" download><span class="dl-name">${p.label.toLowerCase()}.csv</span><span class="dl-meta">${num(totals.perProvider[k].live)} rows &mdash; token, open postings, board URL, API URL</span></a></li>`).join('\n')}
     <li><a href="./data/all.csv" download><span class="dl-name">all.csv</span><span class="dl-meta">${num(totals.live)} rows &mdash; all three providers in one file</span></a></li>
+    <li><a href="./data/engineering.csv" download><span class="dl-name">engineering.csv</span><span class="dl-meta">500 rows &mdash; boards ranked by engineering postings, not by size. 121,050 titles read to build it</span></a></li>
+    <li><a href="./data/data-quality.csv" download><span class="dl-name">data-quality.csv</span><span class="dl-meta">500 rows &mdash; which boards carry postings that are not paid jobs. 1,411 commission-only recruitment ads sit on 2 boards; one of them is 79&percnt; ads</span></a></li>
   </ul>
   <p class="serif">Public domain, no attribution required, no signup. If you want the same scan run on
   a schedule with postings normalised and salary parsed out, that is <a href="${ACTOR_URL}">packaged as an
@@ -575,8 +577,15 @@ for (const f of ['index.html', 'coverage.html', 'ramp.html', 'style.css', 'robot
   rmSync(join(OUT, f), { force: true })
 }
 for (const key of Object.keys(PROVIDERS)) rmSync(join(OUT, `${key}.html`), { force: true })
-rmSync(join(OUT, 'data'), { recursive: true, force: true })
+// Only the files this script owns. It used to wipe `data/` wholesale, which silently deleted
+// every CSV built by another script — `engineering.csv` (scripts/role-census.mjs) and
+// `data-quality.csv` (scripts/build-data-quality.mjs) are both published and linked from the
+// index, and one site rebuild would have removed the files and left the links dangling. Nothing
+// had rebuilt the site since they landed, so the breakage had not surfaced yet.
 mkdirSync(join(OUT, 'data'), { recursive: true })
+for (const f of [...Object.keys(PROVIDERS).map((k) => `${k}.csv`), 'all.csv', 'ramp.csv', 'ramp.json']) {
+  rmSync(join(OUT, 'data', f), { force: true })
+}
 
 writeFileSync(join(OUT, 'index.html'), indexHtml)
 writeFileSync(join(OUT, 'coverage.html'), coveragePage())
