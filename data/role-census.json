@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-03T03:37:02.468Z",
+  "generated_at": "2026-09-03T03:38:31.364Z",
   "method": {
     "head_boards": 300,
     "head_postings_claimed": 124097,
@@ -26,9 +26,9 @@
       "share": 21.17
     },
     "corporate": {
-      "head": 13792,
+      "head": 13794,
       "tail_weighted": 27424,
-      "total": 41216,
+      "total": 41218,
       "share": 14.52
     },
     "unclassifiable_generic": {
@@ -116,9 +116,9 @@
       "share": 0.66
     },
     "suspect_recruitment_ad": {
-      "head": 1413,
+      "head": 1411,
       "tail_weighted": 0,
-      "total": 1413,
+      "total": 1411,
       "share": 0.5
     },
     "volunteer_unpaid": {

@@ -58,8 +58,10 @@ export const FAMILIES = [
   ['suspect_recruitment_ad', [
     'work from home', 'work at home', 'be your own boss', 'unlimited income',
     'income being capped', 'someone else s dream', 'break free of the 9 5', 'another way',
-    'burned out from the 9 5', 'take back control of your time', 'remote opportunity',
-    'no experience necessary', 'earn from home', 'financial freedom',
+    'burned out from the 9 5', 'take back control of your time',
+    // Run 2: dropped 'remote opportunity' (2 hits) and 'no experience necessary' (0), both of
+    // which describe real jobs at least as often as pitches. The Actor filters on this list.
+    'earn from home', 'financial freedom',
   ]],
   // Second data-quality finding, run 2: the corpus carries **unpaid** listings on real ATS
   // boards — "hospice volunteer (unpaid)", "private equity event volunteer". A buyer paying per

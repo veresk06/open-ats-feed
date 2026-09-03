@@ -9,8 +9,14 @@
       "description": "Postings: one row per open job. Hiring signals: one row per company — how many roles it opened in the last 7 / 30 / 90 days, how that compares with its own prior pace, which functions it has just opened for the first time, and which technologies it is hiring for. Both come from the same scan, so a signals run reads exactly the same boards and delivers roughly 1/30th of the rows.",
       "editor": "select",
       "default": "postings",
-      "enum": ["postings", "signals"],
-      "enumTitles": ["Job postings (one row per job)", "Hiring signals (one row per company)"]
+      "enum": [
+        "postings",
+        "signals"
+      ],
+      "enumTitles": [
+        "Job postings (one row per job)",
+        "Hiring signals (one row per company)"
+      ]
     },
     "signalTypes": {
       "title": "Only these signals",
@@ -19,8 +25,20 @@
       "editor": "select",
       "items": {
         "type": "string",
-        "enum": ["ramping", "new_board", "steady", "quiet", "undated"],
-        "enumTitles": ["Ramping", "New board", "Steady", "Quiet", "No dates published"]
+        "enum": [
+          "ramping",
+          "new_board",
+          "steady",
+          "quiet",
+          "undated"
+        ],
+        "enumTitles": [
+          "Ramping",
+          "New board",
+          "Steady",
+          "Quiet",
+          "No dates published"
+        ]
       }
     },
     "minOpenPostings": {
@@ -35,11 +53,22 @@
       "type": "array",
       "description": "Which applicant tracking systems to read. Greenhouse and Ashby are fast. Lever is fetched at 1 request per second because api.lever.co asks for that in its robots.txt, so a large Lever run is slow by design.",
       "editor": "select",
-      "default": ["greenhouse", "ashby"],
+      "default": [
+        "greenhouse",
+        "ashby"
+      ],
       "items": {
         "type": "string",
-        "enum": ["greenhouse", "ashby", "lever"],
-        "enumTitles": ["Greenhouse", "Ashby", "Lever (slow — 1 req/s)"]
+        "enum": [
+          "greenhouse",
+          "ashby",
+          "lever"
+        ],
+        "enumTitles": [
+          "Greenhouse",
+          "Ashby",
+          "Lever (slow — 1 req/s)"
+        ]
       }
     },
     "keywords": {
@@ -47,7 +76,9 @@
       "type": "array",
       "description": "Keep a posting if any keyword appears in its title, department, team, or description. Leave empty to keep everything.",
       "editor": "stringList",
-      "prefill": ["engineer"]
+      "prefill": [
+        "engineer"
+      ]
     },
     "location": {
       "title": "Location contains",
@@ -62,8 +93,16 @@
       "editor": "select",
       "items": {
         "type": "string",
-        "enum": ["remote", "hybrid", "onsite"],
-        "enumTitles": ["Remote", "Hybrid", "Onsite"]
+        "enum": [
+          "remote",
+          "hybrid",
+          "onsite"
+        ],
+        "enumTitles": [
+          "Remote",
+          "Hybrid",
+          "Onsite"
+        ]
       }
     },
     "seniority": {
@@ -73,8 +112,22 @@
       "editor": "select",
       "items": {
         "type": "string",
-        "enum": ["intern", "junior", "mid", "senior", "principal", "executive"],
-        "enumTitles": ["Intern", "Junior", "Mid", "Senior", "Principal / Staff", "Executive"]
+        "enum": [
+          "intern",
+          "junior",
+          "mid",
+          "senior",
+          "principal",
+          "executive"
+        ],
+        "enumTitles": [
+          "Intern",
+          "Junior",
+          "Mid",
+          "Senior",
+          "Principal / Staff",
+          "Executive"
+        ]
       }
     },
     "department": {
@@ -94,6 +147,13 @@
       "type": "boolean",
       "description": "Salary is parsed out of free text and is left null unless the range is unambiguous. A wrong salary is worse than an absent one.",
       "default": false
+    },
+    "excludeRecruitmentAds": {
+      "title": "Exclude suspect recruitment ads",
+      "type": "boolean",
+      "description": "On by default. Removes open-ended commission-only / MLM recruitment copy — \"be your own boss\", \"tired of your income being capped?\", \"work from home – client benefits representative\" — which sits on real Greenhouse, Ashby and Lever boards and is not an opening. Measured on 2026-09-03: 1,413 of 121,050 titles read, 0.48% of the corpus. RUN_STATS.recruitment_ads_excluded reports how many rows this removed on your run. Turn it off to receive the corpus unfiltered.",
+      "default": true,
+      "groupCaption": "Quality"
     },
     "companies": {
       "title": "Specific company boards",

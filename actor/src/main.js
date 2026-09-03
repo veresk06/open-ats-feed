@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 import { PROVIDERS } from './normalize.js'
 import { companySignal } from './signals.js'
+import { isRecruitmentAd } from './recruitment-ads.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const INDEX_FILE = resolve(HERE, '../data/companies.json')
@@ -27,6 +28,9 @@ const {
   department = '',
   postedSince = '',
   withSalaryOnly = false,
+  // On by default: 0.48% of the corpus is commission-only/MLM recruitment copy and a
+  // buyer paying per delivered row should not pay for it. See src/recruitment-ads.js.
+  excludeRecruitmentAds = true,
   includeDescription = false,
   includeEmptyBoards = false,
   includeUnverifiedLever = false,
@@ -209,6 +213,7 @@ if (SIGNALS && since) {
 }
 
 function keep(r, ignoreSince = false) {
+  if (excludeRecruitmentAds && isRecruitmentAd(r)) { stats.recruitment_ads_excluded++; return false }
   if (kw.length) {
     const hay = `${r.title} ${r.department ?? ''} ${r.team ?? ''} ${r.description ?? ''}`.toLowerCase()
     if (!kw.some((k) => hay.includes(k))) return false
@@ -241,6 +246,8 @@ const stats = {
   boards_failed: 0,
   postings_seen: 0,
   postings_pushed: 0,
+  // Reported whether or not the filter is on, so the number is visible rather than implied.
+  recruitment_ads_excluded: 0,
   per_provider: {},
 }
 if (SIGNALS) {
