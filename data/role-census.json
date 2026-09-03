@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-03T04:03:18.693Z",
+  "generated_at": "2026-09-03T05:02:56.763Z",
   "method": {
     "head_boards": 300,
     "head_postings_claimed": 124097,
@@ -20,64 +20,64 @@
   },
   "families": {
     "engineering": {
-      "head": 18881,
+      "head": 18535,
       "tail_weighted": 41228,
-      "total": 60109,
-      "share": 21.17
+      "total": 59763,
+      "share": 21.05
     },
     "corporate": {
-      "head": 13794,
-      "tail_weighted": 27424,
-      "total": 41218,
-      "share": 14.52
-    },
-    "unclassifiable_generic": {
-      "head": 10685,
-      "tail_weighted": 23276,
-      "total": 33961,
-      "share": 11.96
+      "head": 12985,
+      "tail_weighted": 27828,
+      "total": 40813,
+      "share": 14.38
     },
     "sales_marketing": {
-      "head": 8665,
-      "tail_weighted": 24891,
-      "total": 33556,
-      "share": 11.82
+      "head": 8573,
+      "tail_weighted": 24708,
+      "total": 33281,
+      "share": 11.72
+    },
+    "unclassifiable_generic": {
+      "head": 10216,
+      "tail_weighted": 22835,
+      "total": 33051,
+      "share": 11.64
     },
     "other": {
-      "head": 13445,
-      "tail_weighted": 16668,
-      "total": 30113,
-      "share": 10.61
+      "head": 9341,
+      "tail_weighted": 15860,
+      "total": 25201,
+      "share": 8.88
     },
     "healthcare": {
-      "head": 15262,
-      "tail_weighted": 7526,
-      "total": 22788,
-      "share": 8.03
+      "head": 17068,
+      "tail_weighted": 7783,
+      "total": 24851,
+      "share": 8.75
     },
     "engineering_nonsoftware": {
-      "head": 3125,
+      "head": 3072,
       "tail_weighted": 6718,
-      "total": 9843,
-      "share": 3.47
+      "total": 9790,
+      "share": 3.45
     },
     "retail_food": {
-      "head": 6324,
+      "head": 6320,
       "tail_weighted": 2864,
-      "total": 9188,
-      "share": 3.24
+      "total": 9184,
+      "share": 3.23
     },
     "skilled_trades": {
-      "head": 5323,
+      "head": 5262,
       "tail_weighted": 3157,
-      "total": 8480,
-      "share": 2.99
+      "total": 8419,
+      "share": 2.97
     },
     "product_design": {
-      "head": 2830,
-      "tail_weighted": 5580,
-      "total": 8410,
-      "share": 2.96
+      "head": 2748,
+      "tail_weighted": 5507,
+      "total": 8255,
+      "share": 2.91
     },
     "fitness_wellness": {
       "head": 6367,
@@ -86,22 +86,28 @@
       "share": 2.24
     },
     "education": {
-      "head": 1380,
+      "head": 1348,
       "tail_weighted": 4332,
-      "total": 5712,
-      "share": 2.01
+      "total": 5680,
+      "share": 2
     },
     "retail_food_generic": {
       "head": 3021,
-      "tail_weighted": 1065,
-      "total": 4086,
-      "share": 1.44
+      "tail_weighted": 991,
+      "total": 4012,
+      "share": 1.41
+    },
+    "ai_gig_work": {
+      "head": 3457,
+      "tail_weighted": 110,
+      "total": 3567,
+      "share": 1.26
     },
     "non_english": {
-      "head": 2686,
+      "head": 2634,
       "tail_weighted": 551,
-      "total": 3237,
-      "share": 1.14
+      "total": 3185,
+      "share": 1.12
     },
     "logistics": {
       "head": 1899,
@@ -110,10 +116,10 @@
       "share": 1.1
     },
     "support": {
-      "head": 947,
+      "head": 904,
       "tail_weighted": 918,
-      "total": 1865,
-      "share": 0.66
+      "total": 1822,
+      "share": 0.64
     },
     "suspect_recruitment_ad": {
       "head": 1411,
@@ -121,11 +127,23 @@
       "total": 1411,
       "share": 0.5
     },
+    "events": {
+      "head": 732,
+      "tail_weighted": 551,
+      "total": 1283,
+      "share": 0.45
+    },
     "volunteer_unpaid": {
       "head": 445,
       "tail_weighted": 0,
       "total": 445,
       "share": 0.16
+    },
+    "media_production": {
+      "head": 152,
+      "tail_weighted": 257,
+      "total": 409,
+      "share": 0.14
     }
   },
   "estimated_total_postings": 283900,
@@ -176,7 +194,7 @@
       "provider": "ashby",
       "token": "openai",
       "total": 770,
-      "engineering": 341,
+      "engineering": 340,
       "stratum": "head"
     },
     {
@@ -187,24 +205,17 @@
       "stratum": "head"
     },
     {
-      "provider": "greenhouse",
-      "token": "prolificacademicltd",
-      "total": 3706,
-      "engineering": 289,
+      "provider": "lever",
+      "token": "shieldai",
+      "total": 433,
+      "engineering": 266,
       "stratum": "head"
     },
     {
       "provider": "lever",
       "token": "cgsfederal",
       "total": 1427,
-      "engineering": 274,
-      "stratum": "head"
-    },
-    {
-      "provider": "lever",
-      "token": "shieldai",
-      "total": 433,
-      "engineering": 266,
+      "engineering": 264,
       "stratum": "head"
     },
     {
@@ -586,13 +597,6 @@
       "stratum": "head"
     },
     {
-      "provider": "ashby",
-      "token": "anyone-ai",
-      "total": 209,
-      "engineering": 89,
-      "stratum": "head"
-    },
-    {
       "provider": "greenhouse",
       "token": "verkada",
       "total": 291,
@@ -713,13 +717,6 @@
     },
     {
       "provider": "greenhouse",
-      "token": "xai",
-      "total": 253,
-      "engineering": 69,
-      "stratum": "head"
-    },
-    {
-      "provider": "greenhouse",
       "token": "nscaleoperationsukltd",
       "total": 248,
       "engineering": 69,
@@ -730,6 +727,13 @@
       "token": "lyft",
       "total": 167,
       "engineering": 69,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "xai",
+      "total": 253,
+      "engineering": 68,
       "stratum": "head"
     },
     {
@@ -818,23 +822,30 @@
     },
     {
       "provider": "ashby",
-      "token": "elevenlabs",
-      "total": 255,
-      "engineering": 56,
-      "stratum": "head"
-    },
-    {
-      "provider": "ashby",
       "token": "sierra",
       "total": 210,
       "engineering": 56,
       "stratum": "head"
     },
     {
+      "provider": "ashby",
+      "token": "elevenlabs",
+      "total": 255,
+      "engineering": 55,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "anyone-ai",
+      "total": 209,
+      "engineering": 55,
+      "stratum": "head"
+    },
+    {
       "provider": "greenhouse",
       "token": "samsara",
       "total": 245,
-      "engineering": 56,
+      "engineering": 55,
       "stratum": "head"
     },
     {
@@ -1041,13 +1052,6 @@
       "stratum": "head"
     },
     {
-      "provider": "greenhouse",
-      "token": "agency",
-      "total": 821,
-      "engineering": 32,
-      "stratum": "head"
-    },
-    {
       "provider": "ashby",
       "token": "halter",
       "total": 235,
@@ -1158,6 +1162,13 @@
       "total": 61,
       "engineering": 24,
       "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "prolificacademicltd",
+      "total": 3706,
+      "engineering": 22,
+      "stratum": "head"
     },
     {
       "provider": "greenhouse",
@@ -1529,20 +1540,19 @@
       "total": 17,
       "engineering": 7,
       "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "nitrosoftwareinc",
+      "total": 18,
+      "engineering": 7,
+      "stratum": "tail"
     }
   ],
   "unmatched_top": [
     {
-      "title": "medical receptionist",
-      "n": 38
-    },
-    {
       "title": "b2b content writer (remote, contract)",
       "n": 36
-    },
-    {
-      "title": "commercial terrain - indépendant (freelance)",
-      "n": 35
     },
     {
       "title": "stretch trainer",
@@ -1557,22 +1567,6 @@
       "n": 32
     },
     {
-      "title": "trial attorney",
-      "n": 32
-    },
-    {
-      "title": "medical director",
-      "n": 26
-    },
-    {
-      "title": "early intervention bcba – life skills autism academy (center",
-      "n": 25
-    },
-    {
-      "title": "in-home dialysis care partner – 1+ year dialysis machine exp",
-      "n": 25
-    },
-    {
       "title": "producer",
       "n": 24
     },
@@ -1583,10 +1577,6 @@
     {
       "title": "assessoria de investimentos: xp future",
       "n": 22
-    },
-    {
-      "title": "workers' compensation attorney",
-      "n": 21
     },
     {
       "title": "quantitative researcher",
@@ -1601,23 +1591,7 @@
       "n": 19
     },
     {
-      "title": "gynecologist - imlc license | flexible 1099 remote",
-      "n": 19
-    },
-    {
-      "title": "endocrinologist -  imlc license | flexible 1099 remote",
-      "n": 19
-    },
-    {
       "title": "subject matter expert – professional, scientific & technical",
-      "n": 18
-    },
-    {
-      "title": "direct support professional (dsp)",
-      "n": 18
-    },
-    {
-      "title": "podiatrist",
       "n": 18
     },
     {
@@ -1625,40 +1599,16 @@
       "n": 18
     },
     {
-      "title": "event producer",
-      "n": 17
-    },
-    {
       "title": "founder's office",
       "n": 17
-    },
-    {
-      "title": "telehealth endocrinologist (1099) | flexible schedule",
-      "n": 17
-    },
-    {
-      "title": "fluent norwegian speakers - ai trainer (freelance - remote) ",
-      "n": 16
     },
     {
       "title": "receptionist",
       "n": 16
     },
     {
-      "title": "commercial(e) terrain - indépendant (freelance)",
-      "n": 16
-    },
-    {
       "title": "repartidor de tarjetas - medio tiempo + bono garantizado",
       "n": 16
-    },
-    {
-      "title": "story desk editor",
-      "n": 15
-    },
-    {
-      "title": "técnico em segurança do trabalho - presencial ",
-      "n": 15
     },
     {
       "title": "account director",
@@ -1673,24 +1623,92 @@
       "n": 14
     },
     {
-      "title": "telehealth (board-eligible) endocrinologist (1099) | flexibl",
-      "n": 14
-    },
-    {
-      "title": "fluent gujarati speaker (freelance - remote) - ai trainer - ",
-      "n": 13
-    },
-    {
       "title": "electrical superintendent",
       "n": 13
     },
     {
-      "title": "event operations executive",
+      "title": "senior executive social, goc",
       "n": 13
     },
     {
-      "title": "head of conference operations",
+      "title": "subject matter expert – real estate, property management & l",
       "n": 13
+    },
+    {
+      "title": "subject matter expert – media, broadcasting & information se",
+      "n": 13
+    },
+    {
+      "title": "people business partner",
+      "n": 12
+    },
+    {
+      "title": "head of event",
+      "n": 12
+    },
+    {
+      "title": "ai deployment strategist",
+      "n": 12
+    },
+    {
+      "title": "porter, full-time",
+      "n": 12
+    },
+    {
+      "title": "general superintendent",
+      "n": 12
+    },
+    {
+      "title": "porter",
+      "n": 11
+    },
+    {
+      "title": "general application",
+      "n": 11
+    },
+    {
+      "title": "runner",
+      "n": 11
+    },
+    {
+      "title": "creator relations",
+      "n": 10
+    },
+    {
+      "title": "subject matter expert – quantative/scientific/corporate doma",
+      "n": 10
+    },
+    {
+      "title": "quantitative trader",
+      "n": 10
+    },
+    {
+      "title": "business unit head - stock trading app",
+      "n": 10
+    },
+    {
+      "title": "business unit head - wealth management app",
+      "n": 10
+    },
+    {
+      "title": "business unit head - travel fx app",
+      "n": 10
+    },
+    {
+      "title": "business unit head - ai payments app",
+      "n": 10
+    },
+    {
+      "title": "creative strategist",
+      "n": 10
+    },
+    {
+      "title": "agile coach",
+      "n": 10
+    },
+    {
+      "title": "it subject matter expert",
+      "n": 10
     }
   ]
 }

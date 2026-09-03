@@ -5,11 +5,10 @@ greenhouse,andurilindustries,2208,1007,45.6,head
 greenhouse,spacex,2281,829,36.3,head
 greenhouse,databricks,859,536,62.4,head
 lever,bluelightconsulting,513,511,99.6,head
-ashby,openai,770,341,44.3,head
+ashby,openai,770,340,44.2,head
 greenhouse,accenturefederalservices,642,315,49.1,head
-greenhouse,prolificacademicltd,3706,289,7.8,head
-lever,cgsfederal,1427,274,19.2,head
 lever,shieldai,433,266,61.4,head
+lever,cgsfederal,1427,264,18.5,head
 greenhouse,anthropic,582,224,38.5,head
 greenhouse,asm,444,221,49.8,head
 ashby,airapps,498,216,43.4,head
@@ -64,7 +63,6 @@ greenhouse,fivetran,227,92,40.5,head
 greenhouse,holderconstruction,367,92,25.1,head
 greenhouse,altentechnologyusa,193,92,47.7,head
 ashby,harmattan-ai,171,90,52.6,head
-ashby,anyone-ai,209,89,42.6,head
 greenhouse,verkada,291,89,30.6,head
 lever,binance,283,89,31.4,head
 greenhouse,pinterest,199,88,44.2,head
@@ -82,9 +80,9 @@ greenhouse,zscaler,354,74,20.9,head
 greenhouse,adyen,222,74,33.3,head
 greenhouse,cssmerge,258,71,27.5,head
 greenhouse,spektrum,215,71,33.0,head
-greenhouse,xai,253,69,27.3,head
 greenhouse,nscaleoperationsukltd,248,69,27.8,head
 greenhouse,lyft,167,69,41.3,head
+greenhouse,xai,253,68,26.9,head
 ashby,mistral.ai,172,66,38.4,head
 greenhouse,vast,191,66,34.6,head
 greenhouse,imc,176,66,37.5,head
@@ -97,9 +95,10 @@ greenhouse,braze,289,63,21.8,head
 greenhouse,scoutmotors,237,61,25.7,head
 greenhouse,ebury,172,58,33.7,head
 ashby,saronic,194,57,29.4,head
-ashby,elevenlabs,255,56,22.0,head
 ashby,sierra,210,56,26.7,head
-greenhouse,samsara,245,56,22.9,head
+ashby,elevenlabs,255,55,21.6,head
+ashby,anyone-ai,209,55,26.3,head
+greenhouse,samsara,245,55,22.4,head
 greenhouse,nice,183,54,29.5,head
 greenhouse,alphasense,228,53,23.2,head
 greenhouse,agoda,291,52,17.9,head
@@ -129,7 +128,6 @@ greenhouse,lucidmotors,333,34,10.2,head
 greenhouse,dept,212,34,16.0,head
 ashby,illumio,68,34,50.0,tail
 greenhouse,thenewyorktimes,169,33,19.5,head
-greenhouse,agency,821,32,3.9,head
 ashby,halter,235,32,13.6,head
 greenhouse,tide,86,32,37.2,tail
 lever,ion,69,32,46.4,tail
@@ -146,6 +144,7 @@ greenhouse,hasbro,162,25,15.4,head
 greenhouse,flexport,171,24,14.0,head
 greenhouse,clara,117,24,20.5,tail
 lever,tkda,61,24,39.3,tail
+greenhouse,prolificacademicltd,3706,22,0.6,head
 greenhouse,infuse,411,22,5.4,head
 greenhouse,examplecorpsandbox,220,22,10.0,head
 lever,getwingapp,470,22,4.7,head
@@ -300,6 +299,7 @@ greenhouse,system,5,2,40.0,tail
 lever,duetti,10,2,20.0,tail
 lever,zushealth,6,2,33.3,tail
 greenhouse,privateequityinsights,1159,1,0.1,head
+greenhouse,agency,821,1,0.1,head
 greenhouse,pulse,2649,1,0.0,head
 greenhouse,westernveterinarypartnersllc,476,1,0.2,head
 greenhouse,horacemannagents,417,1,0.2,head

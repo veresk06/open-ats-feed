@@ -73,6 +73,26 @@ export const FAMILIES = [
   ['volunteer_unpaid', [
     'volunteer', 'unpaid intern',
   ]],
+  // Third data-quality finding, run 4, and it is the one that moves the headline. Two boards in
+  // the corpus post AI-training gig work by the thousand — "AI Trainer - Electrical Engineers,
+  // CAD, Python expertise", "German Language Specialist (Freelance AI Trainer Project)". Every
+  // one of those was being counted into a real job family: `engineering` for the CAD ones,
+  // `corporate` for the language ones, `healthcare` for the clinical ones. They are piecework
+  // for a model vendor, not an opening on an engineering team, and `engineering` is the number
+  // this company quotes publicly.
+  //
+  // Deliberately NOT filtered by the Actor, unlike the two findings above it. An MLM pitch is
+  // not a job and an unpaid listing is not paid; AI gig work is a real paid job that a buyer may
+  // well want. It is labelled so it can be excluded by choice, not excluded by us.
+  // Audited: `data annotation` and `data labeling` were dropped. Their few hits were staff jobs
+  // at model labs — "Technical Program Manager, Human Data Annotation", "General Manager, AI Data
+  // Labeling" — which are exactly the engineering and management roles this family must not
+  // steal. `freelance ai` and `annotation specialist` fired 0 times and went the way of
+  // `pro bono`. The bare `annotator` survives on 2 hits, both unambiguous ("Data AI Annotator -
+  // Flexible Hours").
+  ['ai_gig_work', [
+    'ai trainer', 'ai training', 'ai tutor', 'annotator',
+  ]],
   ['engineering', [
     'software engineer', 'software developer', 'backend', 'back end', 'back-end', 'frontend',
     'front end', 'front-end', 'full stack', 'fullstack', 'full-stack', 'devops', 'site reliability',
@@ -116,6 +136,29 @@ export const FAMILIES = [
     'respiratory', 'surgical tech', 'patient care', 'behavioral health', 'social worker',
     'psychiatr', 'psycholog', 'veterinar', 'paramedic', 'emt', 'midwife', 'optometr',
     'occupational health', 'speech language', 'dietitian', 'nursing',
+    // Run 4. `healthcare` was the most understated family in the census and the reason was that
+    // the classifier speaks American. One board (`greenhouse/pulse`) carries 832 UK clinical
+    // postings written in NHS vocabulary — Agenda for Change pay bands, `locum`, `radiographer`,
+    // `biomedical scientist` — and every one of them landed in `other`.
+    // Audited: `radiograph` was narrowed to `radiographer` because it was catching SpaceX
+    // industrial NDE work — "Sr. NDE Engineer, Radiography Testing" is a weld inspector, not a
+    // clinician. `band 9` fired 0 times. `locum` misfires once in 111 and is otherwise the
+    // single cleanest UK clinical marker in the corpus.
+    'band 5', 'band 6', 'band 7', 'band 8', 'locum', 'radiographer', 'echocardiograph',
+    'cardiac physiologist', 'biomedical scientist', 'audiologist', 'dosimetrist',
+    'vascular scientist', 'accident emergency', 'medical secretary', 'histolog', 'haematolog',
+    // Run 4, second group: American clinical vocabulary the list simply never had. Specialist
+    // physicians were named by specialty, never by the word "physician", so a telehealth
+    // endocrinology roster read as unclassifiable.
+    // `hospice` was dropped on audit: all 26 hits were commercial roles at hospice providers
+    // ("Account Executive, Hospice", "Client Services Manager, Hospice"), and healthcare is
+    // ordered ahead of sales_marketing, so keeping it would have stolen sales headcount and
+    // inflated the family this run is supposed to correct. `neurolog`, `orthoped` and
+    // `hematolog` fired 0 times — the corpus spells them the British way.
+    'medical receptionist', 'medical director', 'medical officer', 'telehealth', 'dialysis',
+    'podiatr', 'gynecolog', 'gynaecolog', 'endocrinolog', 'oncolog', 'cardiolog',
+    'dermatolog', 'rheumatolog', 'urolog', 'anesthesiolog', 'anaesthet', 'patholog',
+    'orthopaed', 'direct support professional', 'direct care', 'bcba', 'support worker',
   ]],
   // Run 3, and it was found by the board prior rather than by reading the list: a gym's postings
   // were being counted as education. `instructor` is an `education` key, `education` is ordered
@@ -150,6 +193,35 @@ export const FAMILIES = [
     'housekeep', 'janitor', 'custodian', 'security officer', 'security guard', 'front desk',
     'concierge', 'valet', 'kitchen',
   ]],
+  // Run 4. Conference and event operations were the single most repetitive block left in
+  // `other` — one board writes out `event operations organiser`, `conference operations
+  // producer`, `events executive` and a dozen more permutations. Placed after `skilled_trades`
+  // so "Conference Room AV Technician" stays a trade, and before `sales_marketing` so
+  // "Event Marketing Manager" is an events job rather than a marketing one.
+  // Audited: `event marketing` and `exhibition` were dropped — every hit read as a sales job
+  // ("Event Marketing Representatives (Part-Time)", "Sponsorship and Exhibition Sales
+  // Specialist"), and sales_marketing is the honest home for those. `event organizer`,
+  // `event director` and `trade show` fired 0 times.
+  ['events', [
+    'conference', 'event manager', 'event operations', 'event producer', 'event coordinator',
+    'event organiser', 'event executive', 'event planner', 'event specialist', 'events ',
+  ]],
+  // Run 4. Ordered after `events` so "Event Producer" stays an events job.
+  //
+  // **The bare `producer` was written, audited and deleted, and it is the best argument this
+  // repo has for auditing keys instead of reasoning about them.** It fired 323 times and looked
+  // fine from three examples. 201 of those 323 were `Insurance Producer - Abilene, TX` and its
+  // siblings on one insurance-agency board: in US insurance a "producer" is a salesperson. A
+  // second 62 were `Associate Director, Post Production & Quality Operations` at Carvana, where
+  // post-production means reconditioning a used car. Both keys are gone; the qualified producer
+  // titles are kept and the ambiguous ones stay in `other`, where "we cannot say what kind" is
+  // the true answer. `sound engineer`, `news editor` and `film producer` fired 0 times.
+  // `broadcast` was dropped at 39 hits — media buying and AI subject-matter gigs, not production.
+  ['media_production', [
+    'journalist', 'videograph', 'photograph', 'animator', 'camera operator', 'motion graphics',
+    'audio engineer', 'story desk', 'video editor', 'content editor', 'copy editor',
+    'managing editor', 'video producer',
+  ]],
   ['sales_marketing', [
     'account executive', 'sales', 'business development', 'bdr', 'sdr', 'marketing', 'growth',
     'account manager', 'customer success', 'partnerships', 'brand ', 'content strategist',
@@ -165,6 +237,14 @@ export const FAMILIES = [
     'accountant', 'accounting', 'finance', 'controller', 'auditor', 'tax ', 'payroll',
     'recruiter', 'talent acquisition', 'human resources', ' hr ', 'people operations',
     'legal', 'counsel', 'paralegal', 'compliance', 'procurement', 'office manager',
+    // Run 4. `legal`, `counsel` and `paralegal` were here from run 1 and `attorney` was not, so
+    // an entire litigation-staffing board — trial attorneys, document review in nine languages,
+    // e-discovery — read as unclassifiable. `investigator` is the same shape and sits next to
+    // `compliance`: the corpus hits are fraud, financial and civil-enforcement investigators.
+    // `solicitor` and `barrister` fired 0 times — the UK boards in this corpus are clinical,
+    // not legal.
+    'attorney', 'lawyer', 'litigation', 'ediscovery', 'e discovery', 'document review',
+    'law clerk', 'investigator',
     'executive assistant', 'administrative assistant', 'operations manager', 'project manager',
     'program manager', 'business analyst', 'consultant', 'strategy', 'chief ', 'president',
     'vice president', 'director of', 'coordinator', 'specialist', 'analyst',
@@ -199,6 +279,13 @@ export const FAMILIES = [
     'agente di', 'commercio', 'addetto', 'impiegat', 'operaio', 'stagista',
     'gestor', 'atendimento', 'desenvolvedor', 'ventas', 'asesor', 'mitarbeiter',
     'praktikum', 'ausbildung', 'werkstudent', 'medewerker', 'stagiair',
+    // Run 4. The French pass had `commercial` spelled the Iberian way (`comercial`) and nothing
+    // else, so the largest French block in `other` — "Commercial·e terrain indépendant /
+    // freelance", 52 titles — matched nothing. Note the shape of these keys: the normaliser
+    // folds every accented character to a space, so `indépendant` reaches the matcher as
+    // `ind pendant` and `réceptionniste` as `r ceptionniste`. Keys must be written in that
+    // post-normalisation form or they never fire, which is not obvious and cost a pass.
+    'ind pendant', 'ceptionniste', 'pr pos', 't cnico', 'seguran a', 'chauffeur',
   ]],
   // Run 2, deliberately last: the bare nouns. Everything above has had its shot, so a title
   // still reading `engineer` or `developer` here is not a nurse, a driver or an electrician.
