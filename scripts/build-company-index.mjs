@@ -36,6 +36,14 @@
 //               fail to connect. Re-probing that recovers nothing is still worth
 //               doing — it is what makes the Recruitee correction trustworthy rather
 //               than a number we went looking for.
+//   all six     coverage-theirs-only.json — layered last, on every provider. These are
+//               the 2,035 board tokens that kalil0321/ats-scrapers publishes and our
+//               Common Crawl harvest never found (Cycle 41's diff, the half that points
+//               at us). Their snapshot supplied the candidate list and nothing else: each
+//               token was probed against the same vendor API on the same terms as every
+//               other row here, and only a live 200 with >= 1 open posting enters the
+//               index. No count, status or posting figure of theirs is carried over.
+//               Layering last is the same later-measurement-wins rule as the re-probes.
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
@@ -65,7 +73,7 @@ const readJsonl = async (p) => {
     })
 }
 
-const [fast, gh403, lever, leverFull, breezyFull, sub2, reRecruitee, reTeamtailor, tokens] =
+const [fast, gh403, lever, leverFull, breezyFull, sub2, reRecruitee, reTeamtailor, tokens, theirs] =
   await Promise.all([
     read('data/coverage-c3-fast.json'),
     read('data/coverage-c3-gh403.json'),
@@ -76,6 +84,7 @@ const [fast, gh403, lever, leverFull, breezyFull, sub2, reRecruitee, reTeamtailo
     read('data/reprobe-recruitee.json'),
     read('data/reprobe-teamtailor.json'),
     read('data/tokens.json'),
+    read('data/coverage-theirs-only.json'),
   ])
 
 // A token appears in both the fast run and the 403 re-probe; the re-probe is the
@@ -98,11 +107,11 @@ function split(rows) {
   }
 }
 
-const greenhouse = split(merge(fast.greenhouse, gh403.greenhouse))
-const ashby = split(merge(fast.ashby))
+const greenhouse = split(merge(fast.greenhouse, gh403.greenhouse, theirs.greenhouse))
+const ashby = split(merge(fast.ashby, theirs.ashby))
 // The full pass is the later and more complete measurement, so it wins over the
 // sample wherever the two overlap.
-const leverRows = merge(lever.lever, leverFull)
+const leverRows = merge(lever.lever, leverFull, theirs.lever)
 const leverSplit = split(leverRows)
 const probed = new Set(leverRows.map((r) => r.token))
 const leverUnverified = (tokens.lever ?? []).filter((t) => !probed.has(t)).sort()
@@ -111,13 +120,13 @@ const leverUnverified = (tokens.lever ?? []).filter((t) => !probed.has(t)).sort(
 // token. `blocked` and `error` rows are neither live nor empty, so `split` drops
 // them — 2 of 4,562, which is why the pass counts as a measurement rather than a
 // partial one.
-const breezy = split(merge(breezyFull.breezy))
+const breezy = split(merge(breezyFull.breezy, theirs.breezy))
 
 // The slow re-probe is the later and more meaningful measurement of the same token,
 // so it wins over the concurrent pass — the same rule that lets the Greenhouse 403
 // re-probe override the fast run.
-const recruitee = split(merge(sub2.recruitee, reRecruitee.results))
-const teamtailor = split(merge(sub2.teamtailor, reTeamtailor.results))
+const recruitee = split(merge(sub2.recruitee, reRecruitee.results, theirs.recruitee))
+const teamtailor = split(merge(sub2.teamtailor, reTeamtailor.results, theirs.teamtailor))
 
 const index = {
   as_of: AS_OF,

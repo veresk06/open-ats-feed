@@ -33,6 +33,11 @@ const outArg = process.argv.indexOf('--out');
 const outPath = outArg === -1 ? 'data/ats-scrapers-diff.json' : process.argv[outArg + 1];
 const csvArg = process.argv.indexOf('--csv');
 const csvPath = csvArg === -1 ? 'docs/data/net-new-vs-ats-scrapers.csv' : process.argv[csvArg + 1];
+// The diff points both ways. Their tokens that we do not hold are the cheapest coverage
+// gain available to us, but they are candidates and not roster: nothing enters the index
+// until it has been probed our way (HTTP 200, >= 1 open posting).
+const theirsArg = process.argv.indexOf('--theirs-only-csv');
+const theirsPath = theirsArg === -1 ? 'data/ats-scrapers-theirs-only.csv' : process.argv[theirsArg + 1];
 
 // A board whose postings all live on the company's own careers domain yields no token from
 // their url, so it looks net-new when it is not. Match those by normalised company name and
@@ -106,6 +111,7 @@ const t = {
   their_rows: 0, their_untokenised_rows: 0,
 };
 const netNewRows = [];
+const theirsOnlyRows = [];
 
 for (const { provider, rows } of work) {
   const mine = ours.get(provider) ?? new Map();
@@ -125,6 +131,7 @@ for (const { provider, rows } of work) {
   const theirPostings = [...yours.values()].reduce((a, b) => a + b, 0);
 
   for (const token of netNew.sort()) netNewRows.push([provider, token, mine.get(token)]);
+  for (const token of theirsOnly.sort()) theirsOnlyRows.push([provider, token, yours.get(token)]);
 
   report.providers[provider] = {
     our_boards: mine.size,
@@ -167,6 +174,14 @@ writeFileSync(
   csvPath,
   'provider,token,open_postings,board_url\n' +
     netNewRows
+      .map(([p, tok, n]) => `${p},${tok},${n},${boardUrl(p, tok)}`)
+      .join('\n') + '\n',
+);
+
+writeFileSync(
+  theirsPath,
+  'provider,token,their_rows,board_url\n' +
+    theirsOnlyRows
       .map(([p, tok, n]) => `${p},${tok},${n},${boardUrl(p, tok)}`)
       .join('\n') + '\n',
 );
@@ -220,3 +235,4 @@ console.log(
     `their board counts above are a LOWER BOUND.`,
 );
 console.log(`written: ${outPath} and ${csvPath} (${netNewRows.length} rows)`);
+console.log(`written: ${theirsPath} (${theirsOnlyRows.length} candidate boards of theirs we do not hold)`);

@@ -134,6 +134,20 @@ const RECRUITEE_REPROBE = {
   stillBlocked: reprobe.results.filter((r) => r.status === 'blocked').length,
 }
 
+// The diff against kalil0321/ats-scrapers and our probe of the boards it had that we
+// did not. Read from the files, never typed: this section makes a claim in both
+// directions and the unflattering half has to be as recomputable as the other one.
+const DIFF = JSON.parse(readFileSync(join(ROOT, 'data/ats-scrapers-diff.json'), 'utf8'))
+const theirsSummary = JSON.parse(readFileSync(join(ROOT, 'data/summary-theirs-only.json'), 'utf8'))
+const HARVESTED = {
+  candidates: Object.values(theirsSummary.perProvider).reduce((a, s) => a + s.candidates, 0),
+  live: theirsSummary.totals.live,
+  postings: theirsSummary.totals.postings,
+  blocked: Object.values(theirsSummary.perProvider).reduce((a, s) => a + s.blocked, 0),
+  leverDead: theirsSummary.perProvider.lever.dead,
+  leverCandidates: theirsSummary.perProvider.lever.candidates,
+}
+
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const num = (n) => n.toLocaleString('en-US')
 const pct = (n, d) => ((n / d) * 100).toFixed(1)
@@ -512,6 +526,30 @@ ${per.map((p) => `      <tr>
   <code>figma</code>, <code>ramp</code> &mdash; so tokens harvested from one vendor look like free candidates for the
   others. Tested on seeded random samples of up to 400 tokens per direction, it is worth 2&ndash;3% marginal coverage,
   and 0.3&ndash;0.5% into Lever. <strong>Hypothesis rejected.</strong> Published so nobody has to rediscover it.</p>
+</section>
+
+<section class="finding" id="ats-scrapers">
+  <h2>Measured against the largest free dataset, in both directions</h2>
+  <p class="serif"><a href="https://github.com/kalil0321/ats-scrapers">kalil0321/ats-scrapers</a> publishes a free
+  snapshot across 65 sources. On the six ATS providers we both cover we diffed their published manifest against this
+  roster, board token by board token. <strong>They had ${num(DIFF.totals.theirs_only)} boards we did not.</strong>
+  We probed every one of them on the same terms as everything else here &mdash; their snapshot supplied the candidate
+  list and nothing else, no status, count or posting figure of theirs was carried over &mdash; and
+  ${num(HARVESTED.live)} answered live with ${num(HARVESTED.postings)} open postings between them.
+  ${HARVESTED.blocked === 0 ? 'Nothing was blocked, so this is a measurement rather than a partial one.' : ''}
+  Those boards are in the roster above. The script is <code>scripts/diff-ats-scrapers.mjs</code> and it reads their
+  manifest live, so this is reproducible in one command rather than on our word.</p>
+  <p class="serif">The diff pointed the other way too, and we published that half first: ${num(DIFF.totals.ours_only_net)}
+  of our boards are absent from their snapshot, carrying ${num(DIFF.totals.our_postings_on_net_new)} open postings. The
+  list is in <a href="./data/net-new-vs-ats-scrapers.csv" download>net-new-vs-ats-scrapers.csv</a> and was handed to
+  them in <a href="https://github.com/kalil0321/ats-scrapers/issues/280">an issue on their own repository</a>, with the
+  caveats stated against our own number. Their board counts are a lower bound &mdash; ${pct(DIFF.totals.their_untokenised_rows, DIFF.totals.their_rows)}%
+  of their rows on these six sit on a company careers domain and yield no token &mdash; which is exactly why the
+  ${num(DIFF.totals.theirs_only)} above is a floor on what they have that we do not.</p>
+  <p class="serif">One thing the probe found that the diff could not: ${num(HARVESTED.leverDead)} of their
+  ${num(HARVESTED.leverCandidates)} Lever boards answer 404 today. A published snapshot ages, and no amount of size
+  substitutes for calling the endpoint. That is the argument for this roster and it applies to ours the same way,
+  which is why every row here carries the URL that produced it.</p>
 </section>
 
 <section class="finding" id="limits">

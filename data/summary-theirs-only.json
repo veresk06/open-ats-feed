@@ -1,0 +1,99 @@
+{
+  "perProvider": {
+    "greenhouse": {
+      "harvested": 477,
+      "candidates": 477,
+      "live": 465,
+      "empty": 8,
+      "dead": 4,
+      "error": 0,
+      "blocked": 0,
+      "postings": 7071,
+      "resolved": 477,
+      "hitRate": 0.9748,
+      "medianJobs": 4
+    },
+    "lever": {
+      "harvested": 458,
+      "candidates": 458,
+      "live": 304,
+      "empty": 2,
+      "dead": 152,
+      "error": 0,
+      "blocked": 0,
+      "postings": 15850,
+      "resolved": 458,
+      "hitRate": 0.6638,
+      "medianJobs": 9
+    },
+    "ashby": {
+      "harvested": 315,
+      "candidates": 315,
+      "live": 260,
+      "empty": 6,
+      "dead": 49,
+      "error": 0,
+      "blocked": 0,
+      "postings": 2888,
+      "resolved": 315,
+      "hitRate": 0.8254,
+      "medianJobs": 6
+    },
+    "breezy": {
+      "harvested": 239,
+      "candidates": 239,
+      "live": 236,
+      "empty": 3,
+      "dead": 0,
+      "error": 0,
+      "blocked": 0,
+      "postings": 5586,
+      "resolved": 239,
+      "hitRate": 0.9874,
+      "medianJobs": 5
+    },
+    "recruitee": {
+      "harvested": 199,
+      "candidates": 199,
+      "live": 197,
+      "empty": 1,
+      "dead": 1,
+      "error": 0,
+      "blocked": 0,
+      "postings": 3040,
+      "resolved": 199,
+      "hitRate": 0.9899,
+      "medianJobs": 7
+    },
+    "teamtailor": {
+      "harvested": 347,
+      "candidates": 347,
+      "live": 341,
+      "empty": 4,
+      "dead": 2,
+      "error": 0,
+      "blocked": 0,
+      "postings": 6034,
+      "resolved": 347,
+      "hitRate": 0.9827,
+      "medianJobs": 8
+    }
+  },
+  "gate": {
+    "companiesRequired": 10000,
+    "postingsRequired": 150000,
+    "companiesActual": 1803,
+    "postingsActual": 40469,
+    "basis": "measured in full",
+    "pass": false
+  },
+  "sampled": null,
+  "totals": {
+    "live": 1803,
+    "postings": 40469
+  },
+  "projected": {
+    "live": 1803,
+    "postings": 40469
+  }
+}
