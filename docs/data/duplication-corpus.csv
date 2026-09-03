@@ -1,0 +1,8 @@
+stratum,census,boards_in_stratum,postings_in_stratum,weight_pct,boards_read,boards_failed,live_postings,repeated_extra,same_location_extra,distinct_location_extra,rate_pct
+500+,true,47,62234,21.35,47,0,62194,33099,4726,28018,7.6
+100-499,true,451,85449,29.31,451,0,85366,21885,2448,18832,2.87
+30-99,false,1385,72161,24.75,259,1,13473,2473,221,2101,1.64
+10-29,false,2971,49407,16.95,240,0,4008,301,36,221,0.9
+3-9,false,3572,19652,6.74,200,0,1102,31,0,25,0
+1-2,false,1771,2604,0.89,120,0,177,1,1,0,0.56
+corpus,,10197,291507,100,1317,,166320,,,,3.03

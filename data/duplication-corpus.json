@@ -1,0 +1,258 @@
+{
+  "generated_at": "2026-09-03T05:30:34.102Z",
+  "question": "What share of open postings in the corpus are same-title-same-stated-location duplicates within their own board — i.e. what would the shipped `dedupe` option remove?",
+  "method": "Boards drawn from the full roster (docs/data/all.csv) stratified by open posting count, NOT by how much they repeat titles. The two largest strata are censused; the four smaller are sampled by a deterministic every-kth walk over a stable sort, so the run is reproducible from the public roster. Each board is read live from its vendor public API and passed through analyseBoard() imported from scripts/duplication.mjs — the same rule the Actor ships as `dedupe`, not a restatement of it. Per stratum the estimate is a ratio (duplicates found / postings read), and strata are combined by their share of the roster's postings. The interval is a board-level bootstrap over the sampled strata only; censused strata contribute no sampling error by construction.",
+  "contrast_with_stratum_rate": "scripts/duplication.mjs reports 8.87% over the 40 boards with the highest title-repeat in the census cache. Those boards were selected for the property being measured, so that figure describes a worst-offender stratum and was never a corpus rate. This file is the corpus rate.",
+  "roster": {
+    "boards": 10197,
+    "postings": 291507
+  },
+  "read": {
+    "boards_targeted": 1318,
+    "boards_read": 1317,
+    "live_postings": 166320
+  },
+  "corpus_rate_pct": 3.03,
+  "corpus_rate_ci95_pct": [
+    2.86,
+    3.22
+  ],
+  "bootstrap_iterations": 2000,
+  "weight_covered_pct": 100,
+  "estimated_duplicate_postings": 8822,
+  "concentration": {
+    "note": "Of the duplicates found across every board read, what share comes from the worst N boards. A concentrated defect means the corpus mean overstates what a typical buyer sees and understates what an unlucky one sees.",
+    "boards_read": 1317,
+    "boards_with_any_duplicate": 452,
+    "boards_with_any_duplicate_pct": 34.32,
+    "duplicates_found": 7432,
+    "share_from_top_1_pct": 15.15,
+    "share_from_top_10_pct": 46.99,
+    "share_from_top_25_pct": 63.07,
+    "worst": [
+      {
+        "board": "lever/boxlunch",
+        "stratum": "500+",
+        "postings": 3653,
+        "same_location_extra": 1126,
+        "rate_pct": 30.82
+      },
+      {
+        "board": "ashby/bjakcareer",
+        "stratum": "500+",
+        "postings": 3084,
+        "same_location_extra": 730,
+        "rate_pct": 23.67
+      },
+      {
+        "board": "greenhouse/herewithgmbh",
+        "stratum": "500+",
+        "postings": 605,
+        "same_location_extra": 359,
+        "rate_pct": 59.34
+      },
+      {
+        "board": "greenhouse/liquidpersonnel",
+        "stratum": "500+",
+        "postings": 1586,
+        "same_location_extra": 276,
+        "rate_pct": 17.4
+      },
+      {
+        "board": "lever/globalelitecareers",
+        "stratum": "500+",
+        "postings": 1752,
+        "same_location_extra": 209,
+        "rate_pct": 11.93
+      },
+      {
+        "board": "greenhouse/housebuyersofamerica",
+        "stratum": "500+",
+        "postings": 636,
+        "same_location_extra": 183,
+        "rate_pct": 28.77
+      },
+      {
+        "board": "greenhouse/blueskytelepsych",
+        "stratum": "500+",
+        "postings": 945,
+        "same_location_extra": 161,
+        "rate_pct": 17.04
+      },
+      {
+        "board": "greenhouse/svetness",
+        "stratum": "500+",
+        "postings": 4981,
+        "same_location_extra": 150,
+        "rate_pct": 3.01
+      },
+      {
+        "board": "greenhouse/pulse",
+        "stratum": "500+",
+        "postings": 2649,
+        "same_location_extra": 150,
+        "rate_pct": 5.66
+      },
+      {
+        "board": "greenhouse/carvana",
+        "stratum": "500+",
+        "postings": 1757,
+        "same_location_extra": 148,
+        "rate_pct": 8.42
+      },
+      {
+        "board": "greenhouse/wppmedia",
+        "stratum": "500+",
+        "postings": 1073,
+        "same_location_extra": 140,
+        "rate_pct": 13.05
+      },
+      {
+        "board": "greenhouse/jdsportsfr",
+        "stratum": "500+",
+        "postings": 693,
+        "same_location_extra": 123,
+        "rate_pct": 17.75
+      },
+      {
+        "board": "greenhouse/urpt",
+        "stratum": "500+",
+        "postings": 1215,
+        "same_location_extra": 116,
+        "rate_pct": 9.55
+      },
+      {
+        "board": "greenhouse/luminishealth",
+        "stratum": "100-499",
+        "postings": 423,
+        "same_location_extra": 101,
+        "rate_pct": 23.88
+      },
+      {
+        "board": "greenhouse/andurilindustries",
+        "stratum": "500+",
+        "postings": 2208,
+        "same_location_extra": 93,
+        "rate_pct": 4.21
+      }
+    ]
+  },
+  "strata": [
+    {
+      "key": "500+",
+      "census": true,
+      "weight": 0.2134905851317464,
+      "boards_in_stratum": 47,
+      "postings_in_stratum": 62234,
+      "boards_targeted": 47,
+      "boards_read": 47,
+      "boards_failed": 0,
+      "failure_reasons": {},
+      "live_postings": 62194,
+      "repeated_extra": 33099,
+      "same_location_extra": 4726,
+      "distinct_location_extra": 28018,
+      "unstated_location_extra": 355,
+      "boards_with_any_duplicate": 44,
+      "rate_pct": 7.6,
+      "repeat_rate_pct": 53.22
+    },
+    {
+      "key": "100-499",
+      "census": true,
+      "weight": 0.29312846689787897,
+      "boards_in_stratum": 451,
+      "postings_in_stratum": 85449,
+      "boards_targeted": 451,
+      "boards_read": 451,
+      "boards_failed": 0,
+      "failure_reasons": {},
+      "live_postings": 85366,
+      "repeated_extra": 21885,
+      "same_location_extra": 2448,
+      "distinct_location_extra": 18832,
+      "unstated_location_extra": 605,
+      "boards_with_any_duplicate": 318,
+      "rate_pct": 2.87,
+      "repeat_rate_pct": 25.64
+    },
+    {
+      "key": "30-99",
+      "census": false,
+      "weight": 0.247544655874473,
+      "boards_in_stratum": 1385,
+      "postings_in_stratum": 72161,
+      "boards_targeted": 260,
+      "boards_read": 259,
+      "boards_failed": 1,
+      "failure_reasons": {
+        "error": 1
+      },
+      "live_postings": 13473,
+      "repeated_extra": 2473,
+      "same_location_extra": 221,
+      "distinct_location_extra": 2101,
+      "unstated_location_extra": 151,
+      "boards_with_any_duplicate": 74,
+      "rate_pct": 1.64,
+      "repeat_rate_pct": 18.36
+    },
+    {
+      "key": "10-29",
+      "census": false,
+      "weight": 0.16948821126079305,
+      "boards_in_stratum": 2971,
+      "postings_in_stratum": 49407,
+      "boards_targeted": 240,
+      "boards_read": 240,
+      "boards_failed": 0,
+      "failure_reasons": {},
+      "live_postings": 4008,
+      "repeated_extra": 301,
+      "same_location_extra": 36,
+      "distinct_location_extra": 221,
+      "unstated_location_extra": 44,
+      "boards_with_any_duplicate": 15,
+      "rate_pct": 0.9,
+      "repeat_rate_pct": 7.51
+    },
+    {
+      "key": "3-9",
+      "census": false,
+      "weight": 0.06741519071583187,
+      "boards_in_stratum": 3572,
+      "postings_in_stratum": 19652,
+      "boards_targeted": 200,
+      "boards_read": 200,
+      "boards_failed": 0,
+      "failure_reasons": {},
+      "live_postings": 1102,
+      "repeated_extra": 31,
+      "same_location_extra": 0,
+      "distinct_location_extra": 25,
+      "unstated_location_extra": 6,
+      "boards_with_any_duplicate": 0,
+      "rate_pct": 0,
+      "repeat_rate_pct": 2.81
+    },
+    {
+      "key": "1-2",
+      "census": false,
+      "weight": 0.008932890119276725,
+      "boards_in_stratum": 1771,
+      "postings_in_stratum": 2604,
+      "boards_targeted": 120,
+      "boards_read": 120,
+      "boards_failed": 0,
+      "failure_reasons": {},
+      "live_postings": 177,
+      "repeated_extra": 1,
+      "same_location_extra": 1,
+      "distinct_location_extra": 0,
+      "unstated_location_extra": 0,
+      "boards_with_any_duplicate": 1,
+      "rate_pct": 0.56,
+      "repeat_rate_pct": 0.56
+    }
+  ]
+}

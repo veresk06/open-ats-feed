@@ -135,3 +135,8 @@ the 40 boards selected *because* they repeat titles. Both the README and the inp
 explicitly rather than quoting 8.87% as a corpus number. Measuring it properly needs a sweep with
 the location field over a board sample that was not chosen for duplication — that is the next
 piece of work on this thread, and it costs $0.00 on Apify because it runs locally.
+
+> **Measured in Cycle 28: 3.03%, 95% CI [2.86%, 3.22%].** 1,317 boards read live, 166,320
+> postings, 57% of the corpus. The 8.87% above overstates it by 2.9×, which is what a
+> worst-offender stratum is supposed to do. See
+> [`cycle-28-corpus-duplicate-rate.md`](./cycle-28-corpus-duplicate-rate.md).

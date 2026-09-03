@@ -196,11 +196,34 @@ splits into two populations that deserve opposite treatment:
 | Same title, **different** stated location | Real multi-site hiring. A legitimate row. Never touched. |
 | Same title, **same** stated location | The board duplicating itself. You pay twice for one place. |
 
-Only the second is a defect, and measured across the 40 worst boards by title-repeat it is
-**4,374 postings, 8.87% of that stratum**. Stated precisely, because the distinction matters:
-those 40 boards were selected *because* they repeat titles, so 8.87% is the rate where it is
-worst, **not a corpus-wide rate**. We do not have a corpus-wide number and will not quote one
-until we have measured it.
+Only the second is a defect. **Corpus-wide it is 3.03% of open postings** — 95% CI [2.86%,
+3.22%], about 8,822 of 291,507. Measured on 2026-09-03 by reading **1,317 boards live, 166,320
+postings, 57% of the corpus**, drawn from the full roster **by board size and never by how much a
+board repeats itself**. The two largest size strata (498 boards, half of all postings) were read
+in full rather than sampled, so half the answer carries no sampling error at all.
+
+For contrast, across the 40 worst boards by title-repeat the rate is **8.87%** — 2.9× the corpus.
+Those boards were picked *because* they repeat titles, which is exactly why that number was never
+quoted as a corpus rate.
+
+**Three things about the 3.03% matter more than the 3.03%.**
+
+**It is a lower bound.** "Leeds" and "Leeds, UK" are two different keys to us; we strip noise
+words but resolve nothing. Every alias pair is a duplicate we decline to merge. The filter
+under-removes, deliberately.
+
+**It falls off a cliff with board size.** Boards with 500+ postings: 7.60%. 100–499: 2.87%.
+30–99: 1.64%. 10–29: 0.90%. **3–9: zero, across 1,102 postings read.** If you are pulling small
+and mid-size boards, leave `dedupe` off — it has nothing to find for you.
+
+**It is concentrated, so the mean describes almost nobody.** Only **452 of the 1,317 boards read
+(34%) carry a single duplicate**. The worst 10 boards account for **47%** of every duplicate
+found; the worst 25 for **63%**. Two buyers in three see zero. A buyer pulling
+`greenhouse/herewithgmbh` sees **59.34%** — 359 duplicates in 605 postings. This is why
+`RUN_STATS.duplicates_merged` reports the count for *your* boards whether the filter is on or
+off: measure your run, not our corpus.
+
+Full method, per-stratum table and worst boards: [`duplication-corpus.csv`](https://veresk06.github.io/open-ats-feed/data/duplication-corpus.csv).
 
 Set `dedupe: true` and one row survives each same-title-same-location group, carrying
 `duplicates_merged` — how many copies were folded into it. Nothing is silently discarded: a
