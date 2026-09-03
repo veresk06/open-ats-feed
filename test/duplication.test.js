@@ -240,6 +240,70 @@ test('the two bounds always bracket, and never exceed what the title-only rule f
   assert.equal(v.geographic + v.not_geographic + v.unstated + v.uninformative, v.fanout_postings)
 })
 
+// ---- Title-side counter-evidence (Cycle 29) --------------------------------------------------
+// Clearing the location bar is not the same as being a place. The tokens that wrecked the upper
+// bound were the ones boards mostly write in TITLES: "home" was stated as a location by 7 boards
+// and used in a title tail by 21; "global" 3 against 75. Counting both sides fixes it without
+// anybody maintaining a stop-list.
+
+test('a token boards mostly write in titles is not a place token', () => {
+  // Three boards write "Home" in their location column, which is enough to clear the old bar.
+  // Five boards put it in a title tail. L=3 < T=5, so it is a title word, not a place.
+  const locs = [['Home'], ['Home'], ['Home'], ['Ames, IA'], ['Ames, IA'], ['Ames, IA']]
+  const titles = [
+    ['Nurse - Work From Home'], ['Rep - Home Office'], ['Tech - Home Health'],
+    ['Aide - Home Care'], ['Coach - Home Team'], ['Clerk - Ames'],
+  ]
+  const loose = buildGazetteer(locs)
+  const tight = buildGazetteer(locs, titles)
+  assert.equal(loose.tokens.has('home'), true, 'the old rule admits it')
+  assert.equal(tight.tokens.has('home'), false, 'the title side refutes it')
+  assert.equal(tight.rejected.get('home').loc_boards, 3)
+  assert.equal(tight.rejected.get('home').tail_boards, 5)
+})
+
+test('a real place survives even when boards also fan out to it in their titles', () => {
+  // "ames" is written as a location by 4 boards and appears in 2 boards' tails. L >= T, kept.
+  const locs = [['Ames, IA'], ['Ames, Iowa'], ['Ames'], ['Ames, IA'], ['Nowhere']]
+  const titles = [['Clerk - Ames'], ['Clerk - Ames'], ['Clerk - Payroll'], ['Clerk'], ['Clerk']]
+  const gaz = buildGazetteer(locs, titles)
+  assert.equal(gaz.tokens.has('ames'), true)
+  assert.equal(gaz.rejected.has('ames'), false)
+})
+
+test('the tightened rule can drop a real place, and that is its error direction', () => {
+  // Measured on the corpus, not hypothetical: "uk" is stated as a location by 31 boards and used
+  // in a title tail by 46, so L < T drops it even though it is plainly a place. The old rule
+  // over-counted geography; this one can now under-count it. Stated because it is not symmetric
+  // with the old error and a reader comparing the two numbers has to know which way each leans.
+  const locs = [['London, UK'], ['Leeds, UK'], ['Hull, UK']]
+  const titles = [
+    ['Nurse - UK Wide'], ['Rep - UK Sales'], ['Tech - UK'], ['Aide - UK Region'],
+  ]
+  const gaz = buildGazetteer(locs, titles)
+  assert.equal(gaz.tokens.has('uk'), false, 'a genuine place, dropped')
+  assert.equal(gazetteerHit('Nurse - UK Wide', gaz), null, 'so the upper bound no longer counts it')
+})
+
+test('with no titles passed the gazetteer is exactly what it was before', () => {
+  // Backward compatibility is the point: every prior published number must still be reproducible.
+  const locs = [['Home'], ['Home'], ['Home'], ['Ames, IA'], ['Ames, IA'], ['Ames, IA']]
+  const before = buildGazetteer(locs)
+  assert.equal(before.tokens.has('home'), true)
+  assert.equal(before.tokens.has('ames'), true)
+  assert.equal(before.title_evidence, false)
+  assert.equal(before.rejected.size, 0, 'nothing can be rejected without counter-evidence')
+})
+
+test('a token no board writes in a title tail is unaffected by the new rule', () => {
+  // T=0 for every rare city, which is the common case: a board fanning out to 470 towns is one
+  // board. So the tightening cannot quietly thin out the long tail of small places.
+  const locs = [['Peoria, IL'], ['Peoria, IL'], ['Peoria']]
+  const gaz = buildGazetteer(locs, [['Clerk - Payroll'], ['Clerk - Nights'], ['Clerk']])
+  assert.equal(gaz.tokens.has('peoria'), true)
+  assert.equal(gaz.tails.get('peoria') || 0, 0)
+})
+
 test('fan-out is measured over every board, not only boards with repeated titles', () => {
   // The whole point: this board has 5 postings, 5 distinct titles, zero title-repeat. A
   // detector ranked by title-repeat would never look at it, and it is one job.

@@ -225,6 +225,27 @@ off: measure your run, not our corpus.
 
 Full method, per-stratum table and worst boards: [`duplication-corpus.csv`](https://veresk06.github.io/open-ats-feed/data/duplication-corpus.csv).
 
+### The inverse error: the city is in the title, not the location field
+
+If you filter or group rows by `location`, you will miss postings whose place is written into the
+title instead — "Sports Data Collector (American Football) - Ames, Iowa, USA" with a `location`
+column that says "Statistician Network". This is the opposite defect to duplication and it is
+worth knowing about before you build a location filter on top of the feed.
+
+**Across the 225 boards that show any title fan-out — 99,147 postings read live on 2026-09-03 —
+it is between 11.45% and 17.48% of postings.** The lower figure is where the posting's own
+`location` field confirms the title carries the place; the upper adds every posting whose title
+tail names a token the corpus uses as a place elsewhere.
+
+**This is a stratum, not a corpus rate.** Those 225 boards were selected *because* their titles
+fan out, the same way the 8.87% duplicate figure above came from the 40 worst repeaters. Do not
+read it as "17% of the feed". It bounds the problem on the boards where the problem exists.
+
+The band is still wide because the residual ambiguity is real: the tokens driving it are `new`,
+`south`, `san`, `canada`, `mexico`, `japan`. A title tail reading "New Ventures" genuinely does
+contain a place name. Method, both bounds and every token with its counts:
+[`cycle-29-gazetteer-title-side.md`](https://github.com/veresk06/open-ats-feed/blob/main/docs/research/cycle-29-gazetteer-title-side.md).
+
 Set `dedupe: true` and one row survives each same-title-same-location group, carrying
 `duplicates_merged` — how many copies were folded into it. Nothing is silently discarded: a
 company that posted one role at one site twelve times is telling you something about its hiring,

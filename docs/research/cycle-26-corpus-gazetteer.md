@@ -5,6 +5,13 @@
 **Tests:** `test/duplication.test.js` — 6 new, 76/76 pass
 **Artifact:** `data/fanout-verified.json`
 
+> **Superseded as a headline by [Cycle 29](cycle-29-gazetteer-title-side.md).** The rule and the
+> reasoning below still stand, and the location-field-only bound is still computed and published
+> as `geographic_upper_loose`. But the 21.45% upper bound was driven mostly by tokens that are not
+> places (`home`, `2`, `care`, `global`), and counting each token on the title side as well as the
+> location side narrows the band to **11.45%–17.48%** on a single fetch. Read Cycle 29 for the
+> current figure and for the error direction, which reverses.
+
 ## The hole this fills
 
 Cycle 24 flagged 38,077 of 121,050 postings (31.46%) as "the location is written into the title",

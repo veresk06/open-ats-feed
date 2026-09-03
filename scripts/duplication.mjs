@@ -148,17 +148,52 @@ export const classifyFanoutRow = (rawTitle, loc) => {
 // matches on "new" and is not geographic at all. So the gazetteer OVER-counts geography exactly
 // where the field method UNDER-counts it, and the pair brackets the answer instead of pushing it
 // one way. Neither is used to overrule the other; they are reported as a lower and an upper bound.
+// Cycle 29 adds the other half of the same trick. Clearing the location bar is not the same as
+// being a place, and the tokens that wrecked the upper bound all cleared it: "home" is written in
+// the location column of 7 boards ("Work from home") and in a title tail by 21; "global" 3 against
+// 75; "care" 3 against 24. Meanwhile "canada" is 66 against 34 and "san" 131 against 46. The junk
+// is exactly the set of tokens boards mostly put in TITLES, and the corpus says which those are
+// without a stop-list: count the distinct boards using the token in a title tail (T) beside the
+// distinct boards stating it as a location (L), and keep the token only when L >= T.
+//
+// The bar is a coin flip on purpose. Any other threshold would need defending and there is no
+// ground truth here to defend it with.
+//
+// Error direction, which is NOT the same as the old one and so has to be stated: this can drop a
+// real place whose name boards write into titles more often than into location fields. Measured,
+// one such token — "uk", L=31 against T=46, 89 postings. So the tightened figure is no longer
+// guaranteed to bound from above; it is a tighter estimate that can undershoot by a small stated
+// amount. Both figures are published from the same fetch so the difference is auditable.
+//
+// `boardTitles` is optional. Omitted, this is byte-for-byte the old rule, so every previously
+// published number stays reproducible.
 export const GAZ_MIN_BOARDS = 3
-export const buildGazetteer = (boardLocations, minBoards = GAZ_MIN_BOARDS) => {
-  const boards = new Map() // token -> how many distinct boards state it
+export const buildGazetteer = (boardLocations, boardTitles = null, minBoards = GAZ_MIN_BOARDS) => {
+  const boards = new Map() // token -> how many distinct boards state it as a location
   for (const locs of boardLocations) {
     const seen = new Set()
     for (const l of locs) for (const w of locTokens(l)) seen.add(w)
     for (const w of seen) boards.set(w, (boards.get(w) || 0) + 1)
   }
+  const tails = new Map() // token -> how many distinct boards use it in a title tail
+  for (const titles of boardTitles || []) {
+    const seen = new Set()
+    for (const raw of titles) {
+      const tail = titleTail(raw)
+      if (!tail) continue
+      for (const w of locTokens(tail)) seen.add(w)
+    }
+    for (const w of seen) tails.set(w, (tails.get(w) || 0) + 1)
+  }
   const tokens = new Set()
-  for (const [w, n] of boards) if (n >= minBoards) tokens.add(w)
-  return { tokens, boards, min_boards: minBoards }
+  const rejected = new Map() // kept and published, so the tightening is counted rather than trusted
+  for (const [w, n] of boards) {
+    if (n < minBoards) continue
+    const t = tails.get(w) || 0
+    if (boardTitles && n < t) rejected.set(w, { loc_boards: n, tail_boards: t })
+    else tokens.add(w)
+  }
+  return { tokens, boards, tails, rejected, min_boards: minBoards, title_evidence: Boolean(boardTitles) }
 }
 
 // Which token of the tail the gazetteer recognised, or null. Returned rather than a boolean so
@@ -428,16 +463,33 @@ const verifyMain = async () => {
     process.stderr.write(`  read ${b.board.padEnd(38)} ${String(rows.length).padStart(5)} rows (${done}/${targets.length})\n`)
   }
 
-  const gaz = buildGazetteer(fetched.map(({ rows }) => rows.map((r) => r.loc)))
+  // Two gazetteers off the same fetch. `gazLoose` is the Cycle 26 rule exactly — location field
+  // only — and exists so the tightening can be reported as a difference rather than asserted.
+  // `gaz` adds the title-side counter-evidence and is the one the headline number uses.
+  const gazLoose = buildGazetteer(fetched.map(({ rows }) => rows.map((r) => r.loc)))
+  const gaz = buildGazetteer(
+    fetched.map(({ rows }) => rows.map((r) => r.loc)),
+    fetched.map(({ rows }) => rows.map((r) => r.title)),
+  )
   process.stderr.write(
     `\ngazetteer: ${gaz.tokens.size} place tokens from ${fetched.length} boards `
-    + `(seen in the location field of >= ${gaz.min_boards} distinct boards, of ${gaz.boards.size} tokens total)\n\n`,
+    + `(seen in the location field of >= ${gaz.min_boards} distinct boards, of ${gaz.boards.size} tokens total)\n`
+    + `  location field alone would admit ${gazLoose.tokens.size}; the title side rejects `
+    + `${gaz.rejected.size} of them\n\n`,
   )
 
   // Pass 2 — classify, now that both the posting's own field and the corpus vocabulary can speak.
   const gazTokenTotals = new Map()
+  const rejectedTokenTotals = new Map()
+  let looseUpper = 0
   for (const { b, rows } of fetched) {
     const v = verifyFanoutBoard(rows, gaz)
+    // The same boards under the old gazetteer, so the two upper bounds are strictly comparable.
+    const vLoose = verifyFanoutBoard(rows, gazLoose)
+    looseUpper += vLoose.geographic_upper
+    for (const [w, n] of Object.entries(vLoose.gaz_tokens)) {
+      if (gaz.rejected.has(w)) rejectedTokenTotals.set(w, (rejectedTokenTotals.get(w) || 0) + n)
+    }
     for (const [w, n] of Object.entries(v.gaz_tokens)) gazTokenTotals.set(w, (gazTokenTotals.get(w) || 0) + n)
     results.push({
       board: b.board,
@@ -491,6 +543,14 @@ const verifyMain = async () => {
   const pctOfLive = (n) => (totals.live_postings ? +(100 * n / totals.live_postings).toFixed(2) : 0)
   totals.geographic_lower_pct_of_live = pctOfLive(totals.geographic_lower)
   totals.geographic_upper_pct_of_live = pctOfLive(totals.geographic_upper)
+  // The same upper bound under the old location-field-only gazetteer, kept so the tightening is a
+  // published difference between two measured numbers and not a claim about one.
+  totals.geographic_upper_loose = looseUpper
+  totals.geographic_upper_loose_pct_of_live = pctOfLive(looseUpper)
+  totals.geographic_disputed_loose = looseUpper - totals.geographic_lower
+  totals.band_narrowed_pct_points = +(
+    totals.geographic_upper_loose_pct_of_live - totals.geographic_upper_pct_of_live
+  ).toFixed(2)
   // Sensitivity check, and the only one available without a ground truth: of the postings the
   // location field itself calls geographic, how many does the gazetteer also recognise? A low
   // number would mean the gazetteer is too sparse to be evidence of anything.
@@ -515,15 +575,41 @@ const verifyMain = async () => {
       + 'opposite way — place names are ordinary words ("new" in New York, "north" in North '
       + 'Carolina) — so it over-counts geography where the field under-counts it, and the two are '
       + 'reported as a lower and an upper bound rather than one overruling the other.',
+    gazetteer_tightening_method: 'Clearing the location bar is not the same as being a place: '
+      + '"home" cleared it on 7 boards while 21 boards use it in a title tail, and it drove 779 '
+      + 'disputed postings. So each token is also counted on the title side — T = distinct boards '
+      + 'using it in a title tail, L = distinct boards stating it as a location — and kept only '
+      + 'when L >= T. The bar is a coin flip on purpose; any other threshold would need defending '
+      + 'and there is no ground truth to defend it with. Nothing is maintained by hand. Error '
+      + 'direction, opposite to the old rule and therefore stated: this can drop a real place '
+      + 'whose name boards write into titles more often than into location fields ("uk", L=31 '
+      + 'against T=46). The tightened figure is a tighter estimate that can undershoot, not a '
+      + 'guaranteed bound; geographic_upper_loose is the old guaranteed one, from the same fetch.',
     min_fanout_variants: MIN_FANOUT,
     gazetteer: {
       min_boards: gaz.min_boards,
       tokens: gaz.tokens.size,
+      tokens_loose: gazLoose.tokens.size,
+      tokens_rejected_by_title_side: gaz.rejected.size,
       tokens_seen_total: gaz.boards.size,
       built_from_boards: fetched.length,
       // What is actually driving the disputed band, so the leak is counted rather than asserted.
       top_disputed_tokens: [...gazTokenTotals.entries()].sort((a, b) => b[1] - a[1]).slice(0, 30)
-        .map(([token, postings]) => ({ token, postings, boards_stating_it: gaz.boards.get(token) || 0 })),
+        .map(([token, postings]) => ({
+          token,
+          postings,
+          boards_stating_it: gaz.boards.get(token) || 0,
+          boards_tailing_it: gaz.tails.get(token) || 0,
+        })),
+      // Everything the tightening threw away, with both counts, so a reader can check the calls
+      // rather than take them. This is where a wrongly-dropped place would show up.
+      top_rejected_tokens: [...rejectedTokenTotals.entries()].sort((a, b) => b[1] - a[1]).slice(0, 30)
+        .map(([token, postings]) => ({
+          token,
+          postings_removed: postings,
+          boards_stating_it: gaz.rejected.get(token)?.loc_boards ?? 0,
+          boards_tailing_it: gaz.rejected.get(token)?.tail_boards ?? 0,
+        })),
     },
     cached_fanout: {
       postings: fan.postings,
@@ -546,15 +632,22 @@ const verifyMain = async () => {
   console.log(`  stems: ${totals.stems_geographic} geographic, ${totals.stems_not_geographic} not, ${totals.stems_undecidable} undecidable`)
   console.log('')
   console.log(`gazetteer: ${gaz.tokens.size} place tokens from ${fetched.length} boards (>= ${gaz.min_boards} boards each, of ${gaz.boards.size} seen)`)
+  console.log(`  location field alone admits ${gazLoose.tokens.size}; the title side rejects ${gaz.rejected.size} as title words`)
   console.log(`  recognises ${totals.gaz_recall_on_field_geographic_pct}% of what the location field already called geographic`)
   console.log(`  disputes  ${totals.gaz_of_not_geographic} refuted + ${totals.gaz_of_unstated} unstated postings`)
   console.log('')
   console.log(`location-in-title, two-sided over ${totals.live_postings} live postings:`)
   console.log(`  lower bound (field agrees)       ${totals.geographic_lower}  ${totals.geographic_lower_pct_of_live}%`)
-  console.log(`  upper bound (+ gazetteer)        ${totals.geographic_upper}  ${totals.geographic_upper_pct_of_live}%`)
-  console.log(`  disputed between them            ${totals.geographic_disputed}`)
+  console.log(`  upper bound, old rule            ${totals.geographic_upper_loose}  ${totals.geographic_upper_loose_pct_of_live}%`)
+  console.log(`  upper bound, + title side        ${totals.geographic_upper}  ${totals.geographic_upper_pct_of_live}%   <- band narrowed by ${totals.band_narrowed_pct_points} pts`)
+  console.log(`  disputed between them            ${totals.geographic_disputed}  (was ${totals.geographic_disputed_loose})`)
+  console.log('  still disputed, top tokens:')
   for (const t of payload.gazetteer.top_disputed_tokens.slice(0, 10)) {
-    console.log(`    "${t.token}" ${String(t.postings).padStart(5)} postings, stated as a location by ${t.boards_stating_it} boards`)
+    console.log(`    "${t.token}" ${String(t.postings).padStart(5)} postings, location on ${t.boards_stating_it} boards, tail on ${t.boards_tailing_it}`)
+  }
+  console.log('  rejected as title words, top tokens:')
+  for (const t of payload.gazetteer.top_rejected_tokens.slice(0, 10)) {
+    console.log(`    "${t.token}" ${String(t.postings_removed).padStart(5)} removed, location on ${t.boards_stating_it} boards, tail on ${t.boards_tailing_it}`)
   }
   console.log(`wrote ${FANOUT_OUT}`)
 }
