@@ -124,6 +124,16 @@ const LEVER_PROJECTION = { sample: 1000, seed: 7, hitRate: 0.347, live: 1721, ci
 // it was made against. This one failed differently and that difference is the point.
 const BREEZY_PROJECTION = { sample: 250, live: 1770, postings: 29653 }
 
+// The Recruitee slow re-probe, read from data/reprobe-recruitee.json rather than typed
+// here, so the page cannot drift from the file the index is actually built from.
+const reprobe = JSON.parse(readFileSync(join(ROOT, 'data/reprobe-recruitee.json'), 'utf8'))
+const RECRUITEE_REPROBE = {
+  probed: reprobe.results.length,
+  recovered: reprobe.results.filter((r) => r.status === 'live').length,
+  postings: reprobe.postings,
+  stillBlocked: reprobe.results.filter((r) => r.status === 'blocked').length,
+}
+
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const num = (n) => n.toLocaleString('en-US')
 const pct = (n, d) => ((n / d) * 100).toFixed(1)
@@ -486,6 +496,14 @@ ${per.map((p) => `      <tr>
   <code>blocked</code> &mdash; excluded from the denominator rather than counted as a miss. The general form of the
   mistake: when a service rate-limits you, the failure describes your client, and folding it into a verdict about the
   world biases the result downward while leaving it entirely believable.</p>
+  <p class="serif"><strong>Recruitee, ${asOf}, is the same lesson costed.</strong> Its full pass at concurrency 8 left
+  ${num(RECRUITEE_REPROBE.probed)} tokens <code>blocked</code> or errored out of ${num(CANDIDATES.recruitee)}. Re-asked one at a
+  time, three seconds apart, ${num(RECRUITEE_REPROBE.recovered)} of them answered with live boards carrying
+  ${num(RECRUITEE_REPROBE.postings)} open postings; ${num(RECRUITEE_REPROBE.stillBlocked)} still refuse at that pace and are counted as
+  neither live nor dead. Teamtailor's identical re-probe recovered nothing at all &mdash; which is what makes the
+  Recruitee correction a measurement rather than a number we went looking for. The cost of skipping this step is small
+  and one-directional: it only ever makes coverage look worse than it is, which is the flattering direction to be
+  wrong in and therefore the easy one to leave alone.</p>
 </section>
 
 <section class="finding" id="cross-probe">
