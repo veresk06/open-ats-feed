@@ -61,8 +61,9 @@ Ventures" matched on `new`. Over-counting is what makes a number an upper bound,
 to call it one.
 
 The tightened rule can **under-count**. A real place whose name boards write into titles more
-often than into location fields gets dropped. Measured, there is one such token of any size:
-**`uk`, L=31 against T=46, 89 postings.**
+often than into location fields gets dropped. Measured, there are exactly three of any size —
+**`uk` (L=31, T=46, 89 postings), `west` (54, 72, 56) and `east` (27, 59, 38)**, 183 postings
+between them. The full accounting is under [Results](#what-the-tightening-cost-measured).
 
 So the tightened figure is **a tighter estimate that can undershoot, not a guaranteed bound.**
 Both numbers are therefore computed from the same fetch and published side by side —
