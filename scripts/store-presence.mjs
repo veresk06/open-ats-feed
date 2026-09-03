@@ -46,6 +46,8 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { staleListingFields } from './lib/listing.mjs'
+
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const OUT = resolve(ROOT, 'data/store-presence.csv')
 const USERNAME = process.env.ACTOR_USERNAME ?? 'sharp_malachite'
@@ -103,6 +105,8 @@ const COLUMNS = [
   'anon_withheld',
   'newest_run',
   'newest_anon_served',
+  // Added in Cycle 43. Which listing fields disagree with the shipped roster, ';'-joined.
+  'listing_stale',
 ]
 
 const store = async (params, { auth = false } = {}) => {
@@ -162,6 +166,26 @@ for (const ref of newest) {
   if (items.includes(ref)) newestServed += 1
 }
 
+// 6. Does the listing still describe the product we ship? `apify push` uploads source and
+//    builds an image; it does NOT write title/description/seoTitle/seoDescription from
+//    .actor/actor.json onto the Actor record. Those four are set at creation or by hand, and
+//    then never move. Ours said "10,197 verified company boards on Greenhouse, Ashby and Lever"
+//    for roughly thirty-five cycles while the Actor shipped six providers and 18,164 boards —
+//    understating the product by 44% on the one surface a buyer reads first. Nobody noticed,
+//    because a successful build looks exactly the same either way.
+//    So the roster is the source of truth and the listing is checked against it, every cycle.
+//    Details and the API's undocumented length caps: docs/devops/apify-listing-metadata.md
+const rosterLive = JSON.parse(await readFile(resolve(ROOT, 'actor/data/companies.json'), 'utf8'))
+  .totals.live
+const rosterText = rosterLive.toLocaleString('en-US')
+const actorRecord = await fetch(
+  `https://api.apify.com/v2/acts/${USERNAME}~${NAME}?token=${TOKEN}`,
+).then((r) => (r.ok ? r.json() : null))
+const SHIPPED = ['Greenhouse', 'Ashby', 'Lever', 'Breezy', 'Recruitee', 'Teamtailor']
+const listingStale = actorRecord
+  ? staleListingFields(actorRecord.data, { rosterText, providers: SHIPPED })
+  : null
+
 const row = {
   read_at: new Date().toISOString(),
   searches_run: QUERIES.length,
@@ -176,6 +200,7 @@ const row = {
   anon_withheld: anonWithheld ? 'yes' : 'no',
   newest_run: newest.length,
   newest_anon_served: newestServed,
+  listing_stale: listingStale === null ? 'unread' : listingStale.join(';'),
 }
 
 // Read the previous reading. The file predates the Cycle 32 columns, so map by the header that
@@ -224,6 +249,15 @@ if (!QUIET || changed || !controlsOk) {
       `page HTTP ${row.store_page_http}`,
   )
   console.log(`  controls ${controlsFound}/${CONTROLS.length} found | newest served anonymously ${newestServed}/${newest.length}`)
+  if (listingStale === null) {
+    console.log('  listing: could not read the Actor record — metadata NOT checked this reading.')
+  } else if (listingStale.length) {
+    console.log(`  LISTING STALE: ${listingStale.join(', ')} disagree with the shipped roster`)
+    console.log(`  of ${rosterText} boards across ${SHIPPED.length} providers. \`apify push\` does not`)
+    console.log('  write these; PUT /v2/acts/{id}. See docs/devops/apify-listing-metadata.md')
+  } else {
+    console.log(`  listing agrees with the roster: ${rosterText} boards, ${SHIPPED.length} providers`)
+  }
   if (!controlsOk) {
     console.log('  CONTROLS FAILED — the method or the endpoint is broken today.')
     console.log('  A null result for us is NOT evidence of absence in this reading.')
@@ -241,4 +275,6 @@ if (!QUIET || changed || !controlsOk) {
   }
 }
 
-process.exit(changed ? 10 : 0)
+// Exit 10 on a changed presence — or on a listing that no longer describes what ships. The
+// second one is not a curiosity: it is the defect that sat unnoticed for thirty-five cycles.
+process.exit(changed || (listingStale && listingStale.length) ? 10 : 0)
