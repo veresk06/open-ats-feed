@@ -1,0 +1,22 @@
+{
+  "connected_account_id": "ca_NqcfYTWb7cd4",
+  "endpoint": "/v2/ugcPosts",
+  "method": "POST",
+  "parameters": [
+    { "name": "X-Restli-Protocol-Version", "value": "2.0.0", "type": "header" },
+    { "name": "Content-Type", "value": "application/json", "type": "header" }
+  ],
+  "body": {
+    "author": "urn:li:person:4Y3QhQEnSX",
+    "lifecycleState": "PUBLISHED",
+    "specificContent": {
+      "com.linkedin.ugc.ShareContent": {
+        "shareCommentary": {
+          "text": "I swept every company job board reachable through the public APIs of Greenhouse, Ashby and Lever — 9,152 boards, 285,289 open postings — to ask one question: who just started hiring?\n\nNot who has jobs open. Who is hiring faster than they were a month ago.\n\nMeasured today, nothing modelled:\n\n• 2,760 companies ramping — opening roles above their own prior rate\n• 1,138 boards that did not exist 60 days ago\n• 3,220 steady, 2,031 quiet\n• 0 undated postings — all three vendors stamp every posting with a usable date, which is the only reason any of this is computable\n\nTechnology demand across everything opened in the last 90 days:\nPython 19,731 · AWS 12,055 · Salesforce 9,874 · LLM 9,237 · Kubernetes 6,872\n\nTwo things I would want to know if I were reading someone else's version of this.\n\nThe sweep is partial, and I would rather say so than round it off. Greenhouse (5,506 boards) and Ashby (3,153) are complete. Lever reached 493 of 1,538 — Lever publishes Crawl-delay: 1 in its robots.txt, and 1,538 boards at one request per second is 26 minutes. Ignoring that would have made the number complete and destroyed the only claim here a scraper cannot make: that every figure comes from a vendor's own public API, fetched the way the vendor asked.\n\nAnd I cut two things that were true but useless. \"122 executive seats open\" — seniority inferred from job titles does not survive aggregation once a single staffing firm posts 2,334 roles. Department labels like \"Acacia Division (ACD) - 1047\" are internal cost codes: accurate from the API, noise to a human. Both are still in the download. Neither belongs in a headline.\n\nFull register, free, no signup — CSV and JSON alongside it, method and code public:\nhttps://veresk06.github.io/open-ats-feed/ramp.html"
+        },
+        "shareMediaCategory": "NONE"
+      }
+    },
+    "visibility": { "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC" }
+  }
+}
