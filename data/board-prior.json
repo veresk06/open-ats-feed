@@ -1,0 +1,531 @@
+{
+  "generated_at": "2026-09-03T04:04:22.349Z",
+  "source": "data/role-census-titles.json (cached run-2 corpus, no network)",
+  "corpus": {
+    "boards": 500,
+    "titles_read": 121050,
+    "resolved_role_titles": 91275,
+    "generic_titles": 11319
+  },
+  "baseline": {
+    "rule": "always predict the corpus mode",
+    "family": "engineering",
+    "accuracy": 0.2192
+  },
+  "method": {
+    "validation": "leave-one-out over resolved titles: hide one title, predict its family from the rest of its board",
+    "caveat": "resolved titles are not a random sample of generic ones; accuracy_weak_titles is the closer proxy",
+    "selection_rule": "accuracy on weakly-identified titles >= 0.9, min_support >= 5, scored on >= 500 such titles, then max coverage",
+    "selection_caveat": "the threshold is chosen on the same corpus it is scored on, so the accuracy at the chosen point is in-sample; the full sweep is published so a different point can be taken"
+  },
+  "sweep": [
+    {
+      "min_support": 1,
+      "min_confidence": 0,
+      "coverage": 0.993,
+      "accuracy": 0.6318,
+      "accuracy_weak_titles": 0.6354,
+      "n_scored": 90634,
+      "n_scored_weak": 48020,
+      "generic_assigned": 11022,
+      "generic_share": 0.9738
+    },
+    {
+      "min_support": 1,
+      "min_confidence": 0.3,
+      "coverage": 0.9763,
+      "accuracy": 0.6372,
+      "accuracy_weak_titles": 0.6411,
+      "n_scored": 89114,
+      "n_scored_weak": 47213,
+      "generic_assigned": 10790,
+      "generic_share": 0.9533
+    },
+    {
+      "min_support": 1,
+      "min_confidence": 0.4,
+      "coverage": 0.8449,
+      "accuracy": 0.6838,
+      "accuracy_weak_titles": 0.688,
+      "n_scored": 77120,
+      "n_scored_weak": 40703,
+      "generic_assigned": 8757,
+      "generic_share": 0.7737
+    },
+    {
+      "min_support": 1,
+      "min_confidence": 0.5,
+      "coverage": 0.6635,
+      "accuracy": 0.745,
+      "accuracy_weak_titles": 0.7598,
+      "n_scored": 60557,
+      "n_scored_weak": 31447,
+      "generic_assigned": 5708,
+      "generic_share": 0.5043
+    },
+    {
+      "min_support": 1,
+      "min_confidence": 0.6,
+      "coverage": 0.418,
+      "accuracy": 0.8651,
+      "accuracy_weak_titles": 0.8651,
+      "n_scored": 38152,
+      "n_scored_weak": 22728,
+      "generic_assigned": 2578,
+      "generic_share": 0.2278
+    },
+    {
+      "min_support": 1,
+      "min_confidence": 0.7,
+      "coverage": 0.3377,
+      "accuracy": 0.9148,
+      "accuracy_weak_titles": 0.9111,
+      "n_scored": 30827,
+      "n_scored_weak": 19423,
+      "generic_assigned": 1869,
+      "generic_share": 0.1651
+    },
+    {
+      "min_support": 1,
+      "min_confidence": 0.8,
+      "coverage": 0.2919,
+      "accuracy": 0.9468,
+      "accuracy_weak_titles": 0.9403,
+      "n_scored": 26647,
+      "n_scored_weak": 16764,
+      "generic_assigned": 1255,
+      "generic_share": 0.1109
+    },
+    {
+      "min_support": 3,
+      "min_confidence": 0,
+      "coverage": 0.9918,
+      "accuracy": 0.632,
+      "accuracy_weak_titles": 0.6355,
+      "n_scored": 90531,
+      "n_scored_weak": 47960,
+      "generic_assigned": 11010,
+      "generic_share": 0.9727
+    },
+    {
+      "min_support": 3,
+      "min_confidence": 0.3,
+      "coverage": 0.9752,
+      "accuracy": 0.6374,
+      "accuracy_weak_titles": 0.6412,
+      "n_scored": 89011,
+      "n_scored_weak": 47153,
+      "generic_assigned": 10778,
+      "generic_share": 0.9522
+    },
+    {
+      "min_support": 3,
+      "min_confidence": 0.4,
+      "coverage": 0.8438,
+      "accuracy": 0.6841,
+      "accuracy_weak_titles": 0.6882,
+      "n_scored": 77017,
+      "n_scored_weak": 40643,
+      "generic_assigned": 8745,
+      "generic_share": 0.7726
+    },
+    {
+      "min_support": 3,
+      "min_confidence": 0.5,
+      "coverage": 0.6623,
+      "accuracy": 0.7455,
+      "accuracy_weak_titles": 0.7603,
+      "n_scored": 60454,
+      "n_scored_weak": 31387,
+      "generic_assigned": 5696,
+      "generic_share": 0.5032
+    },
+    {
+      "min_support": 3,
+      "min_confidence": 0.6,
+      "coverage": 0.4173,
+      "accuracy": 0.8656,
+      "accuracy_weak_titles": 0.8654,
+      "n_scored": 38087,
+      "n_scored_weak": 22691,
+      "generic_assigned": 2568,
+      "generic_share": 0.2269
+    },
+    {
+      "min_support": 3,
+      "min_confidence": 0.7,
+      "coverage": 0.337,
+      "accuracy": 0.9156,
+      "accuracy_weak_titles": 0.9115,
+      "n_scored": 30762,
+      "n_scored_weak": 19386,
+      "generic_assigned": 1859,
+      "generic_share": 0.1642
+    },
+    {
+      "min_support": 3,
+      "min_confidence": 0.8,
+      "coverage": 0.2912,
+      "accuracy": 0.9478,
+      "accuracy_weak_titles": 0.9408,
+      "n_scored": 26582,
+      "n_scored_weak": 16727,
+      "generic_assigned": 1245,
+      "generic_share": 0.11
+    },
+    {
+      "min_support": 5,
+      "min_confidence": 0,
+      "coverage": 0.9901,
+      "accuracy": 0.632,
+      "accuracy_weak_titles": 0.6356,
+      "n_scored": 90375,
+      "n_scored_weak": 47885,
+      "generic_assigned": 10966,
+      "generic_share": 0.9688
+    },
+    {
+      "min_support": 5,
+      "min_confidence": 0.3,
+      "coverage": 0.9735,
+      "accuracy": 0.6375,
+      "accuracy_weak_titles": 0.6413,
+      "n_scored": 88859,
+      "n_scored_weak": 47078,
+      "generic_assigned": 10734,
+      "generic_share": 0.9483
+    },
+    {
+      "min_support": 5,
+      "min_confidence": 0.4,
+      "coverage": 0.8422,
+      "accuracy": 0.6842,
+      "accuracy_weak_titles": 0.6883,
+      "n_scored": 76875,
+      "n_scored_weak": 40572,
+      "generic_assigned": 8702,
+      "generic_share": 0.7688
+    },
+    {
+      "min_support": 5,
+      "min_confidence": 0.5,
+      "coverage": 0.6608,
+      "accuracy": 0.7458,
+      "accuracy_weak_titles": 0.7606,
+      "n_scored": 60312,
+      "n_scored_weak": 31316,
+      "generic_assigned": 5653,
+      "generic_share": 0.4994
+    },
+    {
+      "min_support": 5,
+      "min_confidence": 0.6,
+      "coverage": 0.4161,
+      "accuracy": 0.8662,
+      "accuracy_weak_titles": 0.8658,
+      "n_scored": 37979,
+      "n_scored_weak": 22634,
+      "generic_assigned": 2533,
+      "generic_share": 0.2238
+    },
+    {
+      "min_support": 5,
+      "min_confidence": 0.7,
+      "coverage": 0.3363,
+      "accuracy": 0.9161,
+      "accuracy_weak_titles": 0.9118,
+      "n_scored": 30695,
+      "n_scored_weak": 19350,
+      "generic_assigned": 1831,
+      "generic_share": 0.1618
+    },
+    {
+      "min_support": 5,
+      "min_confidence": 0.8,
+      "coverage": 0.2907,
+      "accuracy": 0.9481,
+      "accuracy_weak_titles": 0.941,
+      "n_scored": 26535,
+      "n_scored_weak": 16699,
+      "generic_assigned": 1218,
+      "generic_share": 0.1076
+    },
+    {
+      "min_support": 10,
+      "min_confidence": 0,
+      "coverage": 0.9857,
+      "accuracy": 0.6327,
+      "accuracy_weak_titles": 0.6364,
+      "n_scored": 89970,
+      "n_scored_weak": 47670,
+      "generic_assigned": 10871,
+      "generic_share": 0.9604
+    },
+    {
+      "min_support": 10,
+      "min_confidence": 0.3,
+      "coverage": 0.9692,
+      "accuracy": 0.6382,
+      "accuracy_weak_titles": 0.642,
+      "n_scored": 88463,
+      "n_scored_weak": 46868,
+      "generic_assigned": 10639,
+      "generic_share": 0.9399
+    },
+    {
+      "min_support": 10,
+      "min_confidence": 0.4,
+      "coverage": 0.8386,
+      "accuracy": 0.685,
+      "accuracy_weak_titles": 0.6891,
+      "n_scored": 76542,
+      "n_scored_weak": 40395,
+      "generic_assigned": 8621,
+      "generic_share": 0.7616
+    },
+    {
+      "min_support": 10,
+      "min_confidence": 0.5,
+      "coverage": 0.6575,
+      "accuracy": 0.747,
+      "accuracy_weak_titles": 0.7619,
+      "n_scored": 60012,
+      "n_scored_weak": 31158,
+      "generic_assigned": 5609,
+      "generic_share": 0.4955
+    },
+    {
+      "min_support": 10,
+      "min_confidence": 0.6,
+      "coverage": 0.4141,
+      "accuracy": 0.8676,
+      "accuracy_weak_titles": 0.8668,
+      "n_scored": 37794,
+      "n_scored_weak": 22545,
+      "generic_assigned": 2516,
+      "generic_share": 0.2223
+    },
+    {
+      "min_support": 10,
+      "min_confidence": 0.7,
+      "coverage": 0.3352,
+      "accuracy": 0.917,
+      "accuracy_weak_titles": 0.9123,
+      "n_scored": 30598,
+      "n_scored_weak": 19309,
+      "generic_assigned": 1820,
+      "generic_share": 0.1608
+    },
+    {
+      "min_support": 10,
+      "min_confidence": 0.8,
+      "coverage": 0.2899,
+      "accuracy": 0.9485,
+      "accuracy_weak_titles": 0.9411,
+      "n_scored": 26463,
+      "n_scored_weak": 16675,
+      "generic_assigned": 1208,
+      "generic_share": 0.1067
+    },
+    {
+      "min_support": 20,
+      "min_confidence": 0,
+      "coverage": 0.9788,
+      "accuracy": 0.6338,
+      "accuracy_weak_titles": 0.6376,
+      "n_scored": 89339,
+      "n_scored_weak": 47338,
+      "generic_assigned": 10506,
+      "generic_share": 0.9282
+    },
+    {
+      "min_support": 20,
+      "min_confidence": 0.3,
+      "coverage": 0.9625,
+      "accuracy": 0.6392,
+      "accuracy_weak_titles": 0.6433,
+      "n_scored": 87854,
+      "n_scored_weak": 46549,
+      "generic_assigned": 10274,
+      "generic_share": 0.9077
+    },
+    {
+      "min_support": 20,
+      "min_confidence": 0.4,
+      "coverage": 0.8327,
+      "accuracy": 0.686,
+      "accuracy_weak_titles": 0.6905,
+      "n_scored": 76006,
+      "n_scored_weak": 40110,
+      "generic_assigned": 8268,
+      "generic_share": 0.7305
+    },
+    {
+      "min_support": 20,
+      "min_confidence": 0.5,
+      "coverage": 0.6535,
+      "accuracy": 0.7483,
+      "accuracy_weak_titles": 0.7641,
+      "n_scored": 59646,
+      "n_scored_weak": 30939,
+      "generic_assigned": 5498,
+      "generic_share": 0.4857
+    },
+    {
+      "min_support": 20,
+      "min_confidence": 0.6,
+      "coverage": 0.4117,
+      "accuracy": 0.8688,
+      "accuracy_weak_titles": 0.8683,
+      "n_scored": 37582,
+      "n_scored_weak": 22422,
+      "generic_assigned": 2436,
+      "generic_share": 0.2152
+    },
+    {
+      "min_support": 20,
+      "min_confidence": 0.7,
+      "coverage": 0.3338,
+      "accuracy": 0.9177,
+      "accuracy_weak_titles": 0.9133,
+      "n_scored": 30468,
+      "n_scored_weak": 19233,
+      "generic_assigned": 1744,
+      "generic_share": 0.1541
+    },
+    {
+      "min_support": 20,
+      "min_confidence": 0.8,
+      "coverage": 0.2893,
+      "accuracy": 0.9491,
+      "accuracy_weak_titles": 0.9417,
+      "n_scored": 26404,
+      "n_scored_weak": 16651,
+      "generic_assigned": 1142,
+      "generic_share": 0.1009
+    },
+    {
+      "min_support": 50,
+      "min_confidence": 0,
+      "coverage": 0.9673,
+      "accuracy": 0.6353,
+      "accuracy_weak_titles": 0.6398,
+      "n_scored": 88291,
+      "n_scored_weak": 46764,
+      "generic_assigned": 10061,
+      "generic_share": 0.8889
+    },
+    {
+      "min_support": 50,
+      "min_confidence": 0.3,
+      "coverage": 0.9516,
+      "accuracy": 0.6406,
+      "accuracy_weak_titles": 0.6453,
+      "n_scored": 86856,
+      "n_scored_weak": 46016,
+      "generic_assigned": 9848,
+      "generic_share": 0.87
+    },
+    {
+      "min_support": 50,
+      "min_confidence": 0.4,
+      "coverage": 0.8249,
+      "accuracy": 0.6869,
+      "accuracy_weak_titles": 0.6921,
+      "n_scored": 75294,
+      "n_scored_weak": 39727,
+      "generic_assigned": 7926,
+      "generic_share": 0.7002
+    },
+    {
+      "min_support": 50,
+      "min_confidence": 0.5,
+      "coverage": 0.6483,
+      "accuracy": 0.7487,
+      "accuracy_weak_titles": 0.7652,
+      "n_scored": 59174,
+      "n_scored_weak": 30689,
+      "generic_assigned": 5210,
+      "generic_share": 0.4603
+    },
+    {
+      "min_support": 50,
+      "min_confidence": 0.6,
+      "coverage": 0.4082,
+      "accuracy": 0.8695,
+      "accuracy_weak_titles": 0.8693,
+      "n_scored": 37254,
+      "n_scored_weak": 22270,
+      "generic_assigned": 2218,
+      "generic_share": 0.196
+    },
+    {
+      "min_support": 50,
+      "min_confidence": 0.7,
+      "coverage": 0.3311,
+      "accuracy": 0.9186,
+      "accuracy_weak_titles": 0.9145,
+      "n_scored": 30217,
+      "n_scored_weak": 19113,
+      "generic_assigned": 1537,
+      "generic_share": 0.1358
+    },
+    {
+      "min_support": 50,
+      "min_confidence": 0.8,
+      "coverage": 0.2872,
+      "accuracy": 0.9495,
+      "accuracy_weak_titles": 0.9421,
+      "n_scored": 26214,
+      "n_scored_weak": 16552,
+      "generic_assigned": 935,
+      "generic_share": 0.0826
+    }
+  ],
+  "chosen": {
+    "min_support": 5,
+    "min_confidence": 0.7,
+    "coverage": 0.3363,
+    "accuracy": 0.9161,
+    "accuracy_weak_titles": 0.9118,
+    "n_scored": 30695,
+    "n_scored_weak": 19350,
+    "generic_assigned": 1831,
+    "generic_share": 0.1618
+  },
+  "applied": {
+    "generic_assigned": 1831,
+    "generic_left_unresolved": 9488,
+    "share_of_generic_resolved": 0.1618,
+    "into": {
+      "retail_food": 427,
+      "healthcare": 407,
+      "sales_marketing": 320,
+      "corporate": 318,
+      "education": 188,
+      "engineering": 99,
+      "skilled_trades": 43,
+      "engineering_nonsoftware": 21,
+      "product_design": 8
+    }
+  },
+  "boards_with_prior": 101,
+  "boards_refused_as_junk": [
+    {
+      "board": "lever/globalelitecareers",
+      "not_job_share": 0.788
+    },
+    {
+      "board": "greenhouse/cfoinsights",
+      "not_job_share": 0.3
+    },
+    {
+      "board": "greenhouse/unitedmedia",
+      "not_job_share": 0.278
+    },
+    {
+      "board": "greenhouse/hrtechx",
+      "not_job_share": 0.101
+    }
+  ]
+}

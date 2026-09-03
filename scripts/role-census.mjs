@@ -117,6 +117,17 @@ export const FAMILIES = [
     'psychiatr', 'psycholog', 'veterinar', 'paramedic', 'emt', 'midwife', 'optometr',
     'occupational health', 'speech language', 'dietitian', 'nursing',
   ]],
+  // Run 3, and it was found by the board prior rather than by reading the list: a gym's postings
+  // were being counted as education. `instructor` is an `education` key, `education` is ordered
+  // before `fitness_wellness`, and so every "Group Fitness Instructor" in the corpus resolved to
+  // education — 194 titles, 11.5% of that family, all firing on that one key. Same family label
+  // as `fitness_wellness` below, so the counts merge; placed here only to win the ordering.
+  // Deliberately narrow: 'swim instructor' is left out because a school swim teacher is a real
+  // education job and the phrase does not distinguish the two.
+  ['fitness_wellness', [
+    'fitness instructor', 'group fitness', 'yoga instructor', 'pilates', 'barre ', 'zumba',
+    'spin instructor',
+  ]],
   ['education', [
     'tutor', 'teacher', 'teaching', 'instructor', 'educator', 'paraprofessional', 'professor',
     'lecturer', 'curriculum', 'substitute', 'preschool', 'childcare', 'child care',

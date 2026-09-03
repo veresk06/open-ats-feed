@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-03T03:38:31.364Z",
+  "generated_at": "2026-09-03T04:03:18.693Z",
   "method": {
     "head_boards": 300,
     "head_postings_claimed": 124097,
@@ -38,9 +38,9 @@
       "share": 11.96
     },
     "sales_marketing": {
-      "head": 8666,
+      "head": 8665,
       "tail_weighted": 24891,
-      "total": 33557,
+      "total": 33556,
       "share": 11.82
     },
     "other": {
@@ -80,16 +80,16 @@
       "share": 2.96
     },
     "fitness_wellness": {
-      "head": 6172,
+      "head": 6367,
       "tail_weighted": 0,
-      "total": 6172,
-      "share": 2.17
+      "total": 6367,
+      "share": 2.24
     },
     "education": {
-      "head": 1574,
+      "head": 1380,
       "tail_weighted": 4332,
-      "total": 5906,
-      "share": 2.08
+      "total": 5712,
+      "share": 2.01
     },
     "retail_food_generic": {
       "head": 3021,

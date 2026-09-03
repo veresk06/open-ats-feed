@@ -201,6 +201,7 @@ ${Object.entries(PROVIDERS).map(([k, p]) => `    <li><a href="./data/${k}.csv" d
     <li><a href="./data/all.csv" download><span class="dl-name">all.csv</span><span class="dl-meta">${num(totals.live)} rows &mdash; all three providers in one file</span></a></li>
     <li><a href="./data/engineering.csv" download><span class="dl-name">engineering.csv</span><span class="dl-meta">500 rows &mdash; boards ranked by engineering postings, not by size. 121,050 titles read to build it</span></a></li>
     <li><a href="./data/data-quality.csv" download><span class="dl-name">data-quality.csv</span><span class="dl-meta">500 rows &mdash; which boards carry postings that are not paid jobs. 1,411 commission-only recruitment ads sit on 2 boards; one of them is 79&percnt; ads</span></a></li>
+    <li><a href="./data/board-roles.csv" download><span class="dl-name">board-roles.csv</span><span class="dl-meta">500 rows &mdash; the role family each board&rsquo;s own postings imply, with the confidence it was inferred at. Blank where the evidence is too thin to say; 101 boards clear the bar</span></a></li>
   </ul>
   <p class="serif">Public domain, no attribution required, no signup. If you want the same scan run on
   a schedule with postings normalised and salary parsed out, that is <a href="${ACTOR_URL}">packaged as an
