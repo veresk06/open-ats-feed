@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import { SOURCES, PROVIDER_NAMES, tokenFromUrl } from '../scripts/lib/tokens.mjs'
 
 test('every harvest source names a provider the roster knows', () => {
-  assert.deepEqual(PROVIDER_NAMES, ['greenhouse', 'lever', 'ashby', 'workable'])
+  assert.deepEqual(PROVIDER_NAMES, ['greenhouse', 'lever', 'ashby', 'workable', 'breezy'])
   for (const s of SOURCES) assert.ok(PROVIDER_NAMES.includes(s.provider), s.host)
 })
 
@@ -54,4 +54,33 @@ test('rejects the shapes that are never company tokens', () => {
   assert.equal(tokenFromUrl('https://jobs.lever.co/123456'), null, 'a bare job id')
   assert.equal(tokenFromUrl('not a url'), null)
   assert.equal(tokenFromUrl(`https://boards.greenhouse.io/${'a'.repeat(101)}`), null)
+})
+
+// Breezy, and the whole class of vendors that address a board as {token}.vendor.tld.
+// A path-only harvester finds none of them, which is one measurable reason the roster
+// stopped at three providers.
+const breezy = { tokenFrom: 'subdomain', host: 'breezy.hr' }
+
+test('pulls the company token out of a subdomain board URL', () => {
+  assert.equal(tokenFromUrl('https://47-degrees.breezy.hr/json', breezy), '47-degrees')
+  assert.equal(
+    tokenFromUrl('https://20four7va.breezy.hr/p/9fa69e90edc7-some-role', breezy),
+    '20four7va',
+  )
+})
+
+// The vendor's own subdomains sit in exactly the slot a company token occupies, so on
+// a path vendor these could never be reached and here they are the common case.
+test('vendor subdomains are not companies', () => {
+  assert.equal(tokenFromUrl('https://www.breezy.hr/blog/ai-in-hr', breezy), null)
+  assert.equal(tokenFromUrl('https://app.breezy.hr/signin', breezy), null)
+  assert.equal(tokenFromUrl('https://breezy.hr/pricing', breezy), null, 'the apex is not a tenant')
+})
+
+// Without an explicit host, a suffix match would accept any hostname that merely
+// contains the vendor name, which is how a harvester ends up fetching someone else.
+test('a subdomain token is only taken from the named vendor host', () => {
+  assert.equal(tokenFromUrl('https://acme.breezy.hr.evil.com/json', breezy), null)
+  assert.equal(tokenFromUrl('https://acme.breezy.hr/json', { tokenFrom: 'subdomain' }), null)
+  assert.equal(tokenFromUrl('https://a.b.breezy.hr/json', breezy), null, 'a nested label')
 })

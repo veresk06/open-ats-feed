@@ -44,8 +44,13 @@ const PROBE = 64 * 1024 // binary-search probe window
 const SCAN = 1024 * 1024 // linear-scan window once the search has narrowed
 
 // boards.greenhouse.io -> io,greenhouse,boards)/
-function surtPrefix(host) {
-  return `${host.split('.').reverse().join(',')})/`
+//
+// For a subdomain vendor the token is the label we are searching *for*, so the prefix
+// stops one comma short: breezy.hr -> hr,breezy, which matches every tenant and, by
+// leaving off the `)/`, deliberately excludes the vendor's own apex host.
+function surtPrefix(host, tokenFrom) {
+  const reversed = host.split('.').reverse().join(',')
+  return tokenFrom === 'subdomain' ? `${reversed},` : `${reversed})/`
 }
 
 async function fetchRange(url, start, end, { retries = 5 } = {}) {
@@ -211,9 +216,9 @@ async function main() {
       console.log(`${crawl}: no cluster.idx, skipping`)
       continue
     }
-    for (const { provider, host, caseSensitive } of SOURCES) {
+    for (const { provider, host, caseSensitive, tokenFrom } of SOURCES) {
       if (ONLY_HOSTS && !ONLY_HOSTS.has(host)) continue
-      const prefix = surtPrefix(host)
+      const prefix = surtPrefix(host, tokenFrom)
       let blocks
       try {
         blocks = await blocksFor(idxUrl, size, prefix)
@@ -227,7 +232,11 @@ async function main() {
       }
       let added = 0
       for (const block of blocks) {
-        added += await readBlock(crawl, block, prefix, byProvider[provider], { caseSensitive })
+        added += await readBlock(crawl, block, prefix, byProvider[provider], {
+          caseSensitive,
+          tokenFrom,
+          host,
+        })
       }
       console.log(`${crawl} ${host}: ${blocks.length} blocks -> +${added} new tokens (${provider} total ${byProvider[provider].size})`)
       await save(byProvider)

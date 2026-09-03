@@ -13,6 +13,13 @@
 // line per token as it is probed, skip on restart whatever is already recorded.
 //
 //   node scripts/probe-workable-resume.mjs [--budget-secs=1200] [--concurrency=8]
+//                                          [--delay-ms=0]
+//
+// `--delay-ms` paces each worker: it waits that long after every request before taking
+// the next token, so the offered rate is roughly CONCURRENCY / (delay + latency). The
+// point of the knob is that the Cloudflare challenge is a rate verdict, not a ban —
+// 1 req/45s was served 200 six times out of six — so the usable cadence is findable by
+// bisection instead of guessed at.
 //
 // Output: data/workable-probe.jsonl  (append-only, one record per token)
 
@@ -33,6 +40,7 @@ const arg = (name, fallback) => {
 }
 const BUDGET_MS = arg('budget-secs', 1200) * 1000
 const CONCURRENCY = arg('concurrency', 8)
+const DELAY_MS = arg('delay-ms', 0)
 
 // `details=true` is not optional: without it the account resolves 200 with an empty
 // `jobs` array, and every live board on the roster would be recorded `empty`.
@@ -102,6 +110,10 @@ async function main() {
   const startedAt = Date.now()
   let n = 0
   let stop = false
+  // Tallied separately from the checkpoint totals: the whole point of a calibration
+  // pass is the blocked/settled ratio *at this cadence*, which the cumulative file
+  // buries under every earlier pass run at a different one.
+  const pass = { live: 0, empty: 0, dead: 0, error: 0, blocked: 0 }
   // Appends are serialised by awaiting inside each worker, and the records are
   // independent lines, so concurrent workers cannot interleave a partial write.
   const queue = [...todo]
@@ -117,12 +129,21 @@ async function main() {
         const rec = await probe(token)
         await appendFile(OUT, JSON.stringify(rec) + '\n')
         checkpoint.set(token, rec)
+        pass[rec.status] = (pass[rec.status] ?? 0) + 1
         n++
         if (n % 25 === 0) process.stderr.write(`\r  ${n}/${todo.length} probed this pass`)
+        if (DELAY_MS) await new Promise((r) => setTimeout(r, DELAY_MS))
       }
     }),
   )
   if (stop) console.log(`\nbudget of ${BUDGET_MS / 1000}s reached — stopped cleanly, ${queue.length} left`)
+
+  const passSettled = pass.live + pass.empty + pass.dead
+  console.log(
+    `\npass @ concurrency=${CONCURRENCY} delay=${DELAY_MS}ms: ${n} probed · ` +
+      `${passSettled} settled · ${pass.blocked} blocked · ${pass.error} error` +
+      (n ? ` · blocked rate ${((pass.blocked / n) * 100).toFixed(1)}%` : ''),
+  )
 
   const all = [...checkpoint.values()]
   const tally = { live: 0, empty: 0, dead: 0, error: 0, blocked: 0 }

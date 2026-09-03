@@ -247,4 +247,44 @@ export const PROVIDERS = {
       }
     },
   },
+  breezy: {
+    url: (t) => `https://${encodeURIComponent(t)}.breezy.hr/json`,
+    list: (j) => (Array.isArray(j) ? j : null),
+    // {token}.breezy.hr/robots.txt: "User-Agent: * / Disallow: /css /fonts
+    // /stylesheets /javascripts". /json is not disallowed. The marketing host
+    // breezy.hr does carry "Disallow: /api/" — a different host, which we never call.
+    concurrency: 8,
+    delayMs: 0,
+    map: (job, token) => {
+      const loc = job.location?.name ?? [job.location?.city, job.location?.country?.name]
+        .map((s) => (s ?? '').trim()).filter(Boolean).join(', ')
+      // `location.is_remote` is deliberately NOT trusted. Ashby ships the same-looking
+      // flag and it is true for Hybrid roles; believing it once mislabelled two thirds
+      // of the feed. Workable's `telecommuting` earned its place by being measured
+      // against 590 postings. Breezy's has not been measured, so this column comes from
+      // the text until it has been. Promote it only with numbers behind it.
+      return {
+        source: 'breezy',
+        company: token,
+        company_url: `https://${token}.breezy.hr/`,
+        job_id: String(job.id ?? job.friendly_id),
+        title: (job.name ?? '').trim(),
+        url: job.url ?? null,
+        location: loc || null,
+        workplace: workplace(`${loc} ${job.name ?? ''}`),
+        department: job.department || null,
+        team: null,
+        employment_type: job.type?.name ?? null,
+        posted_at: iso(job.published_date),
+        updated_at: iso(job.published_date),
+        // Breezy's board endpoint carries a `salary` string and no description at all —
+        // the body lives behind a per-posting fetch we do not make. `description` is
+        // therefore null for every Breezy row, which is honest; inventing one from the
+        // title would put a different kind of value in a column that means "the posting".
+        ...salaryFields(`${job.name ?? ''} ${job.salary ?? ''}`),
+        seniority: seniority(job.name ?? ''),
+        description: null,
+      }
+    },
+  },
 }

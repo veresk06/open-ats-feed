@@ -54,6 +54,9 @@ function sample(list, n, rand) {
 //   api.ashbyhq.com           robots.txt returns 401   — nothing stated, no restriction
 //   api.lever.co              "Allow: /, Crawl-delay: 1" — allowed, and rate-limited below
 //   apply.workable.com        "User-agent: * / Disallow:" — empty Disallow, all allowed
+//   {token}.breezy.hr         "Disallow: /css /fonts /stylesheets /javascripts" — /json
+//                             is allowed. This is the tenant host; the marketing host
+//                             breezy.hr disallows /api/ and we never call it.
 // The crawl delay is the reason `rate` exists. Lever states a limit in the file it
 // serves us; honouring it costs an hour of wall clock and is not optional.
 //
@@ -83,6 +86,14 @@ const PROVIDERS = {
     url: (t) =>
       `https://apply.workable.com/api/v1/widget/accounts/${encodeURIComponent(t)}?details=true`,
     count: (j) => (Array.isArray(j?.jobs) ? j.jobs.length : null),
+  },
+  breezy: {
+    url: (t) => `https://${encodeURIComponent(t)}.breezy.hr/json`,
+    count: (j) => (Array.isArray(j) ? j.length : null),
+    // Every tenant is its own host, so a fixed concurrency here is spread across
+    // thousands of hostnames rather than pointed at one. Kept modest anyway until
+    // there is a measured rate, because Workable's 429 was also a surprise.
+    concurrency: 8,
   },
 }
 
