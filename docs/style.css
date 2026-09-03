@@ -620,6 +620,156 @@ footer .meta a { color: var(--ink); text-underline-offset: 3px; }
   overflow-wrap: anywhere;
 }
 
+/* ── ramp: the pace bar ──────────────────────────────────────────────────── */
+
+/* The index page counts what is open. This page has to show a change of *rate*,
+   and a bar whose length is the current count cannot do that: forty open roles is
+   not a ramp at a company that always has forty.
+
+   The first draft put every company on one shared scale, and reading it back
+   killed it — one mass recruiter opened 2,334 roles in a month, so every other
+   row rendered as a four-pixel stub and the device measured company size rather
+   than acceleration. So the track is now per-company: full width is that
+   company's last 30 days, the tick stands where its prior 30-day rate reached,
+   and the ink runs from the tick to the right edge. The ink is the hiring above
+   the old pace — the thing the page is actually about — and it is comparable
+   across companies of wildly different sizes because every track is that
+   company's own month.
+
+   A brand-new board has no prior rate for the tick to stand at. Its track is
+   inked end to end, which is correct: all of it is new. */
+
+.registers { margin: 0; padding: 0; list-style: none; }
+
+.reg { padding-top: clamp(2.5rem, 6vw, 4rem); }
+
+.reg h2 {
+  font-variation-settings: "wdth" 115;
+  font-weight: 800;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  letter-spacing: -0.015em;
+  margin: 0 0 0.4rem;
+}
+
+.reg-note {
+  font-family: var(--prose);
+  color: var(--muted);
+  margin: 0 0 1.6rem;
+  max-width: 58ch;
+}
+
+.ramp-rows { list-style: none; margin: 0; padding: 0; }
+
+.ramp-row {
+  display: grid;
+  grid-template-columns: minmax(7rem, 12rem) minmax(0, 1fr) minmax(7.5rem, auto);
+  align-items: center;
+  column-gap: clamp(0.75rem, 2vw, 1.5rem);
+  row-gap: 0.35rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ramp-row:first-child { border-top: 1px solid var(--ink); }
+
+.ramp-name {
+  font-family: var(--mono);
+  font-size: 0.92rem;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* The row is tinted its vendor's colour so the pace bar carries provenance, but
+   the company name stays ink — three colours of link text in one list is noise. */
+.ramp-name { color: var(--ink); }
+.ramp-name:hover { color: var(--mark); }
+
+.pace {
+  position: relative;
+  height: 0.6rem;
+  background: var(--card);
+  border: 1px solid var(--rule);
+}
+
+.pace-bar {
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: var(--was);
+  right: -1px;
+  background: currentColor;
+}
+
+.pace-tick {
+  position: absolute;
+  left: var(--was);
+  top: -0.32rem;
+  bottom: -0.32rem;
+  width: 1px;
+  background: var(--ink);
+}
+
+/* The bar has always passed the tick on this page — that is what makes it a ramp —
+   so the tick would be invisible if it sat only inside the track. It overhangs
+   top and bottom instead, and those overhangs read against the page. */
+
+.ramp-num {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  margin: 0;
+  text-align: right;
+}
+
+.ramp-num b { color: var(--ink); font-weight: 500; font-size: 0.95rem; }
+
+.ramp-detail {
+  grid-column: 1 / -1;
+  font-family: var(--prose);
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.ramp-detail b { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 40rem) {
+  .ramp-row { grid-template-columns: 1fr auto; }
+  .pace { grid-column: 1 / -1; order: 3; }
+  .ramp-detail { order: 4; }
+}
+
+/* The legend is the one place the device explains itself; it uses the same
+   markup as a real row so there is nothing to keep in sync. */
+.pace-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.6rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 1.5rem;
+}
+
+.pace-key .pace { width: 7rem; flex: none; color: var(--ink); }
+
+.edges {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  border-left: 2px solid var(--mark);
+  padding: 0.15rem 0 0.15rem 1rem;
+  margin: 2.5rem 0 0;
+  line-height: 1.7;
+}
+
+.edges b { color: var(--ink); font-weight: 500; }
+
 /* ── floor ───────────────────────────────────────────────────────────────── */
 
 :focus-visible { outline: 2px solid var(--mark); outline-offset: 2px; }

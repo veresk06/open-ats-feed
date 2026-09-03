@@ -65,6 +65,16 @@ const index = JSON.parse(readFileSync(join(ROOT, 'actor/data/companies.json'), '
 const asOf = index.as_of
 const totals = index.totals
 
+// The ramp page is the only page here whose numbers go stale, so it is built only
+// when a scan exists rather than from a checked-in fallback. A missing scan drops
+// the page; it never publishes yesterday's pace as today's.
+let scan = null
+try {
+  scan = JSON.parse(readFileSync(join(ROOT, 'data/market-scan.json'), 'utf8'))
+} catch {
+  scan = null
+}
+
 // live is [[token, openPostings], ...] already sorted descending by the harvest.
 const rows = {}
 for (const key of Object.keys(PROVIDERS)) {
@@ -96,6 +106,7 @@ const TOPBAR = (here) => `<header class="topbar">
   <nav>
     ${Object.entries(PROVIDERS).map(([k, p]) =>
       `<a href="./${k}.html"${here === k ? ' aria-current="page"' : ''}>${p.label}</a>`).join('\n    ')}
+    <a href="./ramp.html"${here === 'ramp' ? ' aria-current="page"' : ''}>Ramp</a>
     <a href="./coverage.html"${here === 'coverage' ? ' aria-current="page"' : ''}>Coverage</a>
     <a href="./#method"${here === 'method' ? ' aria-current="page"' : ''}>Method</a>
   </nav>
@@ -151,6 +162,7 @@ ${TOPBAR('')}
   <div class="bars" role="img" aria-label="${Object.entries(PROVIDERS).map(([k, p]) => `${p.label} ${num(totals.perProvider[k].live)} boards`).join(', ')}">
 ${Object.entries(PROVIDERS).map(([k, p]) => `    <div class="bar bar-${k}" style="--w:${barPct(totals.perProvider[k].live)}%"><span class="bar-label">${p.label}</span><span class="bar-num">${num(totals.perProvider[k].live)}</span></div>`).join('\n')}
   </div>
+  ${scan ? `<p class="more"><a href="./ramp.html">${num(scan.breakdown.ramping)} of them opened more roles this month than last &mdash; read today &rarr;</a></p>` : ''}
   <p class="more"><a href="./coverage.html">${pct(
     Object.values(CANDIDATES).reduce((s, n) => s + n, 0) - totals.live,
     Object.values(CANDIDATES).reduce((s, n) => s + n, 0),
@@ -403,6 +415,152 @@ ${per.map((p) => `      <tr>
 ${FOOTER}`
 }
 
+// ── ramp.html ────────────────────────────────────────────────────────────────
+// Built from data/market-scan.json, which is produced by scripts/market-scan.mjs.
+// Absent scan, no page: this is the one page on the site whose numbers expire, and
+// a stale ramp is worse than no ramp because the reader cannot tell.
+
+const RAMP_ROWS = 40
+const TECH_ROWS = 36
+
+// Internal site and cost codes, which several large boards use where a department
+// name belongs. Measured on today's scan: BAYADA files roles under "Acacia
+// Division (ACD) - 1047" and Bozzuto under "511 - Maintenance". Those are true
+// values from the vendor's own API and they are still noise to a reader, so they
+// are dropped from the prose rather than reported as functions. They stay in the
+// downloadable data, where the reader has asked for everything.
+const CODE_LIKE = /\s-\s*\d+\s*$|^\s*\d{2,}\s*-\s/
+
+function paceRow(s, { tick = true } = {}) {
+  // Per-company track: full width is this company's last 30 days, so the tick sits
+  // at the share of that month the old pace would already have accounted for.
+  const was = tick && s.opened_30d > 0 ? Math.max(0, Math.min(96, (s.baseline_30d / s.opened_30d) * 100)) : 0
+  const detail = []
+  const depts = s.top_departments.filter((d) => !CODE_LIKE.test(d.name))
+  if (s.new_functions.length) {
+    detail.push(`just opened <b>${s.new_functions.map((f) => esc(f.name)).join('</b>, <b>')}</b>`)
+  } else if (depts.length) {
+    detail.push(`hiring into ${depts.map((d) => esc(d.name)).join(', ')}`)
+  }
+  if (s.tech_signals.length) detail.push(`building with ${s.tech_signals.slice(0, 5).map((t) => esc(t.name)).join(', ')}`)
+  return `  <li class="ramp-row v-${s.source}">
+    <a class="ramp-name" href="${esc(s.company_url)}" rel="nofollow noopener"><span class="tick tick-${s.source}"></span>${esc(s.company)}</a>
+    <div class="pace" style="--was:${was.toFixed(2)}%" role="img" aria-label="${s.opened_30d} roles opened in the last 30 days against a prior rate of ${tick ? s.baseline_30d : 'nothing — the board is new'}">
+      <span class="pace-bar"></span>${tick ? '<span class="pace-tick"></span>' : ''}
+    </div>
+    <p class="ramp-num"><b>${num(s.opened_30d)}</b> new <span class="sep">·</span> ${tick ? `was ${s.baseline_30d}` : 'no history'}</p>
+${detail.length ? `    <p class="ramp-detail">${detail.join(' <span class="sep">·</span> ')}</p>\n` : ''}  </li>`
+}
+
+function rampPage(scan) {
+  const ramping = scan.ramping.slice(0, RAMP_ROWS)
+  const newBoards = scan.new_boards.slice(0, 20)
+  const day = scan.fetched_at.slice(0, 10)
+  const rampPct = pct(scan.breakdown.ramping, scan.boards_with_postings)
+  const complete = Object.entries(scan.per_provider).filter(([, p]) => p.complete).map(([k]) => PROVIDERS[k].label)
+  const partial = Object.entries(scan.per_provider).filter(([, p]) => !p.complete)
+
+  return `${HEAD(
+    'Who started hiring — ramp signals across 10,197 company job boards',
+    `${num(scan.breakdown.ramping)} companies opened more roles in the last 30 days than in the 60 before it, measured on ${day} across ${num(scan.scanned)} job boards read from the vendors' own public APIs.`,
+    '/ramp.html',
+  )}
+${TOPBAR('ramp')}
+<main>
+<section class="hero">
+  <p class="eyebrow">Ramp register <span class="sep">·</span> read ${day}</p>
+  <h1><em class="v-greenhouse">${num(scan.breakdown.ramping)}</em> companies<br>just changed pace.</h1>
+  <p class="lede serif">Of the ${num(scan.boards_with_postings)} boards read today, these opened more roles in
+  the last 30 days than in the 60 days before them. Nothing here is accumulated: every vendor stamps each
+  posting with the date it went up, so a single pass over a board is enough to see whether hiring is
+  accelerating — and whether a department exists this month that did not exist last month.</p>
+  <p class="more"><a href="./data/ramp.csv" download>Take all ${num(scan.boards_with_postings)} companies as CSV &rarr;</a></p>
+</section>
+
+<ol class="registers">
+<li class="reg">
+  <h2>Accelerating</h2>
+  <p class="reg-note">Ranked by roles opened in the last 30 days, not by ratio — a company going from one
+  posting to three has tripled and told you nothing.</p>
+  <div class="pace-key">
+    <span class="pace" style="--was:34%"><span class="pace-bar"></span><span class="pace-tick"></span></span>
+    <span>track = this company's last 30 days</span>
+    <span>tick = where its prior rate reached</span>
+    <span>the ink is the hiring above it</span>
+  </div>
+  <ul class="ramp-rows">
+${ramping.map((s) => paceRow(s)).join('\n')}
+  </ul>
+</li>
+
+<li class="reg">
+  <h2>Boards that did not exist 60 days ago</h2>
+  <p class="reg-note">Every posting on these boards is recent, so there is no prior rate to compare against
+  and no tick to draw. The track is inked end to end because all of it is new.</p>
+  <ul class="ramp-rows">
+${newBoards.map((s) => paceRow(s, { tick: false })).join('\n')}
+  </ul>
+</li>
+
+<li class="reg">
+  <h2>What they are staffing for</h2>
+  <p class="reg-note">Every technology named in a posting opened in the last 90 days, counted across all
+  ${num(scan.boards_with_postings)} boards. Matched on the title, team and department, and on the body only
+  once the posting already reads as a technical one — otherwise a home-care agency comes back holding a
+  data stack, which is exactly what happened the first time.</p>
+  <ol class="rows rows-full">
+${scan.market_tech
+  .slice(0, TECH_ROWS)
+  .map(
+    (t) =>
+      `    <li class="row"><span class="slug">${esc(t.name)}</span><span class="leader" aria-hidden="true"></span><span class="count">${num(t.postings)}</span></li>`,
+  )
+  .join('\n')}
+  </ol>
+</li>
+</ol>
+
+<section class="method">
+  <h2>How this was read</h2>
+  <div class="cols serif">
+    <p>One pass over the roster on ${day}: each company's board called once, at its own vendor's public
+    API, unauthenticated. The postings come back carrying the date each one was published, and that date
+    is the whole method — the last 30 days against the 60 before it, normalised to the same length.</p>
+    <p>A company is called accelerating when it opened at least ${'3'} roles in the last 30 days
+    <em>and</em> did so at twice its prior rate or better. Both conditions matter: the first throws out
+    the noise of very small boards, the second is what separates a ramp from a company that is simply
+    large.</p>
+    <p>What this cannot see is a posting that was taken down, or a board that went dark — posting dates
+    only record arrivals. That is the one thing here that does need accumulated history, and the daily
+    snapshot series is what collects it.</p>
+  </div>
+  <p class="edges">Scan edges, stated because they are real.<br>
+  Read in <b>${scan.elapsed_s}s</b> against a <b>${scan.deadline_s}s</b> wall clock.
+  ${complete.length ? `<b>${complete.join('</b> and <b>')}</b> swept complete.` : ''}
+  ${partial
+    .map(
+      ([k, p]) =>
+        `<b>${PROVIDERS[k].label}</b> reached ${num(p.scanned)} of ${num(p.candidates)} boards — it publishes <code>Crawl-delay: 1</code> and we honour it, which is one request per second and 26 minutes for the full list.`,
+    )
+    .join(' ')}<br>
+  So the counts on this page are a floor, not a total. ${num(scan.postings_seen)} postings were read to produce them.</p>
+</section>
+
+<section class="downloads">
+  <h2>Take the data</h2>
+  <ul class="dl">
+    <li><a href="./data/ramp.csv" download><span class="dl-name">ramp.csv</span><span class="dl-meta">${num(scan.boards_with_postings)} rows &mdash; company, verdict, roles opened at 7 / 30 / 90 days, prior rate, ratio</span></a></li>
+    <li><a href="./data/ramp.json" download><span class="dl-name">ramp.json</span><span class="dl-meta">the same, plus newly opened departments and the technologies named in each company's recent postings</span></a></li>
+    <li><a href="./data/all.csv" download><span class="dl-name">all.csv</span><span class="dl-meta">${num(totals.live)} rows &mdash; the full board roster behind it</span></a></li>
+  </ul>
+  <p class="serif">Public domain, no attribution required, no signup. The same scan runs on demand,
+  filtered to the companies and titles you care about, as <a href="${ACTOR_URL}">an Apify Actor</a>
+  &mdash; set <code>outputMode: "signals"</code> and it returns these rows for your own slice of the market.</p>
+</section>
+</main>
+${FOOTER}`
+}
+
 // ── CSV ──────────────────────────────────────────────────────────────────────
 const csvFor = (keys) => {
   const head = 'provider,token,open_postings,board_url,api_url\n'
@@ -413,7 +571,7 @@ const csvFor = (keys) => {
 }
 
 // ── write ────────────────────────────────────────────────────────────────────
-for (const f of ['index.html', 'coverage.html', 'style.css', 'robots.txt', 'sitemap.xml', '.nojekyll']) {
+for (const f of ['index.html', 'coverage.html', 'ramp.html', 'style.css', 'robots.txt', 'sitemap.xml', '.nojekyll']) {
   rmSync(join(OUT, f), { force: true })
 }
 for (const key of Object.keys(PROVIDERS)) rmSync(join(OUT, `${key}.html`), { force: true })
@@ -427,13 +585,22 @@ for (const key of Object.keys(PROVIDERS)) {
   writeFileSync(join(OUT, 'data', `${key}.csv`), csvFor([key]))
 }
 writeFileSync(join(OUT, 'data', 'all.csv'), csvFor(Object.keys(PROVIDERS)))
+if (scan) {
+  writeFileSync(join(OUT, 'ramp.html'), rampPage(scan))
+  // Both forms ship, and this is the published copy — data/market-scan.* stays out
+  // of the repo so the same bytes are not committed twice. The CSV is every company
+  // flat; the JSON additionally carries the newly-opened functions and the
+  // per-company technology counts, which do not fit a flat row.
+  writeFileSync(join(OUT, 'data', 'ramp.csv'), readFileSync(join(ROOT, 'data/market-scan.csv'), 'utf8'))
+  writeFileSync(join(OUT, 'data', 'ramp.json'), JSON.stringify(scan))
+}
 writeFileSync(join(OUT, 'style.css'), readFileSync(join(ROOT, 'scripts/lib/site.css'), 'utf8'))
 writeFileSync(join(OUT, '.nojekyll'), '')
 writeFileSync(join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`)
 writeFileSync(
   join(OUT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    ['/', '/coverage.html', ...Object.keys(PROVIDERS).map((k) => `/${k}.html`)]
+    ['/', '/coverage.html', ...(scan ? ['/ramp.html'] : []), ...Object.keys(PROVIDERS).map((k) => `/${k}.html`)]
       .map((u) => `  <url><loc>${SITE_URL}${u}</loc><lastmod>${asOf}</lastmod></url>`)
       .join('\n') +
     `\n</urlset>\n`,
