@@ -1,0 +1,81 @@
+{
+  "as_of": "2026-09-03",
+  "cycle": 38,
+  "vendor": "personio",
+  "verdict": "NO-GO",
+  "failed_at_step": 1,
+  "hosts": ["jobs.personio.de", "jobs.personio.com"],
+  "token_form": "subdomain",
+  "step1_robots": {
+    "live_today": {
+      "note": "robots.txt 404s on every live tenant tested; the response is the career-site SPA's not-found page (text/html), not a plain-text file. Under RFC 9309 this reads as allow-all.",
+      "tenants_checked": [
+        { "host": "1komma5grad.jobs.personio.de", "status": 404, "content_type": "text/html" },
+        { "host": "10xfounders.jobs.personio.com", "status": 404, "content_type": "text/html" },
+        { "host": "1nce.jobs.personio.com", "status": 404, "content_type": "text/html" }
+      ]
+    },
+    "archived": {
+      "note": "Byte-identical template on two tenants across both TLDs, five months apart. Disallow: /xml is the exact path the feed is served on.",
+      "payload": "User-agent: *\nDisallow: /xml\nDisallow: /search\nDisallow: /privacy-policy\nDisallow: /apply/*\nDisallow: /check-applied/*\nDisallow: /thank-you/*",
+      "records": [
+        {
+          "url": "https://10xfounders.jobs.personio.com/robots.txt",
+          "crawl": "CC-MAIN-2025-33",
+          "crawled": "2025-08-06T00:32:43Z",
+          "last_modified": "2025-06-04T11:05:18Z",
+          "http_status": 200,
+          "content_type": "text/plain",
+          "warc": "crawl-data/CC-MAIN-2025-33/segments/1754151279884.50/robotstxt/CC-MAIN-20250805222253-20250806012253-00253.warc.gz",
+          "offset": 387742,
+          "length": 1292
+        },
+        {
+          "url": "https://1648-factory.jobs.personio.de/robots.txt",
+          "crawl": "CC-MAIN-2025-51",
+          "crawled": "2025-12-13T16:33:11Z",
+          "http_status": 200,
+          "content_type": "text/plain",
+          "warc": "crawl-data/CC-MAIN-2025-51/segments/1764871307822.71/robotstxt/CC-MAIN-20251213151201-20251213181201-00854.warc.gz",
+          "offset": 357006,
+          "length": 1274
+        }
+      ]
+    }
+  },
+  "step2_api": {
+    "note": "Would have passed comfortably. Recorded because the refusal is about permission, not capability.",
+    "endpoint": "https://{token}.jobs.personio.de/xml",
+    "measured_on": "1komma5grad",
+    "http_status": 200,
+    "content_type": "text/xml",
+    "bytes": 2333179,
+    "positions": 325,
+    "fields_on_every_position": [
+      "id", "subcompany", "office", "department", "recruitingCategory", "name",
+      "jobDescriptions", "employmentType", "seniority", "schedule", "occupation",
+      "occupationCategory", "createdAt"
+    ],
+    "field_counts": {
+      "office": 1820,
+      "jobDescription": 1291,
+      "keywords": 297,
+      "yearsOfExperience": 269,
+      "additionalOffices": 119,
+      "salaryInformation": 1
+    },
+    "notes": [
+      "createdAt is ISO 8601 with +00:00 offset, present on all 325 — a real posted_at.",
+      "seniority is published by the vendor, not inferred from the title as our schema does.",
+      "salaryInformation is structured {min,max,currencyCode,currencySymbol,type} but appears on 1 of 325 postings (0.3%).",
+      "'Remote' appears as an office name, so it is free text and not a trustworthy workplace enum."
+    ]
+  },
+  "step3_states": {
+    "note": "Cleanly distinguishable, which SmartRecruiters and Cycle-33 Workable could not give.",
+    "live": "200 with <workzag-jobs>",
+    "dead": "307 to https://personio.com/ when the redirect is NOT followed",
+    "trap": "Following the redirect returns 429 from personio.com, which a prober would misclassify as blocked rather than dead. Do not follow redirects on this vendor."
+  },
+  "revisit_trigger": "A Personio tenant serving a robots.txt that PERMITS /xml. The file merely being absent is not the trigger."
+}

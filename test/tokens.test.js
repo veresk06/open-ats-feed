@@ -20,6 +20,18 @@ test('no source fetches a host whose robots.txt refuses us', () => {
   assert.ok(!hosts.some((h) => h.endsWith('smartrecruiters.com')), 'see scripts/lib/tokens.mjs')
 })
 
+// Personio, refused in Cycle 38: the tenant robots.txt carries `Disallow: /xml` and
+// /xml is the feed. This tripwire is separate from the one above because Personio
+// fails a *harder* way to notice — the file 404s today, so a live-only step-1 check
+// says "permitted" and the vendor sails in. Anyone re-adding this host has to come
+// past this test and the archive evidence in scripts/lib/tokens.mjs, rather than
+// re-deriving "no robots.txt, therefore allowed" from a fresh curl.
+test('Personio stays out even though its robots.txt is absent today', () => {
+  const hosts = SOURCES.map((s) => s.host)
+  assert.ok(!hosts.some((h) => h.endsWith('personio.de')), 'see scripts/lib/tokens.mjs')
+  assert.ok(!hosts.some((h) => h.endsWith('personio.com')), 'see scripts/lib/tokens.mjs')
+})
+
 test('pulls the company token out of a board URL', () => {
   assert.equal(tokenFromUrl('https://boards.greenhouse.io/stripe'), 'stripe')
   assert.equal(tokenFromUrl('https://jobs.lever.co/netflix/abc-123'), 'netflix')
