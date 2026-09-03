@@ -1,0 +1,1513 @@
+{
+  "generated_at": "2026-09-03T04:31:36.333Z",
+  "method": "Live title+location read from vendor public APIs for the boards with the highest title-repeat in data/role-census-titles.json. A repeated title is split by whether the copies share a stated location. Boards audited are the worst offenders by title-repeat, NOT a random sample — these totals describe that stratum and are not a corpus estimate.",
+  "min_fanout_variants": 5,
+  "totals": {
+    "boards_audited": 40,
+    "boards_unreachable": 0,
+    "postings": 49330,
+    "distinct_titles": 14217,
+    "unstated_location": 515,
+    "repeated_extra": 35113,
+    "same_location_extra": 4375,
+    "distinct_location_extra": 30675,
+    "unstated_location_extra": 297,
+    "fanout_postings": 0,
+    "repeat_rate_pct": 71.18,
+    "true_duplicate_rate_pct": 8.87,
+    "multi_site_rate_pct": 62.18,
+    "fanout_rate_pct": 0
+  },
+  "boards": [
+    {
+      "board": "greenhouse/svetness",
+      "postings": 4981,
+      "distinct_titles": 591,
+      "unstated_location": 1,
+      "repeated_extra": 4390,
+      "same_location_extra": 150,
+      "distinct_location_extra": 4240,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "personal trainer",
+          "postings": 4378,
+          "same_location_extra": 140
+        },
+        {
+          "title": "personal trainer florissant mo",
+          "postings": 3,
+          "same_location_extra": 2
+        },
+        {
+          "title": "personal trainer enumclaw wa",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "personal trainer longmeadow ma",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "personal trainer phoenix az",
+          "postings": 2,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "lever/boxlunch",
+      "postings": 3653,
+      "distinct_titles": 76,
+      "unstated_location": 0,
+      "repeated_extra": 3577,
+      "same_location_extra": 1126,
+      "distinct_location_extra": 2451,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "seasonal sales associate",
+          "postings": 914,
+          "same_location_extra": 327
+        },
+        {
+          "title": "part time assistant manager level 1",
+          "postings": 901,
+          "same_location_extra": 320
+        },
+        {
+          "title": "sales associate",
+          "postings": 905,
+          "same_location_extra": 319
+        },
+        {
+          "title": "part time assistant manager level 2",
+          "postings": 396,
+          "same_location_extra": 82
+        },
+        {
+          "title": "store manager",
+          "postings": 287,
+          "same_location_extra": 45
+        }
+      ]
+    },
+    {
+      "board": "ashby/bjakcareer",
+      "postings": 3084,
+      "distinct_titles": 272,
+      "unstated_location": 193,
+      "repeated_extra": 2812,
+      "same_location_extra": 731,
+      "distinct_location_extra": 2042,
+      "unstated_location_extra": 189,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "lead software engineer",
+          "postings": 54,
+          "same_location_extra": 30
+        },
+        {
+          "title": "android developer ai finance agent",
+          "postings": 46,
+          "same_location_extra": 22
+        },
+        {
+          "title": "ios developer ai finance agent",
+          "postings": 46,
+          "same_location_extra": 22
+        },
+        {
+          "title": "product owner technical ai neobank",
+          "postings": 44,
+          "same_location_extra": 21
+        },
+        {
+          "title": "engineering lead",
+          "postings": 44,
+          "same_location_extra": 21
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/eosfitness",
+      "postings": 2689,
+      "distinct_titles": 64,
+      "unstated_location": 0,
+      "repeated_extra": 2625,
+      "same_location_extra": 25,
+      "distinct_location_extra": 2600,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "assistant general manager",
+          "postings": 178,
+          "same_location_extra": 5
+        },
+        {
+          "title": "assistant fitness manager",
+          "postings": 180,
+          "same_location_extra": 3
+        },
+        {
+          "title": "general manager",
+          "postings": 180,
+          "same_location_extra": 2
+        },
+        {
+          "title": "group fitness instructor",
+          "postings": 170,
+          "same_location_extra": 2
+        },
+        {
+          "title": "assistant general manager new gym opening",
+          "postings": 14,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "lever/globalelitecareers",
+      "postings": 1752,
+      "distinct_titles": 34,
+      "unstated_location": 0,
+      "repeated_extra": 1718,
+      "same_location_extra": 209,
+      "distinct_location_extra": 1509,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "work from home customer care specialist",
+          "postings": 62,
+          "same_location_extra": 32
+        },
+        {
+          "title": "enrollment client support specialist remote",
+          "postings": 61,
+          "same_location_extra": 31
+        },
+        {
+          "title": "remote client success specialist",
+          "postings": 61,
+          "same_location_extra": 31
+        },
+        {
+          "title": "customer solutions specialist work from home",
+          "postings": 60,
+          "same_location_extra": 30
+        },
+        {
+          "title": "remote benefits consultant",
+          "postings": 60,
+          "same_location_extra": 30
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/bayada",
+      "postings": 2577,
+      "distinct_titles": 1293,
+      "unstated_location": 0,
+      "repeated_extra": 1284,
+      "same_location_extra": 27,
+      "distinct_location_extra": 1257,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "registered nurse",
+          "postings": 47,
+          "same_location_extra": 6
+        },
+        {
+          "title": "physical therapist",
+          "postings": 32,
+          "same_location_extra": 5
+        },
+        {
+          "title": "occupational therapist",
+          "postings": 16,
+          "same_location_extra": 3
+        },
+        {
+          "title": "hospice volunteer unpaid",
+          "postings": 40,
+          "same_location_extra": 2
+        },
+        {
+          "title": "certified nurse aide s cna s private home care clients",
+          "postings": 2,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "lever/insomniacookies",
+      "postings": 1178,
+      "distinct_titles": 45,
+      "unstated_location": 0,
+      "repeated_extra": 1133,
+      "same_location_extra": 10,
+      "distinct_location_extra": 1123,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "cookie crew",
+          "postings": 323,
+          "same_location_extra": 4
+        },
+        {
+          "title": "cookie delivery driver",
+          "postings": 141,
+          "same_location_extra": 2
+        },
+        {
+          "title": "shift lead",
+          "postings": 60,
+          "same_location_extra": 2
+        },
+        {
+          "title": "assistant store manager",
+          "postings": 122,
+          "same_location_extra": 1
+        },
+        {
+          "title": "shift leader",
+          "postings": 210,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/centriaautism",
+      "postings": 1189,
+      "distinct_titles": 61,
+      "unstated_location": 2,
+      "repeated_extra": 1128,
+      "same_location_extra": 66,
+      "distinct_location_extra": 1062,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "center based behavior technician",
+          "postings": 55,
+          "same_location_extra": 16
+        },
+        {
+          "title": "center based registered behavior technician rbt",
+          "postings": 52,
+          "same_location_extra": 15
+        },
+        {
+          "title": "early intervention bcba life skills autism academy center based",
+          "postings": 25,
+          "same_location_extra": 11
+        },
+        {
+          "title": "center based board certified behavior analyst bcba",
+          "postings": 31,
+          "same_location_extra": 4
+        },
+        {
+          "title": "behavior technician",
+          "postings": 364,
+          "same_location_extra": 2
+        }
+      ]
+    },
+    {
+      "board": "lever/cgsfederal",
+      "postings": 1427,
+      "distinct_titles": 300,
+      "unstated_location": 5,
+      "repeated_extra": 1127,
+      "same_location_extra": 2,
+      "distinct_location_extra": 1125,
+      "unstated_location_extra": 1,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "data specialist",
+          "postings": 11,
+          "same_location_extra": 1
+        },
+        {
+          "title": "senior paralegal",
+          "postings": 15,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "lever/lifestance",
+      "postings": 1386,
+      "distinct_titles": 347,
+      "unstated_location": 0,
+      "repeated_extra": 1039,
+      "same_location_extra": 2,
+      "distinct_location_extra": 1037,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "clinical post doc outpatient testing psychologist",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "clinical psychiatrist outpatient overland park ks",
+          "postings": 2,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/urpt",
+      "postings": 1215,
+      "distinct_titles": 198,
+      "unstated_location": 1,
+      "repeated_extra": 1017,
+      "same_location_extra": 116,
+      "distinct_location_extra": 901,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "physical therapist",
+          "postings": 475,
+          "same_location_extra": 61
+        },
+        {
+          "title": "physical therapist national traveler",
+          "postings": 62,
+          "same_location_extra": 16
+        },
+        {
+          "title": "patient care coordinator",
+          "postings": 60,
+          "same_location_extra": 7
+        },
+        {
+          "title": "physical therapist assistant",
+          "postings": 136,
+          "same_location_extra": 7
+        },
+        {
+          "title": "physical therapy technician",
+          "postings": 52,
+          "same_location_extra": 4
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/blueskytelepsych",
+      "postings": 945,
+      "distinct_titles": 5,
+      "unstated_location": 0,
+      "repeated_extra": 940,
+      "same_location_extra": 161,
+      "distinct_location_extra": 779,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "psychiatric mental health nurse practitioner pmhnp",
+          "postings": 381,
+          "same_location_extra": 71
+        },
+        {
+          "title": "psychiatrist md",
+          "postings": 324,
+          "same_location_extra": 42
+        },
+        {
+          "title": "psychotherapists",
+          "postings": 61,
+          "same_location_extra": 39
+        },
+        {
+          "title": "psychotherapist",
+          "postings": 177,
+          "same_location_extra": 9
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/carvana",
+      "postings": 1757,
+      "distinct_titles": 819,
+      "unstated_location": 7,
+      "repeated_extra": 938,
+      "same_location_extra": 148,
+      "distinct_location_extra": 789,
+      "unstated_location_extra": 5,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "car detailer",
+          "postings": 124,
+          "same_location_extra": 35
+        },
+        {
+          "title": "customer service delivery advocate",
+          "postings": 70,
+          "same_location_extra": 12
+        },
+        {
+          "title": "customer delivery driver",
+          "postings": 57,
+          "same_location_extra": 8
+        },
+        {
+          "title": "team lead market operations",
+          "postings": 28,
+          "same_location_extra": 8
+        },
+        {
+          "title": "entry level automotive detailer lot attendant post production",
+          "postings": 28,
+          "same_location_extra": 6
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/liquidpersonnel",
+      "postings": 1586,
+      "distinct_titles": 755,
+      "unstated_location": 39,
+      "repeated_extra": 831,
+      "same_location_extra": 276,
+      "distinct_location_extra": 554,
+      "unstated_location_extra": 10,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "social worker child protection",
+          "postings": 292,
+          "same_location_extra": 179
+        },
+        {
+          "title": "social worker looked after children",
+          "postings": 97,
+          "same_location_extra": 40
+        },
+        {
+          "title": "social worker referral and assessment",
+          "postings": 52,
+          "same_location_extra": 11
+        },
+        {
+          "title": "social worker referral assessment",
+          "postings": 26,
+          "same_location_extra": 5
+        },
+        {
+          "title": "senior practitioner family safeguarding",
+          "postings": 4,
+          "same_location_extra": 3
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/equipmentsharecom",
+      "postings": 967,
+      "distinct_titles": 206,
+      "unstated_location": 0,
+      "repeated_extra": 761,
+      "same_location_extra": 60,
+      "distinct_location_extra": 701,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "heavy equipment field technician mechanic",
+          "postings": 100,
+          "same_location_extra": 18
+        },
+        {
+          "title": "heavy equipment shop technician mechanic",
+          "postings": 93,
+          "same_location_extra": 9
+        },
+        {
+          "title": "heavy equipment cdl driver",
+          "postings": 69,
+          "same_location_extra": 5
+        },
+        {
+          "title": "territory account manager",
+          "postings": 83,
+          "same_location_extra": 5
+        },
+        {
+          "title": "carpenter",
+          "postings": 4,
+          "same_location_extra": 2
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/plscareers",
+      "postings": 786,
+      "distinct_titles": 37,
+      "unstated_location": 0,
+      "repeated_extra": 749,
+      "same_location_extra": 6,
+      "distinct_location_extra": 743,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "assistant store manager",
+          "postings": 215,
+          "same_location_extra": 3
+        },
+        {
+          "title": "overnight customer service representative",
+          "postings": 42,
+          "same_location_extra": 2
+        },
+        {
+          "title": "shift supervisor",
+          "postings": 209,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/jdsportsfr",
+      "postings": 693,
+      "distinct_titles": 41,
+      "unstated_location": 0,
+      "repeated_extra": 652,
+      "same_location_extra": 123,
+      "distinct_location_extra": 529,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "vendeur cdi temps partiel h f",
+          "postings": 154,
+          "same_location_extra": 34
+        },
+        {
+          "title": "vendeur cdi temps plein h f",
+          "postings": 153,
+          "same_location_extra": 32
+        },
+        {
+          "title": "vendeur cdd temps plein h f",
+          "postings": 141,
+          "same_location_extra": 30
+        },
+        {
+          "title": "vendeur cdd temps partiel h f",
+          "postings": 116,
+          "same_location_extra": 22
+        },
+        {
+          "title": "chef d quipe logistique h f",
+          "postings": 2,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/housebuyersofamerica",
+      "postings": 636,
+      "distinct_titles": 14,
+      "unstated_location": 13,
+      "repeated_extra": 622,
+      "same_location_extra": 183,
+      "distinct_location_extra": 433,
+      "unstated_location_extra": 13,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "real estate acquisition consultant",
+          "postings": 219,
+          "same_location_extra": 145
+        },
+        {
+          "title": "seo strategist consultant",
+          "postings": 105,
+          "same_location_extra": 33
+        },
+        {
+          "title": "transaction coordinator",
+          "postings": 61,
+          "same_location_extra": 2
+        },
+        {
+          "title": "home buying specialist",
+          "postings": 23,
+          "same_location_extra": 1
+        },
+        {
+          "title": "manager transaction management",
+          "postings": 40,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/ouihelp",
+      "postings": 697,
+      "distinct_titles": 94,
+      "unstated_location": 0,
+      "repeated_extra": 603,
+      "same_location_extra": 21,
+      "distinct_location_extra": 582,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "auxiliaire de vie h f",
+          "postings": 250,
+          "same_location_extra": 9
+        },
+        {
+          "title": "aide domicile h f",
+          "postings": 109,
+          "same_location_extra": 5
+        },
+        {
+          "title": "aide aux personnes g es h f",
+          "postings": 92,
+          "same_location_extra": 3
+        },
+        {
+          "title": "aide de vie h f",
+          "postings": 9,
+          "same_location_extra": 1
+        },
+        {
+          "title": "assistante de vie",
+          "postings": 2,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "lever/bluelightconsulting",
+      "postings": 513,
+      "distinct_titles": 9,
+      "unstated_location": 0,
+      "repeated_extra": 504,
+      "same_location_extra": 2,
+      "distinct_location_extra": 502,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "laravel developer react remote latin america",
+          "postings": 102,
+          "same_location_extra": 1
+        },
+        {
+          "title": "react engineer remote latin america",
+          "postings": 102,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/andurilindustries",
+      "postings": 2208,
+      "distinct_titles": 1749,
+      "unstated_location": 19,
+      "repeated_extra": 459,
+      "same_location_extra": 93,
+      "distinct_location_extra": 366,
+      "unstated_location_extra": 9,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "senior product quality engineer",
+          "postings": 8,
+          "same_location_extra": 4
+        },
+        {
+          "title": "systems engineer",
+          "postings": 7,
+          "same_location_extra": 4
+        },
+        {
+          "title": "senior product sourcing engineer",
+          "postings": 7,
+          "same_location_extra": 3
+        },
+        {
+          "title": "senior systems analyst cost receipt accounting",
+          "postings": 7,
+          "same_location_extra": 3
+        },
+        {
+          "title": "field test engineer maritime",
+          "postings": 5,
+          "same_location_extra": 2
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/medelitellc",
+      "postings": 511,
+      "distinct_titles": 69,
+      "unstated_location": 2,
+      "repeated_extra": 442,
+      "same_location_extra": 57,
+      "distinct_location_extra": 385,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "primary care nurse practitioner physician assistant",
+          "postings": 58,
+          "same_location_extra": 12
+        },
+        {
+          "title": "nursing care coordinator rn",
+          "postings": 16,
+          "same_location_extra": 10
+        },
+        {
+          "title": "lpn care coordinator bhi",
+          "postings": 9,
+          "same_location_extra": 4
+        },
+        {
+          "title": "patient monitoring coordinator lpn",
+          "postings": 5,
+          "same_location_extra": 4
+        },
+        {
+          "title": "attending physician",
+          "postings": 28,
+          "same_location_extra": 3
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/spacex",
+      "postings": 2287,
+      "distinct_titles": 1850,
+      "unstated_location": 0,
+      "repeated_extra": 437,
+      "same_location_extra": 18,
+      "distinct_location_extra": 419,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "software engineer starlink",
+          "postings": 4,
+          "same_location_extra": 2
+        },
+        {
+          "title": "accountant revenue",
+          "postings": 3,
+          "same_location_extra": 1
+        },
+        {
+          "title": "business operations manager starlink",
+          "postings": 3,
+          "same_location_extra": 1
+        },
+        {
+          "title": "design criteria engineer starship",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "hardware development engineer pcba manufacturing starlink",
+          "postings": 2,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "ashby/airapps",
+      "postings": 498,
+      "distinct_titles": 78,
+      "unstated_location": 0,
+      "repeated_extra": 420,
+      "same_location_extra": 16,
+      "distinct_location_extra": 404,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "software architect",
+          "postings": 21,
+          "same_location_extra": 8
+        },
+        {
+          "title": "people operations specialist",
+          "postings": 21,
+          "same_location_extra": 8
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/infuse",
+      "postings": 411,
+      "distinct_titles": 27,
+      "unstated_location": 8,
+      "repeated_extra": 384,
+      "same_location_extra": 27,
+      "distinct_location_extra": 350,
+      "unstated_location_extra": 7,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "middle project manager remote contract",
+          "postings": 54,
+          "same_location_extra": 27
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/michelscorporation",
+      "postings": 650,
+      "distinct_titles": 278,
+      "unstated_location": 0,
+      "repeated_extra": 372,
+      "same_location_extra": 17,
+      "distinct_location_extra": 355,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "project engineer michels construction inc",
+          "postings": 21,
+          "same_location_extra": 10
+        },
+        {
+          "title": "assistant project manager michels road and stone",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "construction manager michels utility service inc",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "directional drill operator michels utility service inc",
+          "postings": 5,
+          "same_location_extra": 1
+        },
+        {
+          "title": "fuser fitter michels utility service inc",
+          "postings": 7,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "lever/cscgeneration-2",
+      "postings": 465,
+      "distinct_titles": 95,
+      "unstated_location": 5,
+      "repeated_extra": 370,
+      "same_location_extra": 6,
+      "distinct_location_extra": 363,
+      "unstated_location_extra": 2,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "kitchen assistant sur la table",
+          "postings": 55,
+          "same_location_extra": 2
+        },
+        {
+          "title": "ai solutions engineer",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "culinary lead sur la table",
+          "postings": 37,
+          "same_location_extra": 1
+        },
+        {
+          "title": "omni coordinator sur la table",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "sales associate sur la table",
+          "postings": 55,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/herewithgmbh",
+      "postings": 605,
+      "distinct_titles": 243,
+      "unstated_location": 0,
+      "repeated_extra": 362,
+      "same_location_extra": 359,
+      "distinct_location_extra": 3,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "in home staff assist thousand oaks ca 91359",
+          "postings": 14,
+          "same_location_extra": 13
+        },
+        {
+          "title": "dialysis technician thousand oaks ca 91359",
+          "postings": 13,
+          "same_location_extra": 12
+        },
+        {
+          "title": "in home hhd dialysis care partner 1 1 client norcross ga 30071",
+          "postings": 11,
+          "same_location_extra": 10
+        },
+        {
+          "title": "in home dialysis care partner 1 1 client fluent spanish required",
+          "postings": 10,
+          "same_location_extra": 8
+        },
+        {
+          "title": "in home dialysis care partner 1 1 client thousand oaks ca",
+          "postings": 9,
+          "same_location_extra": 8
+        }
+      ]
+    },
+    {
+      "board": "ashby/alpacahealth",
+      "postings": 402,
+      "distinct_titles": 59,
+      "unstated_location": 10,
+      "repeated_extra": 343,
+      "same_location_extra": 19,
+      "distinct_location_extra": 323,
+      "unstated_location_extra": 2,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "board certified behavior analyst bcba",
+          "postings": 112,
+          "same_location_extra": 10
+        },
+        {
+          "title": "start an aba practice board certified behavior analyst bcba",
+          "postings": 98,
+          "same_location_extra": 5
+        },
+        {
+          "title": "registered behavior technician rbt",
+          "postings": 107,
+          "same_location_extra": 4
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/thesciongroupllc",
+      "postings": 387,
+      "distinct_titles": 49,
+      "unstated_location": 1,
+      "repeated_extra": 338,
+      "same_location_extra": 19,
+      "distinct_location_extra": 319,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "leasing consultant",
+          "postings": 79,
+          "same_location_extra": 11
+        },
+        {
+          "title": "maintenance technician",
+          "postings": 51,
+          "same_location_extra": 5
+        },
+        {
+          "title": "regional property manager",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "seasonal property operations support",
+          "postings": 140,
+          "same_location_extra": 1
+        },
+        {
+          "title": "staff attorney",
+          "postings": 2,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/morganmorganjobsapplynow",
+      "postings": 437,
+      "distinct_titles": 110,
+      "unstated_location": 1,
+      "repeated_extra": 327,
+      "same_location_extra": 39,
+      "distinct_location_extra": 288,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "litigation paralegal",
+          "postings": 48,
+          "same_location_extra": 14
+        },
+        {
+          "title": "case manager",
+          "postings": 35,
+          "same_location_extra": 9
+        },
+        {
+          "title": "trial attorney",
+          "postings": 33,
+          "same_location_extra": 5
+        },
+        {
+          "title": "litigation assistant",
+          "postings": 24,
+          "same_location_extra": 3
+        },
+        {
+          "title": "pre litigation paralegal",
+          "postings": 4,
+          "same_location_extra": 2
+        }
+      ]
+    },
+    {
+      "board": "ashby/renuity",
+      "postings": 456,
+      "distinct_titles": 133,
+      "unstated_location": 0,
+      "repeated_extra": 323,
+      "same_location_extra": 4,
+      "distinct_location_extra": 319,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "warehouse associate",
+          "postings": 14,
+          "same_location_extra": 1
+        },
+        {
+          "title": "retail brand ambassador part time",
+          "postings": 45,
+          "same_location_extra": 1
+        },
+        {
+          "title": "service technician residential remodels",
+          "postings": 3,
+          "same_location_extra": 1
+        },
+        {
+          "title": "brand ambassador",
+          "postings": 44,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/databricks",
+      "postings": 856,
+      "distinct_titles": 581,
+      "unstated_location": 61,
+      "repeated_extra": 275,
+      "same_location_extra": 17,
+      "distinct_location_extra": 258,
+      "unstated_location_extra": 6,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "senior staff software engineer backend",
+          "postings": 3,
+          "same_location_extra": 2
+        },
+        {
+          "title": "solutions architect",
+          "postings": 17,
+          "same_location_extra": 2
+        },
+        {
+          "title": "delivery solutions architect",
+          "postings": 10,
+          "same_location_extra": 1
+        },
+        {
+          "title": "deployment strategist",
+          "postings": 4,
+          "same_location_extra": 1
+        },
+        {
+          "title": "named core account executive",
+          "postings": 2,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "lever/21hhs",
+      "postings": 323,
+      "distinct_titles": 47,
+      "unstated_location": 0,
+      "repeated_extra": 276,
+      "same_location_extra": 14,
+      "distinct_location_extra": 262,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "occupational therapist home health",
+          "postings": 50,
+          "same_location_extra": 4
+        },
+        {
+          "title": "home health field registered nurse rn",
+          "postings": 34,
+          "same_location_extra": 2
+        },
+        {
+          "title": "registered nurse case manager level 2",
+          "postings": 15,
+          "same_location_extra": 2
+        },
+        {
+          "title": "speech language pathologist slp",
+          "postings": 23,
+          "same_location_extra": 2
+        },
+        {
+          "title": "clinical social worker msw or lcsw home health",
+          "postings": 4,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/langanengineeringandenvironmentalservicesllc",
+      "postings": 411,
+      "distinct_titles": 146,
+      "unstated_location": 4,
+      "repeated_extra": 265,
+      "same_location_extra": 9,
+      "distinct_location_extra": 256,
+      "unstated_location_extra": 2,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "senior staff civil engineer",
+          "postings": 29,
+          "same_location_extra": 2
+        },
+        {
+          "title": "graduate civil engineer",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "on call archaeological cultural resource technician",
+          "postings": 7,
+          "same_location_extra": 1
+        },
+        {
+          "title": "project environmental permitting compliance engineer or scientist project manager",
+          "postings": 9,
+          "same_location_extra": 1
+        },
+        {
+          "title": "senior civil project manager",
+          "postings": 2,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/agency",
+      "postings": 821,
+      "distinct_titles": 558,
+      "unstated_location": 130,
+      "repeated_extra": 263,
+      "same_location_extra": 10,
+      "distinct_location_extra": 246,
+      "unstated_location_extra": 48,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "video collection latam freelance ai trainer project",
+          "postings": 3,
+          "same_location_extra": 2
+        },
+        {
+          "title": "coding specialist fluent in indonesian freelance ai trainer project",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "danish language specialist freelance ai trainer project",
+          "postings": 5,
+          "same_location_extra": 1
+        },
+        {
+          "title": "hindi voice actor freelance ai trainer project",
+          "postings": 2,
+          "same_location_extra": 1
+        },
+        {
+          "title": "japanese voice actor freelance ai trainer project",
+          "postings": 2,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/holderconstruction",
+      "postings": 367,
+      "distinct_titles": 104,
+      "unstated_location": 0,
+      "repeated_extra": 263,
+      "same_location_extra": 19,
+      "distinct_location_extra": 244,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "engineer",
+          "postings": 13,
+          "same_location_extra": 2
+        },
+        {
+          "title": "mep field coordinator",
+          "postings": 6,
+          "same_location_extra": 2
+        },
+        {
+          "title": "senior engineer",
+          "postings": 10,
+          "same_location_extra": 2
+        },
+        {
+          "title": "vdc senior engineer",
+          "postings": 10,
+          "same_location_extra": 2
+        },
+        {
+          "title": "carpenter hourly",
+          "postings": 7,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/vitalcaringgroup",
+      "postings": 403,
+      "distinct_titles": 148,
+      "unstated_location": 0,
+      "repeated_extra": 255,
+      "same_location_extra": 17,
+      "distinct_location_extra": 238,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "registered nurse rn home health prn",
+          "postings": 25,
+          "same_location_extra": 3
+        },
+        {
+          "title": "licensed practical nurse lpn home health full time",
+          "postings": 5,
+          "same_location_extra": 2
+        },
+        {
+          "title": "occupational therapist ot home health prn",
+          "postings": 22,
+          "same_location_extra": 2
+        },
+        {
+          "title": "registered nurse rn hospice prn",
+          "postings": 13,
+          "same_location_extra": 2
+        },
+        {
+          "title": "certified occupational therapy assistant cota home health prn",
+          "postings": 3,
+          "same_location_extra": 1
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/ecpcareers",
+      "postings": 472,
+      "distinct_titles": 225,
+      "unstated_location": 1,
+      "repeated_extra": 247,
+      "same_location_extra": 21,
+      "distinct_location_extra": 226,
+      "unstated_location_extra": 0,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "optical technician optician",
+          "postings": 29,
+          "same_location_extra": 4
+        },
+        {
+          "title": "patient coordinator",
+          "postings": 17,
+          "same_location_extra": 4
+        },
+        {
+          "title": "front office specialist",
+          "postings": 33,
+          "same_location_extra": 3
+        },
+        {
+          "title": "optometric technician",
+          "postings": 23,
+          "same_location_extra": 3
+        },
+        {
+          "title": "medical assistant willing to train",
+          "postings": 10,
+          "same_location_extra": 2
+        }
+      ]
+    },
+    {
+      "board": "greenhouse/pulse",
+      "postings": 2649,
+      "distinct_titles": 2407,
+      "unstated_location": 12,
+      "repeated_extra": 242,
+      "same_location_extra": 150,
+      "distinct_location_extra": 92,
+      "unstated_location_extra": 3,
+      "fanout_stems": 0,
+      "fanout_postings": 0,
+      "fanout_top": [],
+      "offenders": [
+        {
+          "title": "adult acute speech and language therapist",
+          "postings": 30,
+          "same_location_extra": 14
+        },
+        {
+          "title": "consultant in adult psychiatry london",
+          "postings": 11,
+          "same_location_extra": 10
+        },
+        {
+          "title": "band 6 locum physiotherapist london",
+          "postings": 10,
+          "same_location_extra": 9
+        },
+        {
+          "title": "band 6 locum msk physiotherapist london",
+          "postings": 7,
+          "same_location_extra": 6
+        },
+        {
+          "title": "band 6 physiotherapist barts nhs trust",
+          "postings": 7,
+          "same_location_extra": 6
+        }
+      ]
+    }
+  ]
+}
