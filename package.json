@@ -2,7 +2,7 @@
   "name": "open-ats-feed",
   "version": "0.1.0",
   "private": false,
-  "description": "Reproducible measurement of company and job-posting coverage available through the public, unauthenticated Greenhouse, Lever, Ashby and Breezy job-board APIs.",
+  "description": "Reproducible measurement of company and job-posting coverage available through the public, unauthenticated Greenhouse, Lever, Ashby, Breezy, Recruitee and Teamtailor job-board APIs.",
   "license": "MIT",
   "type": "module",
   "engines": {

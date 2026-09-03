@@ -235,16 +235,61 @@ These are public APIs and we would like them to stay that way. The scripts use a
 user-agent, back off on 429 and 5xx, cap concurrency, and never touch a path disallowed by the
 host's `robots.txt`. If you re-run this, please keep it that way.
 
-`robots.txt` on each host we actually fetch, checked 2026-09-03:
+### The permission check
 
-| Host | Says | What we do |
-|---|---|---|
-| `boards-api.greenhouse.io` | `Disallow: /embed/` | we fetch `/v1/boards/` — allowed |
-| `api.ashbyhq.com` | robots.txt returns HTTP 401 | nothing stated, no restriction to honour |
-| `api.lever.co` | `Allow: /`, `Crawl-delay: 1` | 1 request/second, single connection |
+We evaluate `robots.txt` per [RFC 9309](https://www.rfc-editor.org/rfc/rfc9309.html) — group
+selection by user-agent, longest-match wins, `Allow` breaks ties, wildcards and `$` — against
+**the exact path the fetcher requests**, with the fetcher's real user-agent. Not the domain.
+The path.
+
+**We check two files per vendor, not one:** the live `robots.txt` *and* the archived copy from
+the Common Crawl index. A live-only check is unsound, and Personio is the proof — see *Refused
+vendors* below.
+
+`scripts/robots-archive-audit.mjs` runs the whole thing and **exits non-zero if any shipped
+provider refuses us**. Full output, including the Common Crawl WARC offsets so every archived
+verdict can be re-fetched and checked independently, is in
+[`data/robots-audit.json`](data/robots-audit.json).
+
+Audit of 2026-09-03 — **6 of 6 clear**:
+
+| Provider | Path we read | Live `robots.txt` | Archived | Verdict |
+|---|---|---|---|---|
+| Greenhouse | `boards-api.greenhouse.io/v1/boards/{t}/jobs` | 200, `Disallow: /embed/` | CC-MAIN-2025-33 | allowed — no rule matches |
+| Ashby | `api.ashbyhq.com/posting-api/job-board/{t}` | **401, never served** | 401 capture, no 200 ever | allowed — nothing stated |
+| Lever | `api.lever.co/v0/postings/{t}` | 200, `Allow: /`, `Crawl-delay: 1` | CC-MAIN-2026-04 | allowed |
+| Breezy | `{t}.breezy.hr/json` | 200, `Disallow: /css /fonts /stylesheets /javascripts` | 3 tenants, CC-MAIN-2026-04 | allowed |
+| Recruitee | `{t}.recruitee.com/api/offers/` | 200, `Disallow: /v/` | 3 tenants, CC-MAIN-2026-04 | allowed |
+| Teamtailor | `{t}.teamtailor.com/jobs.json` | 200, `Disallow: /app/ /messages/ …` | 3 tenants, CC-MAIN-2026-04 | allowed |
+
+Two distinctions the audit reports separately, because conflating them is how a refusal slips
+through: **`OK-NEVER-SERVED`** (crawled repeatedly, never returned a `robots.txt`) is not the
+same as **`UNVERIFIED-NO-ARCHIVE`** (never crawled at all). Ashby is the first: its live host
+returns 401 and the archive holds a 401 capture too, so the absence is corroborated rather than
+merely unexplained.
+
+Greenhouse is worth one note. Its archived 2025-08 file was the Rails default with every rule
+commented out; it has since **gained** `Disallow: /embed/`. It got stricter while we weren't
+looking, and it still does not touch `/v1/boards/`. That is the argument for re-running this
+rather than deciding once.
 
 The Lever crawl delay is enforced in code (`concurrency: 1, delayMs: 1000` in
 `scripts/verify-coverage.mjs`), not just documented here.
+
+### Refused vendors
+
+These are reachable and we do not ship them. Each has a stated trigger that would change the
+answer; none of them is "we got around to it".
+
+| Vendor | Why refused | Comes back if |
+|---|---|---|
+| **Personio** | Tenant `robots.txt` disallows `/xml` — **the exact path we would read**. The live file 404s today after a site migration, so a live-only check would have waved it straight through. The archived rule is byte-identical across tenants on both TLDs. Detail in [`data/personio-gate.json`](data/personio-gate.json) | a tenant serves a `robots.txt` that permits `/xml` |
+| **SmartRecruiters** | `api.smartrecruiters.com` serves `Disallow: /` to `*`, with one `Allow: /v1/companies/` scoped to `LinkedInBot`. We are not LinkedInBot | the `*` group grants the path |
+| **Workable** | Not a permission problem — throttled to uselessness under a concurrent pass | it serves at volume |
+
+You can argue that `robots.txt` was written for crawlers and does not govern a documented API
+called deliberately. That reading is defensible. We took the stricter one: being wrong in that
+direction costs a vendor, being wrong in the other direction costs the argument.
 
 ## Licence
 

@@ -168,12 +168,14 @@ unauthenticated requests:
 
 | Vendor | Endpoint | Result |
 |---|---|---|
-| SmartRecruiters | `api.smartrecruiters.com/v1/companies/{token}/postings` | **Works.** `Sodexo` → 139 postings. Response includes `totalFound`, so board size is one request. Tokens are case-sensitive. |
-| Personio | `{token}.jobs.personio.de/xml` | Responds (XML). Not yet characterized. |
+| SmartRecruiters | `api.smartrecruiters.com/v1/companies/{token}/postings` | Responds — `Sodexo` → 139 postings — but **REFUSED, and we do not ship it.** `api.smartrecruiters.com/robots.txt` serves `Disallow: /` to `*`, with one `Allow: /v1/companies/` scoped to `LinkedInBot`. We are not LinkedInBot. |
+| Personio | `{token}.jobs.personio.de/xml` | Responds (XML), but **REFUSED, and we do not ship it.** Tenant `robots.txt` disallows `/xml` — the exact path. The live file 404s today after a site migration; the archived rule is byte-identical across tenants on both TLDs. See `data/personio-gate.json`. |
 | Lever | `api.lever.co/v0/postings/{token}?mode=json` | Works, but see the robots.txt problem above — we cannot enumerate tokens. |
 
 SmartRecruiters board hosts (`careers.smartrecruiters.com`, `jobs.smartrecruiters.com`) are
-present in the Common Crawl index, so the same harvest applies unchanged.
+present in the Common Crawl index, so the same harvest would apply unchanged — which is exactly
+why the refusal above is a decision rather than a limitation. Answering a request is not the
+same as permitting one.
 
 This matters for anyone reading the company count as a ceiling. It is not one. **Company
 coverage scales by adding vendors, not by sweeping more crawl indices** — marginal yield per

@@ -2,7 +2,7 @@
   "name": "open-ats-jobs-feed",
   "version": "0.1.0",
   "type": "module",
-  "description": "Normalised job postings from 9,006 verified Greenhouse, Ashby and Lever boards.",
+  "description": "Normalised job postings from 16,361 verified Greenhouse, Ashby, Lever, Recruitee, Teamtailor and Breezy boards.",
   "engines": {
     "node": ">=18"
   },
