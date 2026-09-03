@@ -1,7 +1,7 @@
 # Open ATS Feed — coverage measurement
 
 An open, reproducible measurement of how many companies you can reach through the **public,
-unauthenticated job-board APIs** of four applicant tracking systems — Greenhouse, Lever, Ashby
+unauthenticated job-board APIs** of six applicant tracking systems — Greenhouse, Lever, Ashby,
 Breezy, Recruitee and Teamtailor — and how many live job postings that adds up to.
 
 No scraping. No authentication. No terms-of-service gymnastics. Every number here comes from
