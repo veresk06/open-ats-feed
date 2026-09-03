@@ -16,6 +16,12 @@
 //               not reached yet. api.lever.co asks for 1 req/s, so the pass takes
 //               ~83 minutes and runs out of band. Whatever remains unprobed ships
 //               as an opt-in list rather than being counted dead.
+//   breezy      coverage-breezy-full.json — all 4,562 harvested tokens probed at
+//               concurrency 8 in one pass, 1 blocked and 1 errored. Nothing was
+//               projected: the Cycle-34 250-token sample predicted the live-board
+//               count to within 3.9% but under-predicted postings by 16.6%, because
+//               postings-per-board is long-tailed and a small sample misses the big
+//               boards. Sample company counts if you must; never sample posting counts.
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
@@ -45,11 +51,12 @@ const readJsonl = async (p) => {
     })
 }
 
-const [fast, gh403, lever, leverFull, tokens] = await Promise.all([
+const [fast, gh403, lever, leverFull, breezyFull, tokens] = await Promise.all([
   read('data/coverage-c3-fast.json'),
   read('data/coverage-c3-gh403.json'),
   read('data/coverage-c3-lever.json'),
   readJsonl('data/lever-probe.jsonl'),
+  read('data/coverage-breezy-full.json'),
   read('data/tokens.json'),
 ])
 
@@ -82,6 +89,12 @@ const leverSplit = split(leverRows)
 const probed = new Set(leverRows.map((r) => r.token))
 const leverUnverified = (tokens.lever ?? []).filter((t) => !probed.has(t)).sort()
 
+// Breezy needed no resume file and no re-probe: one pass covered every harvested
+// token. `blocked` and `error` rows are neither live nor empty, so `split` drops
+// them — 2 of 4,562, which is why the pass counts as a measurement rather than a
+// partial one.
+const breezy = split(merge(breezyFull.breezy))
+
 const index = {
   as_of: AS_OF,
   source: 'Common Crawl indexes CC-MAIN-2024-51 … CC-MAIN-2025-51, verified against each vendor public API',
@@ -99,6 +112,7 @@ const index = {
         `${leverUnverified.length} tokens are unprobed, not dead — api.lever.co requests 1 req/s. ` +
         'Set includeUnverifiedLever to probe them inside a run.',
     },
+    breezy: { ...breezy, verified: true },
   },
 }
 

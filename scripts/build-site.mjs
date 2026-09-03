@@ -42,20 +42,47 @@ const PROVIDERS = {
     api: (t) => `https://api.lever.co/v0/postings/${t}?mode=json`,
     apiPattern: 'https://api.lever.co/v0/postings/{token}?mode=json',
   },
+  // Breezy is the first vendor here that gives each customer its own subdomain
+  // rather than a path on a shared board host. That is a difference in the token,
+  // not in the deal: the endpoint is still public, still unauthenticated, still one
+  // call per company.
+  breezy: {
+    label: 'Breezy',
+    board: (t) => `https://${t}.breezy.hr/`,
+    api: (t) => `https://${t}.breezy.hr/json`,
+    apiPattern: 'https://{token}.breezy.hr/json',
+  },
 }
 
+// English, not a digit, because these appear mid-sentence in prose. Adding a
+// provider should change the page's words as well as its numbers — a site that
+// still says "all three" while listing four is the drift this file exists to stop.
+const COUNT_WORD = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight']
+const PROVIDER_COUNT = Object.keys(PROVIDERS).length
+const PROVIDERS_WORD = COUNT_WORD[PROVIDER_COUNT] ?? String(PROVIDER_COUNT)
+const PROVIDER_LIST = Object.values(PROVIDERS).map((p) => p.label)
+const PROVIDER_PHRASE =
+  PROVIDER_LIST.slice(0, -1).join(', ') + ' and ' + PROVIDER_LIST[PROVIDER_LIST.length - 1]
+
 // Candidate tokens harvested from the Common Crawl URL index, per provider, before
-// any of them were called. Sourced from data/coverage-summary.json (crawlsSwept: 17,
-// candidateTokens: 19438). These are the only numbers on the coverage page that do
-// not come from companies.json, because a candidate that turned out to be dead is by
-// definition not in the roster — so the roster cannot tell you how many there were.
-const CANDIDATES = { greenhouse: 10091, ashby: 4386, lever: 4961 }
+// any of them were called. The first three come from data/coverage-summary.json
+// (crawlsSwept: 17, candidateTokens: 19438); breezy comes from the same 17 crawls,
+// swept again for the subdomain host pattern. These are the only numbers on the
+// coverage page that do not come from companies.json, because a candidate that turned
+// out to be dead is by definition not in the roster — so the roster cannot tell you
+// how many there were.
+const CANDIDATES = { greenhouse: 10091, ashby: 4386, lever: 4961, breezy: 4562 }
 const CRAWLS_SWEPT = 17
 
 // The Lever projection published on 2026-09-03 and since superseded by the full probe.
 // Kept as data rather than prose so the erratum states the same numbers the correction
 // was actually made against.
 const LEVER_PROJECTION = { sample: 1000, seed: 7, hitRate: 0.347, live: 1721, ci: [1591, 1852] }
+
+// The Breezy sample published on 2026-09-03 and superseded the same day by the full
+// pass. Kept for the same reason as Lever's: the correction has to state the number
+// it was made against. This one failed differently and that difference is the point.
+const BREEZY_PROJECTION = { sample: 250, live: 1770, postings: 29653 }
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const num = (n) => n.toLocaleString('en-US')
@@ -146,8 +173,21 @@ ${rows[key].slice(0, 12).map((r) => '    ' + row(key, r)).join('\n')}
 </section>`
 }
 
+// The headline names every vendor, so it has to be generated rather than typed —
+// the roster grows and a hard-coded hero is the first thing to go stale. Broken into
+// two balanced lines rather than one per name, which stops the block from turning
+// into a ragged column as vendors are added.
+const HERO_HALF = Math.ceil(PROVIDER_LIST.length / 2)
+const HERO_NAMES = Object.entries(PROVIDERS)
+  .map(([k, p], i, arr) => {
+    const em = `<em class="v-${k}">${p.label}</em>`
+    const sep = i === 0 ? '' : i === arr.length - 1 ? ' and ' : ', '
+    return (i === HERO_HALF ? sep.trimEnd() + '<br>' : sep) + em
+  })
+  .join('')
+
 const indexHtml = `${HEAD(
-  'Open ATS Index — every company hiring on Greenhouse, Ashby and Lever',
+  `Open ATS Index — every company hiring on ${PROVIDER_PHRASE}`,
   `${num(totals.live)} verified company job boards and ${num(totals.postings)} open postings, read from the vendors' own public APIs on ${asOf}. Free, downloadable, with the endpoint that produced it.`,
   '/',
 )}
@@ -155,7 +195,7 @@ ${TOPBAR('')}
 <main>
 <section class="hero">
   <p class="eyebrow">Public register <span class="sep">·</span> read ${asOf}</p>
-  <h1>Every company hiring on<br><em class="v-greenhouse">Greenhouse</em>, <em class="v-ashby">Ashby</em><br>and <em class="v-lever">Lever</em>.</h1>
+  <h1>Every company hiring on<br>${HERO_NAMES}.</h1>
   <p class="lede serif">${num(totals.live)} company job boards, each one confirmed by calling the vendor's
   own public API and finding at least one posting open. ${num(totals.postings)} were open on the day
   of reading. The whole list is here, free, alongside the endpoint that produced it.</p>
@@ -176,12 +216,13 @@ ${Object.keys(PROVIDERS).map(preview).join('\n\n')}
 <section class="method" id="method">
   <h2>How the list was made</h2>
   <div class="cols serif">
-    <p>Greenhouse, Ashby and Lever each publish a job board API that needs no key and no account.
+    <p>${PROVIDER_PHRASE} each publish a job board API that needs no key and no account.
     Give it a company's board token and it answers with that company's open postings. The hard part
     is not reading a board — it is knowing which tokens exist.</p>
     <p>Those came from the Common Crawl web indexes, CC-MAIN-2024-51 through CC-MAIN-2025-51: every
-    URL on the public web pointing at one of the three board hosts, reduced to the distinct token in
-    the path. That harvest is a list of candidates, not of companies.</p>
+    URL on the public web pointing at one of the ${PROVIDERS_WORD} board hosts, reduced to the distinct
+    token. On Greenhouse, Ashby and Lever the token sits in the path; on Breezy it is the subdomain.
+    That harvest is a list of candidates, not of companies.</p>
     <p>Every candidate was then called directly, once. ${num(totals.live)} answered with at least one
     open posting and are listed here. ${num(Object.values(totals.perProvider).reduce((s, p) => s + p.empty, 0))}
     answered correctly with an empty board — real companies, nothing open that day — and are not listed.
@@ -198,7 +239,7 @@ ${Object.keys(PROVIDERS).map(preview).join('\n\n')}
   <h2>Take the data</h2>
   <ul class="dl">
 ${Object.entries(PROVIDERS).map(([k, p]) => `    <li><a href="./data/${k}.csv" download><span class="dl-name">${p.label.toLowerCase()}.csv</span><span class="dl-meta">${num(totals.perProvider[k].live)} rows &mdash; token, open postings, board URL, API URL</span></a></li>`).join('\n')}
-    <li><a href="./data/all.csv" download><span class="dl-name">all.csv</span><span class="dl-meta">${num(totals.live)} rows &mdash; all three providers in one file</span></a></li>
+    <li><a href="./data/all.csv" download><span class="dl-name">all.csv</span><span class="dl-meta">${num(totals.live)} rows &mdash; all ${PROVIDERS_WORD} providers in one file</span></a></li>
     <li><a href="./data/engineering.csv" download><span class="dl-name">engineering.csv</span><span class="dl-meta">500 rows &mdash; boards ranked by engineering postings, not by size. 121,050 titles read to build it</span></a></li>
     <li><a href="./data/data-quality.csv" download><span class="dl-name">data-quality.csv</span><span class="dl-meta">500 rows &mdash; which boards carry postings that are not paid jobs. 1,411 commission-only recruitment ads sit on 2 boards; one of them is 79&percnt; ads</span></a></li>
     <li><a href="./data/board-roles.csv" download><span class="dl-name">board-roles.csv</span><span class="dl-meta">500 rows &mdash; the role family each board&rsquo;s own postings imply, with the confidence it was inferred at. Blank where the evidence is too thin to say; 101 boards clear the bar</span></a></li>
@@ -242,7 +283,7 @@ ${TOPBAR(key)}
 ${rows[key].map((r) => row(key, r)).join('\n')}
 </ol>
 
-<p class="more"><a href="./data/${key}.csv" download>Download ${key}.csv</a> <span class="sep">·</span> <a href="./">All three providers</a></p>
+<p class="more"><a href="./data/${key}.csv" download>Download ${key}.csv</a> <span class="sep">·</span> <a href="./">All ${PROVIDERS_WORD} providers</a></p>
 </main>
 ${FOOTER.replace('</body>', `<script>
 (function () {
@@ -290,7 +331,7 @@ const coveragePage = () => {
   const notLive = all.cand - all.live
 
   const title = `How many public ATS job boards are actually dead? We probed ${num(all.cand)}.`
-  const desc = `${pct(notLive, all.cand)}% of the Greenhouse, Ashby and Lever board links on the public web no longer lead to an open job board. Every candidate token called once against the vendor's own public API on ${asOf}. Method, per-vendor rates and the raw counts.`
+  const desc = `${pct(notLive, all.cand)}% of the ${PROVIDER_PHRASE} board links on the public web no longer lead to an open job board. Every candidate token called once against the vendor's own public API on ${asOf}. Method, per-vendor rates and the raw counts.`
 
   return `${HEAD(title, desc, '/coverage.html')}
 ${TOPBAR('coverage')}
@@ -298,7 +339,7 @@ ${TOPBAR('coverage')}
 <section class="hero hero-narrow">
   <p class="eyebrow">Measurement <span class="sep">·</span> ${num(all.cand)} tokens probed <span class="sep">·</span> ${asOf}</p>
   <h1>Nearly half of the ATS board links on the public web are&nbsp;dead&nbsp;ends.</h1>
-  <p class="lede serif">We harvested every Greenhouse, Ashby and Lever board link in ${CRAWLS_SWEPT} Common
+  <p class="lede serif">We harvested every ${PROVIDER_PHRASE} board link in ${CRAWLS_SWEPT} Common
   Crawl indexes &mdash; ${num(all.cand)} distinct company tokens &mdash; then called every one of them against
   the vendor's own public API. ${num(all.live)} answered with at least one posting open.
   <strong>${num(notLive)} did not &mdash; ${pct(notLive, all.cand)}% of the list</strong>: ${num(all.dead)} are gone
@@ -336,7 +377,7 @@ ${per.map((p) => `      <tr>
       </tr>`).join('\n')}
     </tbody>
     <tfoot>
-      <tr><td>All three</td><td>${num(all.cand)}</td><td>${num(all.live)}</td><td>${num(all.empty)}</td><td>${num(all.dead)}</td><td>${pct(all.live, all.cand)}%</td><td>${num(totals.postings)}</td></tr>
+      <tr><td>All ${PROVIDERS_WORD}</td><td>${num(all.cand)}</td><td>${num(all.live)}</td><td>${num(all.empty)}</td><td>${num(all.dead)}</td><td>${pct(all.live, all.cand)}%</td><td>${num(totals.postings)}</td></tr>
     </tfoot>
   </table>
   </div>
@@ -366,6 +407,28 @@ ${per.map((p) => `      <tr>
     independent of where a token sits in the harvest.</p>
     <p>We are leaving this here rather than quietly swapping the number, because a coverage figure you cannot audit is
     worth nothing, and the only way to show ours is auditable is to show it being corrected.</p>
+  </div>
+</section>
+
+<section class="finding" id="sampling">
+  <h2>Sample the companies if you must. Never sample the postings.</h2>
+  <div class="erratum">
+    <p class="erratum-tag">Erratum &mdash; Breezy, ${asOf}</p>
+    <dl class="erratum-figs">
+      <div><dt>Boards projected from ${BREEZY_PROJECTION.sample}</dt><dd class="struck">${num(BREEZY_PROJECTION.live)}</dd></div>
+      <div><dt>Boards measured in full</dt><dd class="stands">${num(totals.perProvider.breezy.live)}</dd></div>
+      <div><dt>Postings projected</dt><dd class="struck">${num(BREEZY_PROJECTION.postings)}</dd></div>
+      <div><dt>Postings measured</dt><dd class="stands">${num(totals.perProvider.breezy.postings)}</dd></div>
+    </dl>
+    <p>Breezy was added to this index on the strength of a ${BREEZY_PROJECTION.sample}-token sample, then probed in full
+    before anything was published. The sample got the board count nearly right &mdash; ${pct(Math.abs(BREEZY_PROJECTION.live - totals.perProvider.breezy.live), totals.perProvider.breezy.live)}% out
+    &mdash; and got the posting count wrong by ${pct(totals.perProvider.breezy.postings - BREEZY_PROJECTION.postings, totals.perProvider.breezy.postings)}%.</p>
+    <p>The two errors are not the same size because they are not the same kind of quantity. Whether a board is live is
+    roughly a coin flip you can sample. How many postings it carries is long-tailed: the median Breezy board has
+    four open roles and the largest carry hundreds, so a small draw almost always misses the boards that hold most
+    of the corpus, and it misses them downward every time.</p>
+    <p>So the rule we now follow, and the reason every number on this page says how it was obtained: a company count may
+    be projected from a sample and labelled as such. A posting count may not. It is measured or it is not published.</p>
   </div>
 </section>
 

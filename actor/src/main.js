@@ -25,7 +25,12 @@ const {
   // than closed — Lever's problem with an undocumented and far stricter limit. A
   // provider that can be challenged mid-run must not be in the default set: a stranger
   // presses Try and is billed per board for boards that returned nothing.
-  providers = ['greenhouse', 'ashby'],
+  // Breezy is in the default set because it passes the same bar Greenhouse and Ashby
+  // pass and Lever and Workable do not: all 4,562 harvested tokens were probed in one
+  // pass at concurrency 8, and exactly one came back blocked. Speed is the criterion
+  // here, not vendor size — Breezy's boards are small (median 4 open roles), which is
+  // a different slice of the market rather than more of the same one.
+  providers = ['greenhouse', 'ashby', 'breezy'],
   outputMode = 'postings',
   signalTypes = [],
   minOpenPostings = 1,
@@ -124,6 +129,20 @@ log.info('Run plan', {
   boards: Object.fromEntries(plan.map((p) => [p.provider, `${p.tokens.length}/${p.available}`])),
   maxItems,
 })
+// A provider can be selectable and still have no boards in the bundled index — the
+// roster is extended one measured vendor at a time, and the input schema lists a
+// vendor as soon as the Actor can read it. Say so out loud: a run that silently
+// returns nothing for a ticked provider looks like a broken Actor, not a roster that
+// has not caught up yet.
+for (const p of plan) {
+  if (!explicit && p.available === 0) {
+    log.warning(
+      `No ${p.provider} boards are bundled in the index dated ${INDEX_AS_OF}, so this run will ` +
+        `return nothing for it. Pass company tokens explicitly, e.g. "${p.provider}:acme", to read ` +
+        `${p.provider} boards now.`,
+    )
+  }
+}
 if (plan.some((p) => p.provider === 'lever' && p.tokens.length > 60)) {
   log.warning(
     `Lever is fetched at 1 request/second because api.lever.co asks for it in robots.txt. ` +

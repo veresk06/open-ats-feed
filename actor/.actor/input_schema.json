@@ -51,24 +51,27 @@
     "providers": {
       "title": "ATS providers",
       "type": "array",
-      "description": "Which applicant tracking systems to read. Greenhouse and Ashby are fast and are the default. Lever is fetched at 1 request per second because api.lever.co asks for that in its robots.txt, so a large Lever run is slow by design. Workable is off by default for a different reason: its robots.txt allows everything, but apply.workable.com sits behind Cloudflare bot management, which begins answering 429 to every request after a few hundred in quick succession and clears again once you slow down. A large Workable run therefore returns blocked boards rather than jobs unless it is paced. Measured 2026-09-03.",
+      "description": "Which applicant tracking systems to read. Greenhouse, Ashby and Breezy are fast and are the default — all three were probed in full at concurrency 8 without being throttled. Lever is fetched at 1 request per second because api.lever.co asks for that in its robots.txt, so a large Lever run is slow by design. Workable is off by default for a different reason: its robots.txt allows everything, but apply.workable.com sits behind Cloudflare bot management, which begins answering 429 to every request after a few hundred in quick succession and clears again once you slow down. A large Workable run therefore returns blocked boards rather than jobs unless it is paced, and it has no boards in the bundled index yet — select it only together with an explicit company list. Measured 2026-09-03.",
       "editor": "select",
       "default": [
         "greenhouse",
-        "ashby"
+        "ashby",
+        "breezy"
       ],
       "items": {
         "type": "string",
         "enum": [
           "greenhouse",
           "ashby",
+          "breezy",
           "workable",
           "lever"
         ],
         "enumTitles": [
           "Greenhouse",
           "Ashby",
-          "Workable (rate-limited by Cloudflare)",
+          "Breezy",
+          "Workable (no bundled boards — needs an explicit company list)",
           "Lever (slow — 1 req/s)"
         ]
       }

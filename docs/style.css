@@ -13,6 +13,11 @@
   --greenhouse: #2f6f52;
   --ashby: #5b4b9e;
   --lever: #1e6e8c;
+  /* Fourth vendor. The three above walk green -> teal -> violet at one lightness;
+     this closes the circuit at wine without borrowing --mark, which stays reserved
+     for things you can act on. Deliberately pink-leaning so a 0.7rem tick never
+     reads as the brick-orange of an action. */
+  --breezy: #8d3c63;
 
   --display: "Archivo", ui-sans-serif, system-ui, sans-serif;
   --prose: "Source Serif 4", Georgia, serif;
@@ -117,6 +122,7 @@ main { padding: 0 var(--pad) 5rem; max-width: var(--measure); margin: 0 auto; }
 .v-greenhouse { color: var(--greenhouse); }
 .v-ashby { color: var(--ashby); }
 .v-lever { color: var(--lever); }
+.v-breezy { color: var(--breezy); }
 
 .lede {
   font-size: clamp(1.05rem, 1.7vw, 1.3rem);
@@ -156,6 +162,7 @@ main { padding: 0 var(--pad) 5rem; max-width: var(--measure); margin: 0 auto; }
 .bar-greenhouse { background: var(--greenhouse); }
 .bar-ashby { background: var(--ashby); animation-delay: 0.09s; }
 .bar-lever { background: var(--lever); animation-delay: 0.18s; }
+.bar-breezy { background: var(--breezy); animation-delay: 0.27s; }
 
 .bar-label {
   font-family: var(--mono);
@@ -219,6 +226,7 @@ main { padding: 0 var(--pad) 5rem; max-width: var(--measure); margin: 0 auto; }
 .tick-greenhouse { background: var(--greenhouse); }
 .tick-ashby { background: var(--ashby); }
 .tick-lever { background: var(--lever); }
+.tick-breezy { background: var(--breezy); }
 
 .prov-stat { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); margin: 0; }
 .prov-stat b { color: var(--ink); font-weight: 500; }
@@ -287,6 +295,7 @@ main { padding: 0 var(--pad) 5rem; max-width: var(--measure); margin: 0 auto; }
 .rows-greenhouse .row:hover .count { color: var(--greenhouse); }
 .rows-ashby .row:hover .count { color: var(--ashby); }
 .rows-lever .row:hover .count { color: var(--lever); }
+.rows-breezy .row:hover .count { color: var(--breezy); }
 
 .rows-full { margin-top: 1.5rem; column-gap: 3.5rem; }
 
@@ -483,6 +492,7 @@ footer .meta a { color: var(--ink); text-underline-offset: 3px; }
 .att-greenhouse .att-live { background: var(--greenhouse); }
 .att-ashby .att-live { background: var(--ashby); animation-delay: 0.09s; }
 .att-lever .att-live { background: var(--lever); animation-delay: 0.18s; }
+.att-breezy .att-live { background: var(--breezy); animation-delay: 0.27s; }
 
 .att-legend {
   display: flex;

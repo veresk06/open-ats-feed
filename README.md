@@ -1,14 +1,14 @@
 # Open ATS Feed — coverage measurement
 
 An open, reproducible measurement of how many companies you can reach through the **public,
-unauthenticated job-board APIs** of the three major applicant tracking systems — Greenhouse,
-Lever and Ashby — and how many live job postings that adds up to.
+unauthenticated job-board APIs** of four applicant tracking systems — Greenhouse, Lever, Ashby
+and Breezy — and how many live job postings that adds up to.
 
 No scraping. No authentication. No terms-of-service gymnastics. Every number here comes from
 endpoints those vendors publish for anyone to call, and every number is reproducible by running
 two scripts in this repo.
 
-**Browse the result:** <https://veresk06.github.io/open-ats-feed/> — all 10,197 boards with their
+**Browse the result:** <https://veresk06.github.io/open-ats-feed/> — all 12,121 boards with their
 open-posting counts, searchable, with CSV downloads. Free, public domain, no signup.
 Built from `actor/data/companies.json` by `scripts/build-site.mjs`.
 
@@ -27,34 +27,47 @@ first path segment:
 boards.greenhouse.io/{token}     jobs.lever.co/{token}     jobs.ashbyhq.com/{token}
 ```
 
+Breezy is the exception that proves the shape: it gives each customer a subdomain rather than a
+path, so the token is `{token}.breezy.hr` instead of a first path segment. Same index, same
+query, one different extraction rule.
+
 So a CDX query against those host prefixes enumerates companies for free, without crawling
 anything ourselves. Then each candidate token is probed against the vendor's real API to see
 what is live right now.
 
 ## Results
 
-**10,197 live companies and 291,507 live job postings**, across Greenhouse, Lever and Ashby,
-from 19,438 candidate tokens harvested out of 17 Common Crawl indices.
+**12,121 live companies and 335,305 live job postings**, across Greenhouse, Lever, Ashby and
+Breezy, from 24,000 candidate tokens harvested out of 17 Common Crawl indices.
 
 | Provider | Candidates | Probed | Live companies | Hit rate | Live postings |
 |---|---:|---:|---:|---:|---:|
 | Greenhouse | 10,091 | 10,091 | 5,506 | 54.6% | 189,336 |
 | Ashby | 4,386 | 4,386 | 3,153 | 71.9% | 56,721 |
-| Lever | 4,961 | 4,580 | 1,538 | 33.6% | 45,450 |
-| **Total** | **19,438** | **19,057** | **10,197** | | **291,507** |
+| Lever | 4,961 | 4,824 | 1,621 | 33.6% | 53,715 |
+| Breezy | 4,562 | 4,562 | 1,841 | 40.4% | 35,533 |
+| **Total** | **24,000** | **23,863** | **12,121** | | **335,305** |
 
 **Every figure above is counted. None of it is projected.**
 
 That sentence used to have an asterisk on it. An earlier version of this table reported 10,380
 companies, of which the Lever row was extrapolated from a seeded random sample of 1,000 tokens —
 `api.lever.co` asks for one request per second, a full pass is ~80 minutes, and we had not run
-one. We have now: Lever is probed token by token with a per-token checkpoint, 4,580 of 4,961
-done. The remaining 381 are unprobed, which is not the same as dead; they ship as an opt-in list
+one. We have now: Lever is probed token by token with a per-token checkpoint, 4,824 of 4,961
+done. The remaining 137 are unprobed, which is not the same as dead; they ship as an opt-in list
 and are counted as neither. Hit rate is computed against tokens probed, not tokens harvested, so
 an unprobed token can never be silently counted as a miss.
 
 The measured Lever hit rate (33.6%) landed within a point of what the sample projected (34.7%),
 which is reassuring about the sampling but is not a reason to have kept quoting the projection.
+
+Breezy makes the sharper version of the same point, and it is the reason posting counts are
+never projected here. A 250-token sample predicted 1,770 live boards (measured: 1,841, −3.9%)
+and 29,653 postings (measured: 35,533, **−16.6%**). Liveness is close to a coin flip and samples
+well; postings-per-board is long-tailed — the median Breezy board has 4 open roles and the
+largest has 2,760 — so a small draw misses the boards holding most of the corpus, and misses
+them downward every time. A company count may be projected from a labelled sample. A posting
+count is measured or it is not published.
 
 See [`docs/RESULTS.md`](docs/RESULTS.md) for per-provider detail, the full method, and the
 things this measurement does *not* establish.
@@ -134,8 +147,9 @@ host rather than starting over.
 
 ## Hiring signals from posting dates alone
 
-All three vendors stamp each posting with a publication date — Greenhouse `first_published`,
-Ashby `publishedAt`, Lever `createdAt` — and on 80 live boards carrying 61,203 open postings,
+Every vendor stamps each posting with a publication date — Greenhouse `first_published`,
+Ashby `publishedAt`, Lever `createdAt`, Breezy `published_date` — and on 80 live boards
+carrying 61,203 open postings (measured across Greenhouse, Ashby and Lever),
 **100% of them had one**. That is enough to measure how fast a company is hiring right now
 against its own prior pace, without any accumulated history:
 
