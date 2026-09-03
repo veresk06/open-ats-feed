@@ -117,9 +117,12 @@ No `Retry-After`, no `X-RateLimit-*` — this is Cloudflare bot management issui
 a documented rate limit. The full 6,882-token pass recorded 12 consecutive `blocked` and nothing
 else before it was stopped.
 
-**It clears.** A single request every 45 seconds returned HTTP 200 three times out of three. So
+**It clears.** A single request every 45 seconds returned HTTP 200 **six times out of six**, over
+four and a half minutes, starting while the concurrent pass was still recording `blocked`. So
 Workable is **rate-limited, not closed** — Lever's problem with an undocumented and far stricter
-limit. The sustainable rate is not yet calibrated.
+limit. The sustainable rate is bounded but not yet calibrated: 1 req/45s works and ~6 concurrent
+does not, and nothing between the two has been tested. Calibrating it is a cheap next step, not
+a cycle's work.
 
 ### Why it ships off by default
 
