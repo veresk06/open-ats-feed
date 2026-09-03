@@ -1,2 +1,5 @@
-read_at,searches_run,searches_hit,category_pages_run,category_pages_hit,controls_run,controls_found,listed,store_page_http
-2026-09-03T06:13:49.031Z,12,0,9,0,6,6,no,200
+read_at,searches_run,searches_hit,category_pages_run,category_pages_hit,controls_run,controls_found,listed,store_page_http,indexed_auth,anon_withheld,newest_run,newest_anon_served
+2026-09-03T06:13:49.031Z,12,0,9,0,6,6,no,200,,,,
+2026-09-03T06:18:41.294Z,12,0,9,0,6,6,no,200,,,,
+2026-09-03T06:18:49.593Z,12,0,9,0,6,6,no,200,,,,
+2026-09-03T06:26:20.790Z,12,0,9,0,6,6,no,200,yes,yes,7,7
