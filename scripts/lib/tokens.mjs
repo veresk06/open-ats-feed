@@ -60,6 +60,13 @@ export const OUT = resolve(ROOT, 'data/tokens.json')
 // live host. We already hold that a robots.txt ban is not retroactive; this is the
 // mirror case and it does not run the other way either.
 //
+// That rule is executable, not just written down: `scripts/robots-archive-audit.mjs`
+// checks live + archived robots.txt for every shipped provider against the exact path
+// the Actor fetches, and exits 10 if any of them refuses us. Cycle 39 ran it over all
+// six and all six came back clear — see data/robots-audit.json for the WARC offsets.
+// Re-run it when adding a provider, and periodically for the ones already shipped: the
+// trap runs both ways, and a vendor that permitted us once can change its mind.
+//
 // Revisit only on a positive trigger: a Personio tenant serving a robots.txt that
 // PERMITS /xml. "The file is gone" is not that trigger.
 export const SOURCES = [

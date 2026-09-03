@@ -1,0 +1,734 @@
+{
+  "as_of": "2026-09-03",
+  "product_token": "open-ats-feed",
+  "method": "Live robots.txt plus archived copies from the Common Crawl index on S3, evaluated per RFC 9309 against the exact path the Actor fetches.",
+  "providers": [
+    {
+      "provider": "greenhouse",
+      "status": "OK",
+      "tenant_checked": "0verwatch",
+      "host": "boards-api.greenhouse.io",
+      "path_read": "/v1/boards/0verwatch/jobs?content=true",
+      "product_token": "open-ats-feed",
+      "live": {
+        "url": "https://boards-api.greenhouse.io/robots.txt",
+        "http_status": 200,
+        "content_type": "text/plain",
+        "served_robots_txt": true,
+        "allowed": true,
+        "reason": "no rule in the [*] group matches",
+        "body": "# See http://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file\n\nUser-agent: *\nDisallow: /embed/\n"
+      },
+      "archive": [
+        {
+          "url": "https://boards-api.greenhouse.io/robots.txt",
+          "crawl": "CC-MAIN-2025-33",
+          "crawled": "20250812014745",
+          "warc": "crawl-data/CC-MAIN-2025-33/segments/1754151280906.43/robotstxt/CC-MAIN-20250812014435-20250812044435-00711.warc.gz",
+          "offset": 652157,
+          "length": 886,
+          "bytes": 206,
+          "allowed": true,
+          "reason": "no group applies"
+        }
+      ],
+      "archive_crawls_searched": 10,
+      "archive_non_200": [],
+      "archive_bodies": {
+        "https://boards-api.greenhouse.io/robots.txt": "# See http://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file\n#\n# To ban all spiders from the entire site uncomment the next two lines:\n# User-agent: *\n# Disallow: /\n\r\n\r\n"
+      }
+    },
+    {
+      "provider": "ashby",
+      "status": "OK-NEVER-SERVED",
+      "tenant_checked": "01c",
+      "host": "api.ashbyhq.com",
+      "path_read": "/posting-api/job-board/01c?includeCompensation=true",
+      "product_token": "open-ats-feed",
+      "live": {
+        "url": "https://api.ashbyhq.com/robots.txt",
+        "http_status": 401,
+        "content_type": "text/plain; charset=utf-8",
+        "served_robots_txt": false,
+        "allowed": true,
+        "reason": "no robots.txt served (HTTP 401)",
+        "body": null
+      },
+      "archive": [],
+      "archive_crawls_searched": 10,
+      "archive_non_200": [
+        {
+          "url": "https://api.ashbyhq.com/robots.txt",
+          "crawl": "CC-MAIN-2025-33",
+          "crawled": "20250812014944",
+          "http_status": "401"
+        }
+      ],
+      "archive_bodies": {}
+    },
+    {
+      "provider": "lever",
+      "status": "OK",
+      "tenant_checked": "100ms",
+      "host": "api.lever.co",
+      "path_read": "/v0/postings/100ms?mode=json",
+      "product_token": "open-ats-feed",
+      "live": {
+        "url": "https://api.lever.co/robots.txt",
+        "http_status": 200,
+        "content_type": "text/plain; charset=UTF-8",
+        "served_robots_txt": true,
+        "allowed": true,
+        "reason": "allow: / in the [*] group",
+        "body": "User-agent: *\nAllow: /\nCrawl-delay: 1\n"
+      },
+      "archive": [
+        {
+          "url": "https://api.lever.co/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260124012435",
+          "warc": "crawl-data/CC-MAIN-2026-04/segments/1768220839580.99/robotstxt/CC-MAIN-20260124012009-20260124042009-00566.warc.gz",
+          "offset": 410021,
+          "length": 753,
+          "bytes": 42,
+          "allowed": true,
+          "reason": "allow: / in the [*] group"
+        }
+      ],
+      "archive_crawls_searched": 10,
+      "archive_non_200": [
+        {
+          "url": "https://api.lever.co/robots.txt",
+          "crawl": "CC-MAIN-2025-38",
+          "crawled": "20250917204054",
+          "http_status": "404"
+        },
+        {
+          "url": "https://api.lever.co/robots.txt",
+          "crawl": "CC-MAIN-2025-33",
+          "crawled": "20250814194032",
+          "http_status": "404"
+        },
+        {
+          "url": "https://api.lever.co/robots.txt",
+          "crawl": "CC-MAIN-2025-30",
+          "crawled": "20250709175607",
+          "http_status": "404"
+        },
+        {
+          "url": "https://api.lever.co/robots.txt",
+          "crawl": "CC-MAIN-2025-26",
+          "crawled": "20250615081738",
+          "http_status": "404"
+        },
+        {
+          "url": "https://api.lever.co/robots.txt",
+          "crawl": "CC-MAIN-2025-21",
+          "crawled": "20250514081517",
+          "http_status": "404"
+        },
+        {
+          "url": "https://api.lever.co/robots.txt",
+          "crawl": "CC-MAIN-2025-18",
+          "crawled": "20250419165146",
+          "http_status": "404"
+        }
+      ],
+      "archive_bodies": {
+        "https://api.lever.co/robots.txt": "User-agent: *\nAllow: /\nCrawl-delay: 1\n\r\n\r\n"
+      }
+    },
+    {
+      "provider": "breezy",
+      "status": "OK",
+      "tenant_checked": "021-strategic",
+      "host": "021-strategic.breezy.hr",
+      "path_read": "/json",
+      "product_token": "open-ats-feed",
+      "live": {
+        "url": "https://021-strategic.breezy.hr/robots.txt",
+        "http_status": 200,
+        "content_type": "text/plain; charset=utf-8",
+        "served_robots_txt": true,
+        "allowed": true,
+        "reason": "no rule in the [*] group matches",
+        "body": "User-Agent: *\r\nDisallow: /css\r\nDisallow: /fonts\r\nDisallow: /stylesheets\r\nDisallow: /javascripts\r\n\r\nUser-Agent: AhrefsBot\r\nDisallow: /\r\n"
+      },
+      "archive": [
+        {
+          "url": "https://021-strategic.breezy.hr/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260123004352",
+          "warc": "crawl-data/CC-MAIN-2026-04/segments/1768220829422.71/robotstxt/CC-MAIN-20260123004138-20260123034138-00109.warc.gz",
+          "offset": 412755,
+          "length": 743,
+          "bytes": 139,
+          "allowed": true,
+          "reason": "no rule in the [*] group matches"
+        },
+        {
+          "url": "https://10percent.breezy.hr/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260119145945",
+          "warc": "crawl-data/CC-MAIN-2026-04/segments/1768220469479.58/robotstxt/CC-MAIN-20260119132634-20260119162634-00057.warc.gz",
+          "offset": 341014,
+          "length": 744,
+          "bytes": 139,
+          "allowed": true,
+          "reason": "no rule in the [*] group matches"
+        },
+        {
+          "url": "https://1440-foods-manufacturing.breezy.hr/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260118124920",
+          "warc": "crawl-data/CC-MAIN-2026-04/segments/1768220469410.3/robotstxt/CC-MAIN-20260118124654-20260118154654-00663.warc.gz",
+          "offset": 404409,
+          "length": 752,
+          "bytes": 139,
+          "allowed": true,
+          "reason": "no rule in the [*] group matches"
+        }
+      ],
+      "archive_crawls_searched": 1,
+      "archive_non_200": [],
+      "archive_bodies": {
+        "https://021-strategic.breezy.hr/robots.txt": "User-Agent: *\r\nDisallow: /css\r\nDisallow: /fonts\r\nDisallow: /stylesheets\r\nDisallow: /javascripts\r\n\r\nUser-Agent: AhrefsBot\r\nDisallow: /\r\n\r\n\r\n",
+        "https://10percent.breezy.hr/robots.txt": "User-Agent: *\r\nDisallow: /css\r\nDisallow: /fonts\r\nDisallow: /stylesheets\r\nDisallow: /javascripts\r\n\r\nUser-Agent: AhrefsBot\r\nDisallow: /\r\n\r\n\r\n",
+        "https://1440-foods-manufacturing.breezy.hr/robots.txt": "User-Agent: *\r\nDisallow: /css\r\nDisallow: /fonts\r\nDisallow: /stylesheets\r\nDisallow: /javascripts\r\n\r\nUser-Agent: AhrefsBot\r\nDisallow: /\r\n\r\n\r\n"
+      }
+    },
+    {
+      "provider": "recruitee",
+      "status": "OK",
+      "tenant_checked": "10xcrew",
+      "host": "10xcrew.recruitee.com",
+      "path_read": "/api/offers/",
+      "product_token": "open-ats-feed",
+      "live": {
+        "url": "https://10xcrew.recruitee.com/robots.txt",
+        "http_status": 200,
+        "content_type": "text/plain; charset=utf-8",
+        "served_robots_txt": true,
+        "allowed": true,
+        "reason": "no rule in the [*] group matches",
+        "body": "User-Agent: *\n\nDisallow: /v/\n\nSitemap: https://10xcrew.recruitee.com/sitemap.xml\n\n\n"
+      },
+      "archive": [
+        {
+          "url": "https://10xcrew.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260117215221",
+          "warc": "crawl-data/CC-MAIN-2026-04/segments/1768220469384.86/robotstxt/CC-MAIN-20260117212130-20260118002130-00109.warc.gz",
+          "offset": 502796,
+          "length": 828,
+          "bytes": 85,
+          "allowed": true,
+          "reason": "no rule in the [*] group matches"
+        },
+        {
+          "url": "https://11bitstudios.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260113143803",
+          "warc": "crawl-data/CC-MAIN-2026-04/segments/1768220468947.64/robotstxt/CC-MAIN-20260113141813-20260113171813-00607.warc.gz",
+          "offset": 343870,
+          "length": 829,
+          "bytes": 90,
+          "allowed": true,
+          "reason": "no rule in the [*] group matches"
+        },
+        {
+          "url": "https://12build.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260119071926",
+          "warc": "crawl-data/CC-MAIN-2026-04/segments/1768220469444.61/robotstxt/CC-MAIN-20260119071657-20260119101657-00946.warc.gz",
+          "offset": 368885,
+          "length": 827,
+          "bytes": 85,
+          "allowed": true,
+          "reason": "no rule in the [*] group matches"
+        }
+      ],
+      "archive_crawls_searched": 1,
+      "archive_non_200": [
+        {
+          "url": "https://123fahrschule.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260114123037",
+          "http_status": "301"
+        },
+        {
+          "url": "https://5ca.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260114191609",
+          "http_status": "301"
+        },
+        {
+          "url": "https://accusonus.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260116182727",
+          "http_status": "301"
+        },
+        {
+          "url": "https://acsl.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260113093041",
+          "http_status": "302"
+        },
+        {
+          "url": "https://actionnetwork.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260115073558",
+          "http_status": "301"
+        },
+        {
+          "url": "https://akiani.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260119231627",
+          "http_status": "301"
+        },
+        {
+          "url": "https://americansafetycouncil.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260117025000",
+          "http_status": "302"
+        },
+        {
+          "url": "https://ans.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260123100351",
+          "http_status": "302"
+        },
+        {
+          "url": "https://ascendaloyalty.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260121160602",
+          "http_status": "301"
+        },
+        {
+          "url": "https://ats.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260113120834",
+          "http_status": "302"
+        },
+        {
+          "url": "https://ats.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260116023756",
+          "http_status": "302"
+        },
+        {
+          "url": "https://aulaeducation.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260123105535",
+          "http_status": "301"
+        },
+        {
+          "url": "https://aviasales.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260113122925",
+          "http_status": "301"
+        },
+        {
+          "url": "https://ayendahoteles.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260116005540",
+          "http_status": "301"
+        },
+        {
+          "url": "https://ayvens.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260123161711",
+          "http_status": "301"
+        },
+        {
+          "url": "https://bahmanncoaching.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260121003110",
+          "http_status": "302"
+        },
+        {
+          "url": "https://balr.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260115204732",
+          "http_status": "301"
+        },
+        {
+          "url": "https://bettyblocks.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260118014800",
+          "http_status": "302"
+        },
+        {
+          "url": "https://bhattipro.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260116000725",
+          "http_status": "301"
+        },
+        {
+          "url": "https://bierenslab.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260119172930",
+          "http_status": "301"
+        },
+        {
+          "url": "https://blankno.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260116211146",
+          "http_status": "301"
+        },
+        {
+          "url": "https://boggimilano.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260124181721",
+          "http_status": "302"
+        },
+        {
+          "url": "https://boldteam.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260117192106",
+          "http_status": "302"
+        },
+        {
+          "url": "https://borgen.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260115195016",
+          "http_status": "301"
+        },
+        {
+          "url": "https://brain.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260117102718",
+          "http_status": "302"
+        },
+        {
+          "url": "https://bucherinvestgmbh.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260124113729",
+          "http_status": "302"
+        },
+        {
+          "url": "https://bullfinchrecruitment.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260114072838",
+          "http_status": "301"
+        },
+        {
+          "url": "https://bume.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260120115540",
+          "http_status": "301"
+        },
+        {
+          "url": "https://carbyon.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260116235950",
+          "http_status": "302"
+        },
+        {
+          "url": "https://castellumsecurity.recruitee.com/automatic-signal/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260124181558",
+          "http_status": "302"
+        },
+        {
+          "url": "https://circuit.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260123165419",
+          "http_status": "302"
+        },
+        {
+          "url": "https://citymesh.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260124171136",
+          "http_status": "301"
+        },
+        {
+          "url": "https://clanx.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260116082002",
+          "http_status": "302"
+        },
+        {
+          "url": "https://cldin.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260120151704",
+          "http_status": "301"
+        },
+        {
+          "url": "https://cloudacademy.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260121002021",
+          "http_status": "302"
+        },
+        {
+          "url": "https://cloudacademy.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260122193152",
+          "http_status": "302"
+        },
+        {
+          "url": "https://codelessinteractivellc.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260118101827",
+          "http_status": "301"
+        },
+        {
+          "url": "https://codepepper.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260114203446",
+          "http_status": "302"
+        },
+        {
+          "url": "https://codulate.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260114201030",
+          "http_status": "301"
+        },
+        {
+          "url": "https://cordesconsulting.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260123011112",
+          "http_status": "302"
+        },
+        {
+          "url": "https://cvchargingeurope.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260121160638",
+          "http_status": "302"
+        },
+        {
+          "url": "https://cvjmsozialwerkwesermarschev.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260121105736",
+          "http_status": "302"
+        },
+        {
+          "url": "https://dataforce.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260116234542",
+          "http_status": "301"
+        },
+        {
+          "url": "https://delfsundpartner.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260119110439",
+          "http_status": "302"
+        },
+        {
+          "url": "https://distribusion.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260124173334",
+          "http_status": "302"
+        },
+        {
+          "url": "https://distribusiontechnologies.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260124173333",
+          "http_status": "302"
+        },
+        {
+          "url": "https://doxasteuerberatung.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260118012303",
+          "http_status": "301"
+        },
+        {
+          "url": "https://duckduckgo.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260116113650",
+          "http_status": "301"
+        },
+        {
+          "url": "https://dvt.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260115055151",
+          "http_status": "302"
+        },
+        {
+          "url": "https://dynamoretailgroup.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260115214832",
+          "http_status": "302"
+        },
+        {
+          "url": "https://dynamoretailgroup.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260120091932",
+          "http_status": "302"
+        },
+        {
+          "url": "https://echobot.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260117190017",
+          "http_status": "301"
+        },
+        {
+          "url": "https://effectory.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260120121756",
+          "http_status": "302"
+        },
+        {
+          "url": "https://emergentsoftware.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260119202449",
+          "http_status": "302"
+        },
+        {
+          "url": "https://emerse.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260117010727",
+          "http_status": "302"
+        },
+        {
+          "url": "https://emersesalesusinc.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260117010727",
+          "http_status": "302"
+        },
+        {
+          "url": "https://engworldwide.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260120083017",
+          "http_status": "301"
+        },
+        {
+          "url": "https://experience.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260115043052",
+          "http_status": "301"
+        },
+        {
+          "url": "https://eyecarepro.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260114050132",
+          "http_status": "301"
+        },
+        {
+          "url": "https://fasanaracapital.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260118164101",
+          "http_status": "301"
+        },
+        {
+          "url": "https://feldbuschimmobilien.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260116000648",
+          "http_status": "301"
+        },
+        {
+          "url": "https://ferryhopper.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260115024718",
+          "http_status": "301"
+        },
+        {
+          "url": "https://firststatetechpartnership.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260123071851",
+          "http_status": "301"
+        },
+        {
+          "url": "https://flower.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260114144104",
+          "http_status": "302"
+        },
+        {
+          "url": "https://focushomeinteractive.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260114071119",
+          "http_status": "302"
+        },
+        {
+          "url": "https://fonq.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260124013038",
+          "http_status": "302"
+        },
+        {
+          "url": "https://fortrabbit1.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260122062640",
+          "http_status": "301"
+        },
+        {
+          "url": "https://foxtek.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260114173000",
+          "http_status": "301"
+        },
+        {
+          "url": "https://freshventures.recruitee.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260113095211",
+          "http_status": "301"
+        }
+      ],
+      "archive_bodies": {
+        "https://10xcrew.recruitee.com/robots.txt": "User-Agent: *\n\nDisallow: /v/\nSitemap: https://10xcrew.recruitee.com/sitemap.xml\n\n\r\n\r\n",
+        "https://11bitstudios.recruitee.com/robots.txt": "User-Agent: *\n\nDisallow: /v/\nSitemap: https://11bitstudios.recruitee.com/sitemap.xml\n\n\r\n\r\n",
+        "https://12build.recruitee.com/robots.txt": "User-Agent: *\n\nDisallow: /v/\nSitemap: https://12build.recruitee.com/sitemap.xml\n\n\r\n\r\n"
+      }
+    },
+    {
+      "provider": "teamtailor",
+      "status": "OK",
+      "tenant_checked": "123pousse",
+      "host": "123pousse.teamtailor.com",
+      "path_read": "/jobs.json",
+      "product_token": "open-ats-feed",
+      "live": {
+        "url": "https://123pousse.teamtailor.com/robots.txt",
+        "http_status": 200,
+        "content_type": "text/plain; charset=utf-8",
+        "served_robots_txt": true,
+        "allowed": true,
+        "reason": "no rule in the [*] group matches",
+        "body": "User-Agent: aihitdata\nDisallow: /\n\nUser-Agent: *\nDisallow: /app/\nDisallow: /messages/\nDisallow: /messenger/\nDisallow: /facebook/tab/\nDisallow: /jobs/internal/\nContent-Signal: search=yes, ai-train=no, ai-input=yes\n\nSitemap: https://123pousse.teamtailor.com/sitemap.xml\n"
+      },
+      "archive": [
+        {
+          "url": "https://123pousse.teamtailor.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260113173248",
+          "warc": "crawl-data/CC-MAIN-2026-04/segments/1768220468959.6/robotstxt/CC-MAIN-20260113172821-20260113202821-00666.warc.gz",
+          "offset": 384720,
+          "length": 799,
+          "bytes": 264,
+          "allowed": true,
+          "reason": "no rule in the [*] group matches"
+        },
+        {
+          "url": "https://2020change.teamtailor.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260123034829",
+          "warc": "crawl-data/CC-MAIN-2026-04/segments/1768220832368.72/robotstxt/CC-MAIN-20260123034556-20260123064556-00301.warc.gz",
+          "offset": 341352,
+          "length": 804,
+          "bytes": 264,
+          "allowed": true,
+          "reason": "no rule in the [*] group matches"
+        },
+        {
+          "url": "https://2lcollection.teamtailor.com/robots.txt",
+          "crawl": "CC-MAIN-2026-04",
+          "crawled": "20260115025444",
+          "warc": "crawl-data/CC-MAIN-2026-04/segments/1768220469188.1/robotstxt/CC-MAIN-20260115010708-20260115040708-00425.warc.gz",
+          "offset": 386893,
+          "length": 800,
+          "bytes": 264,
+          "allowed": true,
+          "reason": "no rule in the [*] group matches"
+        }
+      ],
+      "archive_crawls_searched": 1,
+      "archive_non_200": [],
+      "archive_bodies": {
+        "https://123pousse.teamtailor.com/robots.txt": "# See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file\n\nUser-Agent: aihitdata\nDisallow: /\n\nUser-Agent: *\nDisallow: /app/\nDisallow: /messages/\nDisallow: /messenger/\nDisallow: /facebook/tab/\nDisallow: /jobs/internal/\n\r\n\r\n",
+        "https://2020change.teamtailor.com/robots.txt": "# See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file\n\nUser-Agent: aihitdata\nDisallow: /\n\nUser-Agent: *\nDisallow: /app/\nDisallow: /messages/\nDisallow: /messenger/\nDisallow: /facebook/tab/\nDisallow: /jobs/internal/\n\r\n\r\n",
+        "https://2lcollection.teamtailor.com/robots.txt": "# See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file\n\nUser-Agent: aihitdata\nDisallow: /\n\nUser-Agent: *\nDisallow: /app/\nDisallow: /messages/\nDisallow: /messenger/\nDisallow: /facebook/tab/\nDisallow: /jobs/internal/\n\r\n\r\n"
+      }
+    }
+  ]
+}
