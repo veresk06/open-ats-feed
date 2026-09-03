@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import {
   normTitle, normLoc, titleStem, titleTail, locTokens,
   classifyFanoutRow, verifyFanoutBoard, analyseBoard, fanoutOverCache,
+  buildGazetteer, gazetteerHit,
 } from '../scripts/duplication.mjs'
 
 test('normLoc treats differently-written forms of one place as one place', () => {
@@ -141,6 +142,101 @@ test('the verified buckets always sum to the postings the title-only rule flagge
     { title: 'Nurse - Ely', loc: 'Ely' },
   ]
   const v = verifyFanoutBoard(rows)
+  assert.equal(v.geographic + v.not_geographic + v.unstated + v.uninformative, v.fanout_postings)
+})
+
+test('a place is a token three different boards independently call a place', () => {
+  const gaz = buildGazetteer([
+    ['Ames, Iowa', 'Chicago, IL'],
+    ['Ames, IA'],
+    ['Ames'],
+    ['Chicago, IL'],
+  ])
+  assert.equal(gaz.tokens.has('ames'), true, 'three boards state it')
+  assert.equal(gaz.tokens.has('chicago'), false, 'only two boards state it')
+  assert.equal(gaz.tokens.has('iowa'), false, 'one board states it')
+})
+
+test('a board cannot vouch for its own vocabulary', () => {
+  // geniussportssn writes "Statistician Network" in its location column 477 times. Repetition
+  // within one board is one board's opinion, so it must not manufacture a place name.
+  const gaz = buildGazetteer([
+    Array(477).fill('Statistician Network'),
+    ['Ames, Iowa'], ['Ames, IA'], ['Ames, MN'],
+  ])
+  assert.equal(gaz.tokens.has('statistician'), false)
+  assert.equal(gaz.tokens.has('network'), false)
+  assert.equal(gaz.tokens.has('ames'), true)
+})
+
+test('the gazetteer rescues a board whose location field is a department label', () => {
+  // The failure mode the field method cannot see, and the reason this exists: the clearest
+  // geographic fan-out in the corpus is refuted by its own location column.
+  const rows = [
+    { title: 'Sports Data Collector - Ames, Iowa', loc: 'Statistician Network' },
+    { title: 'Sports Data Collector - Athens, Ohio', loc: 'Statistician Network' },
+    { title: 'Sports Data Collector - Boise, Idaho', loc: 'Statistician Network' },
+    { title: 'Sports Data Collector - Allen, Texas', loc: 'Statistician Network' },
+    { title: 'Sports Data Collector - Boone, NC', loc: 'Statistician Network' },
+  ]
+  const gaz = buildGazetteer([
+    ['Ames, IA', 'Athens, OH', 'Boise, ID', 'Allen, TX', 'Boone, NC'],
+    ['Ames, Iowa', 'Athens, Ohio', 'Boise, Idaho', 'Allen, Texas', 'Boone, North Carolina'],
+    ['Ames', 'Athens', 'Boise', 'Allen', 'Boone'],
+  ])
+  const bare = verifyFanoutBoard(rows)
+  assert.equal(bare.not_geographic, 5, 'the field refutes all five')
+  assert.equal(bare.geographic_upper, bare.geographic_lower, 'with no gazetteer there is one number')
+
+  const v = verifyFanoutBoard(rows, gaz)
+  assert.equal(v.geographic_lower, 0, 'the lower bound still believes the field')
+  assert.equal(v.geographic_upper, 5, 'the upper bound believes the corpus')
+  assert.equal(v.not_geographic, 5, 'the field verdict itself is not rewritten')
+})
+
+test('the gazetteer never moves a posting the location field already confirmed', () => {
+  const rows = [
+    { title: 'Data Collector - Ames, Iowa', loc: 'Ames, IA' },
+    { title: 'Data Collector - Athens, Ohio', loc: 'Athens, OH' },
+    { title: 'Data Collector - Boise, Idaho', loc: 'Boise, ID' },
+    { title: 'Data Collector - Allen, Texas', loc: 'Allen, TX' },
+    { title: 'Data Collector - Boone, NC', loc: 'Boone, NC' },
+  ]
+  const gaz = buildGazetteer([rows.map((r) => r.loc), rows.map((r) => r.loc), rows.map((r) => r.loc)])
+  const bare = verifyFanoutBoard(rows)
+  const v = verifyFanoutBoard(rows, gaz)
+  for (const k of ['fanout_postings', 'geographic', 'not_geographic', 'unstated', 'uninformative']) {
+    assert.equal(v[k], bare[k], `${k} is a field verdict and the gazetteer must not touch it`)
+  }
+  assert.equal(v.geographic_lower, v.geographic_upper, 'nothing is disputed when the field agrees')
+})
+
+test('the upper bound leaks on place names that are also ordinary words, by design', () => {
+  // "New" is a place token because it is in every "New York" and "New Orleans". A product line
+  // called "New Ventures" therefore matches it. This is the gazetteer's error direction and the
+  // reason it is published as an upper bound rather than as the answer.
+  const gaz = buildGazetteer([
+    ['New York, NY'], ['New Orleans, LA'], ['New Haven, CT'],
+  ])
+  assert.equal(gazetteerHit('Analyst - New Ventures', gaz), 'new')
+  assert.equal(gazetteerHit('Analyst - Air Defense', gaz), null)
+  assert.equal(gazetteerHit('Analyst', gaz), null, 'no tail, nothing to match')
+  assert.equal(gazetteerHit('Analyst - New Ventures', { tokens: new Set() }), null, 'an empty gazetteer claims nothing')
+})
+
+test('the two bounds always bracket, and never exceed what the title-only rule flagged', () => {
+  const rows = [
+    { title: 'Nurse - Leeds', loc: 'Leeds, UK' },
+    { title: 'Nurse - York', loc: '' },
+    { title: 'Nurse - Band 6', loc: 'Leeds, UK' },
+    { title: 'Nurse - Hull', loc: 'Clinical Services' },
+    { title: 'Nurse - Remote', loc: 'Bath' },
+    { title: 'Nurse - Ely', loc: 'Ely' },
+  ]
+  const gaz = buildGazetteer([['Leeds', 'York', 'Hull', 'Ely'], ['Leeds', 'York', 'Hull', 'Ely'], ['Leeds', 'York', 'Hull', 'Ely']])
+  const v = verifyFanoutBoard(rows, gaz)
+  assert.ok(v.geographic_lower <= v.geographic_upper, 'lower <= upper')
+  assert.ok(v.geographic_upper <= v.fanout_postings, 'upper <= what was flagged')
   assert.equal(v.geographic + v.not_geographic + v.unstated + v.uninformative, v.fanout_postings)
 })
 

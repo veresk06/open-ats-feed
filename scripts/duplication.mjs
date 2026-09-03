@@ -126,10 +126,60 @@ export const classifyFanoutRow = (rawTitle, loc) => {
   return 'not_geographic'
 }
 
+// ---- Corpus-derived gazetteer --------------------------------------------------------------
+//
+// The field method above has one failure mode it cannot see, and Cycle 25 found it by checking
+// the new method against the old method's flagship example. `geniussportssn` is the clearest
+// geographic fan-out in the corpus — 477 postings, 477 titles, one job — and the field method
+// refutes all 477, because that board writes `"Statistician Network"` in its `location` column.
+// The title carries the place; the field carries a department label. A field is only evidence
+// when the field means what its name says.
+//
+// A maintained city list would fix that board and silently miss every place it had not heard of,
+// which is the objection that ruled out a dictionary when the rule was written. So the gazetteer
+// is derived from the corpus instead: a token is a place-name token when it appears in the
+// `location` field of at least GAZ_MIN_BOARDS *distinct* boards. No board can vouch for its own
+// vocabulary — "statistician" appears in one board's location column and is therefore not a
+// place — and nothing is maintained by hand.
+//
+// Its error runs the opposite way to the field method's, which is the entire reason for having
+// both. Place names are also ordinary English words: "new" is in every "New York", "north" in
+// every "North Carolina", "union" and "enterprise" are towns. A tail reading "- New Product"
+// matches on "new" and is not geographic at all. So the gazetteer OVER-counts geography exactly
+// where the field method UNDER-counts it, and the pair brackets the answer instead of pushing it
+// one way. Neither is used to overrule the other; they are reported as a lower and an upper bound.
+export const GAZ_MIN_BOARDS = 3
+export const buildGazetteer = (boardLocations, minBoards = GAZ_MIN_BOARDS) => {
+  const boards = new Map() // token -> how many distinct boards state it
+  for (const locs of boardLocations) {
+    const seen = new Set()
+    for (const l of locs) for (const w of locTokens(l)) seen.add(w)
+    for (const w of seen) boards.set(w, (boards.get(w) || 0) + 1)
+  }
+  const tokens = new Set()
+  for (const [w, n] of boards) if (n >= minBoards) tokens.add(w)
+  return { tokens, boards, min_boards: minBoards }
+}
+
+// Which token of the tail the gazetteer recognised, or null. Returned rather than a boolean so
+// the leak can be counted by token and published, instead of being asserted to be small.
+export const gazetteerHit = (rawTitle, gaz) => {
+  if (!gaz?.tokens?.size) return null
+  const tail = titleTail(rawTitle)
+  if (!tail) return null
+  for (const w of locTokens(tail)) if (gaz.tokens.has(w)) return w
+  return null
+}
+
 // Per board: take the stems the title-only rule flags as fan-out, then classify every posting
 // under them against its own location. A stem is called geographic when the majority of its
 // postings that CAN testify do.
-export const verifyFanoutBoard = (rows) => {
+//
+// `gaz` is optional. Passing it does NOT change any of the four field-verdict counters — they
+// keep meaning exactly what they meant before, and keep summing to `fanout_postings`. It adds
+// three subset counters cutting across them, so the upper bound is a sum of stated parts:
+// upper = geographic + gaz_of_not_geographic + gaz_of_unstated.
+export const verifyFanoutBoard = (rows, gaz = null) => {
   const stems = new Map()
   for (const r of rows) {
     const title = normTitle(r.title)
@@ -142,22 +192,39 @@ export const verifyFanoutBoard = (rows) => {
     e.rows.push(r)
   }
 
-  const out = { fanout_postings: 0, geographic: 0, not_geographic: 0, unstated: 0, uninformative: 0, stems: [] }
+  const out = {
+    fanout_postings: 0, geographic: 0, not_geographic: 0, unstated: 0, uninformative: 0,
+    gaz_of_geographic: 0, gaz_of_not_geographic: 0, gaz_of_unstated: 0, gaz_tokens: {}, stems: [],
+  }
   for (const [stem, e] of stems) {
     if (e.tails.size < MIN_FANOUT) continue
     const c = { geographic: 0, not_geographic: 0, unstated: 0, uninformative: 0 }
-    for (const r of e.rows) c[classifyFanoutRow(r.title, r.loc)]++
+    const g = { gaz_of_geographic: 0, gaz_of_not_geographic: 0, gaz_of_unstated: 0 }
+    for (const r of e.rows) {
+      const field = classifyFanoutRow(r.title, r.loc)
+      c[field]++
+      if (!gaz) continue
+      const hit = gazetteerHit(r.title, gaz)
+      if (!hit) continue
+      if (field === 'geographic') g.gaz_of_geographic++
+      else if (field === 'not_geographic') { g.gaz_of_not_geographic++; out.gaz_tokens[hit] = (out.gaz_tokens[hit] || 0) + 1 }
+      else if (field === 'unstated') { g.gaz_of_unstated++; out.gaz_tokens[hit] = (out.gaz_tokens[hit] || 0) + 1 }
+    }
     const testified = c.geographic + c.not_geographic
     out.fanout_postings += e.rows.length
     out.geographic += c.geographic
     out.not_geographic += c.not_geographic
     out.unstated += c.unstated
     out.uninformative += c.uninformative
+    out.gaz_of_geographic += g.gaz_of_geographic
+    out.gaz_of_not_geographic += g.gaz_of_not_geographic
+    out.gaz_of_unstated += g.gaz_of_unstated
     out.stems.push({
       stem,
       variants: e.tails.size,
       postings: e.rows.length,
       ...c,
+      ...(gaz ? g : {}),
       verdict: testified === 0 ? 'undecidable' : (c.geographic * 2 >= testified ? 'geographic' : 'not_geographic'),
       example: e.rows[0]?.title || null,
     })
@@ -166,6 +233,12 @@ export const verifyFanoutBoard = (rows) => {
   out.stems_geographic = out.stems.filter((s) => s.verdict === 'geographic').length
   out.stems_not_geographic = out.stems.filter((s) => s.verdict === 'not_geographic').length
   out.stems_undecidable = out.stems.filter((s) => s.verdict === 'undecidable').length
+  // Lower bound: the posting's own location field says the title carries the place.
+  // Upper bound: that, plus every posting whose tail names a token the corpus uses as a place
+  // somewhere else. Everything between the two is disputed by construction and is reported as
+  // disputed rather than resolved.
+  out.geographic_lower = out.geographic
+  out.geographic_upper = out.geographic + out.gaz_of_not_geographic + out.gaz_of_unstated
   return out
 }
 
@@ -335,6 +408,10 @@ const verifyMain = async () => {
   const targets = fan.boards.slice(0, BOARDS_N > 0 ? BOARDS_N : fan.boards.length)
   process.stderr.write(`verifying ${targets.length} of ${fan.boards.length} fan-out boards live\n`)
 
+  // Pass 1 — read every target board once. The rows are kept because the gazetteer cannot be
+  // built until all of them have been seen: a token is only a place when three different boards
+  // independently write it in their location column, and no board knows what the others wrote.
+  const fetched = []
   const results = []
   let done = 0
   for (const b of targets) {
@@ -347,20 +424,39 @@ const verifyMain = async () => {
       process.stderr.write(`  ! ${b.board} unreachable (${done}/${targets.length})\n`)
       continue
     }
-    const v = verifyFanoutBoard(rows)
+    fetched.push({ b, rows })
+    process.stderr.write(`  read ${b.board.padEnd(38)} ${String(rows.length).padStart(5)} rows (${done}/${targets.length})\n`)
+  }
+
+  const gaz = buildGazetteer(fetched.map(({ rows }) => rows.map((r) => r.loc)))
+  process.stderr.write(
+    `\ngazetteer: ${gaz.tokens.size} place tokens from ${fetched.length} boards `
+    + `(seen in the location field of >= ${gaz.min_boards} distinct boards, of ${gaz.boards.size} tokens total)\n\n`,
+  )
+
+  // Pass 2 — classify, now that both the posting's own field and the corpus vocabulary can speak.
+  const gazTokenTotals = new Map()
+  for (const { b, rows } of fetched) {
+    const v = verifyFanoutBoard(rows, gaz)
+    for (const [w, n] of Object.entries(v.gaz_tokens)) gazTokenTotals.set(w, (gazTokenTotals.get(w) || 0) + n)
     results.push({
       board: b.board,
       live_postings: rows.length,
       cached_fanout_postings: b.fanout_postings,
       ...v,
+      gaz_tokens: Object.fromEntries(Object.entries(v.gaz_tokens).sort((x, y) => y[1] - x[1]).slice(0, 5)),
       stems: v.stems.slice(0, 5),
     })
     process.stderr.write(
       `  ${b.board.padEnd(38)} fanout=${String(v.fanout_postings).padStart(5)} `
       + `geo=${String(v.geographic).padStart(5)} not-geo=${String(v.not_geographic).padStart(5)} `
-      + `unstated=${String(v.unstated).padStart(4)} (${done}/${targets.length})\n`,
+      + `unstated=${String(v.unstated).padStart(4)} gaz-disputed=${String(v.geographic_upper - v.geographic_lower).padStart(5)}\n`,
     )
   }
+
+  // Unreachable boards were appended during pass 1 and verified ones during pass 2, so restore a
+  // single stable order — by the fan-out the cache attributed to them, as in every prior run.
+  results.sort((a, b) => (b.cached_fanout_postings || 0) - (a.cached_fanout_postings || 0))
 
   const ok = results.filter((r) => !r.error)
   const sum = (k) => ok.reduce((a, b) => a + (b[k] || 0), 0)
@@ -374,6 +470,9 @@ const verifyMain = async () => {
     not_geographic: sum('not_geographic'),
     unstated: sum('unstated'),
     uninformative: sum('uninformative'),
+    gaz_of_geographic: sum('gaz_of_geographic'),
+    gaz_of_not_geographic: sum('gaz_of_not_geographic'),
+    gaz_of_unstated: sum('gaz_of_unstated'),
     stems_geographic: sum('stems_geographic'),
     stems_not_geographic: sum('stems_not_geographic'),
     stems_undecidable: sum('stems_undecidable'),
@@ -384,6 +483,20 @@ const verifyMain = async () => {
   totals.fanout_pct_of_live_postings = totals.live_postings
     ? +(100 * totals.fanout_postings / totals.live_postings).toFixed(2) : 0
 
+  // The two-sided number. Lower: the posting's own field agrees the title carries the place.
+  // Upper: that, plus every posting whose tail names a token three or more boards use as a place.
+  totals.geographic_lower = totals.geographic
+  totals.geographic_upper = totals.geographic + totals.gaz_of_not_geographic + totals.gaz_of_unstated
+  totals.geographic_disputed = totals.geographic_upper - totals.geographic_lower
+  const pctOfLive = (n) => (totals.live_postings ? +(100 * n / totals.live_postings).toFixed(2) : 0)
+  totals.geographic_lower_pct_of_live = pctOfLive(totals.geographic_lower)
+  totals.geographic_upper_pct_of_live = pctOfLive(totals.geographic_upper)
+  // Sensitivity check, and the only one available without a ground truth: of the postings the
+  // location field itself calls geographic, how many does the gazetteer also recognise? A low
+  // number would mean the gazetteer is too sparse to be evidence of anything.
+  totals.gaz_recall_on_field_geographic_pct = totals.geographic
+    ? +(100 * totals.gaz_of_geographic / totals.geographic).toFixed(2) : 0
+
   const payload = {
     generated_at: new Date().toISOString(),
     method: 'Boards ranked by title-only fan-out over data/role-census-titles.json, then read live '
@@ -393,7 +506,25 @@ const verifyMain = async () => {
       + 'product, team or grade, and the postings are distinct roles. An alias spelled differently '
       + 'in the two fields reads as not_geographic, so geographic is a lower bound and '
       + 'not_geographic an upper bound on the false-positive class.',
+    gazetteer_method: 'A token is a place-name token when it appears in the `location` field of '
+      + `at least ${GAZ_MIN_BOARDS} distinct boards among those read live. Derived from the corpus, `
+      + 'not maintained by hand, so it cannot miss a place merely because a curator had not heard '
+      + 'of it, and no board can vouch for its own vocabulary. It exists because the field method '
+      + 'has a failure mode it cannot see: a board whose location column holds a department label '
+      + '(geniussportssn writes "Statistician Network") refutes its own titles. Its error runs the '
+      + 'opposite way — place names are ordinary words ("new" in New York, "north" in North '
+      + 'Carolina) — so it over-counts geography where the field under-counts it, and the two are '
+      + 'reported as a lower and an upper bound rather than one overruling the other.',
     min_fanout_variants: MIN_FANOUT,
+    gazetteer: {
+      min_boards: gaz.min_boards,
+      tokens: gaz.tokens.size,
+      tokens_seen_total: gaz.boards.size,
+      built_from_boards: fetched.length,
+      // What is actually driving the disputed band, so the leak is counted rather than asserted.
+      top_disputed_tokens: [...gazTokenTotals.entries()].sort((a, b) => b[1] - a[1]).slice(0, 30)
+        .map(([token, postings]) => ({ token, postings, boards_stating_it: gaz.boards.get(token) || 0 })),
+    },
     cached_fanout: {
       postings: fan.postings,
       fanout_postings: fan.fanout_postings,
@@ -413,6 +544,18 @@ const verifyMain = async () => {
   console.log(`  ...location unstated             ${totals.unstated}`)
   console.log(`  ...tail uninformative            ${totals.uninformative}`)
   console.log(`  stems: ${totals.stems_geographic} geographic, ${totals.stems_not_geographic} not, ${totals.stems_undecidable} undecidable`)
+  console.log('')
+  console.log(`gazetteer: ${gaz.tokens.size} place tokens from ${fetched.length} boards (>= ${gaz.min_boards} boards each, of ${gaz.boards.size} seen)`)
+  console.log(`  recognises ${totals.gaz_recall_on_field_geographic_pct}% of what the location field already called geographic`)
+  console.log(`  disputes  ${totals.gaz_of_not_geographic} refuted + ${totals.gaz_of_unstated} unstated postings`)
+  console.log('')
+  console.log(`location-in-title, two-sided over ${totals.live_postings} live postings:`)
+  console.log(`  lower bound (field agrees)       ${totals.geographic_lower}  ${totals.geographic_lower_pct_of_live}%`)
+  console.log(`  upper bound (+ gazetteer)        ${totals.geographic_upper}  ${totals.geographic_upper_pct_of_live}%`)
+  console.log(`  disputed between them            ${totals.geographic_disputed}`)
+  for (const t of payload.gazetteer.top_disputed_tokens.slice(0, 10)) {
+    console.log(`    "${t.token}" ${String(t.postings).padStart(5)} postings, stated as a location by ${t.boards_stating_it} boards`)
+  }
   console.log(`wrote ${FANOUT_OUT}`)
 }
 
