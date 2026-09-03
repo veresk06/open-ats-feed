@@ -4,7 +4,9 @@ import assert from 'node:assert/strict'
 import { SOURCES, PROVIDER_NAMES, tokenFromUrl } from '../scripts/lib/tokens.mjs'
 
 test('every harvest source names a provider the roster knows', () => {
-  assert.deepEqual(PROVIDER_NAMES, ['greenhouse', 'lever', 'ashby', 'workable', 'breezy'])
+  assert.deepEqual(PROVIDER_NAMES, [
+    'greenhouse', 'lever', 'ashby', 'workable', 'breezy', 'recruitee', 'teamtailor',
+  ])
   for (const s of SOURCES) assert.ok(PROVIDER_NAMES.includes(s.provider), s.host)
 })
 
@@ -83,4 +85,26 @@ test('a subdomain token is only taken from the named vendor host', () => {
   assert.equal(tokenFromUrl('https://acme.breezy.hr.evil.com/json', breezy), null)
   assert.equal(tokenFromUrl('https://acme.breezy.hr/json', { tokenFrom: 'subdomain' }), null)
   assert.equal(tokenFromUrl('https://a.b.breezy.hr/json', breezy), null, 'a nested label')
+})
+
+const recruitee = { tokenFrom: 'subdomain', host: 'recruitee.com' }
+const teamtailor = { tokenFrom: 'subdomain', host: 'teamtailor.com' }
+
+test('the same rules hold for the other subdomain vendors', () => {
+  assert.equal(tokenFromUrl('https://tellent.recruitee.com/api/offers/', recruitee), 'tellent')
+  assert.equal(tokenFromUrl('https://hemnet.teamtailor.com/jobs.json', teamtailor), 'hemnet')
+  assert.equal(tokenFromUrl('https://www.teamtailor.com/en/career-site/', teamtailor), null)
+  assert.equal(tokenFromUrl('https://support.recruitee.com/en/articles/1', recruitee), null)
+  assert.equal(tokenFromUrl('https://acme.recruitee.com.evil.com/', recruitee), null)
+})
+
+// A known and accepted false negative, recorded so it is not rediscovered as a bug.
+// `jobs` is on the platform-route list because on a path vendor
+// (apply.workable.com/jobs) it can only ever be a vendor route. On a subdomain vendor
+// it can be a real tenant: jobs.recruitee.com is Tellent's own board and served 8 live
+// offers when this was written. The list costs us that board and saves us from
+// harvesting every vendor route as a company; the trade is worth it at this ratio, but
+// it is a trade and not a free win.
+test('a platform-route name shadows a real tenant on a subdomain vendor', () => {
+  assert.equal(tokenFromUrl('https://jobs.recruitee.com/api/offers/', recruitee), null)
 })

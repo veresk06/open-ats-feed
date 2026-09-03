@@ -39,6 +39,16 @@ export const SOURCES = [
   // the *tenant* host: the marketing host `breezy.hr` carries `Disallow: /api/`, and
   // we do not fetch that host at all.
   { provider: 'breezy', host: 'breezy.hr', tokenFrom: 'subdomain' },
+  // `{token}.recruitee.com/robots.txt` disallows only `/v/`; we read `/api/offers/`.
+  // Read that file on a *live* tenant: a token with no tenant behind it 301s to
+  // `recruitee.com/careers_not_hosted`, so checking robots.txt through a dead token
+  // silently answers for the marketing host instead.
+  { provider: 'recruitee', host: 'recruitee.com', tokenFrom: 'subdomain' },
+  // `{token}.teamtailor.com/robots.txt` disallows `/app/`, `/messages/`, `/messenger/`,
+  // `/facebook/tab/` and `/jobs/internal/`. `/jobs.json` is allowed. The file names
+  // `aihitdata` with a blanket `Disallow: /`; we are not aihitdata and the `*` group
+  // governs us. See actor/src/normalize.js for the Content-Signal note.
+  { provider: 'teamtailor', host: 'teamtailor.com', tokenFrom: 'subdomain' },
 ]
 
 export const PROVIDER_NAMES = [...new Set(SOURCES.map((s) => s.provider))]

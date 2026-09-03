@@ -57,6 +57,13 @@ function sample(list, n, rand) {
 //   {token}.breezy.hr         "Disallow: /css /fonts /stylesheets /javascripts" — /json
 //                             is allowed. This is the tenant host; the marketing host
 //                             breezy.hr disallows /api/ and we never call it.
+//   {token}.recruitee.com     "Disallow: /v/" — /api/offers/ is allowed. Read this on a
+//                             LIVE tenant: a dead token 301s to
+//                             recruitee.com/careers_not_hosted and you end up reading
+//                             the marketing host's file by accident.
+//   {token}.teamtailor.com    "Disallow: /app/ /messages/ /messenger/ /facebook/tab/
+//                             /jobs/internal/" — /jobs.json is allowed. The file also
+//                             blocks `aihitdata` outright; we are not aihitdata.
 // The crawl delay is the reason `rate` exists. Lever states a limit in the file it
 // serves us; honouring it costs an hour of wall clock and is not optional.
 //
@@ -93,6 +100,16 @@ const PROVIDERS = {
     // Every tenant is its own host, so a fixed concurrency here is spread across
     // thousands of hostnames rather than pointed at one. Kept modest anyway until
     // there is a measured rate, because Workable's 429 was also a surprise.
+    concurrency: 8,
+  },
+  recruitee: {
+    url: (t) => `https://${encodeURIComponent(t)}.recruitee.com/api/offers/`,
+    count: (j) => (Array.isArray(j?.offers) ? j.offers.length : null),
+    concurrency: 8,
+  },
+  teamtailor: {
+    url: (t) => `https://${encodeURIComponent(t)}.teamtailor.com/jobs.json`,
+    count: (j) => (Array.isArray(j?.items) ? j.items.length : null),
     concurrency: 8,
   },
 }

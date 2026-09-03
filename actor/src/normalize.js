@@ -287,4 +287,113 @@ export const PROVIDERS = {
       }
     },
   },
+  recruitee: {
+    url: (t) => `https://${encodeURIComponent(t)}.recruitee.com/api/offers/`,
+    list: (j) => (Array.isArray(j?.offers) ? j.offers : null),
+    // {token}.recruitee.com/robots.txt: "User-Agent: * / Disallow: /v/". `/api/offers/`
+    // is not disallowed. Checked on a live tenant, not on the apex: the marketing host
+    // recruitee.com serves a different file, and a non-existent tenant 301s away to
+    // recruitee.com/careers_not_hosted, so reading robots.txt through a dead token
+    // answers a question about the wrong host.
+    concurrency: 8,
+    delayMs: 0,
+    map: (job, token) => {
+      const loc = (job.location ?? [job.city, job.country_code]
+        .map((s) => (s ?? '').trim()).filter(Boolean).join(', ')) || null
+      // `remote` is a boolean and is deliberately NOT passed to workplace(). The rule
+      // this codebase already paid for: a three-valued enum that can say "hybrid" is
+      // trustworthy (Ashby's workplaceType), a boolean that collapses hybrid into
+      // remote is not (Ashby's isRemote, which mislabelled two thirds of the feed).
+      // Recruitee's is the second kind and is unmeasured besides.
+      return {
+        source: 'recruitee',
+        company: token,
+        company_url: `https://${token}.recruitee.com/`,
+        job_id: String(job.id ?? job.slug),
+        title: (job.title ?? '').trim(),
+        url: job.careers_url ?? null,
+        location: loc,
+        workplace: workplace(`${loc ?? ''} ${job.title ?? ''}`),
+        department: job.department || null,
+        team: null,
+        employment_type: job.employment_type_code || null,
+        posted_at: iso(job.published_at),
+        updated_at: iso(job.published_at),
+        // Recruitee is the first provider that ships a *structured, published* salary
+        // rather than one buried in prose, so this column stops being a parse for it.
+        // Only `period: "year"` is taken at face value. A monthly figure times twelve
+        // is not the annual salary in the countries where Recruitee is thickest —
+        // 13th- and 14th-month payments are ordinary in NL, DE, AT and PT — and hourly
+        // needs an assumed working week. Those are estimates, and the schema says this
+        // column is never estimated. So they stay null rather than become a guess.
+        ...recruiteeSalary(job.salary),
+        seniority: seniority(job.title ?? ''),
+        description: stripHtml(job.description) || null,
+      }
+    },
+  },
+  teamtailor: {
+    url: (t) => `https://${encodeURIComponent(t)}.teamtailor.com/jobs.json`,
+    list: (j) => (Array.isArray(j?.items) ? j.items : null),
+    // {token}.teamtailor.com/robots.txt disallows /app/, /messages/, /messenger/,
+    // /facebook/tab/ and /jobs/internal/. `/jobs.json` is not among them. The file also
+    // names `aihitdata` with a blanket "Disallow: /" — we are not aihitdata, so the `*`
+    // group governs us — and carries
+    // "Content-Signal: search=yes, ai-train=no, ai-input=yes". We build a search and
+    // feed index and do not train on this text, which is the `search=yes` case.
+    //
+    // A tenant's *career site* may 301 to a customer domain (hemnet.teamtailor.com →
+    // career.hemnet.se). `/jobs.json` does not: it serves 200 on the teamtailor.com
+    // host directly, measured. So the subdomain stays the addressable unit and there is
+    // no second host whose robots.txt we would have to read.
+    concurrency: 8,
+    delayMs: 0,
+    map: (job, token) => {
+      const jp = job._jobposting ?? {}
+      const addr = jp.jobLocation?.[0]?.address ?? {}
+      const loc = [addr.addressLocality, addr.addressRegion, addr.addressCountry]
+        .map((s) => (s ?? '').trim()).filter(Boolean).join(', ') || null
+      const body = stripHtml(job.content_html)
+      // `jobLocationType` is schema.org's own vocabulary, but in practice it is either
+      // "TELECOMMUTE" or absent — it cannot express hybrid, which makes it the same
+      // shape of flag as Ashby's isRemote rather than the same shape as Ashby's
+      // workplaceType. Not trusted; the column comes from the text until measured.
+      return {
+        source: 'teamtailor',
+        company: token,
+        company_url: `https://${token}.teamtailor.com/`,
+        job_id: String(job.id),
+        title: (job.title ?? '').trim(),
+        url: job.url ?? null,
+        location: loc,
+        workplace: workplace(`${loc ?? ''} ${job.title ?? ''}`),
+        department: jp.department || null,
+        team: null,
+        employment_type: jp.employmentType || null,
+        posted_at: iso(job.date_published ?? jp.datePosted),
+        updated_at: iso(job.date_published ?? jp.datePosted),
+        // Teamtailor exposes schema.org `baseSalary`, but it was null on every posting
+        // of both boards read so far, so there is nothing measured to trust yet. Parse
+        // the body like the other text-salary providers; revisit if a harvested roster
+        // shows baseSalary populated at any real rate.
+        ...salaryFields(`${job.title ?? ''} ${body}`),
+        seniority: seniority(job.title ?? ''),
+        description: body || null,
+      }
+    },
+  },
+}
+
+// Recruitee's salary object is {min,max,period,currency} with the amounts as strings.
+function recruiteeSalary(s) {
+  const none = { salary_min: null, salary_max: null, salary_currency: null }
+  if (!s || s.period !== 'year') return none
+  const num = (v) => {
+    const n = Number(String(v ?? '').replace(/[,\s]/g, ''))
+    return Number.isFinite(n) && n > 0 ? Math.round(n) : null
+  }
+  const min = num(s.min)
+  const max = num(s.max)
+  if (min === null && max === null) return none
+  return { salary_min: min, salary_max: max, salary_currency: s.currency || null }
 }
