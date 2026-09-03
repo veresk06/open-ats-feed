@@ -52,6 +52,19 @@ if (process.argv.includes('--index-only')) {
   process.exit(0)
 }
 
+// A published issue is never rewritten. Corrections go in the next one, where a
+// reader can see them. This guard exists because the default date is today's and
+// the loop that runs this script can fire more than once a day: without it, a
+// second run would spend twelve minutes and then quietly replace an issue whose
+// numbers are already cited elsewhere.
+if ((await issueFiles(dir)).includes(`${date}.json`) && !process.argv.includes('--force')) {
+  process.stderr.write(
+    `digests/${date}.json already exists and will not be overwritten.\n` +
+      `An issue is published once. Run this on a later date, or pass --force if you are certain.\n`,
+  )
+  process.exit(1)
+}
+
 const index = JSON.parse(await readFile(new URL('../actor/data/companies.json', import.meta.url), 'utf8'))
 
 // The same four-attempt backoff the Actor uses (actor/src/main.js), and for the
