@@ -8,7 +8,7 @@ No scraping. No authentication. No terms-of-service gymnastics. Every number her
 endpoints those vendors publish for anyone to call, and every number is reproducible by running
 two scripts in this repo.
 
-**Browse the result:** <https://veresk06.github.io/open-ats-feed/> — all 16,361 boards with their
+**Browse the result:** <https://veresk06.github.io/open-ats-feed/> — all 18,164 boards with their
 open-posting counts, searchable, with CSV downloads. Free, public domain, no signup.
 Built from `actor/data/companies.json` by `scripts/build-site.mjs`.
 
@@ -38,19 +38,27 @@ what is live right now.
 
 ## Results
 
-**16,361 live companies and 399,398 live job postings**, across Greenhouse, Ashby, Lever,
-Breezy, Recruitee and Teamtailor, from 30,729 candidate tokens harvested out of 17 Common Crawl
-indices.
+**18,164 live companies and 439,867 live job postings**, across Greenhouse, Ashby, Lever,
+Breezy, Recruitee and Teamtailor, from 32,545 candidate tokens — 30,729 harvested out of 17
+Common Crawl indices, plus 1,816 contributed by the published
+[`kalil0321/ats-scrapers`](https://github.com/kalil0321/ats-scrapers) snapshot (MIT) that our
+own sweep had not found. Their tokens were **probed, not copied**: no status, posting count or
+company name was read out of their file.
 
 | Provider | Candidates | Probed | Live companies | Hit rate | Live postings |
 |---|---:|---:|---:|---:|---:|
-| Greenhouse | 10,091 | 10,091 | 5,506 | 54.6% | 189,336 |
-| Ashby | 4,386 | 4,386 | 3,153 | 71.9% | 56,721 |
-| Lever | 4,961 | 4,824 | 1,621 | 33.6% | 53,715 |
-| Breezy | 4,562 | 4,562 | 1,841 | 40.4% | 35,533 |
-| Recruitee | 3,554 | 3,554 | 2,247 | 63.2% | 36,588 |
-| Teamtailor | 3,175 | 3,175 | 1,993 | 62.8% | 27,505 |
-| **Total** | **30,729** | **30,592** | **16,361** | | **399,398** |
+| Greenhouse | 10,559 | 10,559 | 5,971 | 56.5% | 196,407 |
+| Ashby | 4,697 | 4,697 | 3,413 | 72.7% | 59,609 |
+| Lever | 5,220 | 5,140 | 1,925 | 37.5% | 69,565 |
+| Breezy | 4,799 | 4,799 | 2,077 | 43.3% | 41,119 |
+| Recruitee | 3,752 | 3,752 | 2,444 | 65.1% | 39,628 |
+| Teamtailor | 3,518 | 3,518 | 2,334 | 66.3% | 33,539 |
+| **Total** | **32,545** | **32,465** | **18,164** | | **439,867** |
+
+Hit rate is per-provider and not comparable across sources: the Common Crawl candidates are raw
+URL fragments, while their snapshot is pre-filtered to boards that were live when they last
+swept, so it converts far better (88.6% on the 2,035 tokens we took from it). The two are never
+quoted side by side.
 
 **Every figure above is counted. None of it is projected.**
 

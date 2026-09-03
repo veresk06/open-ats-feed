@@ -183,7 +183,7 @@
     "companies": {
       "title": "Specific company boards",
       "type": "array",
-      "description": "Board tokens, optionally prefixed with the provider — \"greenhouse:stripe\", \"ashby:ramp\", or a bare \"stripe\" to try it on every selected provider. Overrides the bundled index entirely.",
+      "description": "Board tokens, optionally prefixed with the provider — \"greenhouse:stripe\", \"ashby:ramp\", or a bare \"stripe\", which is sent to whichever provider the bundled roster has it on — and only to every selected provider if the roster has never seen it. Overrides the bundled index entirely.",
       "editor": "stringList"
     },
     "maxCompaniesPerProvider": {

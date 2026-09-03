@@ -115,6 +115,11 @@ const leverRows = merge(lever.lever, leverFull, theirs.lever)
 const leverSplit = split(leverRows)
 const probed = new Set(leverRows.map((r) => r.token))
 const leverUnverified = (tokens.lever ?? []).filter((t) => !probed.has(t)).sort()
+// The candidate pool is our own harvest plus the tokens the ats-scrapers snapshot
+// contributed, which is why it is a union and not `tokens.lever.length`. Quoting
+// the probed count against the harvested count alone printed "5,140 of 4,961" —
+// a denominator smaller than its numerator, in a file a buyer reads.
+const leverCandidates = new Set([...(tokens.lever ?? []), ...(theirs.lever ?? []).map((r) => r.token)])
 
 // Breezy needed no resume file and no re-probe: one pass covered every harvested
 // token. `blocked` and `error` rows are neither live nor empty, so `split` drops
@@ -140,8 +145,8 @@ const index = {
       verified: true,
       unverified: leverUnverified,
       note:
-        `Lever was probed token by token: ${leverRows.length} of ${(tokens.lever ?? []).length} ` +
-        'harvested tokens measured directly, no projection. ' +
+        `Lever was probed token by token: ${leverRows.length} of ${leverCandidates.size} ` +
+        'candidate tokens measured directly, no projection. ' +
         `${leverUnverified.length} tokens are unprobed, not dead — api.lever.co requests 1 req/s. ` +
         'Set includeUnverifiedLever to probe them inside a run.',
     },

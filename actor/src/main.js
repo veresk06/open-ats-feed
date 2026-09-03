@@ -74,6 +74,22 @@ const INDEX_AS_OF = index.as_of
 
 // --------------------------------------------------------------- the work list
 
+// Where each known token actually lives. A board-scan is a charged event, so a
+// token we can place from the bundled roster must not be tried on the other five
+// providers as well — those are misses we already know about, and billing for
+// them is billing for work the index made unnecessary.
+const tokenHome = new Map()
+for (const [provider, entry] of Object.entries(index.providers)) {
+  const add = (t) => {
+    const k = String(t).toLowerCase()
+    if (!tokenHome.has(k)) tokenHome.set(k, new Set())
+    tokenHome.get(k).add(provider)
+  }
+  for (const [token] of entry.live) add(token)
+  for (const token of entry.empty) add(token)
+  for (const token of entry.unverified ?? []) add(token)
+}
+
 // An explicit `companies` list overrides the bundled index entirely: a user who
 // names boards wants those boards, whether or not our last sweep saw them.
 function parseExplicit(entries) {
@@ -85,11 +101,16 @@ function parseExplicit(entries) {
     if (rest.length && PROVIDERS[maybeProvider.toLowerCase()]) {
       const p = maybeProvider.toLowerCase()
       ;(byProvider[p] ??= []).push(rest.join(':').trim())
-    } else {
-      // No provider prefix — try it on every selected provider. A 404 is cheap
-      // and guessing wrong is better than refusing the input.
-      for (const p of providers) (byProvider[p] ??= []).push(s)
+      continue
     }
+    // No provider prefix. If the roster knows the token, go straight to the
+    // provider that has it. If it does not — a board discovered since our last
+    // sweep, which is exactly the case this input exists for — fall back to
+    // trying every selected provider, because guessing wrong is still better
+    // than refusing the input.
+    const home = tokenHome.get(s.toLowerCase())
+    const targets = home ? providers.filter((p) => home.has(p)) : []
+    for (const p of (targets.length ? targets : providers)) (byProvider[p] ??= []).push(s)
   }
   return byProvider
 }

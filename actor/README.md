@@ -1,6 +1,6 @@
 # Open ATS Jobs Feed — Greenhouse, Ashby, Lever, Breezy, Recruitee, Teamtailor
 
-Job postings from **16,361 verified company career boards**, straight from each vendor's own
+Job postings from **18,164 verified company career boards**, straight from each vendor's own
 public API, normalised into a single flat schema.
 
 No HTML scraping, no headless browser, no login. Greenhouse, Ashby, Lever, Breezy, Recruitee
@@ -12,9 +12,9 @@ directory. That index is what this Actor ships with.
 
 | | |
 |---|---|
-| Verified live boards | **16,361** |
-| Postings behind them | **399,398** at index time |
-| Providers | Greenhouse (5,506) · Ashby (3,153) · Recruitee (2,247) · Teamtailor (1,993) · Breezy (1,841) · Lever (1,621) |
+| Verified live boards | **18,164** |
+| Postings behind them | **439,867** at index time |
+| Providers | Greenhouse (5,971) · Ashby (3,413) · Recruitee (2,444) · Teamtailor (2,334) · Breezy (2,077) · Lever (1,925) |
 | Index built | 2026-09-03, from 17 Common Crawl indexes |
 
 Every record is the same shape whatever the source:
@@ -203,7 +203,7 @@ board repeats itself**. The two largest size strata (498 boards, half of all pos
 in full rather than sampled, so half the answer carries no sampling error at all.
 
 That 291,507 is the corpus as it stood on the measurement day, and it is left as measured rather
-than rescaled to today's 399,398 — Recruitee and Teamtailor were added afterwards and were not in
+than rescaled to today's 439,867 — Recruitee and Teamtailor were added afterwards and were not in
 the sample frame. The rate has not been re-measured against them, so treat 3.03% as covering the
 four providers it was drawn from, not the six shipping now.
 
@@ -336,6 +336,11 @@ input at all you get the 250 largest Greenhouse boards *and* the 250 largest Ash
 | `excludeVolunteerListings` | `true` | Drops volunteer and unpaid listings — see above |
 | `dedupe` | `false` | Collapses same-title-same-stated-location rows within a board — see above |
 | `companies` | — | `greenhouse:stripe`, `ashby:ramp`, or bare `stripe` — overrides the index |
+
+A bare token is routed to the provider the roster already has it on, so naming one company
+costs one board-scan rather than one per selected provider. Only a token the roster has never
+seen — a board that appeared after our last sweep, which is what this input is for — is tried
+across every selected provider.
 | `maxCompaniesPerProvider` | `250` | **Per provider.** Two providers selected = up to 500 boards. Ordered largest first, so a cap gets the big ones |
 | `maxItems` | `5000` | Hard cap on rows |
 | `includeDescription` | `false` | Full plain-text description; ~10x the dataset size |
@@ -357,7 +362,7 @@ exactly the same boards and returns one row per company rather than one per post
 much the cheaper of the two outputs: the default 500 boards costs **$1.01** as signals against
 $7.76 for the 5,000 postings behind them.
 
-**Why the scan is charged separately.** A narrow filter over the whole index reads 16,361 boards
+**Why the scan is charged separately.** A narrow filter over the whole index reads 18,164 boards
 to hand back a few hundred rows. Priced per result, that run costs you almost nothing and costs
 us the entire sweep, which is the kind of arrangement that ends with the Actor being withdrawn.
 Charging the read and the row separately means you pay for the work you actually asked for, and
@@ -366,8 +371,8 @@ a broad cheap query stays broad and cheap.
 Worked examples:
 
 - **Default run** — 500 boards, 5,000 postings: **$7.76**, or $1.55 per 1,000 postings.
-- **Full sweep** — 16,361 boards, ~399,000 postings: **$607.28**, or $1.52 per 1,000.
-- **One title across everything** — 16,361 boards, 300 matching postings: **$8.64**.
+- **Full sweep** — 18,164 boards, ~440,000 postings: **$668.89**, or $1.52 per 1,000.
+- **One title across everything** — 18,164 boards, 300 matching postings: **$9.54**.
 - **Daily delta** — `postedSince=yesterday` over 500 boards, ~400 new postings: **$0.86**.
 
 A board we could not read after four attempts is not charged. You paid for a result we did not
@@ -383,12 +388,25 @@ a measured number you cannot audit is worth the same as a guess.
   covers 17 indexes. Marginal yield across the tail was roughly flat at 240–493 new candidate
   tokens per additional index, so sweeping further would find more companies. This number is not
   a fixed property of the internet; it is a property of how much sweeping we did.
-- **16,361 is counted, not projected.** Every provider was probed token by token: Greenhouse,
-  Ashby, Breezy, Recruitee and Teamtailor in full, Lever 4,824 of 4,961 at a 33.6% hit rate.
+- **18,164 is counted, not projected.** Every provider was probed token by token: Greenhouse,
+  Ashby, Breezy, Recruitee and Teamtailor in full, Lever 5,140 of 5,220 candidate tokens.
   Earlier versions of this page quoted a Lever figure extrapolated from a 1,000-token sample and
   a Breezy figure from a 250-token one; both projections are gone, and nothing above rests on
-  one. The 137 tokens still unprobed ship as an opt-in list and are counted as neither live nor
+  one. The 80 tokens still unprobed ship as an opt-in list and are counted as neither live nor
   dead.
+- **1,803 of those boards came from someone else's published list, and were probed, not copied.**
+  [`kalil0321/ats-scrapers`](https://github.com/kalil0321/ats-scrapers) (MIT) publishes a board
+  snapshot. It held 2,035 tokens across these six providers that we did not; every one was probed
+  on the same terms as every other row — HTTP 200, at least one open posting, same retries and
+  back-off — and 1,803 answered. **No status, posting count or company name was taken from their
+  file.** The reverse diff is published too: we hold 5,929 boards their snapshot does not, and
+  that is a lower bound on their coverage rather than a verdict on it, because their list spans
+  more providers than we ship.
+- **A published snapshot ages, and unevenly.** Probing their list is also the clearest evidence
+  for why this one is probed rather than compiled: **152 of their 458 Lever boards (33.2%) answer
+  404 today**, against 97.5% still live on Greenhouse. The same decay applies to our numbers, at
+  whatever rate, which is why every row here ships with the API URL that produced it and an
+  `index_as_of` date you can hold it to.
 - **A board that refuses us under load is not counted dead.** Recruitee refused 5 of 3,554
   tokens when probed at concurrency 8. Re-asked one at a time, four of the five answered with
   live boards worth 61 postings. A refusal is a fact about our request rate, so those tokens are
