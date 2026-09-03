@@ -1,0 +1,1676 @@
+{
+  "generated_at": "2026-09-03T03:29:44.866Z",
+  "method": {
+    "head_boards": 250,
+    "head_postings_claimed": 116444,
+    "head_titles_read": 116490,
+    "tail_boards_sampled": 250,
+    "tail_boards_total": 9947,
+    "tail_step": 39,
+    "tail_postings_total_claimed": 175063,
+    "tail_titles_read": 4560,
+    "tail_weight": 38.391,
+    "failures": {
+      "head": 0,
+      "tail": 0
+    },
+    "note": "head is a census, tail is a deterministic every-kth sample weighted to the stratum"
+  },
+  "families": {
+    "other": {
+      "head": 32431,
+      "tail_weighted": 58930,
+      "total": 91361,
+      "share": 31.34
+    },
+    "corporate": {
+      "head": 14551,
+      "tail_weighted": 29638,
+      "total": 44189,
+      "share": 15.16
+    },
+    "engineering": {
+      "head": 12987,
+      "tail_weighted": 28793,
+      "total": 41780,
+      "share": 14.33
+    },
+    "sales_marketing": {
+      "head": 9030,
+      "tail_weighted": 27488,
+      "total": 36518,
+      "share": 12.53
+    },
+    "healthcare": {
+      "head": 15323,
+      "tail_weighted": 7947,
+      "total": 23270,
+      "share": 7.98
+    },
+    "skilled_trades": {
+      "head": 5917,
+      "tail_weighted": 4108,
+      "total": 10025,
+      "share": 3.44
+    },
+    "retail_food": {
+      "head": 6366,
+      "tail_weighted": 2994,
+      "total": 9360,
+      "share": 3.21
+    },
+    "product_design": {
+      "head": 2873,
+      "tail_weighted": 6104,
+      "total": 8977,
+      "share": 3.08
+    },
+    "education": {
+      "head": 1699,
+      "tail_weighted": 5106,
+      "total": 6805,
+      "share": 2.33
+    },
+    "fitness_wellness": {
+      "head": 6172,
+      "tail_weighted": 0,
+      "total": 6172,
+      "share": 2.12
+    },
+    "retail_food_generic": {
+      "head": 3023,
+      "tail_weighted": 1152,
+      "total": 4175,
+      "share": 1.43
+    },
+    "logistics": {
+      "head": 1925,
+      "tail_weighted": 1305,
+      "total": 3230,
+      "share": 1.11
+    },
+    "non_english": {
+      "head": 1828,
+      "tail_weighted": 537,
+      "total": 2365,
+      "share": 0.81
+    },
+    "support": {
+      "head": 952,
+      "tail_weighted": 960,
+      "total": 1912,
+      "share": 0.66
+    },
+    "suspect_recruitment_ad": {
+      "head": 1413,
+      "tail_weighted": 0,
+      "total": 1413,
+      "share": 0.48
+    }
+  },
+  "estimated_total_postings": 291552,
+  "engineering_boards_top": [
+    {
+      "provider": "greenhouse",
+      "token": "speechify",
+      "total": 1317,
+      "engineering": 1190,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "bjakcareer",
+      "total": 3084,
+      "engineering": 871,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "andurilindustries",
+      "total": 2208,
+      "engineering": 628,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "spacex",
+      "total": 2281,
+      "engineering": 461,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "databricks",
+      "total": 859,
+      "engineering": 402,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "bluelightconsulting",
+      "total": 513,
+      "engineering": 307,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "openai",
+      "total": 770,
+      "engineering": 249,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "shieldai",
+      "total": 433,
+      "engineering": 198,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "asm",
+      "total": 444,
+      "engineering": 190,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "airapps",
+      "total": 498,
+      "engineering": 183,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "palantir",
+      "total": 307,
+      "engineering": 174,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "accenturefederalservices",
+      "total": 642,
+      "engineering": 172,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "coupang",
+      "total": 682,
+      "engineering": 162,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "stripe",
+      "total": 592,
+      "engineering": 158,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "waymo",
+      "total": 345,
+      "engineering": 156,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "prolificacademicltd",
+      "total": 3706,
+      "engineering": 153,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "anthropic",
+      "total": 582,
+      "engineering": 145,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "okta",
+      "total": 328,
+      "engineering": 143,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "roblox",
+      "total": 224,
+      "engineering": 141,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "roku",
+      "total": 248,
+      "engineering": 140,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "airwallex",
+      "total": 583,
+      "engineering": 137,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "elastic",
+      "total": 361,
+      "engineering": 133,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "applied",
+      "total": 278,
+      "engineering": 132,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "canonical",
+      "total": 302,
+      "engineering": 126,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "mongodb",
+      "total": 402,
+      "engineering": 125,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "affirm",
+      "total": 203,
+      "engineering": 124,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "axon",
+      "total": 516,
+      "engineering": 114,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "snowflake",
+      "total": 379,
+      "engineering": 112,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "cgsfederal",
+      "total": 1427,
+      "engineering": 112,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "nebius",
+      "total": 370,
+      "engineering": 107,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "rocketlab",
+      "total": 452,
+      "engineering": 106,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "clickhouse",
+      "total": 177,
+      "engineering": 101,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "gitlab",
+      "total": 232,
+      "engineering": 100,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "capco",
+      "total": 754,
+      "engineering": 100,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "coreweave",
+      "total": 275,
+      "engineering": 99,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "grvty",
+      "total": 216,
+      "engineering": 94,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "sentinellabs",
+      "total": 221,
+      "engineering": 91,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "okx",
+      "total": 336,
+      "engineering": 89,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "coupanginternal",
+      "total": 448,
+      "engineering": 87,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "ubiquiti",
+      "total": 172,
+      "engineering": 83,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "cloudflare",
+      "total": 322,
+      "engineering": 81,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "harvey",
+      "total": 334,
+      "engineering": 80,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "sonyinteractiveentertainmentglobal",
+      "total": 197,
+      "engineering": 79,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "sezzle",
+      "total": 193,
+      "engineering": 79,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "ciandt",
+      "total": 202,
+      "engineering": 79,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "purestorage",
+      "total": 323,
+      "engineering": 78,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "pinterest",
+      "total": 199,
+      "engineering": 77,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "brex",
+      "total": 279,
+      "engineering": 75,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "fivetran",
+      "total": 227,
+      "engineering": 75,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "encora10",
+      "total": 204,
+      "engineering": 75,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "scaleai",
+      "total": 211,
+      "engineering": 74,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "crusoe",
+      "total": 381,
+      "engineering": 73,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "verkada",
+      "total": 291,
+      "engineering": 72,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "coinbase",
+      "total": 187,
+      "engineering": 72,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "graphcore",
+      "total": 188,
+      "engineering": 71,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "clera",
+      "total": 284,
+      "engineering": 67,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "flyzipline",
+      "total": 334,
+      "engineering": 67,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "lyft",
+      "total": 167,
+      "engineering": 67,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "doordashusa",
+      "total": 462,
+      "engineering": 65,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "janestreet",
+      "total": 234,
+      "engineering": 64,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "quberesearchandtechnologies",
+      "total": 195,
+      "engineering": 64,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "super",
+      "total": 191,
+      "engineering": 63,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "trueanomalyinc",
+      "total": 182,
+      "engineering": 63,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "binance",
+      "total": 283,
+      "engineering": 63,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "riotgames",
+      "total": 162,
+      "engineering": 63,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "braze",
+      "total": 289,
+      "engineering": 62,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "urbancompass",
+      "total": 214,
+      "engineering": 61,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "anyone-ai",
+      "total": 209,
+      "engineering": 60,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "datadog",
+      "total": 443,
+      "engineering": 59,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "cssmerge",
+      "total": 258,
+      "engineering": 58,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "esri",
+      "total": 441,
+      "engineering": 57,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "holderconstruction",
+      "total": 367,
+      "engineering": 57,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "avepoint",
+      "total": 302,
+      "engineering": 55,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "point72",
+      "total": 235,
+      "engineering": 54,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "optiverus",
+      "total": 166,
+      "engineering": 54,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "xai",
+      "total": 253,
+      "engineering": 53,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "relativity",
+      "total": 342,
+      "engineering": 50,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "agoda",
+      "total": 291,
+      "engineering": 50,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "samsara",
+      "total": 245,
+      "engineering": 50,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "astspacemobile",
+      "total": 231,
+      "engineering": 50,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "sierra",
+      "total": 210,
+      "engineering": 49,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "k2spacecorporation",
+      "total": 215,
+      "engineering": 49,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "veeamsoftware",
+      "total": 234,
+      "engineering": 49,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "xometry",
+      "total": 168,
+      "engineering": 49,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "mistral.ai",
+      "total": 172,
+      "engineering": 48,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "sumup",
+      "total": 410,
+      "engineering": 48,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "alphasense",
+      "total": 228,
+      "engineering": 48,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "imc",
+      "total": 176,
+      "engineering": 48,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "adyen",
+      "total": 222,
+      "engineering": 46,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "airbnb",
+      "total": 171,
+      "engineering": 46,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "toast",
+      "total": 308,
+      "engineering": 44,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "block",
+      "total": 199,
+      "engineering": 44,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "nscaleoperationsukltd",
+      "total": 248,
+      "engineering": 41,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "ebury",
+      "total": 172,
+      "engineering": 41,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "spektrum",
+      "total": 215,
+      "engineering": 39,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "sfeir",
+      "total": 52,
+      "engineering": 38,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "hellofresh",
+      "total": 434,
+      "engineering": 37,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "harmattan-ai",
+      "total": 171,
+      "engineering": 35,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "boxinc",
+      "total": 147,
+      "engineering": 35,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "deliveroo",
+      "total": 190,
+      "engineering": 34,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "iceye",
+      "total": 187,
+      "engineering": 34,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "monks",
+      "total": 358,
+      "engineering": 34,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "icapitalnetwork",
+      "total": 212,
+      "engineering": 34,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "thetradedesk",
+      "total": 177,
+      "engineering": 34,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "nice",
+      "total": 183,
+      "engineering": 33,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "scopely",
+      "total": 175,
+      "engineering": 33,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "42dot",
+      "total": 109,
+      "engineering": 33,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "saronic",
+      "total": 194,
+      "engineering": 32,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "zscaler",
+      "total": 354,
+      "engineering": 32,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "vast",
+      "total": 191,
+      "engineering": 31,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "altentechnologyusa",
+      "total": 193,
+      "engineering": 31,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "checkout.com",
+      "total": 167,
+      "engineering": 30,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "legora",
+      "total": 277,
+      "engineering": 29,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "tide",
+      "total": 86,
+      "engineering": 29,
+      "stratum": "tail"
+    },
+    {
+      "provider": "lever",
+      "token": "synergyecp",
+      "total": 46,
+      "engineering": 29,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "thenewyorktimes",
+      "total": 169,
+      "engineering": 28,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "illumio",
+      "total": 68,
+      "engineering": 28,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "fluidstack",
+      "total": 262,
+      "engineering": 27,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "wundermanthompson",
+      "total": 592,
+      "engineering": 26,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "celonis",
+      "total": 270,
+      "engineering": 26,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "ajax",
+      "total": 197,
+      "engineering": 26,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "elevenlabs",
+      "total": 255,
+      "engineering": 25,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "formenergy",
+      "total": 179,
+      "engineering": 25,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "formlabs",
+      "total": 210,
+      "engineering": 25,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "latitudeinc",
+      "total": 314,
+      "engineering": 25,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "oscar",
+      "total": 266,
+      "engineering": 24,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "scoutmotors",
+      "total": 237,
+      "engineering": 22,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "dept",
+      "total": 212,
+      "engineering": 22,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "appian",
+      "total": 162,
+      "engineering": 22,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "clara",
+      "total": 117,
+      "engineering": 22,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "orioninnovation",
+      "total": 74,
+      "engineering": 22,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "flexport",
+      "total": 171,
+      "engineering": 21,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "wpp",
+      "total": 209,
+      "engineering": 21,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "wppmedia",
+      "total": 1073,
+      "engineering": 20,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "halter",
+      "total": 235,
+      "engineering": 20,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "feverup",
+      "total": 592,
+      "engineering": 20,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "wolt",
+      "total": 255,
+      "engineering": 20,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "platacard",
+      "total": 202,
+      "engineering": 20,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "rubrik",
+      "total": 134,
+      "engineering": 20,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "hasbro",
+      "total": 162,
+      "engineering": 17,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "cscgeneration-2",
+      "total": 465,
+      "engineering": 17,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "michelscorporation",
+      "total": 650,
+      "engineering": 16,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "lucidmotors",
+      "total": 333,
+      "engineering": 16,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "tripactions",
+      "total": 198,
+      "engineering": 16,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "connectionshealthsolutions",
+      "total": 168,
+      "engineering": 16,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "c6bank",
+      "total": 165,
+      "engineering": 16,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "ion",
+      "total": 69,
+      "engineering": 16,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "stone",
+      "total": 428,
+      "engineering": 15,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "amplitude",
+      "total": 36,
+      "engineering": 15,
+      "stratum": "tail"
+    },
+    {
+      "provider": "lever",
+      "token": "lyrahealth",
+      "total": 550,
+      "engineering": 14,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "examplecorpsandbox",
+      "total": 220,
+      "engineering": 13,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "paytm",
+      "total": 202,
+      "engineering": 13,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "ispace-inc",
+      "total": 54,
+      "engineering": 13,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "infuse",
+      "total": 411,
+      "engineering": 12,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "powerdigitalmarketing",
+      "total": 305,
+      "engineering": 12,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "sharkninjaoperatingllc",
+      "total": 229,
+      "engineering": 12,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "getwingapp",
+      "total": 470,
+      "engineering": 12,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "cogent-security",
+      "total": 28,
+      "engineering": 12,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "natera",
+      "total": 212,
+      "engineering": 11,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "charliehealth",
+      "total": 267,
+      "engineering": 11,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "innodatainc",
+      "total": 101,
+      "engineering": 11,
+      "stratum": "tail"
+    },
+    {
+      "provider": "lever",
+      "token": "megaport",
+      "total": 50,
+      "engineering": 11,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "base-power",
+      "total": 176,
+      "engineering": 10,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "quindar",
+      "total": 19,
+      "engineering": 10,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "yipitdatajobs",
+      "total": 47,
+      "engineering": 10,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "st-labs",
+      "total": 13,
+      "engineering": 10,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "olsson",
+      "total": 427,
+      "engineering": 9,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "datavant2",
+      "total": 170,
+      "engineering": 9,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "invisibletech",
+      "total": 15,
+      "engineering": 9,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "aloyoga",
+      "total": 1108,
+      "engineering": 8,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "aegworldwide",
+      "total": 182,
+      "engineering": 8,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "ennoblecare",
+      "total": 202,
+      "engineering": 8,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "oklo",
+      "total": 63,
+      "engineering": 8,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "terranorbitalcorporation",
+      "total": 30,
+      "engineering": 8,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "alphafmcroles",
+      "total": 81,
+      "engineering": 7,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "afterquery",
+      "total": 33,
+      "engineering": 7,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "quantumspacellc",
+      "total": 43,
+      "engineering": 7,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "lunar",
+      "total": 14,
+      "engineering": 7,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "breezecash",
+      "total": 17,
+      "engineering": 7,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "lightspeedhq",
+      "total": 165,
+      "engineering": 6,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "langanengineeringandenvironmentalservicesllc",
+      "total": 411,
+      "engineering": 6,
+      "stratum": "head"
+    },
+    {
+      "provider": "lever",
+      "token": "gorh",
+      "total": 312,
+      "engineering": 6,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "insitro",
+      "total": 16,
+      "engineering": 6,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "amplemarket",
+      "total": 16,
+      "engineering": 6,
+      "stratum": "tail"
+    },
+    {
+      "provider": "lever",
+      "token": "safran-ai",
+      "total": 29,
+      "engineering": 6,
+      "stratum": "tail"
+    },
+    {
+      "provider": "lever",
+      "token": "investorflow",
+      "total": 14,
+      "engineering": 6,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "teampicnic",
+      "total": 297,
+      "engineering": 5,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "tegnainc",
+      "total": 303,
+      "engineering": 5,
+      "stratum": "head"
+    },
+    {
+      "provider": "ashby",
+      "token": "aureliussystems",
+      "total": 18,
+      "engineering": 5,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "wealth-com",
+      "total": 18,
+      "engineering": 5,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "david-ai",
+      "total": 13,
+      "engineering": 5,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "linkup",
+      "total": 10,
+      "engineering": 5,
+      "stratum": "tail"
+    },
+    {
+      "provider": "ashby",
+      "token": "extropic",
+      "total": 8,
+      "engineering": 5,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "buildops",
+      "total": 21,
+      "engineering": 5,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "thealleninstitute",
+      "total": 21,
+      "engineering": 5,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "growe",
+      "total": 20,
+      "engineering": 5,
+      "stratum": "tail"
+    },
+    {
+      "provider": "lever",
+      "token": "cloudinary",
+      "total": 21,
+      "engineering": 5,
+      "stratum": "tail"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "carvana",
+      "total": 1754,
+      "engineering": 4,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "equipmentsharecom",
+      "total": 967,
+      "engineering": 4,
+      "stratum": "head"
+    },
+    {
+      "provider": "greenhouse",
+      "token": "agency",
+      "total": 821,
+      "engineering": 4,
+      "stratum": "head"
+    }
+  ],
+  "unmatched_top": [
+    {
+      "title": "laravel developer + react - remote, latin america",
+      "n": 102
+    },
+    {
+      "title": "react engineer - remote, latin america",
+      "n": 102
+    },
+    {
+      "title": "private equity event volunteer",
+      "n": 51
+    },
+    {
+      "title": "consultor(a) comercial externo - vaga afirmativa para pessoa",
+      "n": 47
+    },
+    {
+      "title": "engineering lead",
+      "n": 46
+    },
+    {
+      "title": "agente di commercio / procacciatore (p. iva) – settore pagam",
+      "n": 46
+    },
+    {
+      "title": "technical lead",
+      "n": 45
+    },
+    {
+      "title": "purchasing manager",
+      "n": 43
+    },
+    {
+      "title": "product engineer - ai investing",
+      "n": 43
+    },
+    {
+      "title": "product engineer - ai neobank",
+      "n": 43
+    },
+    {
+      "title": "product engineer - ai stockbroking",
+      "n": 43
+    },
+    {
+      "title": "hospice volunteer (unpaid)",
+      "n": 40
+    },
+    {
+      "title": "manager, transaction management",
+      "n": 40
+    },
+    {
+      "title": "stretch manager",
+      "n": 39
+    },
+    {
+      "title": "medical receptionist",
+      "n": 38
+    },
+    {
+      "title": "store floor lead (sur la table)",
+      "n": 38
+    },
+    {
+      "title": "culinary lead (sur la table)",
+      "n": 37
+    },
+    {
+      "title": "b2b content writer (remote, contract)",
+      "n": 36
+    },
+    {
+      "title": "business operations associate",
+      "n": 35
+    },
+    {
+      "title": "case manager",
+      "n": 35
+    },
+    {
+      "title": "commercial terrain - indépendant (freelance)",
+      "n": 35
+    },
+    {
+      "title": "stretch trainer",
+      "n": 34
+    },
+    {
+      "title": "founder's associate",
+      "n": 34
+    },
+    {
+      "title": "benefits services representative - remote",
+      "n": 34
+    },
+    {
+      "title": "it & technology decision makers - paid itsm/esm research stu",
+      "n": 33
+    },
+    {
+      "title": "remote client benefits advisor",
+      "n": 33
+    },
+    {
+      "title": "field marketer",
+      "n": 32
+    },
+    {
+      "title": "trial attorney",
+      "n": 32
+    },
+    {
+      "title": "generative ai associate - flexible hours",
+      "n": 31
+    },
+    {
+      "title": "entry-level automotive detailer / lot attendant ",
+      "n": 30
+    },
+    {
+      "title": "remote client experience manager",
+      "n": 30
+    },
+    {
+      "title": "entry-level automotive detailer / lot attendant post product",
+      "n": 29
+    },
+    {
+      "title": "team lead, learning and development (contract, remote)",
+      "n": 29
+    },
+    {
+      "title": "senior electrical engineer",
+      "n": 28
+    },
+    {
+      "title": "production ai innovation lead (contract, remote)",
+      "n": 28
+    },
+    {
+      "title": " assistant stretch manager",
+      "n": 27
+    },
+    {
+      "title": "lead engineer - stock trading app",
+      "n": 26
+    },
+    {
+      "title": "lead engineer - travel fx app",
+      "n": 26
+    },
+    {
+      "title": "medical director",
+      "n": 26
+    },
+    {
+      "title": "early intervention bcba – life skills autism academy (center",
+      "n": 25
+    }
+  ]
+}
