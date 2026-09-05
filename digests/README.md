@@ -4,6 +4,7 @@ A dated series, one issue per date, measured from the live public job APIs of Gr
 
 | Issue | Boards read | Open postings | Opened in 7 days | Ramping | Data |
 |---|---:|---:|---:|---:|---|
+| [2026-09-05](./2026-09-05.md) | 650 | 174,541 | 21,239 | 324 | [json](./2026-09-05.json) |
 | [2026-09-03](./2026-09-03.md) | 650 | 155,490 | 15,751 | 339 | [json](./2026-09-03.json) |
 
 ## Why there is more than one
